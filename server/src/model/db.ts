@@ -1,7 +1,5 @@
 import { Sequelize, Dialect } from 'sequelize'
 
-// require('dotenv').config()
-
 type configType = {
   database: string
   username: string

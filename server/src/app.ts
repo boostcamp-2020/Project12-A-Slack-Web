@@ -33,9 +33,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 
 app.use('/', apiRouter)
 
-app.listen(process.env.SERVER_PORT, (): void =>
-  console.log('server listening 3000 port'),
-)
+app.listen(port, (): void => console.log('server listening 3000 port'))
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
   next(createError(404))

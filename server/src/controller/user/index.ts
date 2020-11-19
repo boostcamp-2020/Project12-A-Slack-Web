@@ -3,6 +3,6 @@ import userController from './user'
 
 const router = Router()
 
-router.use('/user', userController)
+router.get('/oauth/google', userController.googleLogin)
 
 export default router
