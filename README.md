@@ -12,10 +12,10 @@
 </div>
 
 
-## 💥 Slack Web Version
+## 💥 프로젝트 소개
 * Slack 서비스 Clone
 
-## 🖥 Tech Stack
+## 🖥 기술 스택
 
 ### FE
 | <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://images.velog.io/images/hanblueblue/post/1c793494-ae73-407b-9010-1a182f0eb387/react.png"> | 
