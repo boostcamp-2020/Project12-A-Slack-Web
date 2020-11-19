@@ -21,4 +21,4 @@
 
 ## 문서
 - [FE 기능 명세서](https://docs.google.com/presentation/d/1fi3qxlIQIMb2RBOowvshsdAujtwnlJcHvdZBSS9jVLM/edit#slide=id.p)
-- [Backlog](https://docs.google.com/presentation/d/1fi3qxlIQIMb2RBOowvshsdAujtwnlJcHvdZBSS9jVLM/edit#slide=id.p)
+- [Backlog](https://docs.google.com/spreadsheets/d/1ETdbHj9wcMq7f9w6AYJnS_aCk9H8cTeX2V2qf03RcGM/edit#gid=0)
