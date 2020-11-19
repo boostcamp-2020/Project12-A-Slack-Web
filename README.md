@@ -1,4 +1,4 @@
-# Project12-A-Slack-Web
+# Project12-Slack-Web-A
 
 <div align="center">
 <img src="https://cdn.pixabay.com/photo/2017/08/01/08/59/logo-2563719_960_720.jpg" width="" height="250"/>
