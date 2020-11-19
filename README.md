@@ -23,8 +23,8 @@
 | TypeScript | React |
 
 ### BE
-| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100  src="https://www.sohamkamani.com/static/65137ed3c844d05124dcfdab28263c21/6b427/express-routing-logo.png"> | <img width=100 src="https://t1.daumcdn.net/cfile/tistory/999915345CFA09412C"> | <img width=100 src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/797z/image/3r7sR9IJuBZfq4M5yKrLWIt3rZE.jpg"> |
-| :--: | :--: | :--: | :--: | :--: |
+| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://www.sohamkamani.com/static/65137ed3c844d05124dcfdab28263c21/6b427/express-routing-logo.png"> | <img width=100 src="https://t1.daumcdn.net/cfile/tistory/999915345CFA09412C"> | <img width=100 src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/797z/image/3r7sR9IJuBZfq4M5yKrLWIt3rZE.jpg"> |
+| :--: | :--: | :--: | :--: |
 | TypeScript | Express | SocketIo | Mysql |
 
 ### INFRA
