@@ -31,3 +31,7 @@
 | <img width=100 src="https://images.velog.io/images/hanblueblue/post/1609cea7-df58-49e6-9a50-2ac444cb35cd/docker_codeception-07.jpg"> | <img width=100  src="https://media.vlpt.us/images/beoms96/post/05b4d550-7403-4fcb-8612-61abab463f05/logo-title-opengraph.png"> | <img width=100 src="https://imbang.net/wp-content/uploads/2019/05/ncp-logo.jpg"> | <img width=100 src="https://blog.kakaocdn.net/dn/deQIEi/btqCO2tqKD6/tyNjWGeqqAKZez0izyKukk/img.png"> | <img width=100 src="https://i2.wp.com/subicura.com/assets/article_images/2019-05-19-kubernetes-basic-1/kubernetes-logo.png?w=769&ssl=1"> | 
 | :--: | :--: | :--: | :--: | :--: |
 | Docker | Jenkins | NCP | Nginx | Kubernetes
+
+## 문서
+- [FE 기능 명세서](https://docs.google.com/presentation/d/1fi3qxlIQIMb2RBOowvshsdAujtwnlJcHvdZBSS9jVLM/edit#slide=id.p)
+- [Backlog](https://docs.google.com/spreadsheets/d/1ETdbHj9wcMq7f9w6AYJnS_aCk9H8cTeX2V2qf03RcGM/edit#gid=0)
