@@ -14,6 +14,10 @@ const Workspace = DB.define(
       allowNull: false,
       unique: true,
     },
+    imageUrl: {
+      type: DataTypes.STRING(128),
+      allowNull: true,
+    },
   },
   {
     paranoid: true,

@@ -1,20 +1,20 @@
 import { DataTypes } from 'sequelize'
 import DB from './db'
 
-const Channel = DB.define(
-  'channel',
+const File = DB.define(
+  'file',
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
-      type: DataTypes.STRING(128),
-      allowNull: true,
+    url: {
+      type: DataTypes.STRING(256),
+      allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM('PUBLIC', 'PRIVATE', 'DM'),
+      type: DataTypes.ENUM('VIDEO', 'IMAGE', 'FILE'),
       allowNull: false,
     },
   },
@@ -25,4 +25,4 @@ const Channel = DB.define(
   },
 )
 
-export default Channel
+export default File
