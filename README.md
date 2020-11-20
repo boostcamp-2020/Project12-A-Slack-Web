@@ -18,16 +18,16 @@
 ## 🖥 기술 스택
 
 ### FE
-| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://images.velog.io/images/hanblueblue/post/1c793494-ae73-407b-9010-1a182f0eb387/react.png"> | 
-| :--: | :--: |
-| TypeScript | React |
+| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://images.velog.io/images/hanblueblue/post/1c793494-ae73-407b-9010-1a182f0eb387/react.png"> | <img width=100 src="https://www.cloudsavvyit.com/thumbcache/0/0/9ae57549b0d5ea676000cc68d140330d/p/uploads/2020/03/9c80fe24.png"> | <img width=100 src="https://www.styled-components.com/atom.png"> | 
+| :--: | :--: | :--: | :--: |
+| TypeScript | React | Redux | Styled-Components |
 
 ### BE
-| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://www.sohamkamani.com/static/65137ed3c844d05124dcfdab28263c21/6b427/express-routing-logo.png"> | <img width=100 src="https://t1.daumcdn.net/cfile/tistory/999915345CFA09412C"> | <img width=100 src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/797z/image/3r7sR9IJuBZfq4M5yKrLWIt3rZE.jpg"> |
-| :--: | :--: | :--: | :--: |
-| TypeScript | Express | SocketIo | Mysql |
+| <img width=100 src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1566913457/noticon/eh4d0dnic4n1neth3fui.png"> | <img width=100 src="https://www.sohamkamani.com/static/65137ed3c844d05124dcfdab28263c21/6b427/express-routing-logo.png"> | <img width=100 src="https://t1.daumcdn.net/cfile/tistory/999915345CFA09412C"> | <img width=100 src="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/797z/image/3r7sR9IJuBZfq4M5yKrLWIt3rZE.jpg"> | <img width=100 src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1200px-Node.js_logo.svg.png"> |
+| :--: | :--: | :--: | :--: | :--: |
+| TypeScript | Express | SocketIo | Mysql | NodeJS
 
-### INFRA
+### Infra
 | <img width=100 src="https://images.velog.io/images/hanblueblue/post/1609cea7-df58-49e6-9a50-2ac444cb35cd/docker_codeception-07.jpg"> | <img width=100  src="https://media.vlpt.us/images/beoms96/post/05b4d550-7403-4fcb-8612-61abab463f05/logo-title-opengraph.png"> | <img width=100 src="https://imbang.net/wp-content/uploads/2019/05/ncp-logo.jpg"> | <img width=100 src="https://blog.kakaocdn.net/dn/deQIEi/btqCO2tqKD6/tyNjWGeqqAKZez0izyKukk/img.png"> | <img width=100 src="https://i2.wp.com/subicura.com/assets/article_images/2019-05-19-kubernetes-basic-1/kubernetes-logo.png?w=769&ssl=1"> | 
 | :--: | :--: | :--: | :--: | :--: |
 | Docker | Jenkins | NCP | Nginx | Kubernetes
