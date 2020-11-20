@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --progress --hot --mode development",
-    "build": "webpack --progress --mode production"
+    "build": "webpack --progress --mode production",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +26,10 @@
     "@babel/preset-env": "7.12.1",
     "@babel/preset-react": "7.12.5",
     "@babel/preset-typescript": "7.12.1",
+    "@storybook/addon-actions": "6.1.1",
+    "@storybook/addon-essentials": "6.1.1",
+    "@storybook/addon-links": "6.1.1",
+    "@storybook/react": "6.1.1",
     "@types/react": "16.9.56",
     "@types/react-dom": "16.9.9",
     "@types/react-router-dom": "5.1.6",
@@ -42,6 +48,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "html-webpack-plugin": "4.5.0",
     "prettier": "2.1.2",
+    "react-docgen-typescript-loader": "3.7.2",
     "ts-loader": "8.0.11",
     "typescript": "4.0.5",
     "webpack": "5.5.0",
