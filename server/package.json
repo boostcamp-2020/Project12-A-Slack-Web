@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "tsc && node build/app.js",
-    "dev": "nodemon --exec ts-node src/app.ts"
+    "start:dev": "nodemon --exec ts-node --files src/app.ts",
+    "dev" : "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\""
   },
   "author": "",
   "license": "ISC",
@@ -46,6 +47,7 @@
     "@types/validator": "13.1.0",
     "@typescript-eslint/eslint-plugin": "4.8.1",
     "@typescript-eslint/parser": "4.8.1",
+    "concurrently": "5.3.0",
     "eslint": "7.13.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "6.15.0",
