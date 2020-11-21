@@ -36,11 +36,11 @@ components:
       description: 잘못된 요청
       content:
         application/json:
-        schema:
-          $ref: '#/components/schemas/Error'
-        example:
-          success: false
-          message: 잘못된 요청
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 잘못된 요청
     InternalServerError:
       description: 서버 에러
       content:
