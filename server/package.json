@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && node build/app.js",
     "start:dev": "nodemon --exec ts-node --files src/app.ts",
-    "dev" : "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\""
+    "dev": "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\""
   },
   "author": "",
   "license": "ISC",
