@@ -8,14 +8,12 @@ const frontURL =
 
 const handleGoogleLoginCallback = async (req: Request, res: Response) => {
   try {
-    const { email, name } = req.user
-    const jwtoken = jwt.createToken({ email, name })
+    const { id, email, name } = req.user
+    const jwtoken = jwt.createToken({ id, email, name })
     return res.status(200).redirect(`${frontURL}?access_token=${jwtoken}`)
   } catch (error) {
     return res.status(400).json({ message: 'fail', error: error.message })
   }
 }
 
-const verifyUser = () => {}
-
-export default { verifyUser, handleGoogleLoginCallback }
+export default { handleGoogleLoginCallback }
