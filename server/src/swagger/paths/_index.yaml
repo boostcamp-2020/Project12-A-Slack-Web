@@ -1,6 +1,2 @@
 /user:
-  get:
-    summary: Returns user list
-    responses:
-      200:
-        description: 성공
+  $ref: './user.yaml'
