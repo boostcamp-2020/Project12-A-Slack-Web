@@ -4,10 +4,11 @@ import logger from 'morgan'
 import createError from 'http-errors'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import path from 'path'
 
 dotenv.config()
 
+import passport from 'passport'
+import passportConfig from './util/passportConfig'
 import apiRouter from './controller'
 import initDB from './model'
 
@@ -29,9 +30,10 @@ app.use(
     credentials: true,
   }),
 )
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(passport.initialize())
+passportConfig()
 
-app.use('/', apiRouter)
+app.use('/api', apiRouter)
 
 app.listen(port, (): void => console.log('server listening 3000 port'))
 
