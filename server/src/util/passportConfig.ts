@@ -3,7 +3,7 @@ import {
   Strategy as GoogleStrategy,
   VerifyCallback,
 } from 'passport-google-oauth2'
-import findOrCreateUser from '../service/user'
+import { findOrCreateUser } from '../service/user'
 
 const serverURL =
   process.env.NODE_ENV === 'development' ? process.env.BACK_DOMAIN_DEVELOP : ''
