@@ -10,7 +10,7 @@ const handleGoogleLoginCallback = async (req: Request, res: Response) => {
   try {
     const { email, name } = req.user
     const jwtoken = jwt.createToken({ email, name })
-    return res.send(jwtoken)
+    return res.status(200).redirect(`${frontURL}?access_token=${jwtoken}`)
   } catch (error) {
     return res.status(400).json({ message: 'fail', error: error.message })
   }
