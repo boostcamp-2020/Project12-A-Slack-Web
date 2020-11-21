@@ -7,18 +7,41 @@ type GoogleUser = {
   picture: string
 }
 
-const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
-  const [googleUser] = await User.findOrCreate({
-    where: { email },
-    defaults: {
-      email,
-      name,
-      googleId: sub,
-      profileImageUrl: picture,
-    },
-  })
-
-  return googleUser
+type UserInfo = {
+  id: number
+  email: string
+  name: string
 }
 
-export default findOrCreateUser
+const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
+  try {
+    const [googleUser] = await User.findOrCreate({
+      where: { email },
+      defaults: {
+        email,
+        name,
+        googleId: sub,
+        profileImageUrl: picture,
+      },
+    })
+    return googleUser
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+const checkUser = async ({ id, email, name }: UserInfo) => {
+  try {
+    const user = await User.findOne({ where: { id } })
+    if (!user) return false
+    if (user.email !== email) return false
+    if (user.name !== name) return false
+    return true
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
+
+export { findOrCreateUser, checkUser }
