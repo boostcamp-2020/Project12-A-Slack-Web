@@ -1,8 +1,20 @@
-import { DataTypes } from 'sequelize'
-import DB from './db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from './sequelize'
+import { dbType } from './index'
 
-const Reaction = DB.define(
-  'reaction',
+class Reaction extends Model {
+  public readonly id: number
+
+  public content!: string
+
+  public readonly createdAt?: Date
+
+  public readonly updatedAt?: Date
+
+  public readonly deletedAt?: Date
+}
+
+Reaction.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,10 +27,20 @@ const Reaction = DB.define(
     },
   },
   {
+    sequelize,
+    modelName: 'Reaction',
+    tableName: 'reaction',
     paranoid: true,
     timestamps: true,
-    freezeTableName: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
   },
 )
+
+export const associate = (db: dbType) => {
+  db.Reaction.belongsTo(db.Message, { foreignKey: 'messageId' })
+
+  db.Reaction.belongsTo(db.User, { foreignKey: 'userId' })
+}
 
 export default Reaction

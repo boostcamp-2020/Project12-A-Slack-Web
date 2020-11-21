@@ -1,8 +1,20 @@
-import { DataTypes } from 'sequelize'
-import DB from './db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from './sequelize'
+import { dbType } from './index'
 
-const Section = DB.define(
-  'section',
+class Section extends Model {
+  public readonly id: number
+
+  public name!: string
+
+  public readonly createdAt?: Date
+
+  public readonly updatedAt?: Date
+
+  public readonly deletedAt?: Date
+}
+
+Section.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,10 +27,27 @@ const Section = DB.define(
     },
   },
   {
+    sequelize,
+    modelName: 'Section',
+    tableName: 'section',
     paranoid: true,
     timestamps: true,
-    freezeTableName: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
   },
 )
+
+export const associate = (db: dbType) => {
+  db.Section.hasMany(db.UserChannelSection, {
+    foreignKey: 'sectionId',
+    sourceKey: 'id',
+    onUpdate: 'SET NULL',
+    onDelete: 'SET NULL',
+  })
+
+  db.Section.belongsTo(db.User, { foreignKey: 'userId' })
+
+  db.Section.belongsTo(db.Workspace, { foreignKey: 'workspaceId' })
+}
 
 export default Section

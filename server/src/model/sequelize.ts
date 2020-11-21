@@ -1,4 +1,4 @@
-import { Sequelize, Dialect } from 'sequelize'
+import { Sequelize, Dialect, Options } from 'sequelize'
 
 type configType = {
   database: string
@@ -20,16 +20,13 @@ const config: configType = {
   timezone: '+09:00',
 }
 
-const DB: Sequelize = new Sequelize(
+const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  {
-    host: config.host,
-    port: config.port,
-    dialect: config.dialect,
-    timezone: config.timezone,
-  },
+  { ...config, define: { timestamps: true } as unknown } as Options,
 )
 
-export default DB
+export { sequelize }
+
+export default sequelize
