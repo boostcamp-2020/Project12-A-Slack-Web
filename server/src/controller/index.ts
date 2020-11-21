@@ -6,7 +6,6 @@ import verifyUser from '../middleware/verifyUser'
 const router = Router()
 
 router.use('/user', userController)
-
 router.use('/workspace', verifyUser, workspaceController)
 
 export default router
