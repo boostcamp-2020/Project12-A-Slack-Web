@@ -1,5 +1,5 @@
-import React from 'react';
+import React from 'react'
 
-const App = () => <>Init</>;
+const App = () => <>Init</>
 
-export default App;
+export default App
