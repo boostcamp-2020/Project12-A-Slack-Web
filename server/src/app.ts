@@ -4,6 +4,9 @@ import logger from 'morgan'
 import createError from 'http-errors'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
 
 dotenv.config()
 
@@ -14,6 +17,8 @@ import initDB from './model'
 
 const app: express.Application = express()
 const port = process.env.PORT
+
+const swaggerSpec = YAML.load(path.join(__dirname, '../build/swagger.yaml'))
 
 initDB()
 app.set('port', port)
@@ -34,6 +39,7 @@ app.use(passport.initialize())
 passportConfig()
 
 app.use('/api', apiRouter)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.listen(port, (): void => console.log('server listening 3000 port'))
 
