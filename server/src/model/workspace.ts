@@ -1,8 +1,16 @@
-import { DataTypes } from 'sequelize'
-import DB from './db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from './sequelize'
+import { dbType } from './index'
 
-const Workspace = DB.define(
-  'workspace',
+class Workspace extends Model {
+  public readonly id: number
+
+  public name!: string
+
+  public imageUrl?: string
+}
+
+Workspace.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -20,10 +28,35 @@ const Workspace = DB.define(
     },
   },
   {
+    sequelize,
+    modelName: 'Workspace',
+    tableName: 'workspace',
     paranoid: true,
     timestamps: true,
-    freezeTableName: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
   },
 )
+
+export const associate = (db: dbType) => {
+  db.Workspace.belongsToMany(db.User, {
+    as: 'user',
+    through: 'userWorkspace',
+  })
+
+  db.Workspace.hasMany(db.Channel, {
+    sourceKey: 'id',
+    foreignKey: 'workspaceId',
+    onUpdate: 'SET NULL',
+    onDelete: 'SET NULL',
+  })
+
+  db.Workspace.hasMany(db.Section, {
+    sourceKey: 'id',
+    foreignKey: 'workspaceId',
+    onUpdate: 'SET NULL',
+    onDelete: 'SET NULL',
+  })
+}
 
 export default Workspace

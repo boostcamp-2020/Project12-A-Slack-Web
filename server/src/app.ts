@@ -10,6 +10,8 @@ import YAML from 'yamljs'
 
 dotenv.config()
 
+import passport from 'passport'
+import passportConfig from './util/passportConfig'
 import apiRouter from './controller'
 import initDB from './model'
 
@@ -33,9 +35,10 @@ app.use(
     credentials: true,
   }),
 )
-app.use(express.static(path.join(__dirname, '../public')))
+app.use(passport.initialize())
+passportConfig()
 
-app.use('/', apiRouter)
+app.use('/api', apiRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 app.listen(port, (): void => console.log('server listening 3000 port'))

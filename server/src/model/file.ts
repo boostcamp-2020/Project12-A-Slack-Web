@@ -1,8 +1,22 @@
-import { DataTypes } from 'sequelize'
-import DB from './db'
+import { Model, DataTypes } from 'sequelize'
+import sequelize from './sequelize'
+import { dbType } from './index'
 
-const File = DB.define(
-  'file',
+class File extends Model {
+  public readonly id: number
+
+  public url!: string
+
+  public type!: string
+
+  public readonly createdAt?: Date
+
+  public readonly updatedAt?: Date
+
+  public readonly deletedAt?: Date
+}
+
+File.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -19,10 +33,18 @@ const File = DB.define(
     },
   },
   {
+    sequelize,
+    modelName: 'File',
+    tableName: 'file',
     paranoid: true,
     timestamps: true,
-    freezeTableName: true,
+    charset: 'utf8',
+    collate: 'utf8_general_ci',
   },
 )
+
+export const associate = (db: dbType) => {
+  db.File.belongsTo(db.Message, { foreignKey: 'messageId' })
+}
 
 export default File
