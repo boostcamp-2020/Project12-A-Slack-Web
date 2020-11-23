@@ -31,7 +31,7 @@ const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
   }
 }
 
-const checkUser = async ({ id, email, name }: UserInfo) => {
+const checkUser = async ({ id, email, name }: UserInfo): Promise<boolean> => {
   try {
     const user = await User.findOne({ where: { id } })
     if (!user) return false

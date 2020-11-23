@@ -12,7 +12,7 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   const {
     headers: { authorization },
   } = req
-  if (!authorization) return next()
+  if (!authorization) return res.send('unauthorized user')
   const token = authorization.replace('bearer ', '')
   const { id, email, name } = jwt.checkToken(token) as UserInfo
   const isUser = checkUser({ id, email, name })
