@@ -7,6 +7,7 @@ import Reaction from './reaction'
 import Thread from './thread'
 import Channel from './channel'
 import UserChannelSection from './userChannelSection'
+import File from './file'
 
 const initDB = () => {
   User.belongsToMany(Workspace, {
@@ -108,6 +109,14 @@ const initDB = () => {
     onDelete: 'SET NULL',
   })
   Message.belongsTo(Thread)
+
+  Message.hasMany(File, {
+    foreignKey: 'messageId',
+    sourceKey: 'id',
+    onUpdate: 'SET NULL',
+    onDelete: 'SET NULL',
+  })
+  File.belongsTo(Message)
 
   DB.sync()
     .then(() => console.log('DB connent'))
