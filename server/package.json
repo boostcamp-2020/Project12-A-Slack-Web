@@ -6,10 +6,9 @@
   "scripts": {
     "start": "tsc && node build/app.js",
     "start:dev": "nodemon --exec ts-node --files src/app.ts",
-    "dev": "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\""
+    "dev": "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\"",
     "api-docs": "swagger-cli bundle ./src/swagger/openapi.yaml --outfile build/swagger.yaml --type yaml",
-    "predev": "npm run api-docs",
-
+    "predev": "npm run api-docs"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +27,6 @@
     "mysql2": "2.2.5",
     "passport": "0.4.1",
     "passport-google-oauth2": "0.2.0",
-    "sequelize": "6.3.5"
     "sequelize": "6.3.5",
     "swagger-cli": "^4.0.4",
     "swagger-ui-express": "^4.1.4",
