@@ -16,6 +16,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     width: 100vh;
     box-sizing: border-box;
+    font-size: 62.5%;
   }
 `
 
