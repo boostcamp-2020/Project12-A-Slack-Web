@@ -11,8 +11,6 @@ import passport from 'passport'
 import { statusCode, resMessage } from './util/constant'
 
 dotenv.config()
-
-import passport from 'passport'
 import passportConfig from './util/passport-config'
 
 import apiRouter from './controller'
@@ -47,12 +45,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.listen(port, (): void => console.log('server listening 3000 port'))
 
 app.use(
-  (
-    err: { code: number; message: string },
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
+  (err: { code: number; message: string }, req: Request, res: Response, _) => {
     if (err.code)
       return res.status(err.code).json({ success: false, message: err.message })
     return res
