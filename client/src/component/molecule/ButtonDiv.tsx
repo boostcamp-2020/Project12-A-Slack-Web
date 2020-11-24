@@ -1,7 +1,7 @@
 import React from 'react'
 import A from '@atom'
-import { ButtonType } from '@atom/button'
-import { TextType } from '@atom/text'
+import { ButtonType } from '@atom/Button'
+import { TextType } from '@atom/Text'
 
 namespace ButtonDivType {
   export interface Props {
