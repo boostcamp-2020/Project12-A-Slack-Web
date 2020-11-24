@@ -47,13 +47,19 @@ const Button = ({
 }: ButtonType.Props) => {
   return (
     <StyledButton
-      height={customStyle.height}
-      width={customStyle.width}
+      height={customStyle.height !== undefined ? customStyle.height : '1rem'}
+      width={customStyle.width !== undefined ? customStyle.width : '2rem'}
       margin={customStyle.margin}
       padding={customStyle.padding}
       rounded={customStyle.rounded}
-      backgroundColor={customStyle.backgroundColor}
-      disabled={customStyle.disabled}
+      backgroundColor={
+        customStyle.backgroundColor !== undefined
+          ? customStyle.backgroundColor
+          : 'grey'
+      }
+      disabled={
+        customStyle.disabled !== undefined ? customStyle.disabled : false
+      }
       onClick={onClick}
     >
       {children}
