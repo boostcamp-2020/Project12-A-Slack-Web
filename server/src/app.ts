@@ -46,7 +46,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.listen(port, (): void => console.log('server listening 3000 port'))
 
 app.use(
-  (err: { code: number; message: string }, req: Request, res: Response, _) => {
+  (
+    err: { code: number; message: string },
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     if (err.code)
       return res.status(err.code).json({ success: false, message: err.message })
     return res
