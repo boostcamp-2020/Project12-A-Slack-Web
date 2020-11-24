@@ -10,7 +10,6 @@ basePath: /
 paths:
   $ref: './paths/_index.yaml'
 components:
-  parameters:
   schemas:
     Thread:
       type: object
