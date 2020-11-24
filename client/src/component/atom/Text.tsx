@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import colors from '@constant/color'
 
-namespace TextType {
+export namespace TextType {
   export interface StyleAttributes extends Object {
     margin?: string
     padding?: string

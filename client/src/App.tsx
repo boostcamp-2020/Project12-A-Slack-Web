@@ -1,8 +1,11 @@
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'
-import A from '@atom/index'
+import A from '@atom'
+import M from '@molecule'
 
-const style = {
+const buttonStyle = {
+  height: '10rem',
+  width: '20rem',
   backgroundColor: 'red',
 }
 
@@ -10,7 +13,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <A.Button customStyle={style}>버튼입니다.</A.Button>
+      <M.ButtonDiv buttonStyle={buttonStyle}>ddd</M.ButtonDiv>
     </>
   )
 }
@@ -24,6 +27,9 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-size: 62.5%;
     margin: 0 auto;
+  }
+  p{
+    outline: none;
   }
 `
 
