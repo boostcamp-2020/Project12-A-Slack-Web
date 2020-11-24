@@ -12,6 +12,7 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   border-radius: ${({ rounded }) => (rounded ? 4 : 0)}px;
+  background-color: ${({ backgroundColor }) => color.get(backgroundColor)};
 `
 
 namespace ButtonType {
