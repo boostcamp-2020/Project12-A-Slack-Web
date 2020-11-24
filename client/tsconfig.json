@@ -18,10 +18,10 @@
       "@atom/*": ["src/component/atom/*"],
       "@molecule/*": ["src/component/molecule/*"],
       "@organism/*": ["src/component/organism/*"],
-      "@constant/*": ["src/component/constant/*"],
-      "@page/*": ["src/component/page/*"],
-      "@store/*": ["src/component/store/*"],
-      "@util/*": ["src/component/util/*"]
+      "@constant/*": ["src/constant/*"],
+      "@page/*": ["src/page/*"],
+      "@store/*": ["src/store/*"],
+      "@util/*": ["src/util/*"]
     }
   },
   "exclude": ["node_modules"],
