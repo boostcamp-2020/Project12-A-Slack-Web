@@ -1,14 +1,14 @@
-import User, { associate as associateUser } from './user'
-import Workspace, { associate as associateWorkspace } from './workspace'
-import Section, { associate as associateSection } from './section'
-import Message, { associate as associateMessage } from './message'
-import Reaction, { associate as associateReaction } from './reaction'
-import Thread, { associate as associateThread } from './thread'
-import Channel, { associate as associateChannel } from './channel'
+import User, { associate as associateUser } from './user.model'
+import Workspace, { associate as associateWorkspace } from './workspace.model'
+import Section, { associate as associateSection } from './section.model'
+import Message, { associate as associateMessage } from './message.model'
+import Reaction, { associate as associateReaction } from './reaction.model'
+import Thread, { associate as associateThread } from './thread.model'
+import Channel, { associate as associateChannel } from './channel.model'
 import UserChannelSection, {
   associate as associateUserChannelSection,
 } from './userChannelSection'
-import File, { associate as associateFile } from './file'
+import File, { associate as associateFile } from './file.model'
 import { sequelize } from './sequelize'
 
 const db = {

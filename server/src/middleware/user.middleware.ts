@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { checkUser } from '../service/user'
+import { checkUser } from '../service/user.service'
 import jwt from '../util/jwt'
 
 type UserInfo = {

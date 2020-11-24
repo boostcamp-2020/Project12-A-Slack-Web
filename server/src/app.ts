@@ -12,7 +12,9 @@ import { statusCode, resMessage } from './util/constant'
 
 dotenv.config()
 
-import passportConfig from './util/passportConfig'
+import passport from 'passport'
+import passportConfig from './util/passport-config'
+
 import apiRouter from './controller'
 import initDB from './model'
 
