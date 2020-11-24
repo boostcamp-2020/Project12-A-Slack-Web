@@ -11,7 +11,7 @@ import YAML from 'yamljs'
 dotenv.config()
 
 import passport from 'passport'
-import passportConfig from './util/passportConfig'
+import passportConfig from './util/passport-config'
 import apiRouter from './controller'
 import initDB from './model'
 
