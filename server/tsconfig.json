@@ -1,27 +1,27 @@
 {
   "compilerOptions": {
-     "lib": ["es5", "es6", "es2020"],
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "target": "es2020",
-      "noImplicitAny": true,
-      "typeRoots": [ "./node_modules/@types","./@types" ],
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "./build",
-      "baseUrl": ".",
-      "paths": {
-          "*": [
-              "node_modules/*",
-              "@types/*"
-          ], 
-          "custom-module-type": ["@types/*"],
-          "@controller/*": ["src/controller/*"],
-          "@model/*": ["src/model/*"],
-          "@service/*": ["src/service/*"],
-          "@middleware/*": ["src/middleware/*"],
-          "@util/*": ["src/util/*"]
-      },
+    "lib": ["es5", "es6", "es2020"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2020",
+    "noImplicitAny": true,
+    "typeRoots": [ "./node_modules/@types","./@types" ],
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./build",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "@types/*"
+      ], 
+      "custom-module-type": ["@types/*"],
+      "@controller/*": ["src/controller/*"],
+      "@model/*": ["src/model/*"],
+      "@service/*": ["src/service/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@util/*": ["src/util/*"]
+    },
   },
 }
