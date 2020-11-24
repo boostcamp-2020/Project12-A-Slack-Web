@@ -13,7 +13,16 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./build",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "@atom/*": ["src/component/atom/*"],
+      "@molecule/*": ["src/component/molecule/*"],
+      "@organism/*": ["src/component/organism/*"],
+      "@constant/*": ["src/component/constant/*"],
+      "@page/*": ["src/component/page/*"],
+      "@store/*": ["src/component/store/*"],
+      "@util/*": ["src/component/util/*"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
