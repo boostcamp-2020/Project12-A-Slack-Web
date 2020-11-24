@@ -1,0 +1,27 @@
+post:
+  summary: Create thread
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userId:
+              type: number
+            channelId:
+              type: number
+
+  responses:
+    '201':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
