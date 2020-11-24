@@ -6,13 +6,11 @@ const createMessage = async (
   res: Response,
   next: NextFunction,
 ) => {
-  console.log(req.param, req.body)
-  const { id: threadId } = req.params
-  const { content } = req.body
   try {
     const { code, json } = await messageService.createMessage({
-      threadId,
-      content,
+      userId: req.user.id,
+      threadId: Number(req.params.id),
+      content: req.body.content,
     })
     return res.status(code).json(json)
   } catch (error) {

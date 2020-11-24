@@ -8,8 +8,8 @@ import messageController from './message'
 const router = Router()
 
 router.use('/user', userController)
-router.use('/message', messageController)
 router.use(verifyUser)
+router.use('/message', messageController)
 router.use('/workspace', workspaceController)
 router.use('/thread', threadController)
 
