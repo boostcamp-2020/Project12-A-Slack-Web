@@ -2,8 +2,10 @@ import { Model, DataTypes } from 'sequelize'
 import sequelize from './sequelize'
 import { dbType } from './index'
 
-class UserChannelSection extends Model {
+class Section extends Model {
   public readonly id: number
+
+  public name!: string
 
   public readonly createdAt?: Date
 
@@ -12,18 +14,22 @@ class UserChannelSection extends Model {
   public readonly deletedAt?: Date
 }
 
-UserChannelSection.init(
+Section.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+    name: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    modelName: 'UserChannelSection',
-    tableName: 'userChannelSection',
+    modelName: 'Section',
+    tableName: 'section',
     paranoid: true,
     timestamps: true,
     charset: 'utf8',
@@ -32,7 +38,16 @@ UserChannelSection.init(
 )
 
 export const associate = (db: dbType) => {
-  db.UserChannelSection.belongsTo(db.Section, { foreignKey: 'sectionId' })
+  db.Section.hasMany(db.UserChannelSection, {
+    foreignKey: 'sectionId',
+    sourceKey: 'id',
+    onUpdate: 'SET NULL',
+    onDelete: 'SET NULL',
+  })
+
+  db.Section.belongsTo(db.User, { foreignKey: 'userId' })
+
+  db.Section.belongsTo(db.Workspace, { foreignKey: 'workspaceId' })
 }
 
-export default UserChannelSection
+export default Section

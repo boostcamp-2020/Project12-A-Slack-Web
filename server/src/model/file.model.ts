@@ -2,8 +2,12 @@ import { Model, DataTypes } from 'sequelize'
 import sequelize from './sequelize'
 import { dbType } from './index'
 
-class UserChannelSection extends Model {
+class File extends Model {
   public readonly id: number
+
+  public url!: string
+
+  public type!: string
 
   public readonly createdAt?: Date
 
@@ -12,18 +16,26 @@ class UserChannelSection extends Model {
   public readonly deletedAt?: Date
 }
 
-UserChannelSection.init(
+File.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+    url: {
+      type: DataTypes.STRING(256),
+      allowNull: false,
+    },
+    type: {
+      type: DataTypes.ENUM('VIDEO', 'IMAGE', 'FILE'),
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    modelName: 'UserChannelSection',
-    tableName: 'userChannelSection',
+    modelName: 'File',
+    tableName: 'file',
     paranoid: true,
     timestamps: true,
     charset: 'utf8',
@@ -32,7 +44,7 @@ UserChannelSection.init(
 )
 
 export const associate = (db: dbType) => {
-  db.UserChannelSection.belongsTo(db.Section, { foreignKey: 'sectionId' })
+  db.File.belongsTo(db.Message, { foreignKey: 'messageId' })
 }
 
-export default UserChannelSection
+export default File

@@ -1,115 +1,43 @@
-import DB from './db'
-import User from './user'
-import Workspace from './workspace'
-import Section from './section'
-import Message from './message'
-import Reaction from './reaction'
-import Thread from './thread'
-import Channel from './channel'
-import UserChannelSection from './userChannelSection'
+import User, { associate as associateUser } from './user.model'
+import Workspace, { associate as associateWorkspace } from './workspace.model'
+import Section, { associate as associateSection } from './section.model'
+import Message, { associate as associateMessage } from './message.model'
+import Reaction, { associate as associateReaction } from './reaction.model'
+import Thread, { associate as associateThread } from './thread.model'
+import Channel, { associate as associateChannel } from './channel.model'
+import UserChannelSection, {
+  associate as associateUserChannelSection,
+} from './userChannelSection'
+import File, { associate as associateFile } from './file.model'
+import { sequelize } from './sequelize'
+
+const db = {
+  User,
+  Workspace,
+  Section,
+  Message,
+  Reaction,
+  Thread,
+  Channel,
+  UserChannelSection,
+  File,
+}
+
+export type dbType = typeof db
+
+associateUser(db)
+associateWorkspace(db)
+associateSection(db)
+associateMessage(db)
+associateReaction(db)
+associateThread(db)
+associateChannel(db)
+associateUserChannelSection(db)
+associateFile(db)
 
 const initDB = () => {
-  User.belongsToMany(Workspace, {
-    as: 'workspace',
-    through: 'userWorkspace',
-  })
-
-  Workspace.belongsToMany(User, {
-    as: 'user',
-    through: 'userWorkspace',
-  })
-
-  User.belongsToMany(Channel, {
-    as: 'channel',
-    through: UserChannelSection,
-  })
-
-  Channel.belongsToMany(User, {
-    as: 'user',
-    through: UserChannelSection,
-  })
-
-  Section.hasMany(UserChannelSection, {
-    foreignKey: 'sectionId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  UserChannelSection.belongsTo(Section)
-
-  User.hasMany(Message, {
-    foreignKey: 'userId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Message.belongsTo(User)
-
-  Message.hasMany(Reaction, {
-    foreignKey: 'messageId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Reaction.belongsTo(Message)
-
-  User.hasMany(Reaction, {
-    foreignKey: 'userId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Reaction.belongsTo(User)
-
-  Workspace.hasMany(Channel, {
-    sourceKey: 'id',
-    foreignKey: 'workspaceId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Channel.belongsTo(Workspace)
-
-  User.hasMany(Section, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Section.belongsTo(User)
-
-  Workspace.hasMany(Section, {
-    sourceKey: 'id',
-    foreignKey: 'workspaceId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Section.belongsTo(Workspace)
-
-  Channel.hasMany(Thread, {
-    sourceKey: 'id',
-    foreignKey: 'channelId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Thread.belongsTo(Channel)
-
-  User.hasMany(Thread, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Thread.belongsTo(User)
-
-  Thread.hasMany(Message, {
-    foreignKey: 'threadId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-  Message.belongsTo(Thread)
-
-  DB.sync()
+  sequelize
+    .sync({ force: false })
     .then(() => console.log('DB connent'))
     .catch((err) => {
       console.error(err)

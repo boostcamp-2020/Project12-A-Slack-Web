@@ -2,8 +2,10 @@ import { Model, DataTypes } from 'sequelize'
 import sequelize from './sequelize'
 import { dbType } from './index'
 
-class UserChannelSection extends Model {
+class Reaction extends Model {
   public readonly id: number
+
+  public content!: string
 
   public readonly createdAt?: Date
 
@@ -12,18 +14,22 @@ class UserChannelSection extends Model {
   public readonly deletedAt?: Date
 }
 
-UserChannelSection.init(
+Reaction.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
+    content: {
+      type: DataTypes.STRING(128),
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    modelName: 'UserChannelSection',
-    tableName: 'userChannelSection',
+    modelName: 'Reaction',
+    tableName: 'reaction',
     paranoid: true,
     timestamps: true,
     charset: 'utf8',
@@ -32,7 +38,9 @@ UserChannelSection.init(
 )
 
 export const associate = (db: dbType) => {
-  db.UserChannelSection.belongsTo(db.Section, { foreignKey: 'sectionId' })
+  db.Reaction.belongsTo(db.Message, { foreignKey: 'messageId' })
+
+  db.Reaction.belongsTo(db.User, { foreignKey: 'userId' })
 }
 
-export default UserChannelSection
+export default Reaction

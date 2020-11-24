@@ -1,8 +1,20 @@
 import { Router } from 'express'
-import userController from './user'
+import passport from 'passport'
+import userController from './user.controller'
 
 const router = Router()
 
-router.get('/oauth/google', userController.googleLogin)
+router.get(
+  '/oauth/google',
+  passport.authenticate('google', {
+    session: false,
+    scope: ['profile', 'email'],
+  }),
+)
+router.get(
+  '/oauth/google/callback',
+  passport.authenticate('google', { session: false }),
+  userController.handleGoogleLoginCallback,
+)
 
 export default router
