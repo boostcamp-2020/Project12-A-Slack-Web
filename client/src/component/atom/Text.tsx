@@ -27,7 +27,7 @@ const StyledText = styled.p<TextType.StyleAttributes>`
   padding: ${({ padding }) => padding};
   color: ${({ color }) => colors.get(color)};
   font-size: ${({ fontSize }) => fontSize};
-  font-weight: ${({ fontWeight }) => fontWeight === 'bold' && 'bold'};
+  font-weight: ${({ fontWeight }) => fontWeight};
   cursor: ${({ cursor }) => cursor};
   &:hover {
     color: ${({ hover }) => hover && colors.get('blue')};
@@ -52,8 +52,8 @@ const Text = ({
   onClick,
 }: TextType.Props) => (
   <StyledText
-    margin={customStyle.margin || '0.3rem'}
-    padding={customStyle.padding || '0'}
+    margin={customStyle.margin}
+    padding={customStyle.padding}
     color={customStyle.color || '#000000'}
     fontSize={customStyle.fontSize || '1rem'}
     fontWeight={customStyle.fontWeight || 'inherit'}
