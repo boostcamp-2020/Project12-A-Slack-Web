@@ -5,8 +5,8 @@ info:
   description: Slack Web TEAM A의 API 문서입니다
   license:
     name: MIT
-servers:
-  - url: http://localhost:3000/
+host: http://localhost:3000
+basePath: /
 paths:
   $ref: './paths/_index.yaml'
 components:
@@ -50,3 +50,12 @@ components:
           example:
             success: false
             message: 서버 내부 오류
+    DBError:
+      description: 데이터베이스 에러
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            success: false
+            message: 데이터베이스 에러

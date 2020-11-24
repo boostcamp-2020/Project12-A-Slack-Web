@@ -1,2 +1,4 @@
-/user:
+/api/user:
   $ref: './user.yaml'
+/api/thread:
+  $ref: './thread.yaml'
