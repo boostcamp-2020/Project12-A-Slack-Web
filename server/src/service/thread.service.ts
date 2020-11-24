@@ -1,4 +1,4 @@
-import threadModel from '../model/thread'
+import threadModel from '../model/thread.model'
 import { statusCode, resMessage } from '../util/constant'
 
 const createThread = async (body: object) => {

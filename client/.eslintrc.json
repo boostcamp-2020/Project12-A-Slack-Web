@@ -1,49 +1,49 @@
 {
-    "env": {
-        "browser": true,
-        "jest": true,
-        "node": true,
-        "es2021": true
+  "env": {
+    "browser": true,
+    "jest": true,
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb", 
-        "plugin:prettier/recommended"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "prettier/prettier": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      { "variables": false }
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "prettier"
-    ],
-    "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
-        "prettier/prettier": "error",
-        "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": ["error", { "variables": false }],
-        "import/extensions": [
-            "error",
-            "ignorePackages",
-            {
-              "js": "never",
-              "jsx": "never",
-              "ts": "never",
-              "tsx": "never"
-            }
-        ]
-    },
-    "settings": { 
-        "import/resolver": { 
-            "node": { 
-                "extensions": [".js", ".jsx", ".ts", ".tsx"] 
-            } 
-        } 
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "webpack": { "config": "webpack.config.js" }
     }
+  }
 }
