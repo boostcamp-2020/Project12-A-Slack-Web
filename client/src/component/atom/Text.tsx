@@ -43,7 +43,7 @@ const defaultStyle: TextType.StyleAttributes = {
   cursor: 'pointer',
   align: 'center',
   display: 'inline',
-  hover: true,
+  hover: false,
 }
 
 const Text = ({
@@ -52,13 +52,13 @@ const Text = ({
   onClick,
 }: TextType.Props) => (
   <StyledText
-    margin={customStyle.margin}
-    padding={customStyle.padding}
-    color={customStyle.color}
-    fontSize={customStyle.fontSize}
-    fontWeight={customStyle.fontWeight}
-    display={customStyle.display}
-    hover={customStyle.hover}
+    margin={customStyle.margin || '0.3rem'}
+    padding={customStyle.padding || '0'}
+    color={customStyle.color || '#000000'}
+    fontSize={customStyle.fontSize || '1rem'}
+    fontWeight={customStyle.fontWeight || 'inherit'}
+    display={customStyle.display || 'inline'}
+    hover={customStyle.hover || false}
     onClick={onClick}
   >
     {children}
