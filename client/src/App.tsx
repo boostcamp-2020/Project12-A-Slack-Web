@@ -4,32 +4,45 @@ import A from '@atom'
 import M from '@molecule'
 
 const buttonStyle = {
-  height: '10rem',
-  width: '20rem',
-  backgroundColor: 'red',
+  padding: '2rem',
+  backgroundColor: 'lightBlue',
+  hover: true,
+}
+
+const textStyle = {
+  color: 'red',
+  fontSize: '10rem',
 }
 
 const App = () => {
   return (
     <>
       <GlobalStyle />
-      <M.ButtonDiv buttonStyle={buttonStyle}>ddd</M.ButtonDiv>
+      <A.Text customStyle={{ color: 'red' }}>text</A.Text>
+      <A.Button customStyle={{ border: 'none' }}>A.Button</A.Button>
+      <M.ButtonDiv
+        buttonStyle={buttonStyle}
+        textStyle={textStyle}
+        onClick={() => {
+          alert('ButtonDiv Click')
+        }}
+      >
+        M.ButtonDiv
+      </M.ButtonDiv>
     </>
   )
 }
 
 const GlobalStyle = createGlobalStyle`
+  body {
+    height: 100vh;
+    width: 100vw;
+  }
   * {
     padding: 0px;
     margin: 0px;
-    height: 100vh;
-    width: 100vh;
     box-sizing: border-box;
     font-size: 62.5%;
-    margin: 0 auto;
-  }
-  p{
-    outline: none;
   }
 `
 

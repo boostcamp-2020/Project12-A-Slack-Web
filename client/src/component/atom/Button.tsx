@@ -12,7 +12,12 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   border-radius: ${({ rounded }) => (rounded ? 4 : 0)}px;
+  border: ${({ border }) => border};
   background-color: ${({ backgroundColor }) => color.get(backgroundColor)};
+  opacity: 0.8;
+  &:hover {
+    opacity: ${({ hover }) => hover && '1'};
+  }
 `
 
 export namespace ButtonType {
@@ -22,8 +27,10 @@ export namespace ButtonType {
     margin?: string
     padding?: string
     rounded?: boolean
+    border?: string
     backgroundColor?: string
     disabled?: boolean
+    hover?: boolean
   }
 
   export interface Props {
@@ -34,10 +41,12 @@ export namespace ButtonType {
 }
 
 const defaultStyle: ButtonType.StyleAttributes = {
-  height: '1rem',
-  width: '2rem',
+  height: 'auto',
+  width: 'auto',
+  border: '1px solid #000000',
   backgroundColor: 'grey',
   disabled: false,
+  hover: false,
 }
 
 const Button = ({
@@ -47,13 +56,15 @@ const Button = ({
 }: ButtonType.Props) => {
   return (
     <StyledButton
-      height={customStyle.height || '1rem'}
-      width={customStyle.width || '2rem'}
+      height={customStyle.height || 'auto'}
+      width={customStyle.width || 'auto'}
       margin={customStyle.margin}
       padding={customStyle.padding}
       rounded={customStyle.rounded}
+      border={customStyle.border || '1px solid #000000'}
       backgroundColor={customStyle.backgroundColor || 'grey'}
-      disabled={customStyle.disabled || false}
+      disabled={customStyle.disabled}
+      hover={customStyle.hover}
       onClick={onClick}
     >
       {children}
