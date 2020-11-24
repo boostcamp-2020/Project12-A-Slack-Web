@@ -10,6 +10,11 @@ basePath: /
 paths:
   $ref: './paths/_index.yaml'
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     Thread:
       type: object

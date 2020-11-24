@@ -1,5 +1,7 @@
 post:
   summary: Create message
+  security:
+    - BearerAuth: []
   parameters:
     - in: path
       name: id
