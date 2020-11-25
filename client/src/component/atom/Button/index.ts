@@ -8,7 +8,7 @@ export namespace ButtonType {
     width?: string
     margin?: string
     padding?: string
-    rounded?: boolean
+    radius?: string
     border?: string
     backgroundColor?: string
     disabled?: boolean
