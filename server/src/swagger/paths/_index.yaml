@@ -2,3 +2,5 @@
   $ref: './user.yaml'
 /api/thread:
   $ref: './thread.yaml'
+/api/message/{id}:
+  $ref: './message.yaml'
