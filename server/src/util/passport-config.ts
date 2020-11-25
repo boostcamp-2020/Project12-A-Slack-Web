@@ -22,7 +22,6 @@ const googleLoginVerify = async (
 ) => {
   try {
     const { _json: userData } = profile
-    console.log(userData)
     const currentUser = await findOrCreateUser(userData)
     done(null, currentUser)
   } catch (error) {

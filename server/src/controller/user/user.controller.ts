@@ -8,13 +8,17 @@ const frontURL =
 
 const handleGoogleLoginCallback = async (req: Request, res: Response) => {
   try {
+    console.log('왜이게 안뜨기', req)
     const { id, email, name } = req.user
     const token = jwt.createToken({ id, email, name })
-    return res.send(token)
-    // return res.status(200).redirect(`${frontURL}?access_token=${token}`)
+    return res.status(200).redirect(`${frontURL}?access_token=${token}`)
   } catch (error) {
     return res.status(400).json({ message: 'fail', error: error.message })
   }
 }
 
-export default { handleGoogleLoginCallback }
+const statusController = (req: Request, res: Response) => {
+  return res.status(201).json({ success: true })
+}
+
+export default { handleGoogleLoginCallback, statusController }
