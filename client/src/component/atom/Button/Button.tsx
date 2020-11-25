@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import color from '@constant/color'
 import { ButtonType } from '.'
+import Styled from './Button.style'
 
 const Button = ({
   customStyle = defaultStyle,
@@ -9,9 +8,9 @@ const Button = ({
   onClick,
 }: ButtonType.Props) => {
   return (
-    <StyledButton
-      height={customStyle.height || 'auto'}
-      width={customStyle.width || 'auto'}
+    <Styled.Button
+      height={customStyle.height}
+      width={customStyle.width}
       margin={customStyle.margin}
       padding={customStyle.padding}
       border={customStyle.border || '1px solid #000000'}
@@ -28,7 +27,7 @@ const Button = ({
       onClick={onClick}
     >
       {children}
-    </StyledButton>
+    </Styled.Button>
   )
 }
 
@@ -65,8 +64,9 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
 const defaultStyle: ButtonType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
-  border: '1px solid #000000',
+  padding: '8px',
   borderRadius: '5px',
+  border: '0px solid #000000',
   backgroundColor: 'grey',
   hoverBackgroungColor: 'greyHover',
   disabled: false,

@@ -1,46 +1,63 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { Switch, Route, useHistory } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
-import A from '@atom'
-import M from '@molecule'
-
-const buttonStyle = {
-  padding: '2rem',
-  backgroundColor: 'lightBlue',
-  hover: true,
-}
-
-const textStyle = {
-  color: 'red',
-  fontSize: '10rem',
-}
+import myAxios from '@util/myAxios'
+import LoginPage from '@page/User/LoginPage'
+import WorkspacePage from '@page/Workspace/WorkspacePage'
 
 const App = () => {
+  const token = localStorage.getItem('token')
+  const [isAuth, setIsAuth] = useState<boolean>(false)
+  const history = useHistory()
+
+  const [_, accessToken] = window.location.search.split('=')
+
+  if (accessToken) {
+    localStorage.setItem('token', accessToken)
+    window.location.href = '/'
+  }
+
+  const checkToken = async (): Promise<boolean> => {
+    try {
+      const {
+        data: { success },
+      } = await myAxios.get({ path: '/user/status' })
+      if (success) {
+        setIsAuth(true)
+        return true
+      }
+      return false
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
+  const checkUser = async () => {
+    if (!token) {
+      history.push('/login')
+    }
+    if (token) {
+      try {
+        await checkToken()
+        history.push('/')
+      } catch (err) {
+        history.push('/login')
+      }
+    }
+  }
+
+  useEffect(() => {
+    checkUser()
+  }, [])
+
   return (
     <>
       <GlobalStyle />
-
-      <A.Button customStyle={{ border: 'none' }}>A.Button</A.Button>
-
-      <M.Modal
-        overlayStyle={{ opacity: '0.05' }}
-        modalWrapperStyle={{
-          top: '30%',
-          right: '20%',
-          left: '20%',
-          height: '200px',
-          padding: '10px',
-        }}
-      >
-        <M.ButtonDiv
-          buttonStyle={buttonStyle}
-          textStyle={textStyle}
-          onClick={() => {
-            alert('ButtonDiv Click')
-          }}
-        >
-          This is Modal Children
-        </M.ButtonDiv>
-      </M.Modal>
+      <Switch>
+        <Route exact path="/" component={WorkspacePage} />
+        <Route exact path="/login" component={LoginPage} />
+      </Switch>
     </>
   )
 }
