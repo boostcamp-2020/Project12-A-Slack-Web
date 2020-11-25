@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import A from '@atom'
 
@@ -9,9 +9,17 @@ interface ReplyButtonProps {
 }
 
 const ReplyButton = ({ count, time, handleButtonClick }: ReplyButtonProps) => {
+  const [hover, setHover] = useState(false)
+
+  const handleMouseOver = () => setHover(true)
+  const handleMouseOut = () => setHover(false)
+
   return (
     <>
-      <StyledContainer>
+      <StyledContainer
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
         <StyledImageWrapper>
           <A.Image customStyle={imageStyle} />
         </StyledImageWrapper>
@@ -21,6 +29,7 @@ const ReplyButton = ({ count, time, handleButtonClick }: ReplyButtonProps) => {
         <StyledTimeTextWrapper>
           <A.Text customStyle={timeTextStyle}>시간</A.Text>
         </StyledTimeTextWrapper>
+        {hover && <StyledArrow>&gt;</StyledArrow>}
       </StyledContainer>
     </>
   )
@@ -61,6 +70,9 @@ const StyledContainer = styled.div`
   cursor: pointer;
   overflow: hidden;
   height: 34px;
+  &:hover {
+    border-color: rgba(97, 96, 97, 0.13);
+  }
 `
 const StyledImageWrapper = styled.div`
   margin-right: 4px;
@@ -76,6 +88,16 @@ const StyledTimeTextWrapper = styled.div`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`
+
+const StyledArrow = styled.div`
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  display: inline-block;
+  color: #868686;
+  margin-left: auto;
+  margin-right: 10px;
 `
 
 export default ReplyButton
