@@ -36,29 +36,6 @@ function MessageCard({ data, continuous }: MessageCardProps) {
       </StyledContainer>
     </>
   )
-
-  // return (
-  //   { continuous ? (
-  //     <div>
-  //       <StyledContainer>
-  //         <StyledImageWrapper>
-  //           <A.Image customStyle={imageStyle} />
-  //         </StyledImageWrapper>
-  //         <StyledTextWrapper>
-  //           <A.Text customStyle={nameTextStyle}>이름</A.Text>
-  //           <A.Text customStyle={timeTextStyle}>시간</A.Text>
-  //           <StyledContentWrapper>
-  //             <A.Text customStyle={messageTextStyle}>
-  //               내용df인jdkjfdjkfjsalfjkdjfaklsjfkljas;klfjlasj;dfjwoierjkl1243893
-  //             </A.Text>
-  //           </StyledContentWrapper>
-  //         </StyledTextWrapper>
-  //       </StyledContainer>
-  //     </div>
-  //   ) : (
-  //     <div>s</div>
-  //   )}
-  // )
 }
 
 MessageCard.defaultProps = {
