@@ -1,5 +1,5 @@
-import threadModel from '../model/thread.model'
-import { statusCode, resMessage } from '../util/constant'
+import threadModel from '@model/thread.model'
+import { statusCode, resMessage } from '@util/constant'
 
 const createThread = async (body: object) => {
   // body 값 검증
