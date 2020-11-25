@@ -1,7 +1,7 @@
 import React from 'react'
 import A from '@atom'
-import { ButtonType } from '@atom/button'
-import { TextType } from '@atom/text'
+import { ButtonType } from '@atom/Button'
+import { TextType } from '@atom/Text'
 
 namespace ButtonDivType {
   export interface Props {
@@ -16,9 +16,10 @@ const ButtonDiv = ({
   buttonStyle,
   textStyle,
   children,
+  onClick,
 }: ButtonDivType.Props) => {
   return (
-    <A.Button customStyle={buttonStyle}>
+    <A.Button customStyle={buttonStyle} onClick={onClick}>
       <A.Text customStyle={textStyle}>{children}</A.Text>
     </A.Button>
   )
