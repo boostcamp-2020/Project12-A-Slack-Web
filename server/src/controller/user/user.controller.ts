@@ -8,7 +8,6 @@ const frontURL =
 
 const handleGoogleLoginCallback = async (req: Request, res: Response) => {
   try {
-    console.log('왜이게 안뜨기', req)
     const { id, email, name } = req.user
     const token = jwt.createToken({ id, email, name })
     return res.status(200).redirect(`${frontURL}?access_token=${token}`)
