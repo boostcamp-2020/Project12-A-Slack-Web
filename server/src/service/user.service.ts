@@ -1,4 +1,4 @@
-import User from '@model/user.model'
+import UserModel from '@model/user.model'
 
 type GoogleUser = {
   sub: string
@@ -15,7 +15,7 @@ type UserInfo = {
 
 const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
   try {
-    const [googleUser] = await User.findOrCreate({
+    const [googleUser] = await UserModel.findOrCreate({
       where: { email },
       defaults: {
         email,
@@ -33,7 +33,7 @@ const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
 
 const checkUser = async ({ id, email, name }: UserInfo): Promise<boolean> => {
   try {
-    const user = await User.findOne({ where: { id } })
+    const user = await UserModel.findOne({ where: { id } })
     if (!user) return false
     if (user.email !== email) return false
     if (user.name !== name) return false
