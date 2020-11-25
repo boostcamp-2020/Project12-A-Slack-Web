@@ -15,7 +15,6 @@ const isValidNewData = ({ userId, threadId, content }: MessageType) => {
 }
 
 const createMessage = async (data: MessageType) => {
-  console.log(data)
   if (isValidNewData(data) === false)
     return {
       code: statusCode.BAD_REQUEST,
