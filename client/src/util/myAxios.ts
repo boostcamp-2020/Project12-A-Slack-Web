@@ -20,7 +20,7 @@ const fileUploadHeaderConfig = {
 
 const URL = `${serverURL}/api`
 
-type axiosType = {
+interface AxiosType {
   path: string
   data?: object
 }
@@ -32,23 +32,23 @@ type ResponseType = {
 }
 
 const myAxios = {
-  get({ path }: axiosType) {
+  get({ path }: AxiosType) {
     return axios.get<ResponseType>(URL + path, headerConfig)
   },
 
-  post({ path, data }: axiosType) {
+  post({ path, data }: AxiosType) {
     return axios.post<ResponseType>(URL + path, data, headerConfig)
   },
 
-  patch({ path, data }: axiosType) {
+  patch({ path, data }: AxiosType) {
     return axios.patch<ResponseType>(URL + path, data, headerConfig)
   },
 
-  delete({ path }: axiosType) {
+  delete({ path }: AxiosType) {
     return axios.delete<ResponseType>(URL + path, headerConfig)
   },
 
-  filepost({ path = '/fileupload', data }: axiosType) {
+  filepost({ path = '/fileupload', data }: AxiosType) {
     return axios.post<ResponseType>(URL + path, data, fileUploadHeaderConfig)
   },
 }
