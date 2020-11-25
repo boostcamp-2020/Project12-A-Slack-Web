@@ -5,11 +5,13 @@ import M from '@molecule'
 import myIcon from '@constant/icon'
 
 const StyledHeader = styled.div`
+  background-color: #1f57e7;
   height: 3.2vh;
   width: 55vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto;
 `
 
 const IconFirstStyle = {
@@ -44,16 +46,18 @@ const textStyle = {
   fontSize: '1.2rem',
 }
 
-const Header = () => {
+interface Props {
+  onClick?: () => void
+}
+
+const HeaderInput = ({ onClick }: Props) => {
   return (
     <StyledHeader>
       <A.Icon icon={myIcon.clock} customStyle={IconFirstStyle} />
       <M.ButtonDiv
         buttonStyle={buttonStyle}
         textStyle={textStyle}
-        onClick={() => {
-          alert('ButtonDiv Click')
-        }}
+        onClick={onClick}
       >
         <>
           <A.Icon icon={myIcon.search} customStyle={IconSecondStyle} />
@@ -65,4 +69,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default HeaderInput
