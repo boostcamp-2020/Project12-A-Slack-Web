@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import color from '@constant/color'
 import { ButtonType } from '.'
-
 const Button = ({
   customStyle = defaultStyle,
   children,
@@ -36,14 +35,21 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   border-radius: ${({ rounded }) => (rounded ? 4 : 0)}px;
+  border: ${({ border }) => border};
   background-color: ${({ backgroundColor }) => color.get(backgroundColor)};
+  opacity: 0.8;
+  &:hover {
+    opacity: ${({ hover }) => hover && '1'};
+  }
 `
 
 const defaultStyle: ButtonType.StyleAttributes = {
-  height: '1rem',
-  width: '2rem',
+  height: 'auto',
+  width: 'auto',
+  border: '1px solid #000000',
   backgroundColor: 'grey',
   disabled: false,
+  hover: false,
 }
 
 export default Button
