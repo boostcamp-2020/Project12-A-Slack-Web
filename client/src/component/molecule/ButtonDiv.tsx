@@ -1,6 +1,6 @@
 import React from 'react'
 import A from '@atom'
-import { ButtonType } from '@atom/Button'
+import { ButtonType } from '@atom/Button/index'
 import { TextType } from '@atom/Text'
 
 namespace ButtonDivType {
