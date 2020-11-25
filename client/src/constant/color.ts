@@ -14,7 +14,7 @@ color.set('sky', '#f1f8ff')
 color.set('darkGrey', '#808080')
 color.set('grey', '#d1d5da')
 color.set('greyHover', '#f5f8fa')
-color.set('textGrey', '#576069')
+color.set('textGrey', '#616061')
 color.set('lightGrey', '#e3e3e4')
 
 // green
