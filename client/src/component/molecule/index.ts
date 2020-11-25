@@ -1,3 +1,4 @@
 import ButtonDiv from './ButtonDiv'
+import Modal from './Modal'
 
-export default { ButtonDiv }
+export default { ButtonDiv, Modal }

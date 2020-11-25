@@ -18,17 +18,29 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <A.Text customStyle={{ color: 'red' }}>text</A.Text>
+
       <A.Button customStyle={{ border: 'none' }}>A.Button</A.Button>
-      <M.ButtonDiv
-        buttonStyle={buttonStyle}
-        textStyle={textStyle}
-        onClick={() => {
-          alert('ButtonDiv Click')
+
+      <M.Modal
+        overlayStyle={{ opacity: '0.05' }}
+        modalWrapperStyle={{
+          top: '30%',
+          right: '20%',
+          left: '20%',
+          height: '200px',
+          padding: '10px',
         }}
       >
-        M.ButtonDiv
-      </M.ButtonDiv>
+        <M.ButtonDiv
+          buttonStyle={buttonStyle}
+          textStyle={textStyle}
+          onClick={() => {
+            alert('ButtonDiv Click')
+          }}
+        >
+          This is Modal Children
+        </M.ButtonDiv>
+      </M.Modal>
     </>
   )
 }
