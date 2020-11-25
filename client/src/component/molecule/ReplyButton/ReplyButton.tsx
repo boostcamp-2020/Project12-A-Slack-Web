@@ -5,29 +5,31 @@ import A from '@atom'
 interface ReplyButtonProps {
   count: number
   time: string
-  handleButtonClick: () => void
+  onClick: () => void
 }
 
-const ReplyButton = ({ count, time, handleButtonClick }: ReplyButtonProps) => {
+const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
   const [hover, setHover] = useState(false)
 
   const handleMouseOver = () => setHover(true)
   const handleMouseOut = () => setHover(false)
+  const handleClick = () => onClick()
 
   return (
     <>
       <StyledContainer
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
+        onClick={handleClick}
       >
         <StyledImageWrapper>
           <A.Image customStyle={imageStyle} />
         </StyledImageWrapper>
         <StyledCountTextWrapper>
-          <A.Text customStyle={countTextStyle}>Count</A.Text>
+          <A.Text customStyle={countTextStyle}>{`${count} reply`}</A.Text>
         </StyledCountTextWrapper>
         <StyledTimeTextWrapper>
-          <A.Text customStyle={timeTextStyle}>시간</A.Text>
+          <A.Text customStyle={timeTextStyle}>{time}</A.Text>
         </StyledTimeTextWrapper>
         {hover && <StyledArrow>&gt;</StyledArrow>}
       </StyledContainer>

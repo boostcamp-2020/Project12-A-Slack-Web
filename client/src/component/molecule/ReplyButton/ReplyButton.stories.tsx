@@ -7,7 +7,7 @@ export default {
 }
 
 export const replyButton = () => {
-  return <ReplyButton />
+  return <ReplyButton count={3} time="2020-11-24 18:29:37" />
 }
 
 replyButton.story = {
