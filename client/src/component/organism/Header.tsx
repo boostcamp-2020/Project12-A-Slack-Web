@@ -20,16 +20,16 @@ const headerImageStyle = {
 }
 
 const Header = () => {
-  const handleSearchBarOnclick = () => {
+  const handleSearchBarClick = () => {
     alert('Search bar clicked!')
   }
-  const handleProfileOnclick = () => {
+  const handleProfileClick = () => {
     alert('Profile clicked!')
   }
   return (
     <StyledHeaderContainer>
-      <M.HeaderInput onClick={handleSearchBarOnclick} />
-      <A.Image customStyle={headerImageStyle} onClick={handleProfileOnclick} />
+      <M.HeaderInput onClick={handleSearchBarClick} />
+      <A.Image customStyle={headerImageStyle} onClick={handleProfileClick} />
     </StyledHeaderContainer>
   )
 }
