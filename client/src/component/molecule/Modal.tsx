@@ -22,7 +22,7 @@ const Modal = ({
 }: ModalType.Props) => {
   const [hidden, setHidden] = useState(false)
 
-  const onModalClose = () => {
+  const handleModalClose = () => {
     if (onClose) onClose()
     setHidden(true)
   }
@@ -39,7 +39,7 @@ const Modal = ({
         hoverBackgroungColor: 'grey',
         border: 'none',
       }}
-      onClick={onModalClose}
+      onClick={handleModalClose}
     >
       X
     </A.Button>
@@ -47,7 +47,7 @@ const Modal = ({
 
   return (
     <div hidden={hidden}>
-      <A.Overlay customStyle={overlayStyle} onClick={onModalClose} />
+      <A.Overlay customStyle={overlayStyle} onClick={handleModalClose} />
       <A.ModalWrapper customStyle={modalWrapperStyle}>
         <>
           {disableCloseButton ? '' : closeButton}
