@@ -1,6 +1,6 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
 
-export { default } from '.'
+export { default } from './Icon'
 
 export namespace IconType {
   export interface StyleAttributes extends Object {
