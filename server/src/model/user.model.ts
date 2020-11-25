@@ -61,6 +61,7 @@ export const associate = (db: dbType) => {
   db.User.belongsToMany(db.Workspace, {
     as: 'workspace',
     through: 'userWorkspace',
+    foreignKey: 'userId',
   })
 
   db.User.belongsToMany(db.Channel, {
