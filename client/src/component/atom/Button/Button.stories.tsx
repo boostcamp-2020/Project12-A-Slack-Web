@@ -32,10 +32,10 @@ export const styledButton = () => {
         width: '16px',
         margin: '10px',
         padding: '10px',
-        radius: '50%',
+        borderRadius: '50%',
         border: '1px solid green',
         backgroundColor: 'white',
-        hover: true,
+        hoverBackgroungColor: 'grey',
       }}
     />
   )

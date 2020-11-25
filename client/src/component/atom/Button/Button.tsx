@@ -13,11 +13,17 @@ const Button = ({
       width={customStyle.width}
       margin={customStyle.margin}
       padding={customStyle.padding}
-      radius={customStyle.radius}
-      border={customStyle.border}
+      border={customStyle.border || '0px solid #000000'}
+      borderRadius={customStyle.borderRadius || '5px'}
       backgroundColor={customStyle.backgroundColor}
+      hoverBackgroungColor={customStyle.hoverBackgroungColor || 'greyHover'}
       disabled={customStyle.disabled}
-      hover={customStyle.hover}
+      zIndex={customStyle.zIndex}
+      position={customStyle.position}
+      top={customStyle.top}
+      bottom={customStyle.bottom}
+      left={customStyle.left}
+      right={customStyle.right}
       onClick={onClick}
     >
       {children}
@@ -29,11 +35,11 @@ const defaultStyle: ButtonType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
   padding: '8px',
-  radius: '4px',
+  borderRadius: '5px',
   border: '0px solid #000000',
   backgroundColor: 'grey',
+  hoverBackgroungColor: 'greyHover',
   disabled: false,
-  hover: false,
 }
 
 export default Button
