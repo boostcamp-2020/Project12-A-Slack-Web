@@ -18,9 +18,11 @@
       "@atom": ["src/component/atom/index"],
       "@molecule": ["src/component/molecule/index"],
       "@organism": ["src/component/organism/index"],
+
       "@atom/*": ["src/component/atom/*"],
       "@molecule/*": ["src/component/molecule/*"],
       "@organism/*": ["src/component/organism/*"],
+      
       "@constant/*": ["src/constant/*"],
       "@page/*": ["src/page/*"],
       "@store/*": ["src/store/*"],

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import threadService from '../../service/thread.service'
-import { statusCode, resMessage } from '../../util/constant'
+import { statusCode, resMessage } from '@util/constant'
+import threadService from '@service/thread.service'
 
 const createThread = async (
   req: Request,

@@ -17,7 +17,6 @@
   "plugins": ["@typescript-eslint", "prettier", "import"],
   "rules": { 
       "prettier/prettier": "error",
-      "import/no-unresolved": "error",
       "import/extensions": [
         "error",
         "ignorePackages",

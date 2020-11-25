@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/first */
 import 'module-alias/register'
 import express, { Request, Response, NextFunction } from 'express'
