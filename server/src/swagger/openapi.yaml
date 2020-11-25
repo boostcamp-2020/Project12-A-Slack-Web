@@ -10,8 +10,56 @@ basePath: /
 paths:
   $ref: './paths/_index.yaml'
 components:
-  parameters:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
+    Thread:
+      type: object
+      required:
+        - id
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        channelId:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deletedAt:
+          type: string
+    Message:
+      type: object
+      required:
+        - id
+        - content
+        - isHead
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        isHead:
+          type: string
+        userId:
+          type: integer
+        threadId:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deletedAt:
+          type: string
     User:
       type: object
       required:

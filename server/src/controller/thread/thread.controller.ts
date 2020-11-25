@@ -12,7 +12,7 @@ const createThread = async (
     const { code, json } = await threadService.createThread(newThreadData)
     return res.status(code).json(json)
   } catch (error) {
-    next(error)
+    return next(error)
   }
 }
 
