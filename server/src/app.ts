@@ -9,14 +9,14 @@ import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import passport from 'passport'
-import { statusCode, resMessage } from './util/constant'
+import { statusCode, resMessage } from '@util/constant'
 
 dotenv.config()
 
-import passportConfig from './util/passport-config'
+import passportConfig from '@util/passport-config'
 
-import apiRouter from './controller'
-import initDB from './model'
+import apiRouter from '@controller/index'
+import initDB from '@model/index'
 
 const app: express.Application = express()
 const port = process.env.PORT
