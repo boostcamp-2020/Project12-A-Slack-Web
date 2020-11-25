@@ -55,8 +55,8 @@ const StyledImage = styled.img<ImageType.StyleAttributes>`
   width: ${({ width }) => width};
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
-  border-radius: ${({ radius }) => radius};
-  cursor: ${({ cursor }) => cursor};
+  border-radius: ${({ radius }) => radius || '4px'};
+  cursor: ${({ cursor }) => cursor || 'pointer'};
 `
 
 export default Image
