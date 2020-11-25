@@ -1,6 +1,6 @@
 import Button from './Button'
 import Image from './Image'
 import Text from './Text'
-import MyIcon from './MyIcon'
+import Icon from './Icon'
 
-export default { Button, Image, Text, MyIcon }
+export default { Button, Image, Text, Icon }
