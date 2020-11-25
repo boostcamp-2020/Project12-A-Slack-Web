@@ -64,6 +64,8 @@ const Icon = ({
       display={customStyle.display || 'inline'}
       hover={customStyle.hover || false}
       hoverColor={customStyle.hoverColor || 'trans'}
+      cursor={customStyle.cursor || 'pointer'}
+      align={customStyle.align || 'center'}
       onClick={onClick}
     >
       <FontAwesomeIcon icon={icon} color={customStyle.color} />
