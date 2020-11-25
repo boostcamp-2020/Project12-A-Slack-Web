@@ -8,11 +8,17 @@ export namespace ButtonType {
     width?: string
     margin?: string
     padding?: string
-    rounded?: boolean
     border?: string
+    borderRadius?: string
     backgroundColor?: string
     disabled?: boolean
-    hover?: boolean
+    hoverBackgroungColor?: string
+    zIndex?: string
+    position?: string
+    top?: string
+    bottom?: string
+    right?: string
+    left?: string
   }
 
   export interface Props {
