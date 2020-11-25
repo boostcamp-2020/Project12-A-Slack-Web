@@ -1,3 +1,3 @@
-import Thread from './Thread'
+import MessageCard from './MessageCard'
 
-export default { Thread }
+export default { MessageCard }
