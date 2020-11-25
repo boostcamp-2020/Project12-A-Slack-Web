@@ -6,7 +6,7 @@ import myIcon from '@constant/icon'
 
 const StyledHeader = styled.div`
   background-color: #1f57e7;
-  height: 3.2vh;
+  height: 4vh;
   width: 55vh;
   display: flex;
   justify-content: center;
