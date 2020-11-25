@@ -7,14 +7,14 @@ const StyledHeader = styled.div`
   background-color: #1f57e7;
   height: 2.5vh;
   width: 35vh;
-  display: flex;
-  justify-content: space-around;
 `
 
 const myIconStyle = {
-  // color: 'white',
-  // fontSize: '20px;',
-  // fontWeight: 'normal;',
+  color: 'white',
+  fontSize: '20px;',
+  fontWeight: 'normal;',
+  hover: true,
+  hoverColor: 'red',
 }
 
 const Header = () => {

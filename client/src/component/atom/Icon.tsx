@@ -12,6 +12,7 @@ export namespace IconType {
     fontSize?: string
     fontWeight?: string
     color?: string
+    hoverColor?: string
     hover?: boolean
     cursor?: string
     display?: string
@@ -31,7 +32,8 @@ const StyledIconContainer = styled.span<IconType.StyleAttributes>`
   font-weight: ${({ fontWeight }) => fontWeight};
   cursor: ${({ cursor }) => cursor};
   &:hover {
-    color: ${({ hover }) => hover && colors.get('blue')};
+    background-color: ${({ hover, hoverColor }) =>
+      hover && colors.get(hoverColor)};
   }
   display: ${({ display }) => display};
 `
@@ -45,6 +47,7 @@ const defaultStyle: IconType.StyleAttributes = {
   align: 'center',
   display: 'inline',
   hover: false,
+  hoverColor: '#ffffff',
 }
 
 const Icon = ({
@@ -60,6 +63,7 @@ const Icon = ({
       fontWeight={customStyle.fontWeight || 'normal'}
       display={customStyle.display || 'inline'}
       hover={customStyle.hover || false}
+      hoverColor={customStyle.hoverColor || 'trans'}
       onClick={onClick}
     >
       <FontAwesomeIcon icon={icon} color={customStyle.color} />
