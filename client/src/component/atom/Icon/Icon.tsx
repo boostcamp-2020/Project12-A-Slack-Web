@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconType } from './Icon'
+import { IconType } from '.'
 import Styled from './Icon.style'
 
 const Icon = ({

@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Switch, Route, useHistory } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+} from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import myAxios from '@util/myAxios'
 import LoginPage from '@page/User/LoginPage'
@@ -54,10 +59,12 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Switch>
-        <Route exact path="/" component={WorkspacePage} />
-        <Route exact path="/login" component={LoginPage} />
-      </Switch>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={WorkspacePage} />
+          <Route exact path="/login" component={LoginPage} />
+        </Switch>
+      </Router>
     </>
   )
 }
