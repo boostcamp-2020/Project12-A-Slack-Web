@@ -9,6 +9,7 @@ import { createGlobalStyle } from 'styled-components'
 import myAxios from '@util/myAxios'
 import LoginPage from '@page/User/LoginPage'
 import WorkspacePage from '@page/Workspace/WorkspacePage'
+import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
 
 const App = () => {
   const token = localStorage.getItem('token')
@@ -63,6 +64,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={WorkspacePage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/workspace/join" component={WorkspaceJoinPage} />
         </Switch>
       </Router>
     </>
