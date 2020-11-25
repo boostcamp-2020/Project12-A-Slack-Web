@@ -7,18 +7,29 @@ const Button = styled.button<ButtonType.StyleAttributes>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ height }) => height || 'auto'};
-  width: ${({ width }) => width || 'auto'};
+  height: ${({ height }) => height};
+  width: ${({ width }) => width};
   margin: ${({ margin }) => margin};
-  padding: ${({ padding }) => padding || '8px'};
-  border-radius: ${({ radius }) => radius || '4px'};
-  border: ${({ border }) => border || '0px solid #000000'};
-  background-color: ${({ backgroundColor }) =>
-    color.get(backgroundColor) || 'grey'};
-  opacity: 0.8;
-  &:hover {
-    opacity: ${({ hover }) => hover && '1'};
-  }
+  padding: ${({ padding }) => padding};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  border: ${({ border }) => border};
+  background: ${({ backgroundColor }) =>
+    backgroundColor ? color.get(backgroundColor) : 'none'};
+  ${({ disabled, hoverBackgroungColor }) =>
+    disabled
+      ? ''
+      : `&:hover {
+    background: ${
+      hoverBackgroungColor ? color.get(hoverBackgroungColor) : 'none'
+    };
+  }`};
+  opacity: ${({ disabled }) => (disabled ? '0.7' : '')};
+  z-index: ${({ zIndex }) => zIndex};
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  left: ${({ left }) => left};
 `
 
 export default { Button }
