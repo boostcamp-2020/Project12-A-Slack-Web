@@ -9,13 +9,13 @@ const Button = ({
 }: ButtonType.Props) => {
   return (
     <Styled.Button
-      height={customStyle.height || 'auto'}
-      width={customStyle.width || 'auto'}
+      height={customStyle.height}
+      width={customStyle.width}
       margin={customStyle.margin}
       padding={customStyle.padding}
-      rounded={customStyle.rounded}
-      border={customStyle.border || '1px solid #000000'}
-      backgroundColor={customStyle.backgroundColor || 'grey'}
+      radius={customStyle.radius}
+      border={customStyle.border}
+      backgroundColor={customStyle.backgroundColor}
       disabled={customStyle.disabled}
       hover={customStyle.hover}
       onClick={onClick}
@@ -28,7 +28,9 @@ const Button = ({
 const defaultStyle: ButtonType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
-  border: '1px solid #000000',
+  padding: '8px',
+  radius: '4px',
+  border: '0px solid #000000',
   backgroundColor: 'grey',
   disabled: false,
   hover: false,
