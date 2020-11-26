@@ -1,13 +1,14 @@
 import React from 'react'
+import styled from 'styled-components'
+import colors from '@constant/color'
 import { TextType } from '.'
-import Styled from './Text.style'
 
 const Text = ({
   customStyle = defaultStyle,
   children,
   onClick,
 }: TextType.Props) => (
-  <Styled.Text
+  <StyledText
     margin={customStyle.margin}
     padding={customStyle.padding}
     color={customStyle.color || '#000000'}
@@ -18,7 +19,7 @@ const Text = ({
     onClick={onClick}
   >
     {children}
-  </Styled.Text>
+  </StyledText>
 )
 
 const defaultStyle: TextType.StyleAttributes = {
@@ -31,5 +32,18 @@ const defaultStyle: TextType.StyleAttributes = {
   display: 'inline',
   hover: false,
 }
+
+const StyledText = styled.p<TextType.StyleAttributes>`
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  color: ${({ color }) => colors.get(color)};
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  cursor: ${({ cursor }) => cursor};
+  &:hover {
+    color: ${({ hover }) => hover && colors.get('blue')};
+  }
+  display: ${({ display }) => display};
+`
 
 export default Text
