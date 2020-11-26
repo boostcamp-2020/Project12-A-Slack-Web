@@ -11,11 +11,13 @@ const Text = ({
   <StyledText
     margin={customStyle.margin}
     padding={customStyle.padding}
+    width={customStyle.width}
+    height={customStyle.height}
     color={customStyle.color}
     fontSize={customStyle.fontSize}
     fontWeight={customStyle.fontWeight}
     display={customStyle.display}
-    hover={customStyle.hover}
+    hoverColor={customStyle.hoverColor}
     onClick={onClick}
   >
     {children}
@@ -25,24 +27,24 @@ const Text = ({
 const defaultStyle: TextType.StyleAttributes = {
   margin: '0.3rem',
   padding: '0',
-  color: '#000000',
+  color: 'inherit',
   fontSize: '1rem',
   fontWeight: 'inherit',
   cursor: 'pointer',
-  align: 'center',
   display: 'inline',
-  hover: false,
 }
 
 const StyledText = styled.p<TextType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   color: ${({ color }) => (color ? colors.get(color) : defaultStyle.color)};
   font-size: ${({ fontSize }) => fontSize || defaultStyle.fontSize};
   font-weight: ${({ fontWeight }) => fontWeight || defaultStyle.fontWeight};
   cursor: ${({ cursor }) => cursor};
   &:hover {
-    color: ${({ hover }) => hover && colors.get('blue')};
+    color: ${({ hoverColor }) => hoverColor && colors.get(hoverColor)};
   }
   display: ${({ display }) => display || defaultStyle.display};
 `
