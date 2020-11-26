@@ -18,7 +18,7 @@ const isValidNewWorkspaceData = ({ name, imageUrl }: WorkspaceType) => {
 }
 
 const createWorkspace = async (data: WorkspaceType) => {
-  if (isValidNewWorkspaceData(data)) {
+  if (!isValidNewWorkspaceData(data)) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: true, message: resMessage.OUT_OF_VALUE },
@@ -100,7 +100,7 @@ const joinWorkspace = async ({ userId, workspaceId }: WorkspaceType) => {
   }
   return {
     code: statusCode.BAD_REQUEST,
-    json: { success: true, message: resMessage.DUPLICATE_VALUE_ERROR },
+    json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
   }
 }
 
