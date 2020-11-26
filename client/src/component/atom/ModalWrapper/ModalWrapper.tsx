@@ -43,7 +43,7 @@ const defaultStyle: ModalWrapperType.StyleAttributes = {
 }
 
 const StyledModalWrapper = styled.div<ModalWrapperType.StyleAttributes>`
-  position: ${({ position }) => position || 'absolute'};
+  position: ${({ position }) => position || defaultStyle.position};
   top: ${({ top }) => top};
   bottom: ${({ bottom }) => bottom};
   left: ${({ left }) => left};
@@ -51,7 +51,7 @@ const StyledModalWrapper = styled.div<ModalWrapperType.StyleAttributes>`
   height: ${({ height }) => height};
   width: ${({ width }) => width};
   padding: ${({ padding }) => padding};
-  border: ${({ border }) => border || 'none'};
+  border: ${({ border }) => border || defaultStyle.border};
   border-radius: ${({ borderRadius }) =>
     borderRadius || defaultStyle.borderRadius};
   box-shadow: ${({ boxShadow }) => boxShadow || defaultStyle.boxShadow};
