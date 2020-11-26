@@ -52,6 +52,7 @@ const buttonStyle: ButtonType.StyleAttributes = {
   padding: '2px 0px 2px 0px',
   backgroundColor: 'lightBlue',
   border: '1px solid white',
+  hoverBackgroundColor: 'lightGrey',
 }
 
 const textStyle: TextType.StyleAttributes = {
