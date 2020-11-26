@@ -6,5 +6,6 @@ const router = Router()
 router.get('/', channelController.readChannelsByUser)
 router.post('/', channelController.createChannel)
 router.get('/:channelId', channelController.readChannelThreads)
+router.post('/:channelId/join', channelController.joinChannel)
 
 export default router
