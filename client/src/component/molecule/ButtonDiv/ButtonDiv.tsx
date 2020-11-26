@@ -8,15 +8,15 @@ const ButtonDiv = ({
   textStyle,
   children,
   onClick,
-  onMouseOver,
-  onMouseLeave,
+  onMouseEnter,
+  onMouseOut,
 }: ButtonDivProps) => {
   return (
     <A.Button
       customStyle={buttonStyle}
       onClick={onClick}
-      onMouseOver={onMouseOver}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseOut={onMouseOut}
     >
       <A.Text customStyle={textStyle}>{children}</A.Text>
     </A.Button>
