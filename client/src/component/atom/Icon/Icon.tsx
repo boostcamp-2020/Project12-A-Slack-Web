@@ -1,7 +1,8 @@
 import React from 'react'
+import styled from 'styled-components'
+import color from '@constant/color'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconType } from '.'
-import Styled from './Icon.style'
 
 const Icon = ({
   icon,
@@ -9,7 +10,7 @@ const Icon = ({
   onClick,
 }: IconType.Props) => {
   return (
-    <Styled.StyledIconContainer
+    <StyledIcon
       margin={customStyle.margin}
       padding={customStyle.padding}
       fontSize={customStyle.fontSize || '1rem'}
@@ -22,7 +23,7 @@ const Icon = ({
       onClick={onClick}
     >
       <FontAwesomeIcon icon={icon} color={customStyle.color} />
-    </Styled.StyledIconContainer>
+    </StyledIcon>
   )
 }
 
@@ -37,5 +38,18 @@ const defaultStyle: IconType.StyleAttributes = {
   hover: false,
   hoverColor: '#ffffff',
 }
+
+const StyledIcon = styled.span<IconType.StyleAttributes>`
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight};
+  cursor: ${({ cursor }) => cursor};
+  &:hover {
+    background-color: ${({ hover, hoverColor }) =>
+      hover && color.get(hoverColor)};
+  }
+  display: ${({ display }) => display};
+`
 
 export default Icon

@@ -10,6 +10,7 @@ import myAxios from '@util/myAxios'
 import LoginPage from '@page/User/LoginPage'
 import WorkspacePage from '@page/Workspace/WorkspacePage'
 import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
+import O from '@organism'
 
 const App = () => {
   const token = localStorage.getItem('token')
@@ -60,6 +61,7 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
+      <O.Header />
       <Router>
         <Switch>
           <Route exact path="/" component={WorkspacePage} />
