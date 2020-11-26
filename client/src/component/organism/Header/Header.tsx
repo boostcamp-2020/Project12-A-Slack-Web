@@ -6,18 +6,89 @@ import M from '@molecule'
 
 const Header = () => {
   const [modal, setModal] = useState<boolean>(false)
+  const [profile, setProfile] = useState<boolean>(false)
+  const [toggle, setToggle] = useState<boolean>(false)
+  const [menu, setMenu] = useState<boolean>(false)
+
   const handleSearchBarClick = () => {
     setModal(!modal)
   }
   const handleProfileClick = () => {
-    alert('Profile clicked!')
+    setProfile(!profile)
   }
+  const handleProfileStatusHover = () => {
+    setToggle(!toggle)
+  }
+
   return (
     <>
       <StyledHeaderContainer>
         <M.HeaderInput onClick={handleSearchBarClick} />
         <A.Image customStyle={headerImageStyle} onClick={handleProfileClick} />
       </StyledHeaderContainer>
+      {profile ? (
+        <M.Modal
+          overlayStyle={HeaderInputOverlay}
+          modalWrapperStyle={ProfileModal}
+          disableCloseButton
+          onClose={handleProfileClick}
+        >
+          <>
+            <ProfileModalContainerFirst>
+              <A.Image
+                customStyle={profileHeaderImageStyle}
+                onClick={handleProfileClick}
+              />
+              <ProfileInContainer>
+                <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
+                <A.Text customStyle={profileActiveText}>● Active</A.Text>
+              </ProfileInContainer>
+            </ProfileModalContainerFirst>
+            <ProfileModalContainerSecond>
+              <M.ButtonDiv
+                buttonStyle={profileStatusButtonStyle}
+                textStyle={profileStatusTextSttyle}
+                onMouseEnter={handleProfileStatusHover}
+              >
+                <>
+                  {toggle ? (
+                    <A.Icon
+                      icon={myIcon.toggleSmile}
+                      customStyle={profileStatusToggleIconStyle}
+                    />
+                  ) : (
+                    <A.Icon
+                      icon={myIcon.smile}
+                      customStyle={profileStatusIconStyle}
+                    />
+                  )}
+                  Update your status
+                </>
+              </M.ButtonDiv>
+            </ProfileModalContainerSecond>
+            <ProfileModalContainerThird>
+              <M.ButtonDiv
+                buttonStyle={profileMenuButtonStyle}
+                textStyle={profileMenuTextStyle}
+              >
+                View Profile
+              </M.ButtonDiv>
+              <M.ButtonDiv
+                buttonStyle={profileMenuButtonStyle}
+                textStyle={profileMenuTextStyle}
+              >
+                Set Profile
+              </M.ButtonDiv>
+              <M.ButtonDiv
+                buttonStyle={profileMenuButtonStyle}
+                textStyle={profileMenuTextStyle}
+              >
+                Preferences
+              </M.ButtonDiv>
+            </ProfileModalContainerThird>
+          </>
+        </M.Modal>
+      ) : null}
       {modal ? (
         <M.Modal
           overlayStyle={HeaderInputOverlay}
@@ -93,6 +164,73 @@ const Header = () => {
   )
 }
 
+const profileMenuButtonStyle = {
+  width: '250px',
+  padding: '10px',
+  backgroundColor: 'white',
+  hoverBackgroundColor: 'blue',
+}
+
+const profileMenuTextStyle = {}
+
+const profileStatusIconStyle = {
+  color: 'grey',
+  fontSize: '17px;',
+  margin: '0px 10px 0px 0px',
+}
+
+const profileStatusToggleIconStyle = {
+  color: 'black',
+  fontSize: '17px;',
+  margin: '0px 10px 0px 0px',
+}
+
+const profileStatusButtonStyle = {
+  width: '230px',
+  padding: '10px',
+  height: '30px',
+  backgroundColor: 'white',
+  border: '1px solid lightGrey',
+}
+
+const profileStatusTextSttyle = {
+  color: 'darkGrey',
+  fontSize: '14px',
+}
+
+const profileNameText = {
+  color: 'black',
+  fontSize: '1.4rem',
+}
+
+const profileActiveText = {
+  color: 'black',
+  fontSize: '1.4rem',
+}
+
+const ProfileModalContainerFirst = styled.div`
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+`
+
+const ProfileInContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+`
+
+const ProfileModalContainerSecond = styled.div`
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const ProfileModalContainerThird = styled.div`
+  border-bottom: 1px solid lightgrey;
+`
+
 const StyledHeaderContainer = styled.div`
   background-color: #1f57e7;
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
@@ -157,7 +295,7 @@ const modalButtonStyle = {
 
 const modalTextStyle = {
   color: 'black',
-  fontSize: '1.2rem',
+  fontSize: '1.4rem',
 }
 
 const headerImageStyle = {
@@ -166,6 +304,13 @@ const headerImageStyle = {
   width: '2.5rem',
   radius: '4px',
   cursor: 'pointer',
+}
+
+const profileHeaderImageStyle = {
+  margin: '0px 10px 0px 0px',
+  height: '3rem',
+  width: '3rem',
+  radius: '4px',
 }
 
 const HeaderInputOverlay = {
@@ -185,6 +330,21 @@ const HeaderInputModal = {
   border: '1px solid lightgrey',
   borderRadius: '10px',
   boxShadow: '0px 7px 18px 0px #EBEBEB',
+}
+
+const ProfileModal = {
+  zIndex: '2',
+  position: 'absolute',
+  top: '30px',
+  bottom: 'auto',
+  left: 'auto',
+  right: '10px',
+  height: '350px',
+  width: '250px',
+  border: '1px solid lightgrey',
+  borderRadius: '10px',
+  boxShadow: '0px 7px 18px 0px #EBEBEB',
+  backgroundColor: 'middleWhite',
 }
 
 export default Header
