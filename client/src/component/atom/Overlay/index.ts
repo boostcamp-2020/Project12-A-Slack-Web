@@ -1,4 +1,4 @@
-export { default } from '.'
+export { default } from './Overlay'
 
 export namespace OverlayType {
   export interface StyleAttributes extends Object {
