@@ -11,11 +11,11 @@ const Text = ({
   <StyledText
     margin={customStyle.margin}
     padding={customStyle.padding}
-    color={customStyle.color || '#000000'}
-    fontSize={customStyle.fontSize || '1rem'}
-    fontWeight={customStyle.fontWeight || 'inherit'}
-    display={customStyle.display || 'inline'}
-    hover={customStyle.hover || false}
+    color={customStyle.color}
+    fontSize={customStyle.fontSize}
+    fontWeight={customStyle.fontWeight}
+    display={customStyle.display}
+    hover={customStyle.hover}
     onClick={onClick}
   >
     {children}
@@ -27,6 +27,7 @@ const defaultStyle: TextType.StyleAttributes = {
   padding: '0',
   color: '#000000',
   fontSize: '1rem',
+  fontWeight: 'inherit',
   cursor: 'pointer',
   align: 'center',
   display: 'inline',
@@ -36,14 +37,14 @@ const defaultStyle: TextType.StyleAttributes = {
 const StyledText = styled.p<TextType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
-  color: ${({ color }) => colors.get(color)};
-  font-size: ${({ fontSize }) => fontSize};
-  font-weight: ${({ fontWeight }) => fontWeight};
+  color: ${({ color }) => (color ? colors.get(color) : defaultStyle.color)};
+  font-size: ${({ fontSize }) => fontSize || defaultStyle.fontSize};
+  font-weight: ${({ fontWeight }) => fontWeight || defaultStyle.fontWeight};
   cursor: ${({ cursor }) => cursor};
   &:hover {
     color: ${({ hover }) => hover && colors.get('blue')};
   }
-  display: ${({ display }) => display};
+  display: ${({ display }) => display || defaultStyle.display};
 `
 
 export default Text
