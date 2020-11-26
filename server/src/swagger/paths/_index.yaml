@@ -1,6 +1,22 @@
-/api/user:
+/api/user/status:
   $ref: './user.yaml'
+/api/workspace:
+  $ref: './workspace.yaml'
+/api/workspace/join:
+  $ref: './workspace-join.yaml'
+/api/workspace/{workspaceId}/userlist:
+  $ref: './workspace-userlist.yaml'
+/api/channel:
+  $ref: './channel.yaml'
+/api/channel/{channelId}:
+  $ref: './channel-info.yaml'
+/api/channel/{channelId}/join:
+  $ref: './channel-join.yaml'
 /api/thread:
   $ref: './thread.yaml'
-/api/message/{id}:
+/api/message:
   $ref: './message.yaml'
+/api/reaction:
+  $ref: './reaction.yaml'
+/api/file:
+  $ref: './file.yaml'

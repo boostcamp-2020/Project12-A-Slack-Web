@@ -1,0 +1,55 @@
+get:
+  summary: 로그인한 User가 속한 Channel들을 가지고온다.
+  security:
+    - BearerAuth: []
+  responses:
+    '201':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+    '400':
+      description: BadRequest
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
+
+post:
+  summary: channel create api
+  security:
+    - BearerAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            type:
+              type: string
+            workspaceId:
+              type: number
+  responses:
+    '201':
+      description: channel 생성 성공
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      description: BadRequest, parameter가 잘못됨.
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

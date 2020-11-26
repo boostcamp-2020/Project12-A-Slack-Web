@@ -1,5 +1,5 @@
 post:
-  summary: message create api
+  summary: workspace join api
   security:
     - BearerAuth: []
   requestBody:
@@ -8,13 +8,13 @@ post:
         schema:
           type: object
           properties:
-            threadId:
+            workspaceId:
               type: number
-            content:
-              type: string
+              description: workspace id
+
   responses:
     '201':
-      description: OK
+      description: workspace join 성공
       content:
         application/json:
           schema:
@@ -22,6 +22,8 @@ post:
             properties:
               success:
                 type: boolean
+    '400':
+      description: BadRequest, 이미 로그인한 유저는 해당 workspace에 포함되어 있음
     '500':
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':
