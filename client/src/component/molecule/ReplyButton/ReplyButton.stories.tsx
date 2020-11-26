@@ -2,7 +2,7 @@ import React from 'react'
 import ReplyButton from '.'
 
 export default {
-  title: 'Organism/ReplyButton',
+  title: 'Molecule/ReplyButton',
   component: ReplyButton,
 }
 
