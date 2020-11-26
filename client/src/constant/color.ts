@@ -10,6 +10,8 @@ color.set('blue', '#0368d6')
 color.set('lightBlue', '#2b89ff')
 color.set('sky', '#f1f8ff')
 color.set('linkBlue', '#1264a3')
+color.set('aliceBlue', '#F0F8FF')
+color.set('lightSkyBlue', '#87CEFA')
 
 // grey
 color.set('darkGrey', '#808080')
@@ -30,5 +32,8 @@ color.set('black', '#000000')
 
 // ivory
 color.set('ivory', '#f3f4f6')
+
+// cyan
+color.set('LightCyan', '#E0FFFF')
 
 export default color
