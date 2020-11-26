@@ -152,7 +152,12 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
 }
 
 const joinChannel = async ({ userId, channelId }: ChannelType) => {
-  if (channelId < 0 || typeof channelId !== 'number') {
+  if (
+    userId < 0 ||
+    typeof userId !== 'number' ||
+    channelId < 0 ||
+    typeof channelId !== 'number'
+  ) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: true, message: resMessage.OUT_OF_VALUE },
