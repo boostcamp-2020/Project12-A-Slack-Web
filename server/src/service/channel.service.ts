@@ -26,16 +26,24 @@ const isValidNewChannelData = ({ name, type, workspaceId }: ChannelType) => {
   return true
 }
 
-const createChannel = async (data: ChannelType) => {
-  if (!isValidNewChannelData(data)) {
+const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
+  if (!isValidNewChannelData({ name, type, workspaceId })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: true, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {
-    //  TODO: 중복 채널 가능?
-    await ChannelModel.create({ ...data })
+    const currentChannel = await ChannelModel.findOne({
+      where: { name, workspaceId },
+    })
+    if (currentChannel) {
+      return {
+        code: statusCode.BAD_REQUEST,
+        json: { success: true, message: resMessage.DUPLICATE_VALUE_ERROR },
+      }
+    }
+    await ChannelModel.create({ name, type, workspaceId })
     return {
       code: statusCode.CREATED,
       json: {
@@ -131,6 +139,11 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
             },
           ],
           attributes: ['id', 'createdAt', 'updatedAt'],
+        },
+        {
+          model: UserModel,
+          as: 'user',
+          attributes: ['id', 'email', 'name', 'profileImageUrl'],
         },
       ],
       attributes: ['id', 'type', 'createdAt', 'updatedAt'],
