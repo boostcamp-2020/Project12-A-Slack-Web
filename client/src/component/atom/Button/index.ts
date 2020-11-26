@@ -24,5 +24,7 @@ export namespace ButtonType {
     customStyle?: StyleAttributes
     children?: ReactChild
     onClick?: () => void
+    onMouseOver?: () => void
+    onMouseLeave?: () => void
   }
 }

@@ -7,6 +7,8 @@ const Button = ({
   customStyle = defaultStyle,
   children,
   onClick,
+  onMouseOver,
+  onMouseLeave,
 }: ButtonType.Props) => {
   return (
     <StyledButton
@@ -26,6 +28,8 @@ const Button = ({
       left={customStyle.left}
       right={customStyle.right}
       onClick={onClick}
+      onMouseOver={onMouseOver}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </StyledButton>
