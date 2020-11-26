@@ -12,12 +12,16 @@ export namespace ButtonType {
     backgroundColor?: string
     disabled?: boolean
     hoverBackgroundColor?: string
+    hoverColor?: string
     zIndex?: string
     position?: string
     top?: string
     bottom?: string
     right?: string
     left?: string
+    display?: string
+    justifyContent?: string
+    alignItems?: string
   }
 
   export interface Props {
