@@ -34,6 +34,7 @@ const createChannel = async (data: ChannelType) => {
     }
   }
   try {
+    //  TODO: 중복 채널 가능?
     await ChannelModel.create({ ...data })
     return {
       code: statusCode.CREATED,
@@ -50,6 +51,12 @@ const createChannel = async (data: ChannelType) => {
 }
 
 const readChannelsByUser = async ({ userId }: ChannelType) => {
+  if (userId < 0 || typeof userId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: true, message: resMessage.OUT_OF_VALUE },
+    }
+  }
   try {
     const channels = await ChannelModel.findAll({
       include: [
@@ -88,6 +95,12 @@ interface ChannelInstance extends ChannelModel {
 }
 
 const readChannelThreads = async ({ channelId }: ChannelType) => {
+  if (channelId < 0 || typeof channelId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: true, message: resMessage.OUT_OF_VALUE },
+    }
+  }
   try {
     const threads = (await ChannelModel.findOne({
       include: [
@@ -139,32 +152,45 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
 }
 
 const joinChannel = async ({ userId, channelId }: ChannelType) => {
-  const targetChannel = (await ChannelModel.findOne({
-    include: [{ model: UserModel, as: 'user' }],
-    where: { id: channelId },
-  })) as ChannelInstance
+  if (channelId < 0 || typeof channelId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: true, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const targetChannel = (await ChannelModel.findOne({
+      include: [{ model: UserModel, as: 'user' }],
+      where: { id: channelId },
+    })) as ChannelInstance
 
-  if (!targetChannel) {
+    if (!targetChannel) {
+      return {
+        code: statusCode.DB_ERROR,
+        json: { success: false, message: resMessage.DB_ERROR },
+      }
+    }
+
+    const currentUsers = targetChannel.user.map((user) => user.id)
+
+    if (!currentUsers.includes(userId)) {
+      await targetChannel.addUser(userId)
+      return {
+        code: statusCode.CREATED,
+        json: {
+          success: true,
+        },
+      }
+    }
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+    }
+  } catch (error) {
     return {
       code: statusCode.DB_ERROR,
       json: { success: false, message: resMessage.DB_ERROR },
     }
-  }
-
-  const currentUsers = targetChannel.user.map((user) => user.id)
-
-  if (!currentUsers.includes(userId)) {
-    await targetChannel.addUser(userId)
-    return {
-      code: statusCode.CREATED,
-      json: {
-        success: true,
-      },
-    }
-  }
-  return {
-    code: statusCode.BAD_REQUEST,
-    json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
   }
 }
 
