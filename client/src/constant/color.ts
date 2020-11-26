@@ -35,5 +35,6 @@ color.set('ivory', '#f3f4f6')
 
 // cyan
 color.set('LightCyan', '#E0FFFF')
+color.set('yellow', '#FFFF00')
 
 export default color
