@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Message extends Model {
   public readonly id: number
@@ -43,25 +42,5 @@ Message.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Message.belongsTo(db.User, { foreignKey: 'userId' })
-
-  db.Message.hasMany(db.Reaction, {
-    foreignKey: 'messageId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-
-  db.Message.belongsTo(db.Thread, { foreignKey: 'threadId' })
-
-  db.Message.hasMany(db.File, {
-    foreignKey: 'messageId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-}
 
 export default Message

@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Workspace extends Model {
   public readonly id: number
@@ -37,27 +36,5 @@ Workspace.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Workspace.belongsToMany(db.User, {
-    as: 'user',
-    through: 'userWorkspace',
-    foreignKey: 'workspaceId',
-  })
-
-  db.Workspace.hasMany(db.Channel, {
-    sourceKey: 'id',
-    foreignKey: 'workspaceId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-
-  db.Workspace.hasMany(db.Section, {
-    sourceKey: 'id',
-    foreignKey: 'workspaceId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-}
 
 export default Workspace
