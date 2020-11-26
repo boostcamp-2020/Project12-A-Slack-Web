@@ -15,7 +15,7 @@ const ActionBar = ({
   onDeleteButtonClick,
   onEditButtonClick,
 }: ActionBarProps) => {
-  const [modalVisible, setModalVisible] = useState(false)
+  const [actionsMenuVisible, setActionsMenuVisible] = useState(false)
 
   const handleAddReactionButtonClick = (): void => {
     alert(`Open Reaction Select Modal, targetId=${targetId}`)
@@ -23,8 +23,8 @@ const ActionBar = ({
   const handleReplyButtonClick = (): void => {
     alert(`Open Thread Detail, targetId=${targetId}`)
   }
-  const handleMoreActionsButtonClick = () => setModalVisible(true)
-  const handleModalClose = () => setModalVisible(false)
+  const handleMoreActionsButtonClick = () => setActionsMenuVisible(true)
+  const handleModalClose = () => setActionsMenuVisible(false)
 
   return (
     <Styled.Container>
@@ -49,7 +49,7 @@ const ActionBar = ({
           </A.Button>
         )}
       </Styled.ButtonWrapper>
-      {modalVisible && (
+      {actionsMenuVisible && (
         <O.MessageActionsMenu
           targetId={targetId}
           modalAttributes={{ position: 'absolute', left: '105%', top: '0' }}
