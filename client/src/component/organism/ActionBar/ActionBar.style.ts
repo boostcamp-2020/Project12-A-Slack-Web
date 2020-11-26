@@ -3,8 +3,9 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: inline-block;
   border: 1px solid lightgrey;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
+  position: relative;
 `
 
 const ButtonWrapper = styled.div`

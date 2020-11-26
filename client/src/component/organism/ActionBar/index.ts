@@ -5,7 +5,6 @@ export interface ActionBarProps {
   targetId: number
   targetAuthorId: number
   loginUserId: number
-  onReactionClick?: () => void
-  onReplyButtonClick?: () => void
-  onMoreActionsButtonClick?: () => void
+  onDeleteButtonClick: () => void
+  onEditButtonClick: () => void
 }
