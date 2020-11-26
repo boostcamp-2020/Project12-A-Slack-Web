@@ -6,22 +6,19 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "noImplicitAny": true,
-    "typeRoots": [ "./node_modules/@types","./@types" ],
+    "typeRoots": ["./node_modules/@types", "./@types"],
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "./build",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "node_modules/*",
-        "@types/*"
-      ], 
+      "*": ["node_modules/*", "@types/*"],
       "custom-module-type": ["@types/*"],
       "@controller/*": ["src/controller/*"],
       "@model/*": ["src/model/*"],
       "@service/*": ["src/service/*"],
       "@middleware/*": ["src/middleware/*"],
       "@util/*": ["src/util/*"]
-    },
-  },
+    }
+  }
 }
