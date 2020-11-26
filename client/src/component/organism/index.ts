@@ -1,4 +1,5 @@
-import MessageCard from './MessageCard'
 import Header from './Header'
+import MessageCard from './MessageCard'
+import MessageEditor from './MessageEditor'
 
-export default { MessageCard, Header }
+export default { Header, MessageCard, MessageEditor }
