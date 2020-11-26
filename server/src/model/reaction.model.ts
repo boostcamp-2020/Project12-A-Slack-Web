@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Reaction extends Model {
   public readonly id: number
@@ -36,11 +35,5 @@ Reaction.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Reaction.belongsTo(db.Message, { foreignKey: 'messageId' })
-
-  db.Reaction.belongsTo(db.User, { foreignKey: 'userId' })
-}
 
 export default Reaction

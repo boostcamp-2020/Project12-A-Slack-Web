@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Section extends Model {
   public readonly id: number
@@ -36,18 +35,5 @@ Section.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Section.hasMany(db.UserChannelSection, {
-    foreignKey: 'sectionId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-
-  db.Section.belongsTo(db.User, { foreignKey: 'userId' })
-
-  db.Section.belongsTo(db.Workspace, { foreignKey: 'workspaceId' })
-}
 
 export default Section
