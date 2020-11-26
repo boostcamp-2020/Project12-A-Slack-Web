@@ -1,6 +1,7 @@
 import React from 'react'
+import styled from 'styled-components'
+import color from '@constant/color'
 import { ButtonType } from '.'
-import Styled from './Button.style'
 
 const Button = ({
   customStyle = defaultStyle,
@@ -8,7 +9,7 @@ const Button = ({
   onClick,
 }: ButtonType.Props) => {
   return (
-    <Styled.Button
+    <StyledButton
       height={customStyle.height}
       width={customStyle.width}
       margin={customStyle.margin}
@@ -16,7 +17,7 @@ const Button = ({
       border={customStyle.border || '0px solid #000000'}
       borderRadius={customStyle.borderRadius || '5px'}
       backgroundColor={customStyle.backgroundColor}
-      hoverBackgroungColor={customStyle.hoverBackgroungColor || 'greyHover'}
+      hoverBackgroundColor={customStyle.hoverBackgroundColor || 'greyHover'}
       disabled={customStyle.disabled}
       zIndex={customStyle.zIndex}
       position={customStyle.position}
@@ -27,7 +28,7 @@ const Button = ({
       onClick={onClick}
     >
       {children}
-    </Styled.Button>
+    </StyledButton>
   )
 }
 
@@ -38,8 +39,38 @@ const defaultStyle: ButtonType.StyleAttributes = {
   borderRadius: '5px',
   border: '0px solid #000000',
   backgroundColor: 'grey',
-  hoverBackgroungColor: 'greyHover',
+  hoverBackgroundColor: 'greyHover',
   disabled: false,
 }
+
+const StyledButton = styled.button<ButtonType.StyleAttributes>`
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: ${({ height }) => height};
+  width: ${({ width }) => width};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  border: ${({ border }) => border};
+  background: ${({ backgroundColor }) =>
+    backgroundColor ? color.get(backgroundColor) : 'none'};
+  ${({ disabled, hoverBackgroundColor }) =>
+    disabled
+      ? ''
+      : `&:hover {
+    background: ${
+      hoverBackgroundColor ? color.get(hoverBackgroundColor) : 'none'
+    };
+  }`};
+  opacity: ${({ disabled }) => (disabled ? '0.7' : '')};
+  z-index: ${({ zIndex }) => zIndex};
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  left: ${({ left }) => left};
+`
 
 export default Button

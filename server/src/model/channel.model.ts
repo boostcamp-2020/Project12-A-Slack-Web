@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Channel extends Model {
   public readonly id: number
@@ -42,21 +41,5 @@ Channel.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Channel.belongsToMany(db.User, {
-    as: 'user',
-    through: db.UserChannelSection,
-  })
-
-  db.Channel.belongsTo(db.Workspace, { foreignKey: 'workspaceId' })
-
-  db.Channel.hasMany(db.Thread, {
-    sourceKey: 'id',
-    foreignKey: 'channelId',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-}
 
 export default Channel

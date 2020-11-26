@@ -1,22 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-namespace ImageType {
-  export interface StyleAttributes extends Object {
-    width?: string
-    height?: string
-    margin?: string
-    padding?: string
-    radius?: string
-    cursor?: string
-  }
-
-  export interface Props {
-    customStyle?: StyleAttributes
-    url?: string
-    onClick?: () => void
-  }
-}
+import { ImageType } from '.'
 
 function Image({
   customStyle = defaultStyle,

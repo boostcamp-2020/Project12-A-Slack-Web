@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class File extends Model {
   public readonly id: number
@@ -42,9 +41,5 @@ File.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.File.belongsTo(db.Message, { foreignKey: 'messageId' })
-}
 
 export default File

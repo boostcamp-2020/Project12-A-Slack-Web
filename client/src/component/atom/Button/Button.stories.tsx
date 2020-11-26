@@ -35,7 +35,7 @@ export const styledButton = () => {
         borderRadius: '50%',
         border: '1px solid green',
         backgroundColor: 'white',
-        hoverBackgroungColor: 'grey',
+        hoverBackgroundColor: 'grey',
       }}
     />
   )
