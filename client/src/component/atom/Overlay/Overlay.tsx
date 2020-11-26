@@ -26,9 +26,9 @@ const StyledOverlay = styled.div<OverlayType.StyleAttributes>`
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: ${({ zIndex }) => zIndex || '1'};
+  z-index: ${({ zIndex }) => zIndex || defaultStyle.zIndex};
   background-color: grey;
-  opacity: ${({ opacity }) => opacity || '0'};
+  opacity: ${({ opacity }) => opacity || defaultStyle.opacity};
   display: ${({ hidden }) => (hidden ? 'none' : 'block')};
 `
 
