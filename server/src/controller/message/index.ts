@@ -3,6 +3,6 @@ import messageController from './message.controller'
 
 const router = Router()
 
-router.post('/:id', messageController.createMessage)
+router.post('/', messageController.createMessage)
 
 export default router
