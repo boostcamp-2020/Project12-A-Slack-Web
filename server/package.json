@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "prestart": "npm run api-docs",
     "start": "tsc && node build/app.js",
     "start:dev": "nodemon --exec ts-node -r tsconfig-paths/register --files src/app.ts",
     "dev": "concurrently \"npm run start:dev\" \"npm run dev --prefix ../client\"",

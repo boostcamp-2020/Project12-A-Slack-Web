@@ -9,6 +9,7 @@ color.set('whiteHover', '#f6f8fa')
 color.set('blue', '#0368d6')
 color.set('lightBlue', '#2b89ff')
 color.set('sky', '#f1f8ff')
+color.set('linkBlue', '#1264a3')
 
 // grey
 color.set('darkGrey', '#808080')
