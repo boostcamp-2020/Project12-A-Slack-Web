@@ -8,8 +8,8 @@ const createMessage = async (
 ) => {
   try {
     const { code, json } = await messageService.createMessage({
-      userId: req.user.id,
-      threadId: req.body.threadId,
+      userId: +req.user.id,
+      threadId: +req.body.threadId,
       content: req.body.content,
     })
     return res.status(code).json(json)
