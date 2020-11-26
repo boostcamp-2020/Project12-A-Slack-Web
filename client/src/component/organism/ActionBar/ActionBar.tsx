@@ -16,15 +16,17 @@ const ActionBar = ({
   onEditButtonClick,
 }: ActionBarProps) => {
   const [actionsMenuVisible, setActionsMenuVisible] = useState(false)
+  const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
 
-  const handleAddReactionButtonClick = (): void => {
-    alert(`Open Reaction Select Modal, targetId=${targetId}`)
-  }
+  const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
+  const handleReactionPickerClose = () => setReactionPickerVisible(false)
+
   const handleReplyButtonClick = (): void => {
     alert(`Open Thread Detail, targetId=${targetId}`)
   }
+
   const handleMoreActionsButtonClick = () => setActionsMenuVisible(true)
-  const handleModalClose = () => setActionsMenuVisible(false)
+  const handleActionsMenuClose = () => setActionsMenuVisible(false)
 
   return (
     <Styled.Container>
@@ -55,7 +57,14 @@ const ActionBar = ({
           modalAttributes={{ position: 'absolute', left: '105%', top: '0' }}
           onDeleteButtonClick={onDeleteButtonClick}
           onEditButtonClick={onEditButtonClick}
-          onClose={handleModalClose}
+          onClose={handleActionsMenuClose}
+        />
+      )}
+      {reactionPickerVisible && (
+        <O.ReactionPicker
+          targetId={targetId}
+          modalAttributes={{ position: 'absolute', left: '0', top: '105%' }}
+          onClose={handleReactionPickerClose}
         />
       )}
     </Styled.Container>
