@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import colors from '@constant/color'
 import { ModalWrapperType } from '.'
 
 const ModalWrapper = ({
@@ -20,6 +21,7 @@ const ModalWrapper = ({
     border={customStyle.border}
     borderRadius={customStyle.borderRadius}
     boxShadow={customStyle.boxShadow}
+    backgroundColor={customStyle.backgroundColor}
     hidden={hidden}
   >
     {children}
@@ -50,10 +52,12 @@ const StyledModalWrapper = styled.div<ModalWrapperType.StyleAttributes>`
   width: ${({ width }) => width};
   padding: ${({ padding }) => padding};
   border: ${({ border }) => border || 'none'};
-  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
-  box-shadow: ${({ boxShadow }) => boxShadow || '0px 6px 20px 0px #EBEBEB'};
-  z-index: ${({ zIndex }) => zIndex || '2'};
-  background-color: white;
+  border-radius: ${({ borderRadius }) =>
+    borderRadius || defaultStyle.borderRadius};
+  box-shadow: ${({ boxShadow }) => boxShadow || defaultStyle.boxShadow};
+  background-color: ${({ backgroundColor }) =>
+    backgroundColor ? colors.get(backgroundColor) : ''};
+  z-index: ${({ zIndex }) => zIndex || defaultStyle.zIndex};
   overflow: auto;
   display: ${({ hidden }) => (hidden ? 'none' : 'block')};
 `

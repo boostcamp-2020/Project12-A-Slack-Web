@@ -17,7 +17,11 @@ modalWrapper.story = {
 export const styledModalWrapper = () => {
   return (
     <ModalWrapper
-      customStyle={{ padding: '10px', border: '2px solid #000000' }}
+      customStyle={{
+        padding: '10px',
+        border: '1px solid #000000',
+        backgroundColor: 'red',
+      }}
     >
       Styled Modal Wrapper inner content
     </ModalWrapper>
