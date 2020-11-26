@@ -7,4 +7,5 @@ export interface MessageActionsMenuProps {
   modalAttributes?: ModalWrapperType.StyleAttributes
   onDeleteButtonClick: () => void
   onEditButtonClick: () => void
+  onClose?: () => void
 }

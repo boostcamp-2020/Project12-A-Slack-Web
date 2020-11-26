@@ -8,11 +8,13 @@ const MessageActionsMenu = ({
   modalAttributes,
   onDeleteButtonClick,
   onEditButtonClick,
+  onClose,
 }: MessageActionsMenuProps) => {
   return (
     <M.Modal
       modalWrapperStyle={{ ...modalWrapperStyle, ...modalAttributes }}
       disableCloseButton
+      onClose={onClose}
     >
       <>
         <M.ActionMenuButton type="PLAIN" onClick={onEditButtonClick}>
