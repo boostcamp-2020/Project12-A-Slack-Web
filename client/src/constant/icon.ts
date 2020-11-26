@@ -7,6 +7,8 @@ import {
   faClone,
   faListAlt,
   faUserFriends,
+  faSmile,
+  faGrinSquint,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -18,6 +20,8 @@ const myIcon = {
   file: faClone,
   channels: faListAlt,
   people: faUserFriends,
+  smile: faSmile,
+  toggleSmile: faGrinSquint,
 }
 
 export default myIcon
