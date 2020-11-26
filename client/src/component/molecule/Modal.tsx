@@ -36,7 +36,7 @@ const Modal = ({
         top: '3px',
         right: '3px',
         zIndex: '10',
-        hoverBackgroungColor: 'grey',
+        hoverBackgroundColor: 'grey',
         border: 'none',
       }}
       onClick={handleModalClose}

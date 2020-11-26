@@ -1,7 +1,6 @@
 import { ReactChild } from 'react'
 
 export { default } from './Button'
-
 export namespace ButtonType {
   export interface StyleAttributes extends Object {
     height?: string
@@ -12,7 +11,7 @@ export namespace ButtonType {
     borderRadius?: string
     backgroundColor?: string
     disabled?: boolean
-    hoverBackgroungColor?: string
+    hoverBackgroundColor?: string
     zIndex?: string
     position?: string
     top?: string
