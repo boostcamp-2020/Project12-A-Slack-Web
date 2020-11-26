@@ -17,6 +17,6 @@ router.use('/channel', channelRouter)
 router.use('/thread', threadRouter)
 router.use('/message', messageRouter)
 router.use('/reaction', reactionRouter)
-router.use('file', fileRouter)
+router.use('/file', fileRouter)
 
 export default router

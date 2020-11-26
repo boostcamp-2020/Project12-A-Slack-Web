@@ -21,7 +21,7 @@ const createWorkspace = async ({ name, imageUrl }: WorkspaceType) => {
   if (!isValidNewWorkspaceData({ name, imageUrl })) {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
 
@@ -125,7 +125,7 @@ const readWorkspaceUsers = async ({ workspaceId }: WorkspaceType) => {
       attributes: ['id', 'email', 'profileImageUrl'],
     })
     return {
-      code: statusCode.CREATED,
+      code: statusCode.OK,
       json: {
         success: true,
         data: userList,
