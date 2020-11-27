@@ -11,6 +11,7 @@ const createThread = async (
       userId: req.user.id,
       channelId: req.body.channelId,
       content: req.body.content,
+      fileInfoList: req.body.fileInfoList,
     })
     return res.status(code).json(json)
   } catch (error) {

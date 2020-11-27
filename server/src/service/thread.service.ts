@@ -1,15 +1,27 @@
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
+import FileModel from '@model/file.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
+
+interface FileInfo extends Object {
+  filePath: string
+  type: string
+}
 
 interface NewThreadData {
   userId: number
   channelId: number
   content: string
+  fileInfoList?: FileInfo[]
 }
 
-const createThread = async ({ userId, channelId, content }: NewThreadData) => {
+const createThread = async ({
+  userId,
+  channelId,
+  content,
+  fileInfoList,
+}: NewThreadData) => {
   const t = await sequelize.transaction()
   try {
     const newThread = await ThreadModel.create(
@@ -19,7 +31,7 @@ const createThread = async ({ userId, channelId, content }: NewThreadData) => {
       },
       { transaction: t },
     )
-    await MessageModel.create(
+    const newMessage = await MessageModel.create(
       {
         content,
         isHead: true,
@@ -28,6 +40,14 @@ const createThread = async ({ userId, channelId, content }: NewThreadData) => {
       },
       { transaction: t },
     )
+
+    await FileModel.bulkCreate(
+      fileInfoList.map(({ filePath, type }) => {
+        return { url: filePath, type, messageId: newMessage.id }
+      }),
+      { transaction: t },
+    )
+
     await t.commit()
     return {
       code: statusCode.CREATED,
