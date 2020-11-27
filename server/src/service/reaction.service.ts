@@ -2,9 +2,9 @@ import ReactionModel from '@model/reaction.model'
 import { statusCode, resMessage } from '@util/constant'
 
 interface ReactionType {
-  content: string
-  userId: number
-  messageId: number
+  content?: string
+  userId?: number
+  messageId?: number
   reactionId?: number
 }
 
