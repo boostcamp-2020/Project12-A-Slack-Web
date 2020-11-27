@@ -15,16 +15,28 @@ export const avatar = () => {
       'https://lh6.googleusercontent.com/-tOsYv0M4ksY/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckjb6_Y0uojAO9pKSlhpsKV-ha2Zg/s96-c/photo.jpg',
   }
 
+  const handleMessageButtonClick = () => alert(`DM to ${user.name}`)
+
   return (
     <>
       <div>SMALL size & clickable</div>
-      <Avatar user={user} size="SMALL" clickable />
+      <Avatar
+        user={user}
+        size="SMALL"
+        clickable
+        onMessageButtonClick={handleMessageButtonClick}
+      />
       <hr />
       <div>MEDIUM size & clickable false</div>
       <Avatar user={user} size="MEDIUM" />
       <hr />
       <div>BIG size & clickable</div>
-      <Avatar user={user} size="BIG" clickable />
+      <Avatar
+        user={user}
+        size="BIG"
+        clickable
+        onMessageButtonClick={handleMessageButtonClick}
+      />
     </>
   )
 }

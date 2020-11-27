@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import A from '@atom'
 import O from '@organism'
-// import myIcon from '@constant/icon'
 import { ImageType } from '@atom/Image'
 import { AvatarProps } from '.'
 
 import Styled from './Avatar.style'
 
-const Avatar = ({ user, size, clickable }: AvatarProps) => {
+const Avatar = ({
+  user,
+  size,
+  clickable,
+  onMessageButtonClick,
+}: AvatarProps) => {
   const { id, email, name, profileImageUrl } = user
   const [profileModalVisible, setProfileModalVisible] = useState(false)
 
@@ -34,6 +38,14 @@ const Avatar = ({ user, size, clickable }: AvatarProps) => {
         url={profileImageUrl}
         onClick={handleAvatarClick}
       />
+      {profileModalVisible && (
+        <O.UserProfileModal
+          user={user}
+          modalAttributes={{ position: 'absolute', left: '120%', top: '0' }}
+          onMessageButtonClick={onMessageButtonClick}
+          onClose={handleProfileModalClose}
+        />
+      )}
     </Styled.Wrapper>
   )
 }
