@@ -5,6 +5,7 @@ interface ReactionType {
   content: string
   userId: number
   messageId: number
+  reactionId?: number
 }
 
 const isValidNewReactionData = ({
@@ -24,11 +25,7 @@ const isValidNewReactionData = ({
   return true
 }
 
-const createOrRemoveReaction = async ({
-  userId,
-  content,
-  messageId,
-}: ReactionType) => {
+const createReaction = async ({ userId, content, messageId }: ReactionType) => {
   if (!isValidNewReactionData({ userId, content, messageId })) {
     return {
       code: statusCode.BAD_REQUEST,
@@ -36,16 +33,6 @@ const createOrRemoveReaction = async ({
     }
   }
   try {
-    const targetReaction = await ReactionModel.findOne({
-      where: { userId, content, messageId },
-    })
-    if (targetReaction) {
-      await ReactionModel.destroy({ where: { id: targetReaction.id } })
-      return {
-        code: statusCode.OK,
-        json: { success: true },
-      }
-    }
     await ReactionModel.create({ userId, content, messageId })
     return {
       code: statusCode.CREATED,
@@ -60,4 +47,26 @@ const createOrRemoveReaction = async ({
   }
 }
 
-export default { createOrRemoveReaction }
+const deleteReaction = async ({ reactionId }: ReactionType) => {
+  if (!reactionId || typeof reactionId === 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    await ReactionModel.destroy({ where: { id: reactionId } })
+    return {
+      code: statusCode.OK,
+      json: { success: true },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
+export default { createReaction, deleteReaction }
