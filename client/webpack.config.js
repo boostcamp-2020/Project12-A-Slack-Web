@@ -33,6 +33,10 @@ module.exports = {
         use: ['babel-loader', 'ts-loader'],
         exclude: '/node_modules/',
       },
+      {
+        test: /\.(css)$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
 
@@ -46,7 +50,7 @@ module.exports = {
     compress: false,
     hot: true,
     port: 8000,
-    historyApiFallback: true
+    historyApiFallback: true,
   },
 
   plugins: [
