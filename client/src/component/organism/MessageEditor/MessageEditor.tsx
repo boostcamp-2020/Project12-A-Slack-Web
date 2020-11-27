@@ -1,6 +1,6 @@
 import React, { createRef, useEffect } from 'react'
 // import 'codemirror/lib/codemirror.css'
-import '@toast-ui/editor/dist/toastui-editor.css'
+// import '@toast-ui/editor/dist/toastui-editor.css'
 import { Editor } from '@toast-ui/react-editor'
 import Styled from './MessageEditor.style'
 
@@ -28,7 +28,7 @@ function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
 
   useEffect(() => {
     const editor = editorRef.current?.getInstance()
-    editor?.setHtml(value, true)
+    if (value) editor?.setHtml(value, true)
   }, [])
 
   return (
