@@ -32,7 +32,7 @@ const createOrRemoveReaction = async ({
   if (!isValidNewReactionData({ userId, content, messageId })) {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {

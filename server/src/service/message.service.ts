@@ -17,7 +17,7 @@ const createMessage = async ({ userId, threadId, content }: MessageType) => {
   if (!isValidNewMessageData({ userId, threadId, content }))
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   try {
     await messageModel.create({ userId, threadId, content })

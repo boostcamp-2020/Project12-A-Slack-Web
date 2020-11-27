@@ -17,7 +17,7 @@ const createFile = async ({ url, type, messageId }: FileType) => {
   if (!isValidNewFileData({ url, type, messageId })) {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {
