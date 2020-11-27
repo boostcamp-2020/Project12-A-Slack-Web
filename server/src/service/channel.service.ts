@@ -130,6 +130,12 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
                 {
                   model: ReactionModel,
                   attributes: ['id', 'content'],
+                  include: [
+                    {
+                      model: UserModel,
+                      attributes: ['id', 'email', 'name', 'profileImageUrl'],
+                    },
+                  ],
                 },
               ],
             },
