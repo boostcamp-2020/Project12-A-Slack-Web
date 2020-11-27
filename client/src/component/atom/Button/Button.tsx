@@ -17,6 +17,7 @@ const Button = ({
       border={customStyle.border}
       borderRadius={customStyle.borderRadius}
       backgroundColor={customStyle.backgroundColor}
+      hoverColor={customStyle.hoverColor}
       hoverBackgroundColor={customStyle.hoverBackgroundColor}
       disabled={customStyle.disabled}
       zIndex={customStyle.zIndex}
@@ -25,6 +26,9 @@ const Button = ({
       bottom={customStyle.bottom}
       left={customStyle.left}
       right={customStyle.right}
+      display={customStyle.display}
+      justifyContent={customStyle.justifyContent}
+      alignItems={customStyle.alignItems}
       onClick={onClick}
     >
       {children}
@@ -56,13 +60,12 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   border: ${({ border }) => border || '0px solid #000000'};
   background: ${({ backgroundColor }) =>
     backgroundColor ? color.get(backgroundColor) : 'none'};
-  ${({ disabled, hoverBackgroundColor }) =>
+  ${({ disabled, hoverBackgroundColor, hoverColor }) =>
     disabled
       ? ''
       : `&:hover {
-    background: ${
-      hoverBackgroundColor ? color.get(hoverBackgroundColor) : 'none'
-    };
+        color: ${hoverColor && color.get(hoverColor)};
+        background: ${hoverBackgroundColor && color.get(hoverBackgroundColor)};
   }`};
   opacity: ${({ disabled }) => (disabled ? '0.7' : '')};
   z-index: ${({ zIndex }) => zIndex};
@@ -71,6 +74,9 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   left: ${({ left }) => left};
+  display: ${({ display }) => display};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  align-items: ${({ alignItems }) => alignItems};
 `
 
 export default Button
