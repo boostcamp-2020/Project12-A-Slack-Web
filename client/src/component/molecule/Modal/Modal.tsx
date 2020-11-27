@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import A from '@atom'
-
+import myIcon from '@constant/icon'
+import Icon from '@atom/Icon'
 import { ModalProps } from '.'
 
 const Modal = ({
@@ -17,7 +18,6 @@ const Modal = ({
     setHidden(true)
   }
 
-  // TODO: CloseButton에 Icon 적용
   const closeButton = (
     <A.Button
       customStyle={{
@@ -31,7 +31,7 @@ const Modal = ({
       }}
       onClick={handleModalClose}
     >
-      X
+      <Icon icon={myIcon.close} />
     </A.Button>
   )
 

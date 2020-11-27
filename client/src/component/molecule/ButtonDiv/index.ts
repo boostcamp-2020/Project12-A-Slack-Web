@@ -9,4 +9,6 @@ export interface ButtonDivProps {
   textStyle?: TextType.StyleAttributes
   children?: ReactChild
   onClick?: () => void
+  onMouseEnter?: () => void
+  onMouseOut?: () => void
 }

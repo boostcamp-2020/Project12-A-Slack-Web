@@ -28,5 +28,7 @@ export namespace ButtonType {
     customStyle?: StyleAttributes
     children?: ReactChild
     onClick?: () => void
+    onMouseEnter?: () => void
+    onMouseOut?: () => void
   }
 }
