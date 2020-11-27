@@ -19,6 +19,7 @@ color.set('grey', '#d1d5da')
 color.set('greyHover', '#f5f8fa')
 color.set('textGrey', '#616061')
 color.set('lightGrey', '#e3e3e4')
+color.set('whiteGrey', '#F6F6F6')
 
 // green
 color.set('green', '#2ea44f')

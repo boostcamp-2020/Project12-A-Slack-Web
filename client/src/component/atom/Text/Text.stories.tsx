@@ -20,7 +20,7 @@ export const styledText = () => {
     <Text
       customStyle={{
         color: 'red',
-        hover: true,
+        hoverColor: 'blue',
       }}
     >
       텍스트

@@ -6,13 +6,15 @@ export namespace TextType {
   export interface StyleAttributes extends Object {
     margin?: string
     padding?: string
+    width?: string
+    height?: string
     align?: string
     fontSize?: string
     fontWeight?: string
     color?: string
-    hover?: boolean
     cursor?: string
     display?: string
+    hoverColor?: string
   }
 
   export interface Props {

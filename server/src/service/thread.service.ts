@@ -1,18 +1,42 @@
-import threadModel from '@model/thread.model'
+import ThreadModel from '@model/thread.model'
+import MessageModel from '@model/message.model'
+import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
 
-const createThread = async (body: object) => {
-  // body 값 검증
+interface NewThreadData {
+  userId: number
+  channelId: number
+  content: string
+}
+
+const createThread = async ({ userId, channelId, content }: NewThreadData) => {
+  const t = await sequelize.transaction()
   try {
-    await threadModel.create({ ...body })
+    const newThread = await ThreadModel.create(
+      {
+        userId,
+        channelId,
+      },
+      { transaction: t },
+    )
+    await MessageModel.create(
+      {
+        content,
+        isHead: true,
+        userId,
+        threadId: newThread.id,
+      },
+      { transaction: t },
+    )
+    await t.commit()
     return {
       code: statusCode.CREATED,
       json: {
         success: true,
-        // data (전달할 데이터가 있는 경우)
       },
     }
   } catch (error) {
+    await t.rollback()
     console.log(error)
     return {
       code: statusCode.DB_ERROR,
