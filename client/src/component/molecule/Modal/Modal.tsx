@@ -1,17 +1,7 @@
 import React, { useState } from 'react'
 import A from '@atom'
-import { OverlayType } from '@atom/Overlay'
-import { ModalWrapperType } from '@atom/ModalWrapper'
 
-namespace ModalType {
-  export interface Props {
-    overlayStyle?: OverlayType.StyleAttributes
-    modalWrapperStyle?: ModalWrapperType.StyleAttributes
-    children?: React.ReactChild
-    disableCloseButton?: boolean
-    onClose?: () => void
-  }
-}
+import { ModalProps } from '.'
 
 const Modal = ({
   overlayStyle,
@@ -19,10 +9,10 @@ const Modal = ({
   children,
   disableCloseButton,
   onClose,
-}: ModalType.Props) => {
+}: ModalProps) => {
   const [hidden, setHidden] = useState(false)
 
-  const handleModalClose = () => {
+  const handleModalClose = (): void => {
     if (onClose) onClose()
     setHidden(true)
   }
@@ -57,5 +47,7 @@ const Modal = ({
     </div>
   )
 }
+
+Modal.defaultProps = {}
 
 export default Modal

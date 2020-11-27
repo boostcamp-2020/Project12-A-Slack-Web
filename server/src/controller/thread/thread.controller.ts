@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import { statusCode, resMessage } from '@util/constant'
 import threadService from '@service/thread.service'
 
 const createThread = async (
@@ -7,9 +6,12 @@ const createThread = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const newThreadData = req.body
   try {
-    const { code, json } = await threadService.createThread(newThreadData)
+    const { code, json } = await threadService.createThread({
+      userId: req.user.id,
+      channelId: req.body.channelId,
+      content: req.body.content,
+    })
     return res.status(code).json(json)
   } catch (error) {
     return next(error)

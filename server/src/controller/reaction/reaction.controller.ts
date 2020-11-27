@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
-import messageService from '@service/message.service'
+import reactionService from '@service/reaction.service'
 
-const createMessage = async (
+const createOrRemoveReaction = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const { code, json } = await messageService.createMessage({
+    const { code, json } = await reactionService.createOrRemoveReaction({
       userId: +req.user.id,
-      threadId: +req.body.threadId,
+      messageId: +req.body.messageId,
       content: req.body.content,
     })
     return res.status(code).json(json)
@@ -18,4 +18,4 @@ const createMessage = async (
   }
 }
 
-export default { createMessage }
+export default { createOrRemoveReaction }

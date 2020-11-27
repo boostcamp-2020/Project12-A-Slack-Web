@@ -17,8 +17,8 @@ const isValidNewWorkspaceData = ({ name, imageUrl }: WorkspaceType) => {
   return true
 }
 
-const createWorkspace = async (data: WorkspaceType) => {
-  if (isValidNewWorkspaceData(data)) {
+const createWorkspace = async ({ name, imageUrl }: WorkspaceType) => {
+  if (!isValidNewWorkspaceData({ name, imageUrl })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: true, message: resMessage.OUT_OF_VALUE },
@@ -26,7 +26,7 @@ const createWorkspace = async (data: WorkspaceType) => {
   }
 
   try {
-    await WorkspaceModel.create({ ...data })
+    await WorkspaceModel.create({ name, imageUrl })
     return {
       code: statusCode.CREATED,
       json: {
@@ -75,33 +75,73 @@ interface WorkspaceInstance extends WorkspaceModel {
 }
 
 const joinWorkspace = async ({ userId, workspaceId }: WorkspaceType) => {
-  const targetWorkspace = (await WorkspaceModel.findOne({
-    include: [{ model: UserModel, as: 'user' }],
-    where: { id: workspaceId },
-  })) as WorkspaceInstance
+  try {
+    const targetWorkspace = (await WorkspaceModel.findOne({
+      include: [{ model: UserModel, as: 'user' }],
+      where: { id: workspaceId },
+    })) as WorkspaceInstance
 
-  if (!targetWorkspace) {
+    if (!targetWorkspace) {
+      return {
+        code: statusCode.DB_ERROR,
+        json: { success: false, message: resMessage.DB_ERROR },
+      }
+    }
+
+    const currentUsers = targetWorkspace.user.map((user) => user.id)
+
+    if (!currentUsers.includes(userId)) {
+      await targetWorkspace.addUser(userId)
+      return {
+        code: statusCode.CREATED,
+        json: {
+          success: true,
+        },
+      }
+    }
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+    }
+  } catch (error) {
     return {
       code: statusCode.DB_ERROR,
       json: { success: false, message: resMessage.DB_ERROR },
     }
   }
+}
 
-  const currentUsers = targetWorkspace.user.map((user) => user.id)
-
-  if (!currentUsers.includes(userId)) {
-    await targetWorkspace.addUser(userId)
+const readWorkspaceUsers = async ({ workspaceId }: WorkspaceType) => {
+  try {
+    const userList = await UserModel.findAll({
+      include: [
+        {
+          model: WorkspaceModel,
+          as: 'workspace',
+          where: { id: workspaceId },
+          attributes: [],
+        },
+      ],
+      attributes: ['id', 'email', 'profileImageUrl'],
+    })
     return {
       code: statusCode.CREATED,
       json: {
         success: true,
+        data: userList,
       },
     }
-  }
-  return {
-    code: statusCode.BAD_REQUEST,
-    json: { success: true, message: resMessage.DUPLICATE_VALUE_ERROR },
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
   }
 }
 
-export default { createWorkspace, readWorkspaceByUser, joinWorkspace }
+export default {
+  createWorkspace,
+  readWorkspaceByUser,
+  joinWorkspace,
+  readWorkspaceUsers,
+}

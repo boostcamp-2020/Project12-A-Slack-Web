@@ -48,4 +48,24 @@ const joinWorkspace = async (
   }
 }
 
-export default { createWorkspace, readWorkspaceByUser, joinWorkspace }
+const readWorkspaceUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await workspaceService.readWorkspaceUsers({
+      workspaceId: +req.params.workspaceId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export default {
+  createWorkspace,
+  readWorkspaceByUser,
+  joinWorkspace,
+  readWorkspaceUsers,
+}
