@@ -1,5 +1,5 @@
 post:
-  summary: message create api
+  summary: file create api
   security:
     - BearerAuth: []
   requestBody:
@@ -8,10 +8,9 @@ post:
         schema:
           type: object
           properties:
-            threadId:
-              type: number
-            content:
+            messageId:
               type: string
+
   responses:
     '201':
       description: OK
@@ -22,6 +21,8 @@ post:
             properties:
               success:
                 type: boolean
+    '400':
+      description: BadRequest
     '500':
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':

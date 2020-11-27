@@ -1,0 +1,26 @@
+get:
+  summary: get workspace user list api
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: workspaceId
+      description: workspace id
+      type: integer
+
+  responses:
+    '200':
+      description: workspace user list 조회 성공
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data: 
+                type: array
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

@@ -30,7 +30,7 @@ const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
   if (!isValidNewChannelData({ name, type, workspaceId })) {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {
@@ -62,7 +62,7 @@ const readChannelsByUser = async ({ userId }: ChannelType) => {
   if (userId < 0 || typeof userId !== 'number') {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {

@@ -1,0 +1,27 @@
+get:
+  summary: get channel info api (thread, message, reaction, file)
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: channelId
+      description: channel id
+      type: integer
+
+  responses:
+    '200':
+      description: channel의 threads, messages, users 등
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                description: channel들의 data is
+                type: array
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

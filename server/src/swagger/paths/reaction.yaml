@@ -1,5 +1,5 @@
 post:
-  summary: message create api
+  summary: create or remove reaction
   security:
     - BearerAuth: []
   requestBody:
@@ -8,13 +8,22 @@ post:
         schema:
           type: object
           properties:
-            threadId:
-              type: number
             content:
               type: string
+            messageId:
+              type: number
   responses:
+    '200':
+      description: Create emoticon
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
     '201':
-      description: OK
+      description: OK, Delete emoticon
       content:
         application/json:
           schema:
