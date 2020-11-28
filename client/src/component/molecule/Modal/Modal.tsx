@@ -9,6 +9,7 @@ const Modal = ({
   modalWrapperStyle,
   children,
   disableCloseButton,
+  fixed,
   onClose,
 }: ModalProps) => {
   const [hidden, setHidden] = useState(false)
@@ -16,6 +17,11 @@ const Modal = ({
   const handleModalClose = (): void => {
     if (onClose) onClose()
     setHidden(true)
+  }
+
+  const modalBaseStyle: React.CSSProperties = {
+    position: fixed ? 'fixed' : 'inherit',
+    zIndex: 100,
   }
 
   const closeButton = (
@@ -36,7 +42,7 @@ const Modal = ({
   )
 
   return (
-    <div hidden={hidden}>
+    <div hidden={hidden} style={modalBaseStyle}>
       <A.Overlay customStyle={overlayStyle} onClick={handleModalClose} />
       <A.ModalWrapper customStyle={modalWrapperStyle}>
         <>
