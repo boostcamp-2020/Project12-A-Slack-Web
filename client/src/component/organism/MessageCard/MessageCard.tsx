@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
+import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { ImageType } from '@atom/Image'
+import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
@@ -71,8 +73,14 @@ function MessageCard({
       onMouseLeave={handleMouseLeave}
     >
       <Styled.ImageWrapper>
-        {!continuous && (
-          <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
+        {data.Messages.filter((item) => item.isHead).length ? (
+          !continuous && (
+            <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
+          )
+        ) : (
+          <Styled.IconWrapper>
+            <A.Icon icon={myIcon.trashAlt} customStyle={iconStyle} />
+          </Styled.IconWrapper>
         )}
       </Styled.ImageWrapper>
       <Styled.TextWrapper>
@@ -120,6 +128,10 @@ MessageCard.defaultProps = {
 const imageStyle: ImageType.StyleAttributes = {
   height: '36px',
   width: '36px',
+}
+
+const iconStyle: IconType.StyleAttributes = {
+  color: 'iconColorGrey',
 }
 
 const nameTextStyle: TextType.StyleAttributes = {

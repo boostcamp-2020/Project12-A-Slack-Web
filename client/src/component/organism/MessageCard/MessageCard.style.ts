@@ -20,6 +20,15 @@ const ImageWrapper = styled.div`
   margin-right: 8px;
   display: flex;
 `
+const IconWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #e3e3e4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+`
 const TextWrapper = styled.div`
   flex: 1 1 0;
   min-width: 0;
@@ -44,6 +53,7 @@ const ActionBarWrapper = styled.div`
 export default {
   Container,
   ImageWrapper,
+  IconWrapper,
   TextWrapper,
   ContentWrapper,
   ActionBarWrapper,
