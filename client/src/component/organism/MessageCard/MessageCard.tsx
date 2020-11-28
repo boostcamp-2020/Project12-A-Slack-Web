@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import A from '@atom'
 import M from '@molecule'
+import O from '@organism'
+import ActionBar from '@organism/ActionBar'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
 
 interface UserType {
@@ -41,6 +43,24 @@ function MessageCard({
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) {
+  const [hover, setHover] = useState(false)
+
+  const handleMouseEnter = () => {
+    setHover(true)
+    console.log('hi' + new Date())
+  }
+  const handleMouseLeave = () => {
+    setHover(false)
+    console.log('bye' + new Date())
+  }
+
+  const handleDeleteButtonClick = () => {
+    alert(`Delete message`)
+  }
+  const handleEditButtonClick = () => {
+    alert(`Edit message`)
+  }
+
   const getLastTime = (messages: MessageType[]) => {
     const lastUpdateMessage = messages.reduce((prev, result) => {
       return new Date(prev.updatedAt) < new Date(result.updatedAt)
@@ -50,7 +70,10 @@ function MessageCard({
     return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
   return (
-    <StyledContainer>
+    <StyledContainer
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <StyledImageWrapper>
         {!continuous && (
           <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
@@ -78,6 +101,18 @@ function MessageCard({
           />
         )}
       </StyledTextWrapper>
+      <StyledActionBarWrapper>
+        {hover && (
+          <ActionBar
+            targetType="THREAD"
+            targetId={data.Messages[0].id}
+            targetAuthorId={data.Messages[0].User.id}
+            loginUserId={0} // TODO: change to store user id
+            onDeleteButtonClick={handleDeleteButtonClick}
+            onEditButtonClick={handleEditButtonClick}
+          />
+        )}
+      </StyledActionBarWrapper>
     </StyledContainer>
   )
 }
@@ -117,6 +152,10 @@ const StyledContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+  position: relative;
+  &:hover {
+    background-color: #f8f8f8;
+  }
 `
 const StyledImageWrapper = styled.div`
   height: 36px;
@@ -138,6 +177,12 @@ const StyledContentWrapper = styled.div`
   max-width: none;
   margin-bottom: 4px;
   overflow-wrap: break-word;
+`
+
+const StyledActionBarWrapper = styled.div`
+  position: absolute;
+  top: -1rem;
+  right: 1rem;
 `
 
 export default MessageCard

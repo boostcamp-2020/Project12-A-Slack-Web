@@ -1,8 +1,15 @@
 import Header from './Header'
-import MessageCard from './MessageCard'
 import MessageEditor from './MessageEditor'
 import MessageActionsMenu from './MessageActionsMenu'
 import ReactionPicker from './ReactionPicker'
+import ActionBar from './ActionBar'
+import MessageCard from './MessageCard'
 
-export default { MessageCard, MessageEditor, Header, MessageActionsMenu, ReactionPicker }
-
+export default {
+  Header,
+  MessageActionsMenu,
+  ReactionPicker,
+  ActionBar,
+  MessageCard,
+  MessageEditor,
+}
