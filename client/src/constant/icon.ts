@@ -12,6 +12,11 @@ import {
   faLaugh,
   faComment,
   faEllipsisV,
+  faStar,
+  faUserPlus,
+  faLock,
+  faHashtag,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -28,6 +33,11 @@ const myIcon = {
   laughEmoji: faLaugh,
   comment: faComment,
   ellipsis: faEllipsisV,
+  star: faStar,
+  addUser: faUserPlus,
+  lock: faLock,
+  hashtag: faHashtag,
+  info: faInfo,
 }
 
 export default myIcon
