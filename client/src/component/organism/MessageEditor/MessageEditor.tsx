@@ -1,6 +1,5 @@
 import React, { createRef, useEffect } from 'react'
-// import 'codemirror/lib/codemirror.css'
-// import '@toast-ui/editor/dist/toastui-editor.css'
+import '../../../../node_modules/@toast-ui/editor/dist/toastui-editor.css'
 import { Editor } from '@toast-ui/react-editor'
 import Styled from './MessageEditor.style'
 
