@@ -2,35 +2,56 @@ import React from 'react'
 import styled from 'styled-components'
 import A from '@atom'
 
+interface UserType {
+  id: number
+  email: string
+  name: string
+  profileImageUrl: string
+}
+
+interface DataType {
+  id: number
+  createdAt: string
+  updatedAt: string
+  Messages: {
+    id: number
+    content: string
+    isHead: boolean
+    createdAt: string
+    updatedAt: string
+    User: UserType
+    Files: []
+    Reactions: { id: number; content: string }[]
+  }[]
+  User: UserType
+}
+
 interface MessageCardProps {
-  data: object
+  data: DataType
   continuous?: boolean
 }
 
 function MessageCard({ data, continuous }: MessageCardProps) {
-  if (continuous) {
-    return (
-      <>
-        <StyledContainer>
-          <StyledImageWrapper />
-          <StyledContentWrapper>
-            <A.Text customStyle={messageTextStyle}>내용</A.Text>
-          </StyledContentWrapper>
-        </StyledContainer>
-      </>
-    )
-  }
   return (
     <>
       <StyledContainer>
         <StyledImageWrapper>
-          <A.Image customStyle={imageStyle} />
+          {!continuous && (
+            <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
+          )}
         </StyledImageWrapper>
         <StyledTextWrapper>
-          <A.Text customStyle={nameTextStyle}>이름</A.Text>
-          <A.Text customStyle={timeTextStyle}>시간</A.Text>
+          {!continuous && (
+            <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
+          )}
+          {!continuous && (
+            <A.Text customStyle={timeTextStyle}>{data.createdAt}</A.Text>
+          )}
           <StyledContentWrapper>
-            <A.Text customStyle={messageTextStyle}>내용</A.Text>
+            {'<h1>hihi</h1>'}
+            <A.Text customStyle={messageTextStyle}>
+              {data.Messages.filter((item) => item.isHead)[0].content}
+            </A.Text>
           </StyledContentWrapper>
         </StyledTextWrapper>
       </StyledContainer>
