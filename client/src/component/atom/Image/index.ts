@@ -8,6 +8,8 @@ export namespace ImageType {
     padding?: string
     radius?: string
     cursor?: string
+    border?: string
+    zIndex?: number
   }
 
   export interface Props {
