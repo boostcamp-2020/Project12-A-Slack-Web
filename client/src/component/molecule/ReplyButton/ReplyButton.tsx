@@ -26,7 +26,7 @@ const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
           <A.Text customStyle={countTextStyle}>{`${count} reply`}</A.Text>
         </Styled.CountTextWrapper>
         <Styled.TimeTextWrapper>
-          <A.Text customStyle={timeTextStyle}>{time}</A.Text>
+          <A.Text customStyle={timeTextStyle}>{`Last reply ${time}`}</A.Text>
         </Styled.TimeTextWrapper>
         {hover && <Styled.Arrow>&gt;</Styled.Arrow>}
       </Styled.Container>

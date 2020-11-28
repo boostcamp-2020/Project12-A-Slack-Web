@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import A from '@atom'
 import M from '@molecule'
+import { getTimePassedFromNow, getDateAndTime } from '@util/date'
 
 interface UserType {
   id: number
@@ -41,11 +42,12 @@ function MessageCard({
   onReplyButtonClick,
 }: MessageCardProps) {
   const getLastTime = (messages: MessageType[]) => {
-    let lastTime = new Date()
-    messages.map((message) => {
-      console.log(message.updatedAt, new Date(message.updatedAt))
+    const lastUpdateMessage = messages.reduce((prev, result) => {
+      return new Date(prev.updatedAt) < new Date(result.updatedAt)
+        ? result
+        : prev
     })
-    return 'temp'
+    return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
   return (
     <StyledContainer>
@@ -59,7 +61,9 @@ function MessageCard({
           <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
         )}
         {!continuous && (
-          <A.Text customStyle={timeTextStyle}>{data.createdAt}</A.Text>
+          <A.Text customStyle={timeTextStyle}>
+            {getDateAndTime(data.createdAt)}
+          </A.Text>
         )}
         <StyledContentWrapper>
           <A.Text customStyle={messageTextStyle}>
