@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import color from '@constant/color'
 
 const Wrapper = styled.div`
   display: flex;
@@ -18,8 +19,16 @@ const RightWrapper = styled.div`
   align-items: center;
 `
 
+const MemberCountWrapper = styled.div`
+  width: 1.5rem;
+  &:hover {
+    background-color: ${color.get('whiteHover')};
+  }
+`
+
 export default {
   Wrapper,
   LeftWrapper,
   RightWrapper,
+  MemberCountWrapper,
 }

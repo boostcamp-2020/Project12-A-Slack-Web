@@ -4,13 +4,14 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
-
+import { ImageType } from '@atom/Image'
 import { ChannelHeaderProps } from '.'
 
 import Styled from './ChannelHeader.style'
 
 const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
-  const { id, name, type, user } = channel // channel info
+  const { id, name, type, user: members } = channel
+  const MEMBER_PROFILE_NUMBER: number = 3
 
   const [memberListModalVisible, setMemberListModalVisible] = useState(false)
   const [addUserModalVisible, setAddUserModalVisible] = useState(false)
@@ -45,7 +46,26 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
       </Styled.LeftWrapper>
 
       <Styled.RightWrapper>
-        <div>member prev</div>
+        <A.Button
+          onClick={handleMemeberListButtonClick}
+          customStyle={memberListButtonStyle}
+        >
+          <>
+            {members
+              .filter((user, idx) => idx < MEMBER_PROFILE_NUMBER)
+              .map((user) => (
+                <O.Avatar
+                  user={user}
+                  size="SMALL"
+                  avatarImageStyle={memberAvatarStyle}
+                />
+              ))}
+            <Styled.MemberCountWrapper>
+              {members.length}
+            </Styled.MemberCountWrapper>
+          </>
+        </A.Button>
+
         <A.Button onClick={handleAddUserButtonClick} customStyle={buttonStyle}>
           <A.Icon icon={myIcon.addUser} />
         </A.Button>
@@ -60,8 +80,8 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
           modalAttributes={{ position: 'fixed', left: '50%', top: '50%' }}
           onClose={handleMemberListModalClose}
         />
-      )}
-      {addUserModalVisible && (
+      )} */}
+      {/* {addUserModalVisible && (
         <O.AddUserModal
           channel={channel}
           modalAttributes={{ position: 'fixed', left: '50%', top: '50%' }}
@@ -79,6 +99,17 @@ const buttonStyle: ButtonType.StyleAttributes = {
   width: '2rem',
   height: '1.9rem',
   margin: '2px',
+}
+
+const memberListButtonStyle: ButtonType.StyleAttributes = {
+  hoverBackgroundColor: 'whiteHover',
+  height: '1.9rem',
+  margin: '2px',
+}
+
+const memberAvatarStyle: ImageType.StyleAttributes = {
+  border: '2px solid white',
+  margin: '0 0 0 -5px',
 }
 
 export default ChannelHeader
