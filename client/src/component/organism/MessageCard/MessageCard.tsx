@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
+import { TextType } from '@atom/Text'
+import { ImageType } from '@atom/Image'
 import ActionBar from '@organism/ActionBar'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
+import Styled from './MessageCard.style'
 
 interface UserType {
   id: number
@@ -45,14 +47,8 @@ function MessageCard({
 }: MessageCardProps) {
   const [hover, setHover] = useState(false)
 
-  const handleMouseEnter = () => {
-    setHover(true)
-    console.log('hi' + new Date())
-  }
-  const handleMouseLeave = () => {
-    setHover(false)
-    console.log('bye' + new Date())
-  }
+  const handleMouseEnter = () => setHover(true)
+  const handleMouseLeave = () => setHover(false)
 
   const handleDeleteButtonClick = () => {
     alert(`Delete message`)
@@ -70,16 +66,16 @@ function MessageCard({
     return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
   return (
-    <StyledContainer
+    <Styled.Container
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <StyledImageWrapper>
+      <Styled.ImageWrapper>
         {!continuous && (
           <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
         )}
-      </StyledImageWrapper>
-      <StyledTextWrapper>
+      </Styled.ImageWrapper>
+      <Styled.TextWrapper>
         {!continuous && (
           <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
         )}
@@ -88,11 +84,11 @@ function MessageCard({
             {getDateAndTime(data.createdAt)}
           </A.Text>
         )}
-        <StyledContentWrapper>
+        <Styled.ContentWrapper>
           <A.Text customStyle={messageTextStyle}>
             {data.Messages.filter((item) => item.isHead)[0]?.content || ''}
           </A.Text>
-        </StyledContentWrapper>
+        </Styled.ContentWrapper>
         {data.Messages.length > 1 && (
           <M.ReplyButton
             count={data.Messages.length - 1}
@@ -100,8 +96,8 @@ function MessageCard({
             onClick={onReplyButtonClick}
           />
         )}
-      </StyledTextWrapper>
-      <StyledActionBarWrapper>
+      </Styled.TextWrapper>
+      <Styled.ActionBarWrapper>
         {hover && (
           <ActionBar
             targetType="THREAD"
@@ -112,8 +108,8 @@ function MessageCard({
             onEditButtonClick={handleEditButtonClick}
           />
         )}
-      </StyledActionBarWrapper>
-    </StyledContainer>
+      </Styled.ActionBarWrapper>
+    </Styled.Container>
   )
 }
 
@@ -121,68 +117,27 @@ MessageCard.defaultProps = {
   continuous: false,
 }
 
-const imageStyle = {
+const imageStyle: ImageType.StyleAttributes = {
   height: '36px',
   width: '36px',
 }
 
-const nameTextStyle = {
+const nameTextStyle: TextType.StyleAttributes = {
   fontSize: '1.5rem',
   fontWeight: '900',
   margin: '0px 3px 0px 0px',
 }
 
-const timeTextStyle = {
+const timeTextStyle: TextType.StyleAttributes = {
   fontSize: '1.2rem',
   fontWeight: '400',
   color: 'textGrey',
 }
 
-const messageTextStyle = {
+const messageTextStyle: TextType.StyleAttributes = {
   width: '100%',
   fontSize: '1.5rem',
   fontWeight: '400',
 }
-
-const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 8px 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  position: relative;
-  &:hover {
-    background-color: #f8f8f8;
-  }
-`
-const StyledImageWrapper = styled.div`
-  height: 36px;
-  width: 36px;
-  flex-shrink: 0;
-  margin-right: 8px;
-  display: flex;
-`
-const StyledTextWrapper = styled.div`
-  flex: 1 1 0;
-  min-width: 0;
-  padding: 8px;
-  padding-left: 16px;
-  margin: -12px -8px -16px -16px;
-  overflow-wrap: break-word;
-`
-const StyledContentWrapper = styled.div`
-  width: 100%;
-  max-width: none;
-  margin-bottom: 4px;
-  overflow-wrap: break-word;
-`
-
-const StyledActionBarWrapper = styled.div`
-  position: absolute;
-  top: -1rem;
-  right: 1rem;
-`
 
 export default MessageCard
