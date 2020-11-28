@@ -22,14 +22,21 @@ const MemberListModal = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const input = e.target.value.trim()
     setSearchKeyword(input)
+
+    const escapedInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // 특수문자 검색 처리
     const searchResult =
-      input === '' ? members : members.filter((member) => member.name === input)
+      escapedInput === ''
+        ? members
+        : members.filter((member) => {
+            const regex = new RegExp(escapedInput, 'gi')
+            return member.name.match(regex) || member.email.match(regex)
+          })
     setMemberSearchResult(searchResult)
   }
 
   return (
     <M.Modal
-      overlayStyle={{ opacity: '0.3' }}
+      overlayStyle={{ opacity: '0.4' }}
       modalWrapperStyle={modalWrapperStyle}
       onClose={onClose}
     >
