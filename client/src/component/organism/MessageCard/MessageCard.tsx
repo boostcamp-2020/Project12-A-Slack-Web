@@ -66,11 +66,13 @@ function MessageCard({
             {data.Messages.filter((item) => item.isHead)[0]?.content || ''}
           </A.Text>
         </StyledContentWrapper>
-        <M.ReplyButton
-          count={data.Messages.length}
-          time={getLastTime(data.Messages)}
-          onClick={onReplyButtonClick}
-        />
+        {data.Messages.length > 1 && (
+          <M.ReplyButton
+            count={data.Messages.length - 1}
+            time={getLastTime(data.Messages)}
+            onClick={onReplyButtonClick}
+          />
+        )}
       </StyledTextWrapper>
     </StyledContainer>
   )
