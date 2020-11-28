@@ -1,7 +1,7 @@
 export { default } from './ChannelHeader'
 
 export interface ChannelHeaderProps {
-  channel: { id: number; type: string; name: string; user: User[] }
+  channel: Channel
 }
 
 interface User {
@@ -9,4 +9,11 @@ interface User {
   email: string
   name: string
   profileImageUrl: string
+}
+
+interface Channel {
+  id: number
+  type: string
+  name: string
+  user: User[]
 }

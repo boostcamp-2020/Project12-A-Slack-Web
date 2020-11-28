@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import A from '@atom'
-import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
@@ -74,13 +73,12 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
         </A.Button>
       </Styled.RightWrapper>
 
-      {/* {memberListModalVisible && (
+      {memberListModalVisible && (
         <O.MemberListModal
           channel={channel}
-          modalAttributes={{ position: 'fixed', left: '50%', top: '50%' }}
           onClose={handleMemberListModalClose}
         />
-      )} */}
+      )}
       {/* {addUserModalVisible && (
         <O.AddUserModal
           channel={channel}
