@@ -67,20 +67,57 @@ function MessageCard({
     })
     return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
+  if (
+    !data.Messages.filter((item) => item.isHead).length &&
+    data.Messages.length
+  ) {
+    return (
+      <Styled.Container
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Styled.ImageWrapper>
+          <Styled.IconWrapper>
+            <A.Icon icon={myIcon.trashAlt} customStyle={iconStyle} />
+          </Styled.IconWrapper>
+        </Styled.ImageWrapper>
+        <Styled.TextWrapper>
+          <Styled.ContentWrapper>
+            <Styled.NoContentWrapper>
+              <A.Text customStyle={noMessageTextStyle}>
+                This message was deleted.
+              </A.Text>
+            </Styled.NoContentWrapper>
+          </Styled.ContentWrapper>
+          <M.ReplyButton
+            count={data.Messages.length}
+            time={getLastTime(data.Messages)}
+            onClick={onReplyButtonClick}
+          />
+        </Styled.TextWrapper>
+        <Styled.ActionBarWrapper>
+          {hover && (
+            <ActionBar
+              targetType="THREAD"
+              targetId={0}
+              targetAuthorId={0}
+              loginUserId={0} // TODO: change to store user id
+              onDeleteButtonClick={handleDeleteButtonClick}
+              onEditButtonClick={handleEditButtonClick}
+            />
+          )}
+        </Styled.ActionBarWrapper>
+      </Styled.Container>
+    )
+  }
   return (
     <Styled.Container
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <Styled.ImageWrapper>
-        {data.Messages.filter((item) => item.isHead).length ? (
-          !continuous && (
-            <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
-          )
-        ) : (
-          <Styled.IconWrapper>
-            <A.Icon icon={myIcon.trashAlt} customStyle={iconStyle} />
-          </Styled.IconWrapper>
+        {!continuous && (
+          <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
         )}
       </Styled.ImageWrapper>
       <Styled.TextWrapper>
@@ -150,6 +187,13 @@ const messageTextStyle: TextType.StyleAttributes = {
   width: '100%',
   fontSize: '1.5rem',
   fontWeight: '400',
+}
+
+const noMessageTextStyle: TextType.StyleAttributes = {
+  width: '100%',
+  fontSize: '1.5rem',
+  fontWeight: '400',
+  color: 'iconColorGrey',
 }
 
 export default MessageCard

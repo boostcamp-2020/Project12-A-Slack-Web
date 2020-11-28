@@ -43,6 +43,11 @@ const ContentWrapper = styled.div`
   margin-bottom: 4px;
   overflow-wrap: break-word;
 `
+const NoContentWrapper = styled.div`
+  height: 44px;
+  display: flex;
+  align-items: center;
+`
 
 const ActionBarWrapper = styled.div`
   position: absolute;
@@ -56,5 +61,6 @@ export default {
   IconWrapper,
   TextWrapper,
   ContentWrapper,
+  NoContentWrapper,
   ActionBarWrapper,
 }
