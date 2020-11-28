@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import A from '@atom'
+import M from '@molecule'
 
 interface UserType {
   id: number
@@ -31,33 +32,47 @@ interface DataType {
 interface MessageCardProps {
   data: DataType
   continuous?: boolean
+  onReplyButtonClick: () => void
 }
 
-function MessageCard({ data, continuous }: MessageCardProps) {
+function MessageCard({
+  data,
+  continuous,
+  onReplyButtonClick,
+}: MessageCardProps) {
+  const getLastTime = (messages: MessageType[]) => {
+    let lastTime = new Date()
+    messages.map((message) => {
+      console.log(message.updatedAt, new Date(message.updatedAt))
+    })
+    return 'temp'
+  }
   return (
-    <>
-      <StyledContainer>
-        <StyledImageWrapper>
-          {!continuous && (
-            <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
-          )}
-        </StyledImageWrapper>
-        <StyledTextWrapper>
-          {!continuous && (
-            <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
-          )}
-          {!continuous && (
-            <A.Text customStyle={timeTextStyle}>{data.createdAt}</A.Text>
-          )}
-          <StyledContentWrapper>
-            {'<h1>hihi</h1>'}
-            <A.Text customStyle={messageTextStyle}>
-              {data.Messages.filter((item) => item.isHead)[0].content}
-            </A.Text>
-          </StyledContentWrapper>
-        </StyledTextWrapper>
-      </StyledContainer>
-    </>
+    <StyledContainer>
+      <StyledImageWrapper>
+        {!continuous && (
+          <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
+        )}
+      </StyledImageWrapper>
+      <StyledTextWrapper>
+        {!continuous && (
+          <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
+        )}
+        {!continuous && (
+          <A.Text customStyle={timeTextStyle}>{data.createdAt}</A.Text>
+        )}
+        <StyledContentWrapper>
+          <A.Text customStyle={messageTextStyle}>
+            {data.Messages.filter((item) => item.isHead)[0]?.content || ''}
+          </A.Text>
+        </StyledContentWrapper>
+        <M.ReplyButton
+          count={data.Messages.length}
+          time={getLastTime(data.Messages)}
+          onClick={onReplyButtonClick}
+        />
+      </StyledTextWrapper>
+    </StyledContainer>
   )
 }
 
