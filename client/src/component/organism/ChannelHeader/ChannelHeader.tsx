@@ -4,6 +4,7 @@ import O from '@organism'
 import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
 import { ImageType } from '@atom/Image'
+import { TextType } from '@atom/Text'
 import { ChannelHeaderProps } from '.'
 
 import Styled from './ChannelHeader.style'
@@ -30,11 +31,7 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
       <Styled.LeftWrapper>
         <A.Icon icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock} />
         <A.Text
-          customStyle={{
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            margin: '0 0 0 8px',
-          }}
+          customStyle={channelNameTextStyle}
           onClick={handleInfoButtonClick}
         >
           {name}
@@ -108,6 +105,12 @@ const memberListButtonStyle: ButtonType.StyleAttributes = {
 const memberAvatarStyle: ImageType.StyleAttributes = {
   border: '2px solid white',
   margin: '0 0 0 -5px',
+}
+
+const channelNameTextStyle: TextType.StyleAttributes = {
+  fontWeight: 'bold',
+  cursor: 'pointer',
+  margin: '0 0 0 8px',
 }
 
 export default ChannelHeader

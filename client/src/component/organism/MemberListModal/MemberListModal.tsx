@@ -39,6 +39,7 @@ const MemberListModal = ({
       overlayStyle={{ opacity: '0.4' }}
       modalWrapperStyle={modalWrapperStyle}
       onClose={onClose}
+      fixed
     >
       <Styled.Wrapper>
         <Styled.UpperWrapper>
