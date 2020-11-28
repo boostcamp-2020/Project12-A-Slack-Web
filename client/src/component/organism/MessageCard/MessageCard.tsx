@@ -9,20 +9,22 @@ interface UserType {
   profileImageUrl: string
 }
 
+interface MessageType {
+  id: number
+  content: string
+  isHead: boolean
+  createdAt: string
+  updatedAt: string
+  User: UserType
+  Files: object[]
+  Reactions: { id: number; content: string }[]
+}
+
 interface DataType {
   id: number
   createdAt: string
   updatedAt: string
-  Messages: {
-    id: number
-    content: string
-    isHead: boolean
-    createdAt: string
-    updatedAt: string
-    User: UserType
-    Files: []
-    Reactions: { id: number; content: string }[]
-  }[]
+  Messages: MessageType[]
   User: UserType
 }
 
