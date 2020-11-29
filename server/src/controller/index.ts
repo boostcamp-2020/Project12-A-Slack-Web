@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import verifyUser from '../middleware/user.middleware'
+import verifyUser from '@middleware/user.middleware'
 import userRouter from './user'
 import workspaceRouter from './workspace'
 import channelRouter from './channel'
