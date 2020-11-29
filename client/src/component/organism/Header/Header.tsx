@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import myIcon from '@constant/icon'
 import A from '@atom'
 import M from '@molecule'
+import Styled from './Header.style'
 
 const Header = () => {
   const [modal, setModal] = useState<boolean>(false)
   const [profile, setProfile] = useState<boolean>(false)
   const [toggle, setToggle] = useState<boolean>(false)
-  const [menu, setMenu] = useState<boolean>(false)
 
   const handleSearchBarClick = () => {
     setModal(!modal)
@@ -22,10 +21,19 @@ const Header = () => {
 
   return (
     <>
-      <StyledHeaderContainer>
+      <Styled.StyledHeaderContainer>
         <M.HeaderInput onClick={handleSearchBarClick} />
-        <A.Image customStyle={headerImageStyle} onClick={handleProfileClick} />
-      </StyledHeaderContainer>
+        <Styled.HeaderProfileRightContainer>
+          <A.Image
+            customStyle={headerImageStyle}
+            onClick={handleProfileClick}
+          />
+          <A.Icon
+            icon={myIcon.online}
+            customStyle={profileStatusIconLoginStatusStyle}
+          />
+        </Styled.HeaderProfileRightContainer>
+      </Styled.StyledHeaderContainer>
       {profile ? (
         <M.Modal
           overlayStyle={HeaderInputOverlay}
@@ -34,17 +42,17 @@ const Header = () => {
           onClose={handleProfileClick}
         >
           <>
-            <ProfileModalContainerFirst>
+            <Styled.ProfileModalContainerFirst>
               <A.Image
                 customStyle={profileHeaderImageStyle}
                 onClick={handleProfileClick}
               />
-              <ProfileInContainer>
+              <Styled.ProfileInContainer>
                 <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
                 <A.Text customStyle={profileActiveText}>● Active</A.Text>
-              </ProfileInContainer>
-            </ProfileModalContainerFirst>
-            <ProfileModalContainerSecond>
+              </Styled.ProfileInContainer>
+            </Styled.ProfileModalContainerFirst>
+            <Styled.ProfileModalContainerSecond>
               <M.ButtonDiv
                 buttonStyle={profileStatusButtonStyle}
                 textStyle={profileStatusTextSttyle}
@@ -65,8 +73,8 @@ const Header = () => {
                   Update your status
                 </>
               </M.ButtonDiv>
-            </ProfileModalContainerSecond>
-            <ProfileModalContainerThird>
+            </Styled.ProfileModalContainerSecond>
+            <Styled.ProfileModalContainerThird>
               <M.ButtonDiv
                 buttonStyle={profileMenuButtonStyle}
                 textStyle={profileMenuTextStyle}
@@ -85,7 +93,7 @@ const Header = () => {
               >
                 Preferences
               </M.ButtonDiv>
-            </ProfileModalContainerThird>
+            </Styled.ProfileModalContainerThird>
           </>
         </M.Modal>
       ) : null}
@@ -97,17 +105,17 @@ const Header = () => {
           onClose={handleSearchBarClick}
         >
           <>
-            <ModalInputContainer>
+            <Styled.ModalInputContainer>
               <A.Icon icon={myIcon.search} customStyle={ModalInputIconStyle} />
-              <StyledInput placeholder="Search for comments, asides, eurekas and more" />
+              <Styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
               <A.Icon
                 icon={myIcon.close}
                 customStyle={ModalInputIconStyle}
                 onClick={handleSearchBarClick}
               />
-            </ModalInputContainer>
-            <LookingForDiv>I'm looking for...</LookingForDiv>
-            <ButtonContainer>
+            </Styled.ModalInputContainer>
+            <Styled.LookingForDiv>I'm looking for...</Styled.LookingForDiv>
+            <Styled.ButtonContainer>
               <M.ButtonDiv
                 buttonStyle={modalButtonStyle}
                 textStyle={modalTextStyle}
@@ -156,7 +164,7 @@ const Header = () => {
                   People
                 </>
               </M.ButtonDiv>
-            </ButtonContainer>
+            </Styled.ButtonContainer>
           </>
         </M.Modal>
       ) : null}
@@ -171,12 +179,22 @@ const profileMenuButtonStyle = {
   hoverBackgroundColor: 'blue',
 }
 
-const profileMenuTextStyle = {}
+const profileMenuTextStyle = {
+  fontSize: '14px',
+}
 
 const profileStatusIconStyle = {
   color: 'grey',
   fontSize: '17px;',
   margin: '0px 10px 0px 0px',
+}
+
+const profileStatusIconLoginStatusStyle = {
+  position: 'absolute',
+  color: 'white',
+  bottom: '0',
+  right: '7px',
+  top: '17px;',
 }
 
 const profileStatusToggleIconStyle = {
@@ -208,45 +226,6 @@ const profileActiveText = {
   fontSize: '1.4rem',
 }
 
-const ProfileModalContainerFirst = styled.div`
-  padding: 10px;
-  display: flex;
-  justify-content: flex-start;
-`
-
-const ProfileInContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`
-
-const ProfileModalContainerSecond = styled.div`
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const ProfileModalContainerThird = styled.div`
-  border-bottom: 1px solid lightgrey;
-`
-
-const StyledHeaderContainer = styled.div`
-  background-color: #1f57e7;
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`
-
-const ModalInputContainer = styled.div`
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid lightgrey;
-`
-
 const ModalInputIconStyle = {
   color: 'grey',
   fontSize: '20px;',
@@ -258,30 +237,6 @@ const InModalInputIconStyle = {
   fontSize: '15px;',
   margin: '5px 5px 0px 0px',
 }
-
-// TODO: A.Input 으로 대체하기
-const StyledInput = styled.input`
-  border: none;
-  width: 500px;
-  height: 30px;
-  padding: 5px;
-  font-size: 15px;
-  color: #616061;
-`
-
-const LookingForDiv = styled.div`
-  padding: 10px;
-  font-size: 12px;
-  color: #616061;
-`
-
-const ButtonContainer = styled.div`
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
-  width: 500px;
-  height: 50px;
-`
 
 const modalButtonStyle = {
   width: '110px',
@@ -339,7 +294,7 @@ const ProfileModal = {
   bottom: 'auto',
   left: 'auto',
   right: '10px',
-  height: '350px',
+  height: 'auto',
   width: '250px',
   border: '1px solid lightgrey',
   borderRadius: '10px',
