@@ -1,5 +1,7 @@
 post:
   summary: message create api
+  tags:
+    - message
   security:
     - BearerAuth: []
   requestBody:

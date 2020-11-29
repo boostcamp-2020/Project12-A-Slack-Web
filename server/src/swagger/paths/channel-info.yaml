@@ -1,5 +1,7 @@
 get:
   summary: get channel info api (thread, message, reaction, file)
+  tags:
+    - channel
   security:
     - BearerAuth: []
   parameters:
@@ -7,7 +9,6 @@ get:
       name: channelId
       description: channel id
       type: integer
-
   responses:
     '200':
       description: channel의 threads, messages, users 등

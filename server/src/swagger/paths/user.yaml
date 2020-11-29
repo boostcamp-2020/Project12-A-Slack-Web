@@ -1,5 +1,7 @@
 get:
   summary: 유저의 token 정보의 유효성을 검사하며, jwt에 따른 유저의 정보를 요청한다.
+  tags:
+    - user
   security:
     - BearerAuth: []
   responses:
