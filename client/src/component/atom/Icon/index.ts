@@ -18,6 +18,11 @@ export namespace IconType {
     height?: string
     zIndex?: string
     backgroundColor?: string
+    position?: string
+    top?: string
+    bottom?: string
+    left?: string
+    right?: string
   }
 
   export interface Props {

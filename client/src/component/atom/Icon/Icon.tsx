@@ -15,6 +15,11 @@ const Icon = ({
       height={customStyle.height}
       z-index={customStyle.zIndex}
       backgroundColor={customStyle.backgroundColor}
+      top={customStyle.top}
+      left={customStyle.left}
+      right={customStyle.right}
+      bottom={customStyle.bottom}
+      position={customStyle.position}
       margin={customStyle.margin}
       padding={customStyle.padding}
       fontSize={customStyle.fontSize || '1rem'}
@@ -58,6 +63,11 @@ const StyledIcon = styled.span<IconType.StyleAttributes>`
   height: ${({ height }) => height};
   z-index: ${({ zIndex }) => zIndex};
   background-color: ${({ backgroundColor }) => backgroundColor};
+  position: ${({ position }) => position};
+  top: ${({ top }) => top};
+  bottom: ${({ bottom }) => bottom};
+  right: ${({ right }) => right};
+  left: ${({ left }) => left};
 `
 
 export default Icon

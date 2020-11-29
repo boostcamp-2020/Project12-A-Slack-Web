@@ -19,6 +19,10 @@ import {
   faChevronDown,
   faHashtag,
   faLock,
+  faCircle,
+  faStar,
+  faUserPlus,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -40,8 +44,12 @@ const myIcon = {
   at: faAt,
   right: faChevronRight,
   down: faChevronDown,
-  public: faHashtag,
-  private: faLock,
+  online: faCircle,
+  star: faStar,
+  addUser: faUserPlus,
+  lock: faLock,
+  hashtag: faHashtag,
+  info: faInfo,
 }
 
 export default myIcon

@@ -18,6 +18,7 @@ const Text = ({
     fontWeight={customStyle.fontWeight}
     display={customStyle.display}
     hoverColor={customStyle.hoverColor}
+    cursor={customStyle.cursor}
     onClick={onClick}
   >
     {children}
@@ -34,7 +35,7 @@ const defaultStyle: TextType.StyleAttributes = {
   display: 'inline',
 }
 
-const StyledText = styled.p<TextType.StyleAttributes>`
+const StyledText = styled.span<TextType.StyleAttributes>`
   margin: ${({ margin }) => margin};
   padding: ${({ padding }) => padding};
   width: ${({ width }) => width};

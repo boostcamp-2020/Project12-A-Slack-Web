@@ -22,6 +22,7 @@ const ModalWrapper = ({
     borderRadius={customStyle.borderRadius}
     boxShadow={customStyle.boxShadow}
     backgroundColor={customStyle.backgroundColor}
+    overflow={customStyle.overflow}
     hidden={hidden}
   >
     {children}
@@ -58,7 +59,7 @@ const StyledModalWrapper = styled.div<ModalWrapperType.StyleAttributes>`
   background-color: ${({ backgroundColor }) =>
     backgroundColor ? colors.get(backgroundColor) : ''};
   z-index: ${({ zIndex }) => zIndex || defaultStyle.zIndex};
-  overflow: auto;
+  overflow: ${({ overflow }) => overflow};
   display: ${({ hidden }) => (hidden ? 'none' : 'block')};
 `
 

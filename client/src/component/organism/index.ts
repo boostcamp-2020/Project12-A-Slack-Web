@@ -1,15 +1,23 @@
 import Header from './Header'
 import MessageCard from './MessageCard'
 import MessageEditor from './MessageEditor'
+import ActionBar from './ActionBar'
 import MessageActionsMenu from './MessageActionsMenu'
 import ReactionPicker from './ReactionPicker'
 import SideBar from './SideBar'
+import UserProfileModal from './UserProfileModal'
+import Avatar from './Avatar'
+import ChannelHeader from './ChannelHeader'
 
 export default {
+  Header,
   MessageCard,
   MessageEditor,
-  Header,
+  ActionBar,
   MessageActionsMenu,
   ReactionPicker,
+  UserProfileModal,
+  Avatar,
+  ChannelHeader,
   SideBar,
 }
