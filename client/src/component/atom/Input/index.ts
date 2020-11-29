@@ -21,6 +21,7 @@ export namespace InputType {
   export interface Props {
     customStyle?: StyleAttributes
     value?: string
+    placeholder?: string
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   }
 }
