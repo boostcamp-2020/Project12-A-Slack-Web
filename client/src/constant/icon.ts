@@ -23,6 +23,7 @@ import {
   faStar,
   faUserPlus,
   faInfo,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -50,6 +51,7 @@ const myIcon = {
   lock: faLock,
   hashtag: faHashtag,
   info: faInfo,
+  plus: faPlus,
 }
 
 export default myIcon
