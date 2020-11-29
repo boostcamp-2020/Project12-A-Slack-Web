@@ -62,6 +62,7 @@ const App = () => {
     <>
       <GlobalStyle />
       <O.Header />
+      <O.SideBar />
       <Router>
         <Switch>
           <Route exact path="/" component={WorkspacePage} />
