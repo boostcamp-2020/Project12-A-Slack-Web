@@ -24,6 +24,7 @@ color.set('whiteGrey', '#F6F6F6')
 // green
 color.set('green', '#2ea44f')
 color.set('greenHover', '#22863a')
+color.set('deepGreen', '#007a5a')
 
 // red
 color.set('red', '#cb2431')

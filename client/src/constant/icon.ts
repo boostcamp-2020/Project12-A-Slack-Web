@@ -17,6 +17,7 @@ import {
   faLock,
   faHashtag,
   faInfo,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -38,6 +39,7 @@ const myIcon = {
   lock: faLock,
   hashtag: faHashtag,
   info: faInfo,
+  paperPlane: faPaperPlane,
 }
 
 export default myIcon
