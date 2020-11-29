@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import myIcon from '@constant/icon'
 import A from '@atom'
 import M from '@molecule'
-import styled from './Header.style'
+import Styled from './Header.style'
 
 const Header = () => {
   const [modal, setModal] = useState<boolean>(false)
@@ -21,9 +21,9 @@ const Header = () => {
 
   return (
     <>
-      <styled.StyledHeaderContainer>
+      <Styled.StyledHeaderContainer>
         <M.HeaderInput onClick={handleSearchBarClick} />
-        <styled.HeaderProfileRightContainer>
+        <Styled.HeaderProfileRightContainer>
           <A.Image
             customStyle={headerImageStyle}
             onClick={handleProfileClick}
@@ -32,8 +32,8 @@ const Header = () => {
             icon={myIcon.online}
             customStyle={profileStatusIconLoginStatusStyle}
           />
-        </styled.HeaderProfileRightContainer>
-      </styled.StyledHeaderContainer>
+        </Styled.HeaderProfileRightContainer>
+      </Styled.StyledHeaderContainer>
       {profile ? (
         <M.Modal
           overlayStyle={HeaderInputOverlay}
@@ -42,17 +42,17 @@ const Header = () => {
           onClose={handleProfileClick}
         >
           <>
-            <styled.ProfileModalContainerFirst>
+            <Styled.ProfileModalContainerFirst>
               <A.Image
                 customStyle={profileHeaderImageStyle}
                 onClick={handleProfileClick}
               />
-              <styled.ProfileInContainer>
+              <Styled.ProfileInContainer>
                 <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
                 <A.Text customStyle={profileActiveText}>● Active</A.Text>
-              </styled.ProfileInContainer>
-            </styled.ProfileModalContainerFirst>
-            <styled.ProfileModalContainerSecond>
+              </Styled.ProfileInContainer>
+            </Styled.ProfileModalContainerFirst>
+            <Styled.ProfileModalContainerSecond>
               <M.ButtonDiv
                 buttonStyle={profileStatusButtonStyle}
                 textStyle={profileStatusTextSttyle}
@@ -73,8 +73,8 @@ const Header = () => {
                   Update your status
                 </>
               </M.ButtonDiv>
-            </styled.ProfileModalContainerSecond>
-            <styled.ProfileModalContainerThird>
+            </Styled.ProfileModalContainerSecond>
+            <Styled.ProfileModalContainerThird>
               <M.ButtonDiv
                 buttonStyle={profileMenuButtonStyle}
                 textStyle={profileMenuTextStyle}
@@ -93,7 +93,7 @@ const Header = () => {
               >
                 Preferences
               </M.ButtonDiv>
-            </styled.ProfileModalContainerThird>
+            </Styled.ProfileModalContainerThird>
           </>
         </M.Modal>
       ) : null}
@@ -105,17 +105,17 @@ const Header = () => {
           onClose={handleSearchBarClick}
         >
           <>
-            <styled.ModalInputContainer>
+            <Styled.ModalInputContainer>
               <A.Icon icon={myIcon.search} customStyle={ModalInputIconStyle} />
-              <styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
+              <Styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
               <A.Icon
                 icon={myIcon.close}
                 customStyle={ModalInputIconStyle}
                 onClick={handleSearchBarClick}
               />
-            </styled.ModalInputContainer>
-            <styled.LookingForDiv>I'm looking for...</styled.LookingForDiv>
-            <styled.ButtonContainer>
+            </Styled.ModalInputContainer>
+            <Styled.LookingForDiv>I'm looking for...</Styled.LookingForDiv>
+            <Styled.ButtonContainer>
               <M.ButtonDiv
                 buttonStyle={modalButtonStyle}
                 textStyle={modalTextStyle}
@@ -164,7 +164,7 @@ const Header = () => {
                   People
                 </>
               </M.ButtonDiv>
-            </styled.ButtonContainer>
+            </Styled.ButtonContainer>
           </>
         </M.Modal>
       ) : null}
