@@ -6,11 +6,12 @@ const createWorkspace = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const newWorkspaceData = req.body
   try {
-    const { code, json } = await workspaceService.createWorkspace(
-      newWorkspaceData,
-    )
+    const { code, json } = await workspaceService.createWorkspace({
+      userId: req.user.id,
+      name: req.body.name,
+      imageUrl: req.body.imageUrl,
+    })
     return res.status(code).json(json)
   } catch (error) {
     return next(error)
