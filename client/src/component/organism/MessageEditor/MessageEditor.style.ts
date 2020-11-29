@@ -23,7 +23,11 @@ const ButtonWrapper = styled.div`
   border-top: 1px solid #e3e3e4;
 `
 const LeftButtonWrapper = styled.div``
-const RightButtonWrapper = styled.div``
+const RightButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 export default {
   Container,
