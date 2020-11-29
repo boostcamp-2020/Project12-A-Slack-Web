@@ -63,7 +63,7 @@ const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
         },
       ],
     })
-    console.log(workspaces)
+
     return {
       code: statusCode.OK,
       json: {
