@@ -3,6 +3,7 @@ import A from '@atom'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
+import myAxios from '@util/myAxios'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
@@ -20,6 +21,11 @@ function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
   }
 
   const handleSubmitButtonClick = () => {
+    const data = {
+      content,
+      channelId: 1,
+    }
+    myAxios.post({ path: '/thread', data })
     console.log('CREATE MESSAGE !')
   }
 
