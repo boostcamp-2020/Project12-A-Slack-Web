@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState, createRef } from 'react'
 import A from '@atom'
 import O from '@organism'
 import { InputType } from '@atom/Input'
@@ -16,6 +16,7 @@ interface MessageEditorProps {
 function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
   const [content, setContent] = useState(value)
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
+  const fileInput = createRef<HTMLInputElement>()
 
   const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value)
@@ -33,6 +34,11 @@ function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
+
+  const handleAddFileButtonClick = () => fileInput.current?.click()
+  const handleSelectFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files)
+  }
 
   return (
     <Styled.Container>
@@ -53,6 +59,26 @@ function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
               icon={myIcon.laughEmoji}
               customStyle={{ color: 'textGrey' }}
             />
+          </A.Button>
+          <A.Button
+            customStyle={ButtonStyle}
+            onClick={handleAddFileButtonClick}
+          >
+            <>
+              <input
+                type="file"
+                name="file1"
+                hidden
+                multiple
+                ref={fileInput}
+                onChange={handleSelectFileChange}
+              />
+              <A.Icon
+                icon={myIcon.paperClip}
+                customStyle={{ color: 'textGrey' }}
+              />
+            </>
+          </A.Button>
           <A.Button
             customStyle={SubmitButtonStyle}
             onClick={handleSubmitButtonClick}
