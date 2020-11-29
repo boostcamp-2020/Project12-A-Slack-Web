@@ -11,6 +11,10 @@ const Icon = ({
 }: IconType.Props) => {
   return (
     <StyledIcon
+      width={customStyle.width}
+      height={customStyle.height}
+      z-index={customStyle.zIndex}
+      backgroundColor={customStyle.backgroundColor}
       margin={customStyle.margin}
       padding={customStyle.padding}
       fontSize={customStyle.fontSize || '1rem'}
@@ -50,6 +54,10 @@ const StyledIcon = styled.span<IconType.StyleAttributes>`
       hover && color.get(hoverColor)};
   }
   display: ${({ display }) => display};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  z-index: ${({ zIndex }) => zIndex};
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `
 
 export default Icon
