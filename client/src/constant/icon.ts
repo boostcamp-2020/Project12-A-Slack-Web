@@ -12,6 +12,13 @@ import {
   faLaugh,
   faComment,
   faEllipsisV,
+  faEdit,
+  faCommentDots,
+  faAt,
+  faChevronRight,
+  faChevronDown,
+  faHashtag,
+  faLock,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -28,6 +35,13 @@ const myIcon = {
   laughEmoji: faLaugh,
   comment: faComment,
   ellipsis: faEllipsisV,
+  edit: faEdit,
+  thread: faCommentDots,
+  at: faAt,
+  right: faChevronRight,
+  down: faChevronDown,
+  public: faHashtag,
+  private: faLock,
 }
 
 export default myIcon
