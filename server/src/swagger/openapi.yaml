@@ -228,6 +228,10 @@ components:
           type: string
         type:
           type: string
+          enum:
+            - FILE
+            - VIDEO
+            - IMAGE
         messageId:
           type: string
         createdAt:

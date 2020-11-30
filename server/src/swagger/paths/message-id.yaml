@@ -26,6 +26,10 @@ patch:
                     type: string
                   type:
                     type: string
+                    enum:
+                      - FILE
+                      - VIDEO
+                      - IMAGE
   responses:
     '200':
       content:
