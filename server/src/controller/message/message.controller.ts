@@ -37,4 +37,20 @@ const updateMessage = async (
   }
 }
 
-export default { createMessage, updateMessage }
+const deleteMessage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await messageService.deleteMessage({
+      id: +req.params.id,
+      userId: +req.user.id,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export default { createMessage, updateMessage, deleteMessage }

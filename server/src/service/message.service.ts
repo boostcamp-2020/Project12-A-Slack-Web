@@ -122,4 +122,32 @@ const updateMessage = async ({
     }
   }
 }
-export default { createMessage, updateMessage }
+
+const deleteMessage = async ({ id, userId }: MessageType) => {
+  if (!isValidNumber(id) || !isValidNumber(userId))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  const t = await sequelize.transaction()
+  try {
+    await messageModel.destroy({ where: { id, userId }, transaction: t })
+    await FileModel.destroy({ where: { messageId: id } })
+
+    await t.commit()
+    return {
+      code: statusCode.OK,
+      json: { success: true },
+    }
+  } catch (error) {
+    await t.rollback()
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
+export default { createMessage, updateMessage, deleteMessage }
