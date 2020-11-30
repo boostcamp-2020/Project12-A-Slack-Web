@@ -14,6 +14,10 @@ export namespace IconType {
     hover?: boolean
     cursor?: string
     display?: string
+    width?: string
+    height?: string
+    zIndex?: string
+    backgroundColor?: string
     position?: string
     top?: string
     bottom?: string

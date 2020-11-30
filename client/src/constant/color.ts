@@ -5,6 +5,10 @@ color.set('white', '#fff')
 color.set('middleWhite', '#fafbfc')
 color.set('whiteHover', '#f6f8fa')
 
+// orange
+color.set('darkOrange', '#FF8C00')
+color.set('orange', '#FFA500')
+
 // blue
 color.set('blue', '#0368d6')
 color.set('lightBlue', '#2b89ff')

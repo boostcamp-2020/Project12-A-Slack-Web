@@ -1,6 +1,7 @@
 import Header from './Header'
 import MessageActionsMenu from './MessageActionsMenu'
 import ReactionPicker from './ReactionPicker'
+import SideBar from './SideBar'
 import ActionBar from './ActionBar'
 import MessageCard from './MessageCard'
 import MessageEditor from './MessageEditor'
@@ -8,7 +9,6 @@ import UserProfileModal from './UserProfileModal'
 import Avatar from './Avatar'
 import ChannelHeader from './ChannelHeader'
 import MemberListModal from './MemberListModal'
-
 
 export default {
   Header,
@@ -20,5 +20,6 @@ export default {
   UserProfileModal,
   Avatar,
   ChannelHeader,
+  SideBar,
   MemberListModal,
 }
