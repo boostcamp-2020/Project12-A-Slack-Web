@@ -4,7 +4,7 @@ import { ModalWrapperType } from '@atom/ModalWrapper'
 import Picker, { IEmojiData } from 'emoji-picker-react'
 import { ReactionPickerProps } from '.'
 
-const MessageActionsMenu = ({
+const ReactionPicker = ({
   targetId,
   modalAttributes,
   onReactionClick,
@@ -32,4 +32,4 @@ const modalWrapperStyle: ModalWrapperType.StyleAttributes = {
   borderRadius: '6px',
 }
 
-export default MessageActionsMenu
+export default ReactionPicker
