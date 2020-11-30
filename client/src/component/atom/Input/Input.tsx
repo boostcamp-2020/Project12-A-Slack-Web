@@ -25,7 +25,6 @@ const Input = ({
       onChange={onChange}
       placeholder={placeholder}
       value={value}
-      placeholder={placeholder}
     />
   )
 }
