@@ -48,7 +48,7 @@ const IconThirdStyle: IconType.StyleAttributes = {
 }
 
 const buttonStyle: ButtonType.StyleAttributes = {
-  width: '40vh',
+  width: '500px',
   padding: '2px 0px 2px 0px',
   backgroundColor: 'lightBlue',
   border: '1px solid white',

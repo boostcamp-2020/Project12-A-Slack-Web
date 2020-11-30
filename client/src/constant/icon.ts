@@ -27,6 +27,7 @@ import {
   faPlus,
   faPaperPlane,
   faPaperclip,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -58,6 +59,7 @@ const myIcon = {
   plus: faPlus,
   paperPlane: faPaperPlane,
   paperClip: faPaperclip,
+  check: faCheck,
 }
 
 export default myIcon
