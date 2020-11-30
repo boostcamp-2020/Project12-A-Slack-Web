@@ -1,5 +1,7 @@
 post:
   summary: file create api
+  tags:
+    - file
   security:
     - BearerAuth: []
   requestBody:

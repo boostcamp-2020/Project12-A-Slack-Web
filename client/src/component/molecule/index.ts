@@ -4,4 +4,13 @@ import Modal from './Modal'
 import ActionMenuButton from './ActionMenuButton'
 import Section from './Section'
 
-export default { ButtonDiv, HeaderInput, Modal, ActionMenuButton, Section }
+import ReplyButton from './ReplyButton'
+
+export default {
+  ButtonDiv,
+  HeaderInput,
+  Modal,
+  ActionMenuButton,
+  ReplyButton,
+  Section,
+}

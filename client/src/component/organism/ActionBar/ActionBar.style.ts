@@ -6,6 +6,7 @@ const Container = styled.div`
   border-radius: 6px;
   cursor: pointer;
   position: relative;
+  background-color: white;
 `
 
 const ButtonWrapper = styled.div`

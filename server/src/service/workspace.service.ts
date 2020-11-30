@@ -9,6 +9,12 @@ interface WorkspaceType {
   workspaceId?: number
 }
 
+interface WorkspaceInstance extends WorkspaceModel {
+  // eslint-disable-next-line no-unused-vars
+  addUser: (id: number) => Promise<void>
+  user: UserModel[]
+}
+
 const isValidNewWorkspaceData = ({ name, imageUrl }: WorkspaceType) => {
   if (!name || !imageUrl || name === '' || imageUrl === '') return false
   if (!(typeof name === 'string') || !(typeof imageUrl === 'string')) {
@@ -17,7 +23,7 @@ const isValidNewWorkspaceData = ({ name, imageUrl }: WorkspaceType) => {
   return true
 }
 
-const createWorkspace = async ({ name, imageUrl }: WorkspaceType) => {
+const createWorkspace = async ({ userId, name, imageUrl }: WorkspaceType) => {
   if (!isValidNewWorkspaceData({ name, imageUrl })) {
     return {
       code: statusCode.BAD_REQUEST,
@@ -26,7 +32,11 @@ const createWorkspace = async ({ name, imageUrl }: WorkspaceType) => {
   }
 
   try {
-    await WorkspaceModel.create({ name, imageUrl })
+    const workspace = (await WorkspaceModel.create({
+      name,
+      imageUrl,
+    })) as WorkspaceInstance
+    await workspace.addUser(userId)
     return {
       code: statusCode.CREATED,
       json: {
@@ -53,6 +63,7 @@ const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
         },
       ],
     })
+
     return {
       code: statusCode.OK,
       json: {
@@ -66,12 +77,6 @@ const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
       json: { success: false, message: resMessage.DB_ERROR },
     }
   }
-}
-
-interface WorkspaceInstance extends WorkspaceModel {
-  // eslint-disable-next-line no-unused-vars
-  addUser: (id: number) => Promise<void>
-  user: UserModel[]
 }
 
 const joinWorkspace = async ({ userId, workspaceId }: WorkspaceType) => {

@@ -40,7 +40,7 @@ const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
     if (currentChannel) {
       return {
         code: statusCode.BAD_REQUEST,
-        json: { success: true, message: resMessage.DUPLICATE_VALUE_ERROR },
+        json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
       }
     }
     await ChannelModel.create({ name, type, workspaceId })
@@ -106,7 +106,7 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
   if (channelId < 0 || typeof channelId !== 'number') {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {
@@ -130,6 +130,12 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
                 {
                   model: ReactionModel,
                   attributes: ['id', 'content'],
+                  include: [
+                    {
+                      model: UserModel,
+                      attributes: ['id', 'email', 'name', 'profileImageUrl'],
+                    },
+                  ],
                 },
               ],
             },
@@ -173,7 +179,7 @@ const joinChannel = async ({ userId, channelId }: ChannelType) => {
   ) {
     return {
       code: statusCode.BAD_REQUEST,
-      json: { success: true, message: resMessage.OUT_OF_VALUE },
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {

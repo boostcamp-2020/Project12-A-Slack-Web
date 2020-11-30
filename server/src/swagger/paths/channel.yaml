@@ -1,5 +1,7 @@
 get:
   summary: 로그인한 User가 속한 Channel들을 가지고온다.
+  tags:
+    - channel
   security:
     - BearerAuth: []
   responses:
@@ -23,6 +25,8 @@ get:
 
 post:
   summary: channel create api
+  tags:
+    - channel
   security:
     - BearerAuth: []
   requestBody:

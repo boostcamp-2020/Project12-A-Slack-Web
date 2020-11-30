@@ -1,7 +1,9 @@
-export { default } from './ChannelHeader'
+export { default } from './MemberListModal'
 
-export interface ChannelHeaderProps {
+export interface MemberListModalProps {
   channel: Channel
+  onAddPeopleClick?: () => void
+  onClose?: () => void
 }
 
 interface User {

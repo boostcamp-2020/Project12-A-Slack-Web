@@ -21,6 +21,7 @@ color.set('lightSkyBlue', '#87CEFA')
 color.set('darkGrey', '#808080')
 color.set('grey', '#d1d5da')
 color.set('greyHover', '#f5f8fa')
+color.set('iconColorGrey', '#1d1c1d80')
 color.set('textGrey', '#616061')
 color.set('lightGrey', '#e3e3e4')
 color.set('whiteGrey', '#F6F6F6')
@@ -28,6 +29,7 @@ color.set('whiteGrey', '#F6F6F6')
 // green
 color.set('green', '#2ea44f')
 color.set('greenHover', '#22863a')
+color.set('deepGreen', '#007a5a')
 
 // red
 color.set('red', '#cb2431')
