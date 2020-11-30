@@ -27,7 +27,10 @@ const Icon = ({
       align={customStyle.align || 'center'}
       onClick={onClick}
     >
-      <FontAwesomeIcon icon={icon} color={customStyle.color} />
+      <FontAwesomeIcon
+        icon={icon}
+        color={color.get(customStyle.color) || customStyle.color}
+      />
     </StyledIcon>
   )
 }

@@ -45,5 +45,13 @@
       },
       "webpack": { "config": "webpack.config.js" }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
 }
