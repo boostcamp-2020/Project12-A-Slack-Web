@@ -2,7 +2,6 @@ import messageModel from '@model/message.model'
 import FileModel from '@model/file.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
-import validtor from '@util/validator'
 import validator from '@util/validator'
 
 interface FileInfo extends Object {
