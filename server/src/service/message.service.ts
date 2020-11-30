@@ -1,5 +1,6 @@
 import messageModel from '@model/message.model'
 import FileModel from '@model/file.model'
+import ThreadModel from '@model/thread.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
 import validator from '@util/validator'
@@ -118,25 +119,38 @@ const updateMessage = async ({
   }
 }
 
-const deleteMessage = async ({ id, userId }: MessageType) => {
-  if (!validator.isNumber(id) || !validator.isNumber(userId))
+const deleteMessage = async ({ id, userId, threadId }: MessageType) => {
+  if (
+    !validator.isNumber(id) ||
+    !validator.isNumber(userId) ||
+    !validator.isNumber(threadId)
+  )
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
 
-  const t = await sequelize.transaction()
+  const transaction = await sequelize.transaction()
   try {
-    await messageModel.destroy({ where: { id, userId }, transaction: t })
-    await FileModel.destroy({ where: { messageId: id } })
+    await messageModel.destroy({
+      where: { id, userId },
+      transaction,
+    })
+    await FileModel.destroy({ where: { messageId: id }, transaction })
+    const messagesInSameThread = await messageModel.count({
+      where: { threadId },
+    })
 
-    await t.commit()
+    if (messagesInSameThread <= 1)
+      ThreadModel.destroy({ where: { id: threadId } })
+
+    await transaction.commit()
     return {
       code: statusCode.OK,
       json: { success: true },
     }
   } catch (error) {
-    await t.rollback()
+    await transaction.rollback()
     console.log(error)
     return {
       code: statusCode.DB_ERROR,
