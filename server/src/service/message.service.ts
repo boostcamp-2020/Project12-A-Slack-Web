@@ -41,12 +41,14 @@ const createMessage = async ({
       { transaction: t },
     )
 
-    await FileModel.bulkCreate(
-      fileInfoList.map(({ filePath, type }) => {
-        return { url: filePath, type, messageId: newMessage.id }
-      }),
-      { transaction: t },
-    )
+    if (fileInfoList) {
+      await FileModel.bulkCreate(
+        fileInfoList.map(({ filePath, type }) => {
+          return { url: filePath, type, messageId: newMessage.id }
+        }),
+        { transaction: t },
+      )
+    }
 
     await t.commit()
     return {
