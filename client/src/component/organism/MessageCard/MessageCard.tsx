@@ -42,11 +42,11 @@ interface MessageCardProps {
   onReplyButtonClick: () => void
 }
 
-function MessageCard({
+const MessageCard = ({
   data,
   continuous,
   onReplyButtonClick,
-}: MessageCardProps) {
+}: MessageCardProps) => {
   const [hover, setHover] = useState(false)
 
   const handleMouseEnter = () => setHover(true)

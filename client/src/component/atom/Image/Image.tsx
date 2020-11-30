@@ -3,11 +3,11 @@ import styled from 'styled-components'
 
 import { ImageType } from '.'
 
-function Image({
+const Image = ({
   customStyle = defaultStyle,
   url = 'https://avatars1.githubusercontent.com/u/52521323?v=4',
   onClick,
-}: ImageType.Props) {
+}: ImageType.Props) => {
   return (
     <StyledImage
       height={customStyle.height}

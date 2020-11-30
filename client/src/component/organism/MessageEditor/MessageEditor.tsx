@@ -13,7 +13,7 @@ interface MessageEditorProps {
   placeHolder?: string
 }
 
-function MessageEditor({ id, value, placeHolder }: MessageEditorProps) {
+const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
   const [content, setContent] = useState(value)
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
   const fileInput = createRef<HTMLInputElement>()
