@@ -14,6 +14,19 @@ post:
               type: string
             channelId:
               type: number
+            fileInfoList:
+              type: array
+              items:
+                type: object
+                properties:
+                  filePath:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - FILE
+                      - VIDEO
+                      - IMAGE
 
   responses:
     '201':
