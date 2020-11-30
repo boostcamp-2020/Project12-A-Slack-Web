@@ -1,0 +1,43 @@
+patch:
+  summary: update message
+  tags:
+    - message
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: message id
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
+              type: string
+            fileInfoList:
+              type: array
+              items:
+                type: object
+                properties:
+                  filePath:
+                    type: string
+                  type:
+                    type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

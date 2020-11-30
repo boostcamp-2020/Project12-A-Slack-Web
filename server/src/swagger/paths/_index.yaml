@@ -16,6 +16,8 @@
   $ref: './thread.yaml'
 /api/message:
   $ref: './message.yaml'
+/api/message/{id}:
+  $ref: './message-id.yaml'
 /api/reaction:
   $ref: './reaction.yaml'
 /api/file:

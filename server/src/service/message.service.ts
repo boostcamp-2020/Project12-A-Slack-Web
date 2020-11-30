@@ -9,9 +9,10 @@ interface FileInfo extends Object {
 }
 
 interface MessageType {
-  userId: number
-  threadId: number
-  content: string
+  id?: number
+  userId?: number
+  threadId?: number
+  content?: string
   fileInfoList?: FileInfo[]
 }
 
@@ -62,4 +63,61 @@ const createMessage = async ({
   }
 }
 
-export default { createMessage }
+const isValidNumber = (num: number) => {
+  if (!num || num < 1 || Number.isNaN(num)) return false
+  return true
+}
+
+const isValidString = (str: string) => {
+  if (!str || str === '') return false
+  return true
+}
+
+const isValidMessageData = ({ id, userId, content }: MessageType) => {
+  return isValidNumber(id) && isValidNumber(userId) && isValidString(content)
+}
+
+const updateMessage = async ({
+  id,
+  userId,
+  content,
+  fileInfoList,
+}: MessageType) => {
+  if (!isValidMessageData({ id, userId, content }))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  const t = await sequelize.transaction()
+  try {
+    await messageModel.update(
+      { content },
+      { where: { id, userId }, transaction: t },
+    )
+
+    if (fileInfoList) {
+      await FileModel.destroy({ where: { messageId: id } })
+      await FileModel.bulkCreate(
+        fileInfoList.map(({ filePath, type }) => {
+          return { url: filePath, type, messageId: id }
+        }),
+        { transaction: t },
+      )
+    }
+
+    await t.commit()
+    return {
+      code: statusCode.OK,
+      json: { success: true },
+    }
+  } catch (error) {
+    await t.rollback()
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+export default { createMessage, updateMessage }
