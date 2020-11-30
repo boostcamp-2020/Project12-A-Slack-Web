@@ -13,14 +13,19 @@ const Input = ({
     <StyledInput
       height={customStyle.height}
       width={customStyle.width}
+      minHeight={customStyle.minHeight}
       margin={customStyle.margin}
       padding={customStyle.padding}
       border={customStyle.border}
       borderRadius={customStyle.borderRadius}
       backgroundColor={customStyle.backgroundColor}
+      fontSize={customStyle.fontSize}
+      overflow={customStyle.overflow}
+      outline={customStyle.outline}
       onChange={onChange}
       placeholder={placeholder}
       value={value}
+      placeholder={placeholder}
     />
   )
 }

@@ -10,6 +10,7 @@ const Avatar = ({
   user,
   size,
   clickable,
+  avatarImageStyle,
   onMessageButtonClick,
 }: AvatarProps) => {
   const { id, email, name, profileImageUrl } = user
@@ -18,7 +19,7 @@ const Avatar = ({
   // eslint-disable-next-line no-nested-ternary
   const squarePx = size === 'BIG' ? '36px' : size === 'MEDIUM' ? '24px' : '20px'
 
-  const avatarImageStyle: ImageType.StyleAttributes = {
+  const defaultAvatarImageStyle: ImageType.StyleAttributes = {
     height: squarePx,
     width: squarePx,
     margin: '0',
@@ -34,7 +35,7 @@ const Avatar = ({
   return (
     <Styled.Wrapper>
       <A.Image
-        customStyle={avatarImageStyle}
+        customStyle={{ ...defaultAvatarImageStyle, ...avatarImageStyle }}
         url={profileImageUrl}
         onClick={handleAvatarClick}
       />

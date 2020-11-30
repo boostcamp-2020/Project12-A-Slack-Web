@@ -7,6 +7,7 @@ import MessageEditor from './MessageEditor'
 import UserProfileModal from './UserProfileModal'
 import Avatar from './Avatar'
 import ChannelHeader from './ChannelHeader'
+import MemberListModal from './MemberListModal'
 
 
 export default {
@@ -19,4 +20,5 @@ export default {
   UserProfileModal,
   Avatar,
   ChannelHeader,
+  MemberListModal,
 }

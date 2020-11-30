@@ -1,4 +1,4 @@
-import { ReactChild } from 'react'
+import React from 'react'
 
 export { default } from './Input'
 

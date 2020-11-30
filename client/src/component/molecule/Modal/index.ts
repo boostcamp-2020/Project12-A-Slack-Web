@@ -9,5 +9,6 @@ export interface ModalProps {
   modalWrapperStyle?: ModalWrapperType.StyleAttributes
   children?: ReactChild
   disableCloseButton?: boolean
+  fixed?: boolean
   onClose?: () => void
 }
