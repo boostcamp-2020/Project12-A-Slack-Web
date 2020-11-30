@@ -6,6 +6,7 @@ import { InputType } from '.'
 const Input = ({
   customStyle = defaultStyle,
   value,
+  placeholder,
   onChange,
 }: InputType.Props) => {
   return (
@@ -18,6 +19,7 @@ const Input = ({
       borderRadius={customStyle.borderRadius}
       backgroundColor={customStyle.backgroundColor}
       onChange={onChange}
+      placeholder={placeholder}
       value={value}
     />
   )
