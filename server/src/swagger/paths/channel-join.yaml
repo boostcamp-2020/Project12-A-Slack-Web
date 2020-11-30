@@ -1,5 +1,7 @@
 post:
   summary: channel join api
+  tags:
+    - channel
   security:
     - BearerAuth: []
   parameters:

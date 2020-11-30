@@ -1,5 +1,7 @@
 post:
   summary: thread create api
+  tags:
+    - thread
   security:
     - BearerAuth: []
   requestBody:

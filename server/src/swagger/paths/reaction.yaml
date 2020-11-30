@@ -1,5 +1,7 @@
 post:
   summary: create or remove reaction
+  tags:
+    - reaction
   security:
     - BearerAuth: []
   requestBody:

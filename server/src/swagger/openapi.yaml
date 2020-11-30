@@ -5,8 +5,19 @@ info:
   description: Slack Web TEAM A의 API 문서입니다
   license:
     name: MIT
-host: http://localhost:3000
-basePath: /
+servers:
+  - description: dev server
+    url: http://127.0.0.1:3000
+  - description: hyex production server
+    url: http://101.101.219.79:3000
+tags:
+  - user
+  - workspace
+  - channel
+  - thread
+  - message
+  - file
+  - reaction
 paths:
   $ref: './paths/_index.yaml'
 components:
@@ -29,7 +40,7 @@ components:
           type: integer
         email:
           type: string
-        name: 
+        name:
           type: string
         googleId:
           type: string
@@ -51,7 +62,7 @@ components:
       properties:
         id:
           type: integer
-        name: 
+        name:
           type: string
         imageUrl:
           type: string
@@ -75,17 +86,17 @@ components:
           type: datetime
         updatedAt:
           type: datetime
-    Channel: 
+    Channel:
       type: object
-      required: 
+      required:
         - name
         - type
         - createdAt
         - updatedAt
       properties:
-        name: 
+        name:
           type: string
-        type: 
+        type:
           type: string
         createdAt:
           type: datetime
@@ -93,11 +104,11 @@ components:
           type: datetime
         deletedAt:
           type: datetime
-    Section: 
+    Section:
       type: object
-      required: 
+      required:
         - id
-        - name        
+        - name
         - createdAt
         - updatedAt
       properties:
@@ -190,7 +201,7 @@ components:
       properties:
         id:
           type: integer
-        content: 
+        content:
           type: string
         messageId:
           type: integer
@@ -215,7 +226,7 @@ components:
           type: integer
         url:
           type: string
-        type: 
+        type:
           type: string
         messageId:
           type: string
