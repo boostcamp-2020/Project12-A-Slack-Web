@@ -3,9 +3,11 @@ import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import { TextType } from '@atom/Text'
+import { ButtonType } from '@atom/Button'
 import { InputType } from '@atom/Input'
 import { ModalWrapperType } from '@atom/ModalWrapper'
 import myIcon from '@constant/icon'
+import color from '@constant/color'
 import { MemberListModalProps } from '.'
 import Styled from './MemberListModal.style'
 
@@ -20,10 +22,10 @@ const MemberListModal = ({
   const [memberSearchResult, setMemberSearchResult] = useState(members)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const input = e.target.value.trim()
+    const input = e.target.value
     setSearchKeyword(input)
 
-    const escapedInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // 특수문자 검색 처리
+    const escapedInput = input.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // 특수문자 검색 처리
     const searchResult =
       escapedInput === ''
         ? members
@@ -32,6 +34,11 @@ const MemberListModal = ({
             return member.name.match(regex) || member.email.match(regex)
           })
     setMemberSearchResult(searchResult)
+  }
+
+  const handleClearSearchButtonClick = (): void => {
+    setSearchKeyword('')
+    setMemberSearchResult(members)
   }
 
   return (
@@ -60,6 +67,7 @@ const MemberListModal = ({
 
           <A.Input
             placeholder="Search members"
+            value={searchKeyword}
             onChange={handleInputChange}
             customStyle={inputStyle}
           />
@@ -74,6 +82,13 @@ const MemberListModal = ({
                   {searchKeyword}
                 </A.Text>
               </div>
+              <M.ButtonDiv
+                buttonStyle={clearSearchButtonStyle}
+                textStyle={clearSearchButtonTextStyle}
+                onClick={handleClearSearchButtonClick}
+              >
+                Clear search
+              </M.ButtonDiv>
             </Styled.EmptyListWrapper>
           ) : (
             memberSearchResult.map((member) => (
@@ -126,6 +141,19 @@ const searchKeywordTextStyle: TextType.StyleAttributes = {
 const memberNameTextStyle: TextType.StyleAttributes = {
   fontWeight: '600',
   margin: '0 0 0 10px',
+}
+
+const clearSearchButtonStyle: ButtonType.StyleAttributes = {
+  margin: '10px',
+  padding: '10px',
+  border: '1px solid grey',
+  backgroundColor: 'white',
+  hoverBackgroundColor: color.get('whiteHover'),
+}
+
+const clearSearchButtonTextStyle: TextType.StyleAttributes = {
+  fontSize: '0.9rem',
+  fontWeight: '600',
 }
 
 export default MemberListModal
