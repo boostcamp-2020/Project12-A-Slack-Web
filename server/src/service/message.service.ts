@@ -2,6 +2,8 @@ import messageModel from '@model/message.model'
 import FileModel from '@model/file.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
+import validtor from '@util/validator'
+import validator from '@util/validator'
 
 interface FileInfo extends Object {
   filePath: string
@@ -65,18 +67,12 @@ const createMessage = async ({
   }
 }
 
-const isValidNumber = (num: number) => {
-  if (!num || num < 1 || Number.isNaN(num)) return false
-  return true
-}
-
-const isValidString = (str: string) => {
-  if (!str || str === '') return false
-  return true
-}
-
 const isValidMessageData = ({ id, userId, content }: MessageType) => {
-  return isValidNumber(id) && isValidNumber(userId) && isValidString(content)
+  return (
+    validator.isNumber(id) &&
+    validator.isNumber(userId) &&
+    validator.isString(content)
+  )
 }
 
 const updateMessage = async ({
@@ -124,7 +120,7 @@ const updateMessage = async ({
 }
 
 const deleteMessage = async ({ id, userId }: MessageType) => {
-  if (!isValidNumber(id) || !isValidNumber(userId))
+  if (!validator.isNumber(id) || !validator.isNumber(userId))
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
