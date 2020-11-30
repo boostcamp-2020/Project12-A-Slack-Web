@@ -13,6 +13,12 @@ import {
   faComment,
   faEllipsisV,
   faTrashAlt,
+  faCircle,
+  faStar,
+  faUserPlus,
+  faLock,
+  faHashtag,
+  faInfo,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -30,6 +36,12 @@ const myIcon = {
   comment: faComment,
   ellipsis: faEllipsisV,
   trashAlt: faTrashAlt,
+  online: faCircle,
+  star: faStar,
+  addUser: faUserPlus,
+  lock: faLock,
+  hashtag: faHashtag,
+  info: faInfo,
 }
 
 export default myIcon

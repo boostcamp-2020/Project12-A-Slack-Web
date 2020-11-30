@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
-import verifyUser from '../../middleware/user.middleware'
+import verifyUser from '@middleware/user.middleware'
 import userController from './user.controller'
 
 const router = Router()
