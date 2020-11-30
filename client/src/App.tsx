@@ -10,7 +10,7 @@ import myAxios from '@util/myAxios'
 import LoginPage from '@page/User/LoginPage'
 import WorkspacePage from '@page/Workspace/WorkspacePage'
 import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
-import O from '@organism'
+import ChannelBrowserPage from '@page/Channel/ChannelBrowserPage'
 
 const App = () => {
   const token = localStorage.getItem('token')
@@ -61,13 +61,12 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <O.Header />
-      <O.SideBar />
       <Router>
         <Switch>
           <Route exact path="/" component={WorkspacePage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/workspace/join" component={WorkspaceJoinPage} />
+          <Route exact path="/channel-browser" component={ChannelBrowserPage} />
         </Switch>
       </Router>
     </>
