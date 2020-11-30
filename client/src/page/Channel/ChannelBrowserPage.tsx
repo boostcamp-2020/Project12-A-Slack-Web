@@ -4,11 +4,15 @@ import O from '@organism'
 import styled from 'styled-components'
 
 const ChannelBrowserPage = () => {
+  const workspaceId = 1
+
   const [subViewShow, setSubViewShow] = useState(true)
 
-  const toggleSubContainer = () => {
-    setSubViewShow(!subViewShow)
-  }
+  const handleSubViewOpen = () => setSubViewShow(true)
+  const handleSubViewClose = () => setSubViewShow(false)
+
+  const subView = 'nothing'
+
   return (
     <WorkspaceContainer>
       <O.Header />
@@ -17,10 +21,11 @@ const ChannelBrowserPage = () => {
         <O.SideBar />
         <ViewContainer>
           <MainView>
-            <A.Button onClick={toggleSubContainer}>open sub view</A.Button>
-            main
+            <ChannelBrowserHeader>
+              <O.ChannelBrowserHeader workspaceId={workspaceId} />
+            </ChannelBrowserHeader>
           </MainView>
-          {subViewShow && <SubView>sub</SubView>}
+          {subViewShow && <SubView>{subView}</SubView>}
         </ViewContainer>
       </WorkspaceLayout>
     </WorkspaceContainer>
@@ -50,6 +55,13 @@ const MainView = styled.div`
 const SubView = styled.div`
   width: 65%;
   border-left: 1px solid rgb(230, 230, 230);
+`
+
+const ChannelBrowserHeader = styled.div`
+  display: flex;
+  height: 61px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  border-top: 1px solid rgb(230, 230, 230);
 `
 
 export default ChannelBrowserPage
