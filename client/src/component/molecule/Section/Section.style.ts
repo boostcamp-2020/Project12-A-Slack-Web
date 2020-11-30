@@ -6,6 +6,13 @@ const SectionContainer = styled.div`
   justify-content: space-between;
 `
 
+const SectionHoverContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const SectionHeader = styled.div`
   width: 200px;
   padding: 5px;
@@ -19,4 +26,5 @@ export default {
   SectionContainer,
   SectionHeader,
   SectionChannelContainer,
+  SectionHoverContainer,
 }

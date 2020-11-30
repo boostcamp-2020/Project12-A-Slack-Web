@@ -57,8 +57,8 @@ const SideBar = () => {
         </M.ButtonDiv>
       </Styled.OtherPagePart>
       <Styled.SectionChannelPart>
-        <M.Section title="Channels" />
-        <M.Section title="Direct Messages" />
+        <M.Section title="Channels" type="CHANNEL" />
+        <M.Section title="Direct Messages" type="DM" />
       </Styled.SectionChannelPart>
     </Styled.SideBarContainer>
   )
