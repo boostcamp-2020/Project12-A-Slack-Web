@@ -19,4 +19,20 @@ const createThread = async (
   }
 }
 
-export default { createThread }
+const deleteThread = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await threadService.deleteThread({
+      id: +req.params.id,
+      userId: req.user.id,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export default { createThread, deleteThread }

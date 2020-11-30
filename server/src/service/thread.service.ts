@@ -3,6 +3,7 @@ import MessageModel from '@model/message.model'
 import FileModel from '@model/file.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
+import validator from '@util/validator'
 
 interface FileInfo extends Object {
   filePath: string
@@ -65,4 +66,36 @@ const createThread = async ({
   }
 }
 
-export default { createThread }
+interface deleteThreadType {
+  id: number
+  userId: number
+}
+
+const deleteThread = async ({ id, userId }: deleteThreadType) => {
+  if (!validator.isNumber(id) || !validator.isNumber(userId))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  const t = await sequelize.transaction()
+  try {
+    await ThreadModel.destroy({ where: { id, userId }, transaction: t })
+    await MessageModel.destroy({ where: { threadId: id } })
+
+    await t.commit()
+    return {
+      code: statusCode.OK,
+      json: { success: true },
+    }
+  } catch (error) {
+    await t.rollback()
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
+export default { createThread, deleteThread }

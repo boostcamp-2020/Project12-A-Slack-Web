@@ -14,6 +14,8 @@
   $ref: './channel-join.yaml'
 /api/thread:
   $ref: './thread.yaml'
+/api/thread/{id}:
+  $ref: './thread-id.yaml'
 /api/message:
   $ref: './message.yaml'
 /api/message/{id}:

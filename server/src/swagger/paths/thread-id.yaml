@@ -1,0 +1,26 @@
+delete:
+  summary: delete thread
+  tags:
+    - thread
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: thread id
+      type: integer
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
