@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import jwt from '../../util/jwt'
+import jwt from '@util/jwt'
 
 const frontURL =
   process.env.NODE_ENV === 'development'
