@@ -22,11 +22,12 @@
       "@atom/*": ["src/component/atom/*"],
       "@molecule/*": ["src/component/molecule/*"],
       "@organism/*": ["src/component/organism/*"],
-      
+
       "@constant/*": ["src/constant/*"],
       "@page/*": ["src/page/*"],
       "@store/*": ["src/store/*"],
-      "@util/*": ["src/util/*"]
+      "@util/*": ["src/util/*"],
+      "@api/*": ["src/api/*"]
     }
   },
   "exclude": ["node_modules"],
