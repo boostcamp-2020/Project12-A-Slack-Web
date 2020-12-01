@@ -12,8 +12,7 @@ import LoginPage from '@page/User/LoginPage'
 import WorkspacePage from '@page/Workspace/WorkspacePage'
 import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
 import ChannelPage from '@page/Channel/ChannelPage'
-import ChannelBrowserPage from '@page/Channel/ChannelBrowserPage'
-import store from './store'
+import store from '@store'
 
 const App = () => {
   const token = localStorage.getItem('token')
