@@ -50,7 +50,7 @@ const App = () => {
   }
 
   useEffect(() => {
-    return checkUser()
+    checkUser()
   }, [])
 
   return (
