@@ -5,12 +5,14 @@ import {
   Route,
   useHistory,
 } from 'react-router-dom'
+import { Provider } from 'react-redux'
 import { createGlobalStyle } from 'styled-components'
 import myAxios from '@util/myAxios'
 import LoginPage from '@page/User/LoginPage'
 import WorkspacePage from '@page/Workspace/WorkspacePage'
 import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
 import ChannelPage from '@page/Channel/ChannelPage'
+import store from '@store'
 
 const App = () => {
   const token = localStorage.getItem('token')
@@ -59,7 +61,7 @@ const App = () => {
   }, [])
 
   return (
-    <>
+    <Provider store={store}>
       <GlobalStyle />
       <Router>
         <Switch>
@@ -69,7 +71,7 @@ const App = () => {
           <Route exact path="/channel" component={ChannelPage} />
         </Switch>
       </Router>
-    </>
+    </Provider>
   )
 }
 
