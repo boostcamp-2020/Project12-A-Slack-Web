@@ -21,7 +21,8 @@ const RightWrapper = styled.div`
 `
 
 const MemberCountWrapper = styled.div`
-  width: 1.5rem;
+  font-size: 1.4rem;
+  width: 25px;
   &:hover {
     background-color: ${color.get('whiteHover')};
   }

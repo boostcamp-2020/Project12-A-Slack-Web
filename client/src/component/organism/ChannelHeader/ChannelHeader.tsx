@@ -99,7 +99,7 @@ const buttonStyle: ButtonType.StyleAttributes = {
 const memberListButtonStyle: ButtonType.StyleAttributes = {
   hoverBackgroundColor: 'whiteHover',
   height: '30px',
-  margin: '2px',
+  margin: '3px',
 }
 
 const memberAvatarStyle: ImageType.StyleAttributes = {
