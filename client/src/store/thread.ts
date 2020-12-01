@@ -23,6 +23,8 @@ export const GET_THREADS = 'thread/GET_THREADS' as const
 export const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
 export const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
+export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
+export const SEND_CREATE_THREAD = 'thread/SEND_CREATE_THREAD' as const
 
 // Action generator
 export const getThreads = createAction(GET_THREADS)()
@@ -31,6 +33,10 @@ export const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
 >()
 export const getThreadsError = createAction(GET_THREADS_ERROR)()
 export const createThread = createAction(CREATE_THREAD)<ThreadType>()
+export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
+  ThreadType
+>()
+export const sendCreateThread = createAction(SEND_CREATE_THREAD)<ThreadType>()
 
 // action
 const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }
