@@ -35,7 +35,7 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
     }
     threadApi.createThread(data)
     const newMockData = {
-      id: 4,
+      id: 5,
       createdAt: '2020-11-25T15:09:30.000Z',
       updatedAt: '2020-11-25T15:09:30.000Z',
       messageCount: 3,

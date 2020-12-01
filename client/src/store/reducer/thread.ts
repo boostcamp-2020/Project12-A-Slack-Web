@@ -1,4 +1,6 @@
-import { createAction, handleActions } from 'redux-actions'
+import { createAction, ActionType, createReducer } from 'typesafe-actions'
+// import { AxiosError } from 'axios'
+// import mockData from './mock-data'
 
 interface UserType {
   id: number
@@ -23,23 +25,16 @@ export const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 
 // Action generator
-export const getThreads = createAction(GET_THREADS)
-export const getThreadsSuccess = createAction(
-  GET_THREADS,
-  (threads: ThreadType[]) => threads,
-)
-export const getThreadsError = createAction(GET_THREADS)
-export const createThread = createAction(
-  GET_THREADS,
-  (newThread: ThreadType) => newThread,
-)
+export const getThreads = createAction(GET_THREADS)()
+export const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
+  ThreadType[]
+>()
+export const getThreadsError = createAction(GET_THREADS_ERROR)()
+export const createThread = createAction(CREATE_THREAD)<ThreadType>()
 
-// actions
-type ThreadAction =
-  | ReturnType<typeof getThreads>
-  | ReturnType<typeof getThreadsSuccess>
-  | ReturnType<typeof getThreadsError>
-  | ReturnType<typeof createThread>
+// action
+const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }
+type ThreadAction = ActionType<typeof actions>
 
 // state
 interface ThreadState {
@@ -51,21 +46,15 @@ const initialState: ThreadState = {
   threadList: [],
 }
 
-// reducer
-function thread(
-  state: ThreadState = mockData,
-  action: ThreadAction,
-): ThreadState {
-  switch (action.type) {
-    // case GET_THREADS:
-    case GET_THREADS_SUCCESS:
-      return { threadList: action.payload }
-    // case GET_THREADS_ERROR:
-    case CREATE_THREAD:
-      return { threadList: [...state.threadList, action.payload] }
-    default:
-      return state
-  }
-}
+const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
+  [GET_THREADS_SUCCESS]: (state, action) => ({
+    ...state,
+    threadList: action.payload,
+  }),
+  [CREATE_THREAD]: (state, action) => ({
+    ...state,
+    threadList: [...state.threadList, action.payload],
+  }),
+})
 
-export default thread
+export default reducer
