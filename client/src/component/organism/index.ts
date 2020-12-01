@@ -9,6 +9,10 @@ import UserProfileModal from './UserProfileModal'
 import Avatar from './Avatar'
 import ChannelHeader from './ChannelHeader'
 import MemberListModal from './MemberListModal'
+import ChannelBrowserHeader from './ChannelBrowserHeader'
+import ChannelCard from './ChannelCard'
+import ChannelList from './ChannelList'
+import ThreadList from './ThreadList'
 
 export default {
   Header,
@@ -22,4 +26,8 @@ export default {
   ChannelHeader,
   SideBar,
   MemberListModal,
+  ChannelBrowserHeader,
+  ChannelCard,
+  ChannelList,
+  ThreadList,
 }

@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  padding: 8px 20px;
+  // height: 100%;
+  padding: 13px 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

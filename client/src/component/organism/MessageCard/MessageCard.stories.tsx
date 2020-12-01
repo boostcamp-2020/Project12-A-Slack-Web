@@ -33,6 +33,13 @@ export const messageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -70,6 +77,13 @@ export const messageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -121,6 +135,13 @@ export const ContinuousMessageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -156,6 +177,13 @@ export const ContinuousMessageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -177,6 +205,13 @@ export const ContinuousMessageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -229,6 +264,13 @@ export const NoReplyMessageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },
@@ -277,6 +319,13 @@ export const NoHeadMessageCard = () => {
           {
             id: 4,
             content: ':gun:',
+            User: {
+              id: 1,
+              email: 'dlgkswn885@korea.ac.kr',
+              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
+              profileImageUrl:
+                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+            },
           },
         ],
       },

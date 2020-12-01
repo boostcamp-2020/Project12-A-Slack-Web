@@ -23,10 +23,14 @@ const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
           <A.Image customStyle={imageStyle} />
         </Styled.ImageWrapper>
         <Styled.CountTextWrapper>
-          <A.Text customStyle={countTextStyle}>{`${count} reply`}</A.Text>
+          <A.Text customStyle={countTextStyle}>
+            {count + (count > 1 ? ' replies' : ' reply')}
+          </A.Text>
         </Styled.CountTextWrapper>
         <Styled.TimeTextWrapper>
-          <A.Text customStyle={timeTextStyle}>{`Last reply ${time}`}</A.Text>
+          <A.Text customStyle={timeTextStyle}>
+            {hover ? 'View thread' : `Last reply ${time}`}
+          </A.Text>
         </Styled.TimeTextWrapper>
         {hover && <Styled.Arrow>&gt;</Styled.Arrow>}
       </Styled.Container>

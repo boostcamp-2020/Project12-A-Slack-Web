@@ -3,8 +3,8 @@ import HeaderInput from './HeaderInput'
 import Modal from './Modal'
 import ActionMenuButton from './ActionMenuButton'
 import Section from './Section'
-
 import ReplyButton from './ReplyButton'
+import CloseButton from './CloseButton'
 
 export default {
   ButtonDiv,
@@ -13,4 +13,5 @@ export default {
   ActionMenuButton,
   ReplyButton,
   Section,
+  CloseButton,
 }

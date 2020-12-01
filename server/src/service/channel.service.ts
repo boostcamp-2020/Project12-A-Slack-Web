@@ -152,7 +152,7 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
           attributes: ['id', 'email', 'name', 'profileImageUrl'],
         },
       ],
-      attributes: ['id', 'type', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'type', 'name', 'createdAt', 'updatedAt'],
       where: { id: channelId },
     })) as ChannelInstance
     return {

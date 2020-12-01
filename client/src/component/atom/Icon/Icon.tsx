@@ -22,7 +22,7 @@ const Icon = ({
       position={customStyle.position}
       margin={customStyle.margin}
       padding={customStyle.padding}
-      fontSize={customStyle.fontSize || '1rem'}
+      fontSize={customStyle.fontSize || '1.4rem'}
       fontWeight={customStyle.fontWeight || 'normal'}
       display={customStyle.display || 'inline'}
       hover={customStyle.hover || false}
@@ -43,7 +43,7 @@ const defaultStyle: IconType.StyleAttributes = {
   margin: '0',
   padding: '0',
   color: '#000000',
-  fontSize: '1rem',
+  fontSize: '1.4rem',
   cursor: 'pointer',
   align: 'center',
   display: 'inline',
