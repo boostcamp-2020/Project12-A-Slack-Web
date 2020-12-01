@@ -13,6 +13,7 @@ import ChannelBrowserHeader from './ChannelBrowserHeader'
 import ChannelCard from './ChannelCard'
 import ChannelList from './ChannelList'
 import ThreadList from './ThreadList'
+import ThreadDetail from './ThreadDetail'
 
 export default {
   Header,
@@ -30,4 +31,5 @@ export default {
   ChannelCard,
   ChannelList,
   ThreadList,
+  ThreadDetail,
 }

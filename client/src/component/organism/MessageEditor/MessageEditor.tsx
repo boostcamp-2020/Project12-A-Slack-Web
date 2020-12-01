@@ -1,10 +1,13 @@
 import React, { ChangeEvent, useState, createRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import A from '@atom'
 import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import myAxios from '@util/myAxios'
+import threadApi from '@api/thread'
+import { RootState } from '@store/reducer'
+import { createThread } from '@store/reducer/thread'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
@@ -14,7 +17,9 @@ interface MessageEditorProps {
 }
 
 const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
-  const [content, setContent] = useState(value)
+  const threadList = useSelector((state: RootState) => state.thread.threadList)
+  const dispatch = useDispatch()
+  const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
   const fileInput = createRef<HTMLInputElement>()
 
@@ -28,7 +33,23 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
       content,
       channelId: 1,
     }
-    myAxios.post({ path: '/thread', data })
+    threadApi.createThread(data)
+    const newMockData = {
+      id: 5,
+      createdAt: '2020-11-25T15:09:30.000Z',
+      updatedAt: '2020-11-25T15:09:30.000Z',
+      messageCount: 3,
+      profileImageUrl: ['1', '2', '3'],
+      User: {
+        id: 2,
+        email: 'ihanju95@gmail.com',
+        name: '이두주',
+        profileImageUrl:
+          'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
+      },
+    }
+
+    dispatch(createThread(newMockData))
     console.log('CREATE MESSAGE !')
   }
 

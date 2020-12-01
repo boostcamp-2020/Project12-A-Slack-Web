@@ -61,7 +61,7 @@ const MemberListModal = ({
             </>
           </A.Text>
 
-          <A.Text customStyle={{ color: 'blue' }} onClick={onAddPeopleClick}>
+          <A.Text customStyle={addPeopleTextStyle} onClick={onAddPeopleClick}>
             Add people
           </A.Text>
 
@@ -125,12 +125,18 @@ const modalTitleTextStyle: TextType.StyleAttributes = {
   margin: '0 0 1rem 0',
 }
 
+const addPeopleTextStyle: TextType.StyleAttributes = {
+  color: 'blue',
+  fontWeight: '600',
+  fontSize: '1.4rem',
+}
+
 const inputStyle: InputType.StyleAttributes = {
   border: '1px solid grey',
   borderRadius: '5px',
   padding: '0 10px',
   margin: '12px 0',
-  fontSize: '1rem',
+  fontSize: '1.4rem',
 }
 
 const searchKeywordTextStyle: TextType.StyleAttributes = {
@@ -140,6 +146,7 @@ const searchKeywordTextStyle: TextType.StyleAttributes = {
 
 const memberNameTextStyle: TextType.StyleAttributes = {
   fontWeight: '600',
+  fontSize: '1.4rem',
   margin: '0 0 0 10px',
 }
 
