@@ -16,10 +16,12 @@ export namespace InputType {
     overflow?: string
     cursor?: string
     outline?: string
+    name?: string
   }
 
   export interface Props {
     customStyle?: StyleAttributes
+    name?: string
     value?: string
     placeholder?: string
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
