@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 
@@ -7,35 +8,27 @@ import channelInfo from './data'
 const ChannelBrowserPage = () => {
   const channel = channelInfo
 
-  const [subViewShow, setSubViewShow] = useState(true)
+  const [subViewShow, setSubViewShow] = useState(false)
+  const [subViewHeader, setSubViewHeader] = useState<React.ReactNode>(<></>)
+  const [subViewBody, setSubViewBody] = useState<React.ReactNode>(<></>)
 
   const handleSubViewOpen = () => setSubViewShow(true)
   const handleSubViewClose = () => setSubViewShow(false)
 
   /** Channel Browser page */
-  // const mainViewHeader = <O.ChannelBrowserHeader workspaceId={workspaceId} />
-  // const mainViewBody = <O.ChannelList channelList={channelList} />
+  // const mainViewHeader = <O.ChannelBrowserHeader workspaceId={1} />
+  // const mainViewBody = <O.ChannelList channelList={[]} />
 
   /** Channel page */
   const mainViewHeader = <O.ChannelHeader channel={channel} />
   const mainViewBody = (
-    <ChannelMainContainer>
-      <ThreadListContainer>
-        {channel.Threads.map((thread) => (
-          <O.MessageCard
-            data={thread}
-            onReplyButtonClick={() => alert(`thread id: ${thread.id}`)}
-          />
-        ))}
-      </ThreadListContainer>
-      <EditorContainer>
-        <O.MessageEditor />
-      </EditorContainer>
-    </ChannelMainContainer>
+    <O.ThreadList
+      channel={channel}
+      handleSubViewOpen={handleSubViewOpen}
+      handleSubViewHeader={setSubViewHeader}
+      handleSubViewBody={setSubViewBody}
+    />
   )
-
-  const subViewHeader = 'sub view header'
-  const subViewBody = 'sub view body'
 
   return (
     <WorkspaceContainer>
@@ -51,7 +44,10 @@ const ChannelBrowserPage = () => {
 
           {subViewShow && (
             <SubView>
-              <ViewHeader>{subViewHeader}</ViewHeader>
+              <ViewHeader>
+                {subViewHeader}
+                <M.CloseButton onClick={handleSubViewClose} />
+              </ViewHeader>
               <ViewBody>{subViewBody}</ViewBody>
             </SubView>
           )}
@@ -92,38 +88,19 @@ const SubView = styled.div`
 
 const ViewHeader = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: 61px;
+  padding: 10px 20px;
   border-bottom: 1px solid rgb(230, 230, 230);
   border-top: 1px solid rgb(230, 230, 230);
 `
-
 const ViewBody = styled.div`
   padding: 0 20px;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-`
-
-const ChannelMainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  // justify-content: flex-end;
-  position: relative;
-  box-sizing: content-box;
-  height: 100%;
-`
-const ThreadListContainer = styled.div`
-  height: 82%;
-  overflow-y: auto;
-  overflow-x: hidden;
-`
-const EditorContainer = styled.div`
-  height: 18%;
-  width: 100%;
-  background-color: white;
-  position: absolute;
-  bottom: 0;
 `
 
 export default ChannelBrowserPage
