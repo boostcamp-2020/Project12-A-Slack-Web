@@ -20,6 +20,7 @@
       "@organism": ["src/component/organism/index"],
       "@store": ["src/store/index"],
       "@page":["src/page/index"],
+      "@hook":["src/hook/index"],
 
       "@atom/*": ["src/component/atom/*"],
       "@molecule/*": ["src/component/molecule/*"],
@@ -29,7 +30,8 @@
       "@page/*": ["src/page/*"],
       "@store/*": ["src/store/*"],
       "@util/*": ["src/util/*"],
-      "@api/*": ["src/api/*"]
+      "@api/*": ["src/api/*"],
+      "@hook/*":["src/hook/*"],
     }
   },
   "exclude": ["node_modules"],
