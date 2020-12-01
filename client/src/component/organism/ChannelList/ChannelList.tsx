@@ -44,6 +44,7 @@ const inputStyle: InputType.StyleAttributes = {
   border: '1px solid grey',
   borderRadius: '5px',
   padding: '0 10px',
+  margin: '20px 0',
   fontSize: '1.4rem',
 }
 

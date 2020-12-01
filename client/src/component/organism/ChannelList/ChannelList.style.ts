@@ -8,7 +8,6 @@ const Wrapper = styled.div`
 const ResultListHeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 10px 0 0 0;
   padding: 10px 0;
   border-bottom: 1px solid rgb(230, 230, 230);
 `

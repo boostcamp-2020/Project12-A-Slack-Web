@@ -4,7 +4,7 @@ import color from '@constant/color'
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  // padding: 10px 20px;
   width: 100%;
   height: 100%;
 `
