@@ -6,7 +6,6 @@ const ChannelMainContainer = styled.div`
   position: relative;
   box-sizing: content-box;
   height: 100%;
-  border: 1px solid red;
 `
 const ThreadListContainer = styled.div`
   // height: 82%;

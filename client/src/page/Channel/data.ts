@@ -1,3 +1,25 @@
+const user01 = {
+  id: 1,
+  email: 'user01@naver.com',
+  name: '‍유저1',
+  profileImageUrl:
+    'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+}
+const user02 = {
+  id: 2,
+  email: 'user02@naver.com',
+  name: '‍유저22',
+  profileImageUrl:
+    'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
+}
+const user03 = {
+  id: 3,
+  email: 'user03@naver.com',
+  name: '‍3번 유저',
+  profileImageUrl:
+    'https://lh6.googleusercontent.com/-tOsYv0M4ksY/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckjb6_Y0uojAO9pKSlhpsKV-ha2Zg/s96-c/photo.jpg',
+}
+
 const channelInfo = {
   id: 1,
   type: 'PUBLIC',
@@ -12,83 +34,69 @@ const channelInfo = {
       Messages: [
         {
           id: 1,
-          content: 'ㄹㅇㅎㅇㅎㅇㅎㅇㅎㅇㅎㅇ',
+          content: '첫번째 스레드',
           isHead: true,
           createdAt: '2020-11-25T15:09:30.000Z',
           updatedAt: '2020-11-25T15:09:30.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
           Files: [],
           Reactions: [
             {
               id: 4,
               content: ':gun:',
-              User: {
-                id: 1,
-                email: 'dlgkswn885@korea.ac.kr',
-                name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-                profileImageUrl:
-                  'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-              },
+              User: user01,
             },
           ],
         },
         {
           id: 2,
-          content: 'ㅂㅈㄷㅈㅂㄷㅂㅈㄷㅂㅈㄷ',
+          content: '첫번째 스레드의 댓글',
           isHead: false,
           createdAt: '2020-11-25T15:09:30.000Z',
           updatedAt: '2020-11-25T15:09:30.000Z',
-          User: {
-            id: 2,
-            email: 'ihanju95@gmail.com',
-            name: '이두주',
-            profileImageUrl:
-              'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-          },
+          User: user02,
           Files: [],
           Reactions: [],
         },
       ],
-      User: {
-        id: 2,
-        email: 'ihanju95@gmail.com',
-        name: '이두주',
-        profileImageUrl:
-          'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-      },
+      User: user02,
     },
-    // {
-    //   id: 2,
-    //   createdAt: '2020-11-25T15:09:30.000Z',
-    //   updatedAt: '2020-11-25T15:09:30.000Z',
-    //   Messages: [],
-    //   User: {
-    //     id: 1,
-    //     email: 'dlgkswn885@korea.ac.kr',
-    //     name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-    //     profileImageUrl:
-    //       'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-    //   },
-    // },
-    // {
-    //   id: 3,
-    //   createdAt: '2020-11-26T11:12:41.000Z',
-    //   updatedAt: '2020-11-26T11:12:41.000Z',
-    //   Messages: [],
-    //   User: {
-    //     id: 1,
-    //     email: 'dlgkswn885@korea.ac.kr',
-    //     name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-    //     profileImageUrl:
-    //       'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-    //   },
-    // },
+    {
+      id: 2,
+      createdAt: '2020-11-26T11:25:44.000Z',
+      updatedAt: '2020-11-26T11:25:44.000Z',
+      Messages: [
+        {
+          id: 2,
+          content: '두번째 스레드',
+          isHead: true,
+          createdAt: '2020-11-26T11:25:44.000Z',
+          updatedAt: '2020-11-26T11:25:44.000Z',
+          User: user01,
+          Files: [],
+          Reactions: [],
+        },
+      ],
+      User: user01,
+    },
+    {
+      id: 3,
+      createdAt: '2020-11-26T11:25:44.000Z',
+      updatedAt: '2020-11-26T11:25:44.000Z',
+      Messages: [
+        {
+          id: 4,
+          content: '세번째 스레드',
+          isHead: true,
+          createdAt: '2020-11-26T11:25:44.000Z',
+          updatedAt: '2020-11-26T11:25:44.000Z',
+          User: user01,
+          Files: [],
+          Reactions: [],
+        },
+      ],
+      User: user01,
+    },
     {
       id: 4,
       createdAt: '2020-11-26T11:25:44.000Z',
@@ -96,61 +104,48 @@ const channelInfo = {
       Messages: [
         {
           id: 4,
-          content: '이름 중복 가능?',
+          content: '네번째 스레드',
           isHead: true,
           createdAt: '2020-11-26T11:25:44.000Z',
           updatedAt: '2020-11-26T11:25:44.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
+          Files: [],
+          Reactions: [],
+        },
+        {
+          id: 2,
+          content: '네번째 스레드의 댓글',
+          isHead: false,
+          createdAt: '2020-11-25T15:09:30.000Z',
+          updatedAt: '2020-11-25T15:09:30.000Z',
+          User: user02,
           Files: [],
           Reactions: [],
         },
       ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
+      User: user01,
     },
-    // {
-    //   id: 19,
-    //   createdAt: '2020-11-29T15:08:10.000Z',
-    //   updatedAt: '2020-11-29T15:08:10.000Z',
-    //   Messages: [],
-    //   User: null,
-    // },
-    // {
-    //   id: 20,
-    //   createdAt: '2020-11-29T15:09:56.000Z',
-    //   updatedAt: '2020-11-29T15:09:56.000Z',
-    //   Messages: [],
-    //   User: null,
-    // },
-    // {
-    //   id: 21,
-    //   createdAt: '2020-11-29T15:09:59.000Z',
-    //   updatedAt: '2020-11-29T15:09:59.000Z',
-    //   Messages: [],
-    //   User: null,
-    // },
-    // {
-    //   id: 22,
-    //   createdAt: '2020-11-29T15:10:30.000Z',
-    //   updatedAt: '2020-11-29T15:10:30.000Z',
-    //   Messages: [],
-    //   User: null,
-    // },
-
+    {
+      id: 5,
+      createdAt: '2020-11-26T11:25:44.000Z',
+      updatedAt: '2020-11-26T11:25:44.000Z',
+      Messages: [
+        {
+          id: 4,
+          content: '다섯번째 스레드',
+          isHead: true,
+          createdAt: '2020-11-26T11:25:44.000Z',
+          updatedAt: '2020-11-26T11:25:44.000Z',
+          User: user01,
+          Files: [],
+          Reactions: [],
+        },
+      ],
+      User: user01,
+    },
     /// / Thread 추가 데이터
     {
-      id: 44,
+      id: 6,
       createdAt: '2020-11-25T15:09:30.000Z',
       updatedAt: '2020-11-25T15:09:30.000Z',
       Messages: [
@@ -160,25 +155,13 @@ const channelInfo = {
           isHead: true,
           createdAt: '2020-11-25T15:09:30.000Z',
           updatedAt: '2020-11-28T15:09:30.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
           Files: [],
           Reactions: [
             {
               id: 4,
               content: ':gun:',
-              User: {
-                id: 1,
-                email: 'dlgkswn885@korea.ac.kr',
-                name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-                profileImageUrl:
-                  'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-              },
+              User: user01,
             },
           ],
         },
@@ -188,13 +171,7 @@ const channelInfo = {
           isHead: false,
           createdAt: '2020-11-25T15:09:30.000Z',
           updatedAt: '2020-11-26T15:09:30.000Z',
-          User: {
-            id: 2,
-            email: 'ihanju95@gmail.com',
-            name: '이두주',
-            profileImageUrl:
-              'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-          },
+          User: user02,
           Files: [],
           Reactions: [],
         },
@@ -204,39 +181,21 @@ const channelInfo = {
           isHead: true,
           createdAt: '2020-11-25T15:09:30.000Z',
           updatedAt: '2020-11-26T20:07:00.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
           Files: [],
           Reactions: [
             {
               id: 4,
               content: ':gun:',
-              User: {
-                id: 1,
-                email: 'dlgkswn885@korea.ac.kr',
-                name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-                profileImageUrl:
-                  'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-              },
+              User: user01,
             },
           ],
         },
       ],
-      User: {
-        id: 2,
-        email: 'ihanju95@gmail.com',
-        name: '이두주',
-        profileImageUrl:
-          'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-      },
+      User: user02,
     },
     {
-      id: 55,
+      id: 7,
       createdAt: '2020-11-26T11:25:44.000Z',
       updatedAt: '2020-11-26T11:25:44.000Z',
       Messages: [
@@ -257,16 +216,46 @@ const channelInfo = {
           Reactions: [],
         },
       ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
+      User: user01,
     },
     {
-      id: 66,
+      id: 8,
+      createdAt: '2020-11-26T11:25:44.000Z',
+      updatedAt: '2020-11-26T11:25:44.000Z',
+      Messages: [
+        {
+          id: 4,
+          content: '5번째 스레드',
+          isHead: true,
+          createdAt: '2020-11-26T11:25:44.000Z',
+          updatedAt: '2020-11-26T11:25:44.000Z',
+          User: user01,
+          Files: [],
+          Reactions: [],
+        },
+      ],
+      User: user01,
+    },
+    {
+      id: 9,
+      createdAt: '2020-11-26T11:25:44.000Z',
+      updatedAt: '2020-11-26T11:25:44.000Z',
+      Messages: [
+        {
+          id: 4,
+          content: '여섯번째 스레드 내용입니다',
+          isHead: true,
+          createdAt: '2020-11-26T11:25:44.000Z',
+          updatedAt: '2020-11-26T11:25:44.000Z',
+          User: user02,
+          Files: [],
+          Reactions: [],
+        },
+      ],
+      User: user02,
+    },
+    {
+      id: 10,
       createdAt: '2020-11-26T11:25:44.000Z',
       updatedAt: '2020-11-26T11:25:44.000Z',
       Messages: [
@@ -276,27 +265,15 @@ const channelInfo = {
           isHead: true,
           createdAt: '2020-11-26T11:25:44.000Z',
           updatedAt: '2020-11-26T11:25:44.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
           Files: [],
           Reactions: [],
         },
       ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
+      User: user01,
     },
     {
-      id: 77,
+      id: 11,
       createdAt: '2020-11-26T11:25:44.000Z',
       updatedAt: '2020-11-26T11:25:44.000Z',
       Messages: [
@@ -306,124 +283,18 @@ const channelInfo = {
           isHead: true,
           createdAt: '2020-11-26T11:25:44.000Z',
           updatedAt: '2020-11-26T11:25:44.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
+          User: user01,
           Files: [],
           Reactions: [],
         },
       ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
+      User: user01,
     },
-    {
-      id: 88,
-      createdAt: '2020-11-26T11:25:44.000Z',
-      updatedAt: '2020-11-26T11:25:44.000Z',
-      Messages: [
-        {
-          id: 4,
-          content: '이름 중복 가능?',
-          isHead: true,
-          createdAt: '2020-11-26T11:25:44.000Z',
-          updatedAt: '2020-11-26T11:25:44.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
-          Files: [],
-          Reactions: [],
-        },
-      ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
-    },
-    {
-      id: 99,
-      createdAt: '2020-11-26T11:25:44.000Z',
-      updatedAt: '2020-11-26T11:25:44.000Z',
-      Messages: [
-        {
-          id: 4,
-          content: '이름 중복 가능?',
-          isHead: true,
-          createdAt: '2020-11-26T11:25:44.000Z',
-          updatedAt: '2020-11-26T11:25:44.000Z',
-          User: {
-            id: 1,
-            email: 'dlgkswn885@korea.ac.kr',
-            name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-            profileImageUrl:
-              'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-          },
-          Files: [],
-          Reactions: [],
-        },
-      ],
-      User: {
-        id: 1,
-        email: 'dlgkswn885@korea.ac.kr',
-        name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-        profileImageUrl:
-          'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-      },
-    },
-    //   {
-    //     id: 4,
-    //     createdAt: '2020-11-26T11:25:44.000Z',
-    //     updatedAt: '2020-11-26T11:25:44.000Z',
-    //     Messages: [
-    //       {
-    //         id: 4,
-    //         content: '이름 중복 가능?',
-    //         isHead: true,
-    //         createdAt: '2020-11-26T11:25:44.000Z',
-    //         updatedAt: '2020-11-26T11:25:44.000Z',
-    //         User: {
-    //           id: 1,
-    //           email: 'dlgkswn885@korea.ac.kr',
-    //           name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-    //           profileImageUrl:
-    //             'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-    //         },
-    //         Files: [],
-    //         Reactions: [],
-    //       },
-    //     ],
-    //     User: {
-    //       id: 1,
-    //       email: 'dlgkswn885@korea.ac.kr',
-    //       name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-    //       profileImageUrl:
-    //         'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-    //     },
-    //   },
   ],
   /// user list
   user: [
     {
-      id: 1,
-      email: 'dlgkswn885@korea.ac.kr',
-      name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-      profileImageUrl:
-        'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
+      ...user01,
       UserChannelSection: {
         id: 1,
         createdAt: '2020-11-25T15:09:30.000Z',
@@ -435,11 +306,7 @@ const channelInfo = {
       },
     },
     {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
+      ...user02,
       UserChannelSection: {
         id: 3,
         createdAt: '2020-11-25T15:09:30.000Z',
@@ -451,11 +318,7 @@ const channelInfo = {
       },
     },
     {
-      id: 3,
-      email: 'caribou503@gmail.com',
-      name: 'Seo Young Kim',
-      profileImageUrl:
-        'https://lh6.googleusercontent.com/-tOsYv0M4ksY/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckjb6_Y0uojAO9pKSlhpsKV-ha2Zg/s96-c/photo.jpg',
+      ...user03,
       UserChannelSection: {
         id: 4,
         createdAt: '2020-11-26T14:06:40.000Z',
