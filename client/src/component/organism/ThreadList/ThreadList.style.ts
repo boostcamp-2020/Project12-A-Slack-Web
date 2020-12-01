@@ -8,7 +8,6 @@ const ChannelMainContainer = styled.div`
   height: 100%;
 `
 const ThreadListContainer = styled.div`
-  // height: 82%;
   padding: 10px 0 0 0;
   flex: 1 1 0;
   overflow-y: auto;
@@ -18,10 +17,8 @@ const EditorContainer = styled.div`
   height: 110px;
   flex: 0 0 110px;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 16px;
   background-color: white;
-  // position: absolute;
-  // bottom: 0;
 `
 
 const ThreadSubViewHeaderWrapper = styled.div`

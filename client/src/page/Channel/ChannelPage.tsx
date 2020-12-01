@@ -103,10 +103,11 @@ const ViewHeader = styled.div`
   border-top: 1px solid rgb(230, 230, 230);
 `
 const ViewBody = styled.div`
-  width: 100%;
   flex: 1 1 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `
 
 export default ChannelPage

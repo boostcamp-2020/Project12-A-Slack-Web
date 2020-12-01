@@ -5,9 +5,8 @@ const ThreadContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: content-box;
-  padding: 10px 0 0 0;
+  padding: 10px 0;
   height: 100%;
-  overflow: auto;
 `
 
 const ReplyListHeader = styled.div`
@@ -21,17 +20,13 @@ const Line = styled.hr`
 `
 
 const ReplyListContainer = styled.div`
-  padding: 10px 0 0 0;
-  flex: 1 1 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  padding: 10px 0;
 `
 
 const EditorContainer = styled.div`
   height: 110px;
-  flex: 0 0 110px;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 16px 20px 16px;
   background-color: white;
 `
 
