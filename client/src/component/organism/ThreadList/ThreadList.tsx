@@ -15,6 +15,7 @@ const ThreadList = ({
   handleSubViewBody,
 }: ThreadListProps) => {
   const { id, type, name, Threads } = channel
+
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
       <A.Text customStyle={threadTextStyle}>Thread</A.Text>
@@ -33,10 +34,17 @@ const ThreadList = ({
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer>
         {Threads.map((thread, index, arr) => {
+          const threadDetail = (
+            <O.ThreadDetail
+              thread={thread}
+              onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
+            />
+          )
+
           const handleReplyButtonClick = () => {
             handleSubViewOpen()
             handleSubViewHeader(subViewHeader)
-            handleSubViewBody(<div>{`Thread id :${thread.id}`}</div>)
+            handleSubViewBody(threadDetail)
           }
 
           const prevThread = index > 0 ? arr[index - 1] : undefined
@@ -54,14 +62,16 @@ const ThreadList = ({
           return (
             <O.MessageCard
               data={thread}
+              type="THREAD"
               continuous={continuous}
               onReplyButtonClick={handleReplyButtonClick}
+              key={thread.id}
             />
           )
         })}
       </Styled.ThreadListContainer>
       <Styled.EditorContainer>
-        <O.MessageEditor />
+        <O.MessageEditor placeHolder={`Send a message to #${name}`} />
       </Styled.EditorContainer>
     </Styled.ChannelMainContainer>
   )
