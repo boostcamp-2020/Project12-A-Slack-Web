@@ -30,6 +30,7 @@
     "passport": "0.4.1",
     "passport-google-oauth2": "0.2.0",
     "sequelize": "6.3.5",
+    "socket.io": "3.0.3",
     "swagger-cli": "^4.0.4",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
