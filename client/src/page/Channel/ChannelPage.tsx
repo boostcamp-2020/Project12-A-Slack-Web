@@ -2,32 +2,37 @@ import React, { useState } from 'react'
 import O from '@organism'
 import styled from 'styled-components'
 
+import channelInfo from './data'
+
 const ChannelBrowserPage = () => {
-  const workspaceId = 1
-  const channelList = [
-    {
-      id: 1,
-      type: 'PUBLIC',
-      name: 'slack-clone',
-      memberCount: 3,
-      joined: true,
-    },
-    {
-      id: 2,
-      type: 'PRIVATE',
-      name: 'slack-clone-private-channel',
-      memberCount: 1,
-      joined: false,
-    },
-  ]
+  const channel = channelInfo
 
   const [subViewShow, setSubViewShow] = useState(true)
 
   const handleSubViewOpen = () => setSubViewShow(true)
   const handleSubViewClose = () => setSubViewShow(false)
 
-  const mainViewHeader = <O.ChannelBrowserHeader workspaceId={workspaceId} />
-  const mainViewBody = <O.ChannelList channelList={channelList} />
+  /** Channel Browser page */
+  // const mainViewHeader = <O.ChannelBrowserHeader workspaceId={workspaceId} />
+  // const mainViewBody = <O.ChannelList channelList={channelList} />
+
+  /** Channel page */
+  const mainViewHeader = <O.ChannelHeader channel={channel} />
+  const mainViewBody = (
+    <ChannelMainContainer>
+      <ThreadListContainer>
+        {channel.Threads.map((thread) => (
+          <O.MessageCard
+            data={thread}
+            onReplyButtonClick={() => alert(`thread id: ${thread.id}`)}
+          />
+        ))}
+      </ThreadListContainer>
+      <EditorContainer>
+        <O.MessageEditor />
+      </EditorContainer>
+    </ChannelMainContainer>
+  )
 
   const subViewHeader = 'sub view header'
   const subViewBody = 'sub view body'
@@ -93,9 +98,32 @@ const ViewHeader = styled.div`
 `
 
 const ViewBody = styled.div`
-  padding: 20px;
+  padding: 0 20px;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const ChannelMainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  // justify-content: flex-end;
+  position: relative;
+  box-sizing: content-box;
+  height: 100%;
+`
+const ThreadListContainer = styled.div`
+  height: 82%;
+  overflow-y: auto;
+  overflow-x: hidden;
+`
+const EditorContainer = styled.div`
+  height: 18%;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+  bottom: 0;
 `
 
 export default ChannelBrowserPage
