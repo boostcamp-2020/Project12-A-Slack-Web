@@ -68,6 +68,33 @@ const createThread = async ({
   }
 }
 
+interface readThreadType {
+  userId: number
+  channelId: number
+}
+
+const readThreadsByChannel = async ({ userId, channelId }: readThreadType) => {
+  if (!validator.isNumber(userId) || !validator.isNumber(channelId))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  try {
+    const threads = await ThreadModel.findAll({ where: { channelId } })
+    return {
+      code: statusCode.OK,
+      json: { success: true, data: threads },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 interface deleteThreadType {
   id: number
   userId: number
@@ -100,4 +127,4 @@ const deleteThread = async ({ id, userId }: deleteThreadType) => {
   }
 }
 
-export default { createThread, deleteThread }
+export default { createThread, readThreadsByChannel, deleteThread }

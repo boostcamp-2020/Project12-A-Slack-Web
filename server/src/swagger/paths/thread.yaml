@@ -42,3 +42,34 @@ post:
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':
       $ref: '../openapi.yaml#/components/responses/DBError'
+get:
+  summary: thread create api
+  tags:
+    - thread
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: query
+      name: channelId
+      description: channel id
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+                items:
+                  $ref: '../openapi.yaml#/components/schemas/Thread'
+
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
