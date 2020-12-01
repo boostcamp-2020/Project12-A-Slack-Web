@@ -1,3 +1,4 @@
+import { createAction, handleActions } from 'redux-actions'
 
 interface UserType {
   id: number
@@ -22,20 +23,16 @@ export const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 
 // Action generator
-export const getThreads = () => ({
-  type: GET_THREADS,
-})
-export const getThreadsSuccess = (threads: ThreadType[]) => ({
-  type: GET_THREADS_SUCCESS,
-  payload: threads,
-})
-export const getThreadsError = () => ({
-  type: GET_THREADS_ERROR,
-})
-export const createThread = (newThread: ThreadType) => ({
-  type: CREATE_THREAD,
-  payload: newThread,
-})
+export const getThreads = createAction(GET_THREADS)
+export const getThreadsSuccess = createAction(
+  GET_THREADS,
+  (threads: ThreadType[]) => threads,
+)
+export const getThreadsError = createAction(GET_THREADS)
+export const createThread = createAction(
+  GET_THREADS,
+  (newThread: ThreadType) => newThread,
+)
 
 // actions
 type ThreadAction =
