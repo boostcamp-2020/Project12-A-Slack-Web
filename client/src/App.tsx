@@ -5,32 +5,25 @@ import {
   Route,
   useHistory,
 } from 'react-router-dom'
-import { Provider } from 'react-redux'
 import { createGlobalStyle } from 'styled-components'
-import myAxios from '@util/myAxios'
-import LoginPage from '@page/User/LoginPage'
-import WorkspacePage from '@page/Workspace/WorkspacePage'
-import WorkspaceJoinPage from '@page/Workspace/WorkspacJoinPage'
-import ChannelPage from '@page/Channel/ChannelPage'
-import store from '@store'
+import checkUserToken from '@api/user'
+import { WorkspaceJoinPage, ChannelPage, LoginPage, WorkspacePage } from '@page'
 
 const App = () => {
   const token = localStorage.getItem('token')
   const [isAuth, setIsAuth] = useState<boolean>(false)
   const history = useHistory()
 
-  const [_, accessToken] = window.location.search.split('=')
+  const [name, accessToken] = window.location.search.split('=')
 
-  if (accessToken) {
+  if (accessToken && name === '?access_token') {
     localStorage.setItem('token', accessToken)
     window.location.href = '/'
   }
 
   const checkToken = async (): Promise<boolean> => {
     try {
-      const {
-        data: { success },
-      } = await myAxios.get({ path: '/user/status' })
+      const { success } = await checkUserToken()
       if (success) {
         setIsAuth(true)
         return true
@@ -57,21 +50,21 @@ const App = () => {
   }
 
   useEffect(() => {
-    checkUser()
+    return checkUser()
   }, [])
 
   return (
-    <Provider store={store}>
+    <>
       <GlobalStyle />
       <Router>
         <Switch>
           <Route exact path="/" component={WorkspacePage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route exact path="/workspace-join" component={WorkspaceJoinPage} />
+          <Route exact path="/workspace_join" component={WorkspaceJoinPage} />
           <Route exact path="/channel" component={ChannelPage} />
         </Switch>
       </Router>
-    </Provider>
+    </>
   )
 }
 
