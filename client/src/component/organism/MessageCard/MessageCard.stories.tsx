@@ -98,6 +98,7 @@ export const messageCard = () => {
   })
   return (
     <MessageCard
+      type="THREAD"
       data={data}
       continuous={continuous}
       onReplyButtonClick={() => console.log('Reply button Clicked')}
@@ -227,10 +228,12 @@ export const ContinuousMessageCard = () => {
   return (
     <>
       <MessageCard
+        type="THREAD"
         data={noReplyData}
         onReplyButtonClick={() => console.log('Reply button Clicked')}
       />
       <MessageCard
+        type="THREAD"
         data={data}
         continuous={continuous}
         onReplyButtonClick={() => console.log('Reply button Clicked')}
@@ -286,6 +289,7 @@ export const NoReplyMessageCard = () => {
   return (
     <>
       <MessageCard
+        type="THREAD"
         data={data}
         continuous={continuous}
         onReplyButtonClick={() => console.log('Reply button Clicked')}
@@ -341,6 +345,7 @@ export const NoHeadMessageCard = () => {
   return (
     <>
       <MessageCard
+        type="THREAD"
         data={data}
         continuous={continuous}
         onReplyButtonClick={() => console.log('Reply button Clicked')}

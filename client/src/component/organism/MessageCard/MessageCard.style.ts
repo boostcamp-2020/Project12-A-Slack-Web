@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  padding: 7px 20px;
+  padding: 7px 16px;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -18,8 +18,8 @@ const AvatarWrapper = styled.div`
   display: flex;
 `
 const IconWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 36px;
+  height: 36px;
   background-color: #e3e3e4;
   display: flex;
   justify-content: center;
@@ -30,9 +30,6 @@ const IconWrapper = styled.div`
 const ContentWrapper = styled.div`
   flex: 1 1 0;
   min-width: 0;
-  // padding: 8px;
-  // padding-left: 16px;
-  // margin: -12px -8px -16px -16px;
   overflow-wrap: break-word;
 `
 
@@ -43,11 +40,10 @@ const UserNameAndTimeWrapper = styled.div`
 const MessageWrapper = styled.div`
   width: 100%;
   max-width: none;
-  // margin-bottom: 4px;
   overflow-wrap: break-word;
 `
 const NoContentWrapper = styled.div`
-  height: 44px;
+  height: 40px;
   display: flex;
   align-items: center;
 `

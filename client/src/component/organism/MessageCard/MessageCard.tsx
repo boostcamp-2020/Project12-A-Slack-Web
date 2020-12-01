@@ -31,7 +31,7 @@ interface MessageType {
   }[]
 }
 
-interface DataType {
+interface ThreadType {
   id: number
   createdAt: string
   updatedAt: string
@@ -40,16 +40,22 @@ interface DataType {
 }
 
 interface MessageCardProps {
-  data: DataType
+  data: ThreadType | MessageType
+  // message?: MessageType
+  type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
   onReplyButtonClick: () => void
 }
 
 const MessageCard = ({
   data,
+  type,
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) => {
+  const thread = data as ThreadType
+  const message = data as MessageType
+
   const [hover, setHover] = useState(false)
 
   const handleMouseEnter = () => setHover(true)
@@ -71,9 +77,50 @@ const MessageCard = ({
     return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
 
+  if (type === 'MESSAGE') {
+    return (
+      <Styled.Container
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Styled.AvatarWrapper>
+          <O.Avatar user={message.User} size="BIG" clickable />
+        </Styled.AvatarWrapper>
+
+        <Styled.ContentWrapper>
+          <Styled.UserNameAndTimeWrapper>
+            <A.Text customStyle={nameTextStyle}>{message.User.name}</A.Text>
+            <A.Text customStyle={timeTextStyle}>
+              {getDateAndTime(message.createdAt)}
+            </A.Text>
+          </Styled.UserNameAndTimeWrapper>
+
+          <Styled.MessageWrapper>
+            <A.Text customStyle={messageTextStyle}>
+              {message.content || ''}
+            </A.Text>
+          </Styled.MessageWrapper>
+        </Styled.ContentWrapper>
+
+        <Styled.ActionBarWrapper>
+          {hover && (
+            <ActionBar
+              targetType={type}
+              targetId={message.id}
+              targetAuthorId={message.User.id}
+              loginUserId={1} // TODO: change to store user id
+              onDeleteButtonClick={handleDeleteButtonClick}
+              onEditButtonClick={handleEditButtonClick}
+            />
+          )}
+        </Styled.ActionBarWrapper>
+      </Styled.Container>
+    )
+  }
+
   if (
-    !data.Messages.filter((item) => item.isHead).length &&
-    data.Messages.length
+    type === 'THREAD' &&
+    thread.Messages.filter((item) => item.isHead).length === 0
   ) {
     return (
       <Styled.Container
@@ -95,17 +142,18 @@ const MessageCard = ({
             </Styled.NoContentWrapper>
           </Styled.MessageWrapper>
           <M.ReplyButton
-            count={data.Messages.length}
-            time={getLastTime(data.Messages)}
+            count={thread.Messages.length}
+            time={getLastTime(thread.Messages)}
             onClick={onReplyButtonClick}
           />
         </Styled.ContentWrapper>
+
         <Styled.ActionBarWrapper>
           {hover && (
             <ActionBar
-              targetType="THREAD"
-              targetId={0}
-              targetAuthorId={0}
+              targetType={type}
+              targetId={thread.id}
+              targetAuthorId={-1}
               loginUserId={1} // TODO: change to store user id
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
@@ -121,30 +169,29 @@ const MessageCard = ({
       onMouseLeave={handleMouseLeave}
     >
       <Styled.AvatarWrapper>
-        {!continuous && <O.Avatar user={data.User} size="BIG" clickable />}
+        {!continuous && <O.Avatar user={thread.User} size="BIG" clickable />}
       </Styled.AvatarWrapper>
 
       <Styled.ContentWrapper>
         {!continuous && (
           <Styled.UserNameAndTimeWrapper>
-            <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
-
+            <A.Text customStyle={nameTextStyle}>{thread.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getDateAndTime(data.createdAt)}
+              {getDateAndTime(thread.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
         )}
 
         <Styled.MessageWrapper>
           <A.Text customStyle={messageTextStyle}>
-            {data.Messages.filter((item) => item.isHead)[0]?.content || ''}
+            {thread.Messages.filter((item) => item.isHead)[0]?.content || ''}
           </A.Text>
         </Styled.MessageWrapper>
 
-        {data.Messages.length > 1 && (
+        {thread.Messages.length > 1 && (
           <M.ReplyButton
-            count={data.Messages.length - 1}
-            time={getLastTime(data.Messages)}
+            count={thread.Messages.length - 1}
+            time={getLastTime(thread.Messages)}
             onClick={onReplyButtonClick}
           />
         )}
@@ -153,9 +200,9 @@ const MessageCard = ({
       <Styled.ActionBarWrapper>
         {hover && (
           <ActionBar
-            targetType="THREAD"
-            targetId={data.User.id}
-            targetAuthorId={data.User.id}
+            targetType={type}
+            targetId={thread.id}
+            targetAuthorId={thread.User.id}
             loginUserId={1} // TODO: change to store user id
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
