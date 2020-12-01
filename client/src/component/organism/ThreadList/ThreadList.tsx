@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
@@ -15,6 +15,17 @@ const ThreadList = ({
   handleSubViewBody,
 }: ThreadListProps) => {
   const { id, type, name, Threads } = channel
+
+  const threadEndRef = useRef<HTMLDivElement | null>(null)
+
+  const scrollToBottom = () => {
+    if (threadEndRef) {
+      threadEndRef.current!.scrollIntoView()
+    }
+  }
+
+  useEffect(scrollToBottom, [Threads])
+
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
       <A.Text customStyle={threadTextStyle}>Thread</A.Text>
@@ -32,22 +43,46 @@ const ThreadList = ({
   return (
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer>
-        {Threads.map((thread) => {
+        {Threads.map((thread, index, arr) => {
+          const threadDetail = (
+            <O.ThreadDetail
+              thread={thread}
+              onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
+            />
+          )
+
           const handleReplyButtonClick = () => {
             handleSubViewOpen()
             handleSubViewHeader(subViewHeader)
-            handleSubViewBody(<div>{`Thread id :${thread.id}`}</div>)
+            handleSubViewBody(threadDetail)
           }
+
+          const prevThread = index > 0 ? arr[index - 1] : undefined
+
+          const sameUser = !!(
+            prevThread && prevThread.User.id === thread.User.id
+          )
+          const hasReply =
+            thread.Messages.filter((msg) => !msg.isHead).length !== 0
+          const prevHasReply =
+            prevThread &&
+            prevThread.Messages.filter((msg) => !msg.isHead).length !== 0
+
+          const continuous = sameUser && !hasReply && !prevHasReply
           return (
             <O.MessageCard
               data={thread}
+              type="THREAD"
+              continuous={continuous}
               onReplyButtonClick={handleReplyButtonClick}
+              key={thread.id}
             />
           )
         })}
+        <div ref={threadEndRef} />
       </Styled.ThreadListContainer>
       <Styled.EditorContainer>
-        <O.MessageEditor />
+        <O.MessageEditor placeHolder={`Send a message to #${name}`} />
       </Styled.EditorContainer>
     </Styled.ChannelMainContainer>
   )
