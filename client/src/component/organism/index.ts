@@ -12,6 +12,7 @@ import MemberListModal from './MemberListModal'
 import ChannelBrowserHeader from './ChannelBrowserHeader'
 import ChannelCard from './ChannelCard'
 import ChannelList from './ChannelList'
+import ThreadList from './ThreadList'
 
 export default {
   Header,
@@ -28,4 +29,5 @@ export default {
   ChannelBrowserHeader,
   ChannelCard,
   ChannelList,
+  ThreadList,
 }
