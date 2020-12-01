@@ -2,10 +2,8 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  // height: 100%;
-  padding: 13px 0;
+  padding: 7px 20px;
   display: flex;
-  flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
   position: relative;
@@ -13,8 +11,7 @@ const Container = styled.div`
     background-color: #f8f8f8;
   }
 `
-const ImageWrapper = styled.div`
-  height: 36px;
+const AvatarWrapper = styled.div`
   width: 36px;
   flex-shrink: 0;
   margin-right: 8px;
@@ -29,18 +26,24 @@ const IconWrapper = styled.div`
   align-items: center;
   border-radius: 4px;
 `
-const TextWrapper = styled.div`
+
+const ContentWrapper = styled.div`
   flex: 1 1 0;
   min-width: 0;
-  padding: 8px;
-  padding-left: 16px;
-  margin: -12px -8px -16px -16px;
+  // padding: 8px;
+  // padding-left: 16px;
+  // margin: -12px -8px -16px -16px;
   overflow-wrap: break-word;
 `
-const ContentWrapper = styled.div`
+
+const UserNameAndTimeWrapper = styled.div`
+  margin: 0 0 3px 0;
+`
+
+const MessageWrapper = styled.div`
   width: 100%;
   max-width: none;
-  margin-bottom: 4px;
+  // margin-bottom: 4px;
   overflow-wrap: break-word;
 `
 const NoContentWrapper = styled.div`
@@ -57,10 +60,11 @@ const ActionBarWrapper = styled.div`
 
 export default {
   Container,
-  ImageWrapper,
+  AvatarWrapper,
   IconWrapper,
-  TextWrapper,
   ContentWrapper,
+  UserNameAndTimeWrapper,
+  MessageWrapper,
   NoContentWrapper,
   ActionBarWrapper,
 }

@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import A from '@atom'
 import M from '@molecule'
+import O from '@organism'
 import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
-import { ImageType } from '@atom/Image'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
@@ -70,6 +70,7 @@ const MessageCard = ({
     })
     return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
+
   if (
     !data.Messages.filter((item) => item.isHead).length &&
     data.Messages.length
@@ -79,32 +80,33 @@ const MessageCard = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <Styled.ImageWrapper>
+        <Styled.AvatarWrapper>
           <Styled.IconWrapper>
             <A.Icon icon={myIcon.trashAlt} customStyle={iconStyle} />
           </Styled.IconWrapper>
-        </Styled.ImageWrapper>
-        <Styled.TextWrapper>
-          <Styled.ContentWrapper>
+        </Styled.AvatarWrapper>
+
+        <Styled.ContentWrapper>
+          <Styled.MessageWrapper>
             <Styled.NoContentWrapper>
               <A.Text customStyle={noMessageTextStyle}>
                 This message was deleted.
               </A.Text>
             </Styled.NoContentWrapper>
-          </Styled.ContentWrapper>
+          </Styled.MessageWrapper>
           <M.ReplyButton
             count={data.Messages.length}
             time={getLastTime(data.Messages)}
             onClick={onReplyButtonClick}
           />
-        </Styled.TextWrapper>
+        </Styled.ContentWrapper>
         <Styled.ActionBarWrapper>
           {hover && (
             <ActionBar
               targetType="THREAD"
               targetId={0}
               targetAuthorId={0}
-              loginUserId={0} // TODO: change to store user id
+              loginUserId={1} // TODO: change to store user id
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
             />
@@ -118,25 +120,27 @@ const MessageCard = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Styled.ImageWrapper>
+      <Styled.AvatarWrapper>
+        {!continuous && <O.Avatar user={data.User} size="BIG" clickable />}
+      </Styled.AvatarWrapper>
+
+      <Styled.ContentWrapper>
         {!continuous && (
-          <A.Image customStyle={imageStyle} url={data.User.profileImageUrl} />
+          <Styled.UserNameAndTimeWrapper>
+            <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
+
+            <A.Text customStyle={timeTextStyle}>
+              {getDateAndTime(data.createdAt)}
+            </A.Text>
+          </Styled.UserNameAndTimeWrapper>
         )}
-      </Styled.ImageWrapper>
-      <Styled.TextWrapper>
-        {!continuous && (
-          <A.Text customStyle={nameTextStyle}>{data.User.name}</A.Text>
-        )}
-        {!continuous && (
-          <A.Text customStyle={timeTextStyle}>
-            {getDateAndTime(data.createdAt)}
-          </A.Text>
-        )}
-        <Styled.ContentWrapper>
+
+        <Styled.MessageWrapper>
           <A.Text customStyle={messageTextStyle}>
             {data.Messages.filter((item) => item.isHead)[0]?.content || ''}
           </A.Text>
-        </Styled.ContentWrapper>
+        </Styled.MessageWrapper>
+
         {data.Messages.length > 1 && (
           <M.ReplyButton
             count={data.Messages.length - 1}
@@ -144,14 +148,15 @@ const MessageCard = ({
             onClick={onReplyButtonClick}
           />
         )}
-      </Styled.TextWrapper>
+      </Styled.ContentWrapper>
+
       <Styled.ActionBarWrapper>
         {hover && (
           <ActionBar
             targetType="THREAD"
-            targetId={data.Messages[0].id}
-            targetAuthorId={data.Messages[0].User.id}
-            loginUserId={0} // TODO: change to store user id
+            targetId={data.User.id}
+            targetAuthorId={data.User.id}
+            loginUserId={1} // TODO: change to store user id
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
           />
@@ -163,11 +168,6 @@ const MessageCard = ({
 
 MessageCard.defaultProps = {
   continuous: false,
-}
-
-const imageStyle: ImageType.StyleAttributes = {
-  height: '36px',
-  width: '36px',
 }
 
 const iconStyle: IconType.StyleAttributes = {
@@ -184,6 +184,7 @@ const timeTextStyle: TextType.StyleAttributes = {
   fontSize: '1.2rem',
   fontWeight: '400',
   color: 'textGrey',
+  margin: '0 0 0 5px',
 }
 
 const messageTextStyle: TextType.StyleAttributes = {
