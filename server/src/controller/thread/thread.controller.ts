@@ -19,4 +19,37 @@ const createThread = async (
   }
 }
 
-export default { createThread }
+const readThreadsByChannel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  console.log(req.query.channelId)
+  try {
+    const { code, json } = await threadService.readThreadsByChannel({
+      userId: +req.user.id,
+      channelId: +req.query.channelId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+const deleteThread = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await threadService.deleteThread({
+      id: +req.params.id,
+      userId: req.user.id,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export default { createThread, readThreadsByChannel, deleteThread }

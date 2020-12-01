@@ -1,9 +1,14 @@
-post:
-  summary: thread create api
+patch:
+  summary: update message
   tags:
-    - thread
+    - message
   security:
     - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: message id
+      type: integer
   requestBody:
     content:
       application/json:
@@ -12,8 +17,6 @@ post:
           properties:
             content:
               type: string
-            channelId:
-              type: number
             fileInfoList:
               type: array
               items:
@@ -27,10 +30,8 @@ post:
                       - FILE
                       - VIDEO
                       - IMAGE
-
   responses:
-    '201':
-      description: OK
+    '200':
       content:
         application/json:
           schema:
@@ -38,25 +39,33 @@ post:
             properties:
               success:
                 type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
     '500':
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':
       $ref: '../openapi.yaml#/components/responses/DBError'
-get:
-  summary: thread create api
+delete:
+  summary: delete message
   tags:
-    - thread
+    - message
   security:
     - BearerAuth: []
   parameters:
-    - in: query
-      name: channelId
-      description: channel id
-      schema:
-        type: integer
+    - in: path
+      name: id
+      description: message id
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            threadId:
+              type: integer
   responses:
     '200':
-      description: OK
       content:
         application/json:
           schema:
@@ -64,11 +73,8 @@ get:
             properties:
               success:
                 type: boolean
-              data:
-                type: array
-                items:
-                  $ref: '../openapi.yaml#/components/schemas/Thread'
-
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
     '500':
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':
