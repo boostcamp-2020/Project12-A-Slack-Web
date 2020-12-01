@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import A from '@atom'
 import M from '@molecule'
-import O from '@organism'
 import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { ImageType } from '@atom/Image'
@@ -25,7 +24,11 @@ interface MessageType {
   updatedAt: string
   User: UserType
   Files: object[]
-  Reactions: { id: number; content: string }[]
+  Reactions?: {
+    id: number
+    content: string
+    User: UserType
+  }[]
 }
 
 interface DataType {

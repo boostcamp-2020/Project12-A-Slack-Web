@@ -36,9 +36,9 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
         >
           {name}
         </A.Text>
-        <A.Button onClick={handleStarButtonClick} customStyle={buttonStyle}>
+        {/* <A.Button onClick={handleStarButtonClick} customStyle={buttonStyle}>
           <A.Icon icon={myIcon.star} />
-        </A.Button>
+        </A.Button> */}
       </Styled.LeftWrapper>
 
       <Styled.RightWrapper>
@@ -52,7 +52,7 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
               .map((user) => (
                 <O.Avatar
                   user={user}
-                  size="SMALL"
+                  size="MEDIUM"
                   avatarImageStyle={memberAvatarStyle}
                 />
               ))}
@@ -91,14 +91,14 @@ ChannelHeader.defaultProps = {}
 
 const buttonStyle: ButtonType.StyleAttributes = {
   hoverBackgroundColor: 'whiteHover',
-  width: '2rem',
-  height: '1.9rem',
+  width: '30px',
+  height: '30px',
   margin: '2px',
 }
 
 const memberListButtonStyle: ButtonType.StyleAttributes = {
   hoverBackgroundColor: 'whiteHover',
-  height: '1.9rem',
+  height: '30px',
   margin: '2px',
 }
 
@@ -108,9 +108,10 @@ const memberAvatarStyle: ImageType.StyleAttributes = {
 }
 
 const channelNameTextStyle: TextType.StyleAttributes = {
-  fontWeight: 'bold',
+  fontWeight: '800',
+  fontSize: '1.6rem',
   cursor: 'pointer',
-  margin: '0 0 0 8px',
+  margin: '0 5px 0 3px',
 }
 
 export default ChannelHeader

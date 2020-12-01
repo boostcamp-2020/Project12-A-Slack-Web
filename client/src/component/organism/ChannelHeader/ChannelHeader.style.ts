@@ -4,8 +4,9 @@ import color from '@constant/color'
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 1px solid lightgrey;
   padding: 10px 20px;
+  width: 100%;
+  height: 100%;
 `
 
 const LeftWrapper = styled.div`

@@ -75,8 +75,8 @@ ActionBar.defaultProps = {}
 
 const buttonStyle: ButtonType.StyleAttributes = {
   hoverBackgroundColor: 'whiteHover',
-  width: '2rem',
-  height: '1.9rem',
+  width: '30px',
+  height: '28px',
   margin: '2px',
 }
 
