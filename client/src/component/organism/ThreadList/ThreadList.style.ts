@@ -3,22 +3,26 @@ import styled from 'styled-components'
 const ChannelMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: flex-end;
   position: relative;
   box-sizing: content-box;
   height: 100%;
+  border: 1px solid red;
 `
 const ThreadListContainer = styled.div`
-  height: 82%;
+  // height: 82%;
+  padding: 10px 0 0 0;
+  flex: 1 1 0;
   overflow-y: auto;
   overflow-x: hidden;
 `
 const EditorContainer = styled.div`
-  height: 18%;
+  height: 110px;
+  flex: 0 0 110px;
   width: 100%;
+  padding: 0 20px;
   background-color: white;
-  position: absolute;
-  bottom: 0;
+  // position: absolute;
+  // bottom: 0;
 `
 
 const ThreadSubViewHeaderWrapper = styled.div`

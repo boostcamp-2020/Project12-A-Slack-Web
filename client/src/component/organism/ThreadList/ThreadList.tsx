@@ -32,15 +32,29 @@ const ThreadList = ({
   return (
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer>
-        {Threads.map((thread) => {
+        {Threads.map((thread, index, arr) => {
           const handleReplyButtonClick = () => {
             handleSubViewOpen()
             handleSubViewHeader(subViewHeader)
             handleSubViewBody(<div>{`Thread id :${thread.id}`}</div>)
           }
+
+          const prevThread = index > 0 ? arr[index - 1] : undefined
+
+          const sameUser = !!(
+            prevThread && prevThread.User.id === thread.User.id
+          )
+          const hasReply =
+            thread.Messages.filter((msg) => !msg.isHead).length !== 0
+          const prevHasReply =
+            prevThread &&
+            prevThread.Messages.filter((msg) => !msg.isHead).length !== 0
+
+          const continuous = sameUser && !hasReply && !prevHasReply
           return (
             <O.MessageCard
               data={thread}
+              continuous={continuous}
               onReplyButtonClick={handleReplyButtonClick}
             />
           )
