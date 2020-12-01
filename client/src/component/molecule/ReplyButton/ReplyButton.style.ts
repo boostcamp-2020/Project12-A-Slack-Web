@@ -2,9 +2,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
-  margin-top: -4px;
-  margin-bottom: 4px;
+  height: 34px;
   margin: 4px 0 -2px -5px;
   display: flex;
   align-items: center;
@@ -15,9 +13,9 @@ const Container = styled.div`
   border-radius: 6px;
   cursor: pointer;
   overflow: hidden;
-  height: 34px;
   &:hover {
     border-color: rgba(97, 96, 97, 0.13);
+    background-color: white;
   }
 `
 const ImageWrapper = styled.div`
@@ -37,7 +35,7 @@ const TimeTextWrapper = styled.div`
 `
 
 const Arrow = styled.div`
-  font-size: 20px;
+  font-size: 1.4rem;
   font-style: normal;
   font-weight: 400;
   display: inline-block;
