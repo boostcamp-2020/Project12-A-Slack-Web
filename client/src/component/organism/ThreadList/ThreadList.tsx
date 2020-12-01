@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
@@ -15,6 +15,16 @@ const ThreadList = ({
   handleSubViewBody,
 }: ThreadListProps) => {
   const { id, type, name, Threads } = channel
+
+  const threadEndRef = useRef<HTMLDivElement | null>(null)
+
+  const scrollToBottom = () => {
+    if (threadEndRef) {
+      threadEndRef.current!.scrollIntoView()
+    }
+  }
+
+  useEffect(scrollToBottom, [Threads])
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -69,6 +79,7 @@ const ThreadList = ({
             />
           )
         })}
+        <div ref={threadEndRef} />
       </Styled.ThreadListContainer>
       <Styled.EditorContainer>
         <O.MessageEditor placeHolder={`Send a message to #${name}`} />
