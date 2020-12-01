@@ -1,4 +1,4 @@
-import myAxios from '@util/myAxios'
+import { createWorkspace, joinWorkspace } from '@api/workspace'
 
 const READ_WORKSPACE_LOADING = 'workspace/READ_LOADING' as const
 const READ_WORKSPACE_SUCCESS = 'workspace/READ_SUCCESS' as const
@@ -7,13 +7,13 @@ const ON_CHANGE_WORKSPACE_INPUT = 'workspace/CHANGE_INPUT' as const
 const CREATE_NEW_WORKSPACE = 'workspace/CREATE_NEW_WORKSPACE' as const
 const JOIN_WORKSPACE = 'workspace/JOIN_WORKSPACE' as const
 
-interface WorkspaceType extends Object {
+export interface WorkspaceType extends Object {
   id: number
   name: string
   imageUrl: string
 }
 
-interface WorkspaceState {
+export interface WorkspaceState {
   newWorkspace: {
     name: string
     imageUrl: string
@@ -49,10 +49,10 @@ export const onChangeWorkspaceInput = (name: string, value: string) => ({
 export const createNewWorkspace = () => ({ type: CREATE_NEW_WORKSPACE })
 export const joinWorkspaceUser = (workspaceId: string) => ({
   type: JOIN_WORKSPACE,
-  payload: { id: workspaceId },
+  payload: { id: +workspaceId },
 })
 
-type WorkspaceAction =
+export type WorkspaceAction =
   | ReturnType<typeof readWorkspaceLoading>
   | ReturnType<typeof readWorkspaceSuccess>
   | ReturnType<typeof readWorkspaceError>
@@ -85,19 +85,11 @@ function workspaceStore(
 
     case CREATE_NEW_WORKSPACE:
       try {
-        const createWorkspace = async (): Promise<void> => {
-          const {
-            data: { success },
-          } = await myAxios.post({
-            path: '/workspace',
-            data: {
-              name: state.newWorkspace.name,
-              imageUrl: state.newWorkspace.imageUrl,
-            },
-          })
-          if (success) alert('workspace 생성')
+        const create = async () => {
+          const { success } = await createWorkspace(state)
+          if (success) alert('workspace를 생성하였습니다.')
         }
-        createWorkspace()
+        create()
       } catch (error) {
         console.log(error)
       }
@@ -105,16 +97,11 @@ function workspaceStore(
 
     case JOIN_WORKSPACE:
       try {
-        const joinWorkspace = async (): Promise<void> => {
-          const {
-            data: { success },
-          } = await myAxios.post({
-            path: '/workspace/join',
-            data: { workspaceId: action.payload.id },
-          })
-          if (success) console.log(`workspace id ${action.payload.id} join`)
+        const join = async () => {
+          const { success } = await joinWorkspace(action)
+          if (success) console.log('workspace에 join 하였습니다.')
         }
-        joinWorkspace()
+        join()
       } catch (error) {
         console.log(error)
       }
@@ -125,4 +112,4 @@ function workspaceStore(
   }
 }
 
-export { workspaceStore }
+export default workspaceStore

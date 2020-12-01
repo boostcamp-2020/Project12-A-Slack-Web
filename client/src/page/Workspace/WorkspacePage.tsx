@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import A from '@atom'
 import M from '@molecule'
 import styled from 'styled-components'
-import { RootState } from '@store/index'
+import { RootState } from '@store'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   readWorkspaceLoading,
@@ -11,7 +11,7 @@ import {
   onChangeWorkspaceInput,
   createNewWorkspace,
 } from '@store/workspace.store'
-import myAxios from '@util/myAxios'
+import { getWorkspace } from '@api/workspace'
 
 const WorkspacePage = () => {
   const workspaceStore = useSelector((state: RootState) => state.workspaceStore)
@@ -20,9 +20,7 @@ const WorkspacePage = () => {
   const getWorkspaceByUser = async (): Promise<void> => {
     dispatch(readWorkspaceLoading())
     try {
-      const {
-        data: { success, message, data },
-      } = await myAxios.get({ path: '/workspace' })
+      const { success, message, data } = await getWorkspace()
       if (success) dispatch(readWorkspaceSuccess(data))
       if (message) alert(message)
     } catch (error) {
@@ -32,7 +30,6 @@ const WorkspacePage = () => {
 
   const handleNewWorkspaceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    console.log(name, value)
     dispatch(onChangeWorkspaceInput(name, value))
   }
 
@@ -41,7 +38,6 @@ const WorkspacePage = () => {
   }
 
   useEffect(() => {
-    console.log(workspaceStore)
     getWorkspaceByUser()
   }, [])
 
