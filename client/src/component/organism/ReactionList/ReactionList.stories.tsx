@@ -1,16 +1,17 @@
 import React from 'react'
-import Reaction from '.'
+import ReactionList from '.'
 
 export default {
-  title: 'Molecule/Reaction',
-  component: Reaction,
+  title: 'Organism/ReactionList',
+  component: ReactionList,
 }
 
-export const reaction = () => {
+export const reactionList = () => {
   const loginUserId = 1
 
   const reaction1 = ':gun:'
   const reaction2 = ':heart:'
+  const reaction3 = ':clap:'
 
   const user01 = {
     id: 1,
@@ -31,7 +32,7 @@ export const reaction = () => {
     profileImageUrl: 'http://placehold.it/100',
   }
 
-  const reactions1 = [
+  const reactions = [
     {
       id: 1,
       content: reaction1,
@@ -43,33 +44,38 @@ export const reaction = () => {
       User: user02,
     },
     {
-      id: 3,
-      content: reaction1,
-      User: user03,
-    },
-  ]
-
-  const reactions2 = [
-    {
       id: 4,
       content: reaction2,
       User: user03,
+    },
+    {
+      id: 6,
+      content: reaction3,
+      User: user01,
     },
     {
       id: 5,
       content: reaction2,
       User: user02,
     },
+    {
+      id: 3,
+      content: reaction1,
+      User: user03,
+    },
   ]
 
   return (
-    <>
-      <Reaction reactions={reactions1} loginUserId={loginUserId} />
-      <Reaction reactions={reactions2} loginUserId={loginUserId} />
-    </>
+    <ReactionList
+      reactionArr={reactions}
+      loginUserId={loginUserId}
+      onAddClick={() => alert('add reaction')}
+      onDeleteClick={() => alert('delete reaction')}
+      onAddReactionButtonClick={() => alert('open reaction picker')}
+    />
   )
 }
 
-reaction.story = {
+reactionList.story = {
   name: 'Default',
 }

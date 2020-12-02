@@ -1,17 +1,16 @@
 import React from 'react'
-import ReactionList from '.'
+import ReactionButton from '.'
 
 export default {
-  title: 'Molecule/ReactionList',
-  component: ReactionList,
+  title: 'Molecule/ReactionButton',
+  component: ReactionButton,
 }
 
-export const reactionList = () => {
+export const reactionButton = () => {
   const loginUserId = 1
 
   const reaction1 = ':gun:'
   const reaction2 = ':heart:'
-  const reaction3 = ':clap:'
 
   const user01 = {
     id: 1,
@@ -32,7 +31,7 @@ export const reactionList = () => {
     profileImageUrl: 'http://placehold.it/100',
   }
 
-  const reactions = [
+  const reactions1 = [
     {
       id: 1,
       content: reaction1,
@@ -44,38 +43,33 @@ export const reactionList = () => {
       User: user02,
     },
     {
-      id: 4,
-      content: reaction2,
-      User: user03,
-    },
-    {
-      id: 6,
-      content: reaction3,
-      User: user01,
-    },
-    {
-      id: 5,
-      content: reaction2,
-      User: user02,
-    },
-    {
       id: 3,
       content: reaction1,
       User: user03,
     },
   ]
 
+  const reactions2 = [
+    {
+      id: 4,
+      content: reaction2,
+      User: user03,
+    },
+    {
+      id: 5,
+      content: reaction2,
+      User: user02,
+    },
+  ]
+
   return (
-    <ReactionList
-      reactions={reactions}
-      loginUserId={loginUserId}
-      onAddClick={() => alert('add reaction')}
-      onDeleteClick={() => alert('delete reaction')}
-      onAddReactionButtonClick={() => alert('open reaction picker')}
-    />
+    <>
+      <ReactionButton reactionBundle={reactions1} loginUserId={loginUserId} />
+      <ReactionButton reactionBundle={reactions2} loginUserId={loginUserId} />
+    </>
   )
 }
 
-reactionList.story = {
+reactionButton.story = {
   name: 'Default',
 }

@@ -3,18 +3,18 @@ import A from '@atom'
 import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
 import { Emoji } from 'emoji-mart'
-import { ReactionProps } from '.'
+import { ReactionButtonProps } from '.'
 
-const Reaction = ({
-  reactions,
+const ReactionButton = ({
+  reactionBundle,
   loginUserId,
   onDeleteClick,
   onAddClick,
-}: ReactionProps) => {
-  const emoji = reactions[0]?.content
+}: ReactionButtonProps) => {
+  const emoji = reactionBundle[0]?.content
   const reacted =
-    reactions.filter((reaction) => reaction.User.id === loginUserId).length ===
-    1
+    reactionBundle.filter((reaction) => reaction.User.id === loginUserId)
+      .length === 1
 
   const switchButtonStyle: ButtonType.StyleAttributes = reacted
     ? reactedButtonStyle
@@ -32,7 +32,7 @@ const Reaction = ({
     >
       <>
         <Emoji emoji={emoji} size={16} />
-        <A.Text customStyle={textStyle}>{reactions.length}</A.Text>
+        <A.Text customStyle={textStyle}>{reactionBundle.length}</A.Text>
       </>
     </A.Button>
   )
@@ -51,7 +51,7 @@ const reactedButtonStyle: ButtonType.StyleAttributes = {
 }
 
 const unreactedButtonStyle: ButtonType.StyleAttributes = {
-  backgroundColor: 'whiteGrey',
+  backgroundColor: 'reactionGrey',
   hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
 }
@@ -61,4 +61,4 @@ const textStyle: TextType.StyleAttributes = {
   margin: '0 0 0 7px',
 }
 
-export default Reaction
+export default ReactionButton

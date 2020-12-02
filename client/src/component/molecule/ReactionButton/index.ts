@@ -1,7 +1,7 @@
-export { default } from './Reaction'
+export { default } from './ReactionButton'
 
-export interface ReactionProps {
-  reactions: ReactionType[]
+export interface ReactionButtonProps {
+  reactionBundle: ReactionType[]
   loginUserId: number
   onDeleteClick?: () => void
   onAddClick?: () => void

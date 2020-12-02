@@ -14,6 +14,7 @@ import ChannelCard from './ChannelCard'
 import ChannelList from './ChannelList'
 import ThreadList from './ThreadList'
 import ThreadDetail from './ThreadDetail'
+import ReactionList from './ReactionList'
 
 export default {
   Header,
@@ -32,4 +33,5 @@ export default {
   ChannelList,
   ThreadList,
   ThreadDetail,
+  ReactionList,
 }

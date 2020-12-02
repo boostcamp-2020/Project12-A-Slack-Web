@@ -1,11 +1,11 @@
 export { default } from './ReactionList'
 
 export interface ReactionListProps {
-  reactions: ReactionType[]
+  reactionArr: ReactionType[]
   loginUserId: number
   onDeleteClick?: () => void
   onAddClick?: () => void
-  onAddReactionsButtonClick?: () => void
+  onAddReactionButtonClick?: () => void
 }
 
 interface ReactionType {

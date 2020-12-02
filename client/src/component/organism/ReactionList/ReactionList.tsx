@@ -3,17 +3,9 @@ import A from '@atom'
 import M from '@molecule'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-// import { ReactionListProps } from '.'
+import { ReactionListProps } from '.'
 
 import Styled from './ReactionList.style'
-
-export interface ReactionListProps {
-  reactions: ReactionType[]
-  loginUserId: number
-  onDeleteClick?: () => void
-  onAddClick?: () => void
-  onAddReactionButtonClick?: () => void
-}
 
 interface ReactionType {
   id: number
@@ -29,13 +21,13 @@ interface UserType {
 }
 
 const ReactionList = ({
-  reactions,
+  reactionArr,
   loginUserId,
   onDeleteClick,
   onAddClick,
   onAddReactionButtonClick,
 }: ReactionListProps) => {
-  const reactionMap: Map<string, ReactionType[]> = reactions.reduce(
+  const reactionMap: Map<string, ReactionType[]> = reactionArr.reduce(
     (prev, cur) => {
       const reContent = cur.content
       const array = prev.get(reContent)
@@ -52,11 +44,12 @@ const ReactionList = ({
   return (
     <Styled.Wrapper>
       {reactionBundleList.map((reactionBundle) => (
-        <M.Reaction
-          reactions={reactionBundle}
+        <M.ReactionButton
+          reactionBundle={reactionBundle}
           loginUserId={loginUserId}
           onDeleteClick={onDeleteClick}
           onAddClick={onAddClick}
+          key={reactionBundle[0].id}
         />
       ))}
       <A.Button
@@ -74,7 +67,7 @@ const addReactionButtonStyle: ButtonType.StyleAttributes = {
   padding: '5px 10px',
   margin: '0 0 3px 0',
   cursor: 'pointer',
-  backgroundColor: 'whiteGrey',
+  backgroundColor: 'reactionGrey',
   hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
 }

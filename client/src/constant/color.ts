@@ -25,6 +25,7 @@ color.set('iconColorGrey', '#1d1c1d80')
 color.set('textGrey', '#616061')
 color.set('lightGrey', '#e3e3e4')
 color.set('whiteGrey', '#F6F6F6')
+color.set('reactionGrey', '#F0F0F0')
 
 // green
 color.set('green', '#2ea44f')
