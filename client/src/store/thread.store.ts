@@ -4,8 +4,6 @@ import {
   createReducer,
   createAsyncAction,
 } from 'typesafe-actions'
-// import threadAPI from '@api/thread'
-// import { Dispatch } from 'redux'
 import { AxiosError } from 'axios'
 
 interface UserType {
@@ -49,20 +47,6 @@ export const getThreadsAsync = createAsyncAction(
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
 )<number, ThreadType[], AxiosError>()
-
-// thunk
-// export const getThreadsAsync = () => async (dispatch: Dispatch) => {
-//   // const channelId = getState().channel.current
-//   const channelId: number = 1
-
-//   dispatch(getThreads())
-//   try {
-//     const threads: any = await threadAPI.getThreads({ channelId })
-//     dispatch(getThreadsSuccess(threads))
-//   } catch (error) {
-//     dispatch(getThreadsError(error))
-//   }
-// }
 
 // action
 const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }

@@ -1,6 +1,5 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
-import reduxThunk from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import workspaceStore from './workspace.store'
