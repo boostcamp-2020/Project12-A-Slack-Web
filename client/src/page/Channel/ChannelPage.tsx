@@ -4,13 +4,13 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getThreadsAsync } from '@store/thread'
+import { getThreadsAsync } from '@store/thread.store'
 
 import channelInfo from './data'
 
 const ChannelPage = () => {
   const { threadList, loading, error } = useSelector(
-    (state: RootState) => state.thread,
+    (state: RootState) => state.threadStore,
   )
   const dispatch = useDispatch()
 

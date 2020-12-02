@@ -1,5 +1,4 @@
 import myAxios from '@util/myAxios'
-import { ThreadType } from '@store/thread'
 
 interface RequestThreadType {
   channelId?: number
