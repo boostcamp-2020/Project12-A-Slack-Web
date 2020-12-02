@@ -48,7 +48,7 @@ const WorkspacePage = () => {
       ) : (
         workspaceStore.workspaces.map((workspace) => {
           return (
-            <M.ButtonDiv buttonStyle={WorkspaceButtonStyle}>
+            <M.ButtonDiv key={workspace.id} buttonStyle={WorkspaceButtonStyle}>
               {workspace.name}
             </M.ButtonDiv>
           )

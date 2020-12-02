@@ -4,7 +4,7 @@ import { createGlobalStyle } from 'styled-components'
 import { WorkspaceJoinPage, ChannelPage, LoginPage, WorkspacePage } from '@page'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Auth from '@hook/Auth'
+import Auth from '@hoc/Auth'
 
 const App = () => {
   return (
@@ -16,8 +16,7 @@ const App = () => {
           <Route exact path="/" component={Auth(WorkspacePage, false)} />
           <Route exact path="/login" component={Auth(LoginPage, true)} />
           <Route
-            exact
-            path="/workspace_join"
+            path="/workspace-join"
             component={Auth(WorkspaceJoinPage, false)}
           />
           <Route exact path="/channel" component={Auth(ChannelPage, false)} />
