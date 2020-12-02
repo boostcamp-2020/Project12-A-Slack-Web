@@ -21,6 +21,8 @@ const Button = ({
       backgroundColor={customStyle.backgroundColor}
       hoverColor={customStyle.hoverColor}
       hoverBackgroundColor={customStyle.hoverBackgroundColor}
+      hoverBorder={customStyle.hoverBorder}
+      hoverBoxShadow={customStyle.hoverBoxShadow}
       disabled={customStyle.disabled}
       zIndex={customStyle.zIndex}
       position={customStyle.position}
@@ -31,6 +33,8 @@ const Button = ({
       display={customStyle.display}
       justifyContent={customStyle.justifyContent}
       alignItems={customStyle.alignItems}
+      boxShadow={customStyle.boxShadow}
+      cursor={customStyle.cursor}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseOut={onMouseOut}
@@ -49,6 +53,7 @@ const defaultStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'grey',
   hoverBackgroundColor: 'greyHover',
   disabled: false,
+  cursor: 'pointer',
 }
 
 const StyledButton = styled.button<ButtonType.StyleAttributes>`
@@ -64,12 +69,20 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   border: ${({ border }) => border || '0px solid #000000'};
   background: ${({ backgroundColor }) =>
     backgroundColor ? color.get(backgroundColor) : 'none'};
-  ${({ disabled, hoverBackgroundColor, hoverColor }) =>
+  ${({
+    disabled,
+    hoverBackgroundColor,
+    hoverColor,
+    hoverBorder,
+    hoverBoxShadow,
+  }) =>
     disabled
       ? ''
       : `&:hover {
         color: ${hoverColor && color.get(hoverColor)};
         background: ${hoverBackgroundColor && color.get(hoverBackgroundColor)};
+        border: ${hoverBorder};
+        box-shadow: ${hoverBoxShadow};
   }`};
   opacity: ${({ disabled }) => (disabled ? '0.7' : '')};
   z-index: ${({ zIndex }) => zIndex};
@@ -81,6 +94,8 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   display: ${({ display }) => display};
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
+  box-shadow: ${({ boxShadow }) => boxShadow};
+  cursor: ${({ cursor }) => cursor};
 `
 
 export default Button

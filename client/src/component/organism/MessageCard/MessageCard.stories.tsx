@@ -8,6 +8,62 @@ export default {
   decorators: [withKnobs],
 }
 
+const reaction1 = ':gun:'
+const reaction2 = ':heart:'
+const reaction3 = ':clap:'
+
+const user01 = {
+  id: 1,
+  email: 'user01@naver.com',
+  name: '‍유저1',
+  profileImageUrl: 'http://placehold.it/100',
+}
+const user02 = {
+  id: 2,
+  email: 'user02@naver.com',
+  name: '‍유저22',
+  profileImageUrl: 'http://placehold.it/100',
+}
+const user03 = {
+  id: 3,
+  email: 'user03@naver.com',
+  name: '‍3번 유저',
+  profileImageUrl: 'http://placehold.it/100',
+}
+
+const reactions = [
+  {
+    id: 1,
+    content: reaction1,
+    User: user01,
+  },
+  {
+    id: 2,
+    content: reaction1,
+    User: user02,
+  },
+  {
+    id: 4,
+    content: reaction2,
+    User: user03,
+  },
+  {
+    id: 6,
+    content: reaction3,
+    User: user01,
+  },
+  {
+    id: 5,
+    content: reaction2,
+    User: user02,
+  },
+  {
+    id: 3,
+    content: reaction1,
+    User: user03,
+  },
+]
+
 export const messageCard = () => {
   const continuous = boolean('continuous', false)
   const data = object('data', {
@@ -21,27 +77,9 @@ export const messageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-28T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user01,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: reactions,
       },
       {
         id: 2,
@@ -49,13 +87,7 @@ export const messageCard = () => {
         isHead: false,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-26T15:09:30.000Z',
-        User: {
-          id: 2,
-          email: 'ihanju95@gmail.com',
-          name: '이두주',
-          profileImageUrl:
-            'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-        },
+        User: user02,
         Files: [],
         Reactions: [],
       },
@@ -65,36 +97,12 @@ export const messageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-26T20:07:00.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user01,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: [],
       },
     ],
-    User: {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-    },
+    User: user01,
   })
   return (
     <MessageCard
@@ -124,36 +132,12 @@ export const ContinuousMessageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-25T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user01,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: reactions,
       },
     ],
-    User: {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-    },
+    User: user01,
   })
   const data = object('second data', {
     id: 1,
@@ -166,27 +150,9 @@ export const ContinuousMessageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-25T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user01,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: [],
       },
       {
         id: 2,
@@ -194,36 +160,18 @@ export const ContinuousMessageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-25T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user01,
         Files: [],
         Reactions: [
           {
             id: 4,
             content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
+            User: user03,
           },
         ],
       },
     ],
-    User: {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-    },
+    User: user01,
   })
   return (
     <>
@@ -255,36 +203,12 @@ export const NoReplyMessageCard = () => {
         isHead: true,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-25T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user03,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: reactions,
       },
     ],
-    User: {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-    },
+    User: user03,
   })
   return (
     <>
@@ -311,36 +235,12 @@ export const NoHeadMessageCard = () => {
         isHead: false,
         createdAt: '2020-11-25T15:09:30.000Z',
         updatedAt: '2020-11-25T15:09:30.000Z',
-        User: {
-          id: 1,
-          email: 'dlgkswn885@korea.ac.kr',
-          name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-          profileImageUrl:
-            'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-        },
+        User: user02,
         Files: [],
-        Reactions: [
-          {
-            id: 4,
-            content: ':gun:',
-            User: {
-              id: 1,
-              email: 'dlgkswn885@korea.ac.kr',
-              name: '‍이한주[ 학부재학 / 산업경영공학부 ]',
-              profileImageUrl:
-                'https://lh6.googleusercontent.com/-N1Pn-Or52MM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn7DRZcFBqsGNFc9Z5LUf8hGZRi5g/s96-c/photo.jpg',
-            },
-          },
-        ],
+        Reactions: reactions,
       },
     ],
-    User: {
-      id: 2,
-      email: 'ihanju95@gmail.com',
-      name: '이두주',
-      profileImageUrl:
-        'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-    },
+    User: user02,
   })
   return (
     <>

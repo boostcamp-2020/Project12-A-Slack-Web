@@ -1,5 +1,8 @@
 import myAxios from '@util/myAxios'
-import { createNewWorkspace, joinWorkspaceUser } from '@store/workspace.store'
+import {
+  createNewWorkspace,
+  joinWorkspaceUser,
+} from '@store/reducer/workspace.reducer'
 
 const createWorkspace = async ({
   payload,

@@ -9,13 +9,5 @@ export default {
 export const reactionPicker = () => {
   const targetId = 1
 
-  return (
-    <ReactionPicker
-      targetId={targetId}
-      modalAttributes={{}}
-      onClose={() => {
-        alert('close!')
-      }}
-    />
-  )
+  return <ReactionPicker targetId={targetId} />
 }

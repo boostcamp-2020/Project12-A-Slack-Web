@@ -24,7 +24,7 @@ interface MessageType {
   updatedAt: string
   User: UserType
   Files: object[]
-  Reactions?: {
+  Reactions: {
     id: number
     content: string
     User: UserType
@@ -100,6 +100,10 @@ const MessageCard = ({
               {message.content || ''}
             </A.Text>
           </Styled.MessageWrapper>
+
+          {message.Reactions.length !== 0 && (
+            <O.ReactionList reactionArr={message.Reactions} loginUserId={1} />
+          )}
         </Styled.ContentWrapper>
 
         <Styled.ActionBarWrapper>
@@ -141,6 +145,7 @@ const MessageCard = ({
               </A.Text>
             </Styled.NoContentWrapper>
           </Styled.MessageWrapper>
+
           <M.ReplyButton
             count={thread.Messages.length}
             time={getLastTime(thread.Messages)}
@@ -163,6 +168,8 @@ const MessageCard = ({
       </Styled.Container>
     )
   }
+
+  const headMessage = thread.Messages[0]
   return (
     <Styled.Container
       onMouseEnter={handleMouseEnter}
@@ -184,9 +191,13 @@ const MessageCard = ({
 
         <Styled.MessageWrapper>
           <A.Text customStyle={messageTextStyle}>
-            {thread.Messages.filter((item) => item.isHead)[0]?.content || ''}
+            {headMessage?.content || ''}
           </A.Text>
         </Styled.MessageWrapper>
+
+        {headMessage.Reactions.length !== 0 && (
+          <O.ReactionList reactionArr={headMessage.Reactions} loginUserId={1} />
+        )}
 
         {thread.Messages.length > 1 && (
           <M.ReplyButton

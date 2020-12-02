@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import M from '@molecule'
 import { useDispatch } from 'react-redux'
-import { joinWorkspaceUser } from '@store/workspace.store'
+import { joinWorkspaceUser } from '@store/reducer/workspace.reducer'
 
 const WorkspaceJoinPage = () => {
   const dispatch = useDispatch()
