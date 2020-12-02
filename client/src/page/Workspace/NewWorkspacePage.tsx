@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
-import { createNewWorkspace } from '@store/workspace.store'
+import { createNewWorkspace } from '@store/reducer/workspace.reducer'
 
 const NewWorkspacePage = () => {
   const dispatch = useDispatch()

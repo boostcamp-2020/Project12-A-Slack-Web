@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
+import { RootState } from '@store'
+import { getThreadsAsync } from '@store/reducer/thread.reducer'
 
 import channelInfo from './data'
 
 const ChannelPage = () => {
+  const { threadList, loading, error } = useSelector(
+    (state: RootState) => state.threadStore,
+  )
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getThreadsAsync.request(1))
+  }, [])
   const channel = channelInfo
 
   const [subViewShow, setSubViewShow] = useState(false)
