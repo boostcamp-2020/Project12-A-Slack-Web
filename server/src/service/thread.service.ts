@@ -50,12 +50,12 @@ const createThread = async ({
         { transaction: t },
       )
     }
-
     await t.commit()
     return {
       code: statusCode.CREATED,
       json: {
         success: true,
+        data: { threadId: newThread.id },
       },
     }
   } catch (error) {
