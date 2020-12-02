@@ -1,18 +1,17 @@
 export { default } from './Reaction'
 
 export interface ReactionProps {
-  reactionContent: string
-  members: UserType[]
+  reactions: ReactionType[]
   loginUserId: number
   onDeleteClick?: () => void
   onAddClick?: () => void
 }
 
-// interface ReactionType {
-//   id: number
-//   content: string
-//   User: UserType
-// }
+interface ReactionType {
+  id: number
+  content: string
+  User: UserType
+}
 
 interface UserType {
   id: number

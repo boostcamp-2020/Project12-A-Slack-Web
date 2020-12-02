@@ -31,21 +31,41 @@ export const reaction = () => {
     profileImageUrl: 'http://placehold.it/100',
   }
 
-  const memberList1 = [user01, user02, user03]
-  const memberList2 = [user02, user03]
+  const reactions1 = [
+    {
+      id: 1,
+      content: reaction1,
+      User: user01,
+    },
+    {
+      id: 2,
+      content: reaction1,
+      User: user02,
+    },
+    {
+      id: 3,
+      content: reaction1,
+      User: user03,
+    },
+  ]
+
+  const reactions2 = [
+    {
+      id: 4,
+      content: reaction2,
+      User: user03,
+    },
+    {
+      id: 5,
+      content: reaction2,
+      User: user02,
+    },
+  ]
 
   return (
     <>
-      <Reaction
-        reactionContent={reaction1}
-        loginUserId={loginUserId}
-        members={memberList1}
-      />
-      <Reaction
-        reactionContent={reaction2}
-        loginUserId={loginUserId}
-        members={memberList2}
-      />
+      <Reaction reactions={reactions1} loginUserId={loginUserId} />
+      <Reaction reactions={reactions2} loginUserId={loginUserId} />
     </>
   )
 }

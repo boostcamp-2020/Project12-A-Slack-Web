@@ -1,17 +1,20 @@
 import React from 'react'
 import A from '@atom'
 import { ButtonType } from '@atom/Button'
+import { TextType } from '@atom/Text'
 import { Emoji } from 'emoji-mart'
 import { ReactionProps } from '.'
 
 const Reaction = ({
-  reactionContent,
-  members,
+  reactions,
   loginUserId,
   onDeleteClick,
   onAddClick,
 }: ReactionProps) => {
-  const reacted = members.filter((user) => user.id === loginUserId).length === 1
+  const emoji = reactions[0]?.content
+  const reacted =
+    reactions.filter((reaction) => reaction.User.id === loginUserId).length ===
+    1
 
   const switchButtonStyle: ButtonType.StyleAttributes = reacted
     ? reactedButtonStyle
@@ -28,10 +31,8 @@ const Reaction = ({
       onClick={handleReactionClick}
     >
       <>
-        <Emoji emoji={reactionContent} size={16} />
-        <A.Text customStyle={{ fontSize: '1.2rem', margin: '0 0 0 7px' }}>
-          {members.length}
-        </A.Text>
+        <Emoji emoji={emoji} size={16} />
+        <A.Text customStyle={textStyle}>{reactions.length}</A.Text>
       </>
     </A.Button>
   )
@@ -53,6 +54,11 @@ const unreactedButtonStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'whiteGrey',
   hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
+}
+
+const textStyle: TextType.StyleAttributes = {
+  fontSize: '1.2rem',
+  margin: '0 0 0 7px',
 }
 
 export default Reaction
