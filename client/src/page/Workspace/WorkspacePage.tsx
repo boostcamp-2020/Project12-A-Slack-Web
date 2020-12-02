@@ -1,15 +1,13 @@
 import React, { useEffect } from 'react'
-import A from '@atom'
 import M from '@molecule'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 import { RootState } from '@store'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   readWorkspaceLoading,
   readWorkspaceSuccess,
   readWorkspaceError,
-  onChangeWorkspaceInput,
-  createNewWorkspace,
 } from '@store/workspace.store'
 import { getWorkspace } from '@api/workspace'
 
@@ -26,15 +24,6 @@ const WorkspacePage = () => {
     } catch (error) {
       dispatch(readWorkspaceError(error))
     }
-  }
-
-  const handleNewWorkspaceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    dispatch(onChangeWorkspaceInput(name, value))
-  }
-
-  const handleClickCreateNewWorkspace = () => {
-    dispatch(createNewWorkspace())
   }
 
   useEffect(() => {
@@ -54,10 +43,9 @@ const WorkspacePage = () => {
           )
         })
       )}
-      <A.Input name="name" onChange={handleNewWorkspaceInput} />
-      <M.ButtonDiv onClick={handleClickCreateNewWorkspace}>
-        생성하기
-      </M.ButtonDiv>
+      <Link to="/new-workspace" style={{ textDecoration: 'none' }}>
+        <M.ButtonDiv>새로운 워크 스페이스 생성하기</M.ButtonDiv>
+      </Link>
     </WorkspaceContainer>
   )
 }

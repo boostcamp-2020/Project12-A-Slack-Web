@@ -1,12 +1,14 @@
 import myAxios from '@util/myAxios'
-import { WorkspaceState, joinWorkspaceUser } from '@store/workspace.store'
+import { createNewWorkspace, joinWorkspaceUser } from '@store/workspace.store'
 
-const createWorkspace = async ({ newWorkspace }: WorkspaceState) => {
+const createWorkspace = async ({
+  payload,
+}: ReturnType<typeof createNewWorkspace>) => {
   const response = await myAxios.post({
     path: '/workspace',
     data: {
-      name: newWorkspace.name,
-      imageUrl: newWorkspace.imageUrl,
+      name: payload.name,
+      imageUrl: payload.imageUrl,
     },
   })
   return response.data
