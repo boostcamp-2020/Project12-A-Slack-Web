@@ -59,6 +59,32 @@ const SideBar = () => {
       <Styled.SectionChannelPart>
         <M.Section title="Channels" type="CHANNEL" />
         <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
+        <M.Section title="Direct Messages" type="DM" />
       </Styled.SectionChannelPart>
     </Styled.SideBarContainer>
   )
