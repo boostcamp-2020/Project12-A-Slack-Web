@@ -25,10 +25,10 @@ interface AxiosType {
   data?: object
 }
 
-type ResponseType = {
+export type ResponseType = {
   success: boolean
   message?: string
-  data?: object
+  data: object[]
 }
 
 const myAxios = {

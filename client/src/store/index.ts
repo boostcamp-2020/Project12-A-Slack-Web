@@ -1,11 +1,10 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
-import thread from './thread'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import workspaceStore from './workspace.store'
+import threadStore from './thread.store'
 
-const rootReducer = combineReducers({
-  thread,
-})
+const rootReducer = combineReducers({ workspaceStore, threadStore })
 
 export type RootState = ReturnType<typeof rootReducer>
 

@@ -24,6 +24,7 @@ module.exports = {
       '@store': path.resolve(__dirname, 'src/store'),
       '@util': path.resolve(__dirname, 'src/util'),
       '@api': path.resolve(__dirname, 'src/api'),
+      '@hoc': path.resolve(__dirname, 'src/hoc'),
     },
   },
 
@@ -33,6 +34,10 @@ module.exports = {
         test: /\.tsx?$/,
         use: ['babel-loader', 'ts-loader'],
         exclude: '/node_modules/',
+      },
+      {
+        test: /\.css$/,
+        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
       },
     ],
   },

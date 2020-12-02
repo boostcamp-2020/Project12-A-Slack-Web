@@ -5,6 +5,7 @@ import { InputType } from '.'
 
 const Input = ({
   customStyle = defaultStyle,
+  name,
   value,
   placeholder,
   onChange,
@@ -24,6 +25,7 @@ const Input = ({
       outline={customStyle.outline}
       onChange={onChange}
       placeholder={placeholder}
+      name={name}
       value={value}
     />
   )
