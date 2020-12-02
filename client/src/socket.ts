@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { dispatch } from 'redux'
+// import { dispatch } from 'react-redux'
 import { io } from 'socket.io-client'
 import { receiveCreateThread } from '@store/reducer/thread.reducer'
 
@@ -28,7 +28,7 @@ export const useSocket = () => {
     // data: new thread
     socket.on('RECEIVE_CREATE_THREAD', (data: any) => {
       // 여기서 이벤트 호출
-      dispatch(receiveCreateThread(data))
+      // dispatch(receiveCreateThread(data))
       console.log('new thread: ', data)
     })
 
