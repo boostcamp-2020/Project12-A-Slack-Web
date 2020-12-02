@@ -14,6 +14,7 @@ import { statusCode, resMessage } from '@util/constant'
 
 dotenv.config()
 
+import './socket'
 import passportConfig from '@util/passport-config'
 
 import apiRouter from '@controller/index'
