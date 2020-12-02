@@ -10,9 +10,9 @@ const createThread = async (data: RequestThreadType) => {
   return response.data
 }
 
-const getThreads = async (data: RequestThreadType) => {
+const getThreads = async (channelId: number) => {
   const response = await myAxios.get({
-    path: `/thread?channelId=${data.channelId}`,
+    path: `/thread?channelId=${channelId}`,
   })
   return response.data.data
 }

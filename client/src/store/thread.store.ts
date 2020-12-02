@@ -1,6 +1,11 @@
-import { createAction, ActionType, createReducer } from 'typesafe-actions'
-import threadAPI from '@api/thread'
-import { Dispatch } from 'redux'
+import {
+  createAction,
+  ActionType,
+  createReducer,
+  createAsyncAction,
+} from 'typesafe-actions'
+// import threadAPI from '@api/thread'
+// import { Dispatch } from 'redux'
 import { AxiosError } from 'axios'
 
 interface UserType {
@@ -28,7 +33,7 @@ export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
 export const SEND_CREATE_THREAD = 'thread/SEND_CREATE_THREAD' as const
 
 // Action generator
-export const getThreads = createAction(GET_THREADS)()
+export const getThreads = createAction(GET_THREADS)<number>()
 export const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
   ThreadType[]
 >()
@@ -39,22 +44,29 @@ export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
 >()
 export const sendCreateThread = createAction(SEND_CREATE_THREAD)<ThreadType>()
 
-export const getThreadsAsync = () => async (dispatch: Dispatch) => {
-  // const channelId = getState().channel.current
-  const channelId: number = 1
+export const getThreadsAsync = createAsyncAction(
+  GET_THREADS,
+  GET_THREADS_SUCCESS,
+  GET_THREADS_ERROR,
+)<number, ThreadType[], AxiosError>()
 
-  dispatch(getThreads())
-  try {
-    const threads: any = await threadAPI.getThreads({ channelId })
-    dispatch(getThreadsSuccess(threads))
-  } catch (error) {
-    dispatch(getThreadsError(error))
-  }
-}
+// thunk
+// export const getThreadsAsync = () => async (dispatch: Dispatch) => {
+//   // const channelId = getState().channel.current
+//   const channelId: number = 1
+
+//   dispatch(getThreads())
+//   try {
+//     const threads: any = await threadAPI.getThreads({ channelId })
+//     dispatch(getThreadsSuccess(threads))
+//   } catch (error) {
+//     dispatch(getThreadsError(error))
+//   }
+// }
 
 // action
 const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }
-type ThreadAction = ActionType<typeof actions>
+export type ThreadAction = ActionType<typeof actions>
 
 // state
 interface ThreadState {

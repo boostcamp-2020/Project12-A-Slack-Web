@@ -15,7 +15,7 @@ const ChannelPage = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getThreadsAsync())
+    dispatch(getThreadsAsync.request(1))
   }, [])
   const channel = channelInfo
 
