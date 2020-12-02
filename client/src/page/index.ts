@@ -1,4 +1,4 @@
-import WorkspaceJoinPage from './Workspace/WorkspacJoinPage'
+import WorkspaceJoinPage from './Workspace/WorkspaceJoinPage'
 import ChannelPage from './Channel/ChannelPage'
 import LoginPage from './User/LoginPage'
 import WorkspacePage from './Workspace/WorkspacePage'
