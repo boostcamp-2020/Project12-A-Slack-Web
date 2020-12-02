@@ -22,6 +22,12 @@ export interface ThreadType {
   User: UserType
 }
 
+export interface CreateThreadRequestType {
+  content: string
+  channelId: number
+  fileInfoList: { filePath: string; type: string }[] | null
+}
+
 // Action
 export const GET_THREADS = 'thread/GET_THREADS' as const
 export const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
@@ -36,7 +42,9 @@ export const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
   ThreadType[]
 >()
 export const getThreadsError = createAction(GET_THREADS_ERROR)<AxiosError>()
-export const createThread = createAction(CREATE_THREAD)<ThreadType>()
+export const createThread = createAction(CREATE_THREAD)<
+  CreateThreadRequestType
+>()
 export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
   ThreadType
 >()
@@ -84,10 +92,10 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
-  [CREATE_THREAD]: (state, action) => ({
-    ...state,
-    threadList: [...state.threadList, action.payload],
-  }),
+  // [CREATE_THREAD]: (state, action) => ({
+  //   ...state,
+  //   threadList: [...state.threadList, action.payload],
+  // }),
 })
 
 export default reducer

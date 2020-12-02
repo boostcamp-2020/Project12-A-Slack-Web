@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState, createRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import A from '@atom'
 import O from '@organism'
 import { InputType } from '@atom/Input'
@@ -30,24 +30,9 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
     const data = {
       content,
       channelId: 1,
+      fileInfoList: [],
     }
-    threadApi.createThread(data)
-    const newMockData = {
-      id: 5,
-      createdAt: '2020-11-25T15:09:30.000Z',
-      updatedAt: '2020-11-25T15:09:30.000Z',
-      messageCount: 3,
-      profileImageUrl: ['1', '2', '3'],
-      User: {
-        id: 2,
-        email: 'ihanju95@gmail.com',
-        name: '이두주',
-        profileImageUrl:
-          'https://lh3.googleusercontent.com/-VDkRdj9PpUo/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnTBFod0S-59xYDXy2Y5oG8kAFYnA/s96-c/photo.jpg',
-      },
-    }
-
-    dispatch(createThread(newMockData))
+    dispatch(createThread(data))
     console.log('CREATE MESSAGE !')
   }
 
