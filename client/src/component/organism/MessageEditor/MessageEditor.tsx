@@ -6,8 +6,7 @@ import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
 import threadApi from '@api/thread'
-import { RootState } from '@store'
-import { createThread } from '@store/thread.store'
+import { createThread } from '@store/reducer/thread.reducer'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
@@ -17,9 +16,6 @@ interface MessageEditorProps {
 }
 
 const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
-  const threadList = useSelector(
-    (state: RootState) => state.threadStore.threadList,
-  )
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)

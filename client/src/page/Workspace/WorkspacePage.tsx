@@ -8,7 +8,7 @@ import {
   readWorkspaceLoading,
   readWorkspaceSuccess,
   readWorkspaceError,
-} from '@store/workspace.store'
+} from '@store/reducer/workspace.reducer'
 import { getWorkspace } from '@api/workspace'
 
 const WorkspacePage = () => {

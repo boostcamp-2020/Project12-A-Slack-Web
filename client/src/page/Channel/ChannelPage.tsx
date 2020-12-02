@@ -4,7 +4,7 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getThreadsAsync } from '@store/thread.store'
+import { getThreadsAsync } from '@store/reducer/thread.reducer'
 
 import channelInfo from './data'
 

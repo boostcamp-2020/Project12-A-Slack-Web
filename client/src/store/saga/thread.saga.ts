@@ -1,8 +1,24 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
-import { GET_THREADS, getThreadsAsync, ThreadType } from '../thread.store'
+import {
+  GET_THREADS,
+  getThreadsAsync,
+  ThreadType,
+} from '../reducer/thread.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
+  try {
+    const threads: ThreadType[] = yield call(
+      threadAPI.getThreads,
+      action.payload,
+    )
+    yield put(getThreadsAsync.success(threads))
+  } catch (e) {
+    yield put(getThreadsAsync.failure(e))
+  }
+}
+
+function* createThreadSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
     const threads: ThreadType[] = yield call(
       threadAPI.getThreads,

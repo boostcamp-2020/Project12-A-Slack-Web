@@ -1,16 +1,11 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import workspaceStore from './workspace.store'
-import threadStore from './thread.store'
+import rootReducer from './reducer'
 import rootSaga from './saga'
 
-const rootReducer = combineReducers({ workspaceStore, threadStore })
-
 const sagaMiddleware = createSagaMiddleware()
-
-export type RootState = ReturnType<typeof rootReducer>
 
 const store = createStore(
   rootReducer,
@@ -18,5 +13,7 @@ const store = createStore(
 )
 
 sagaMiddleware.run(rootSaga)
+
+export type RootState = ReturnType<typeof rootReducer>
 
 export default store
