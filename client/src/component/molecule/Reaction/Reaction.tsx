@@ -41,7 +41,7 @@ const Reaction = ({
 const defaultButtonStyle: ButtonType.StyleAttributes = {
   borderRadius: '24px',
   padding: '5px 8px',
-  margin: '0 3px 3px 0',
+  margin: '0 4px 3px 0',
   cursor: 'pointer',
 }
 
