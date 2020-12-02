@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import { WorkspaceJoinPage, ChannelPage, LoginPage, WorkspacePage } from '@page'
@@ -7,14 +7,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hook/Auth'
 
 const App = () => {
-  useEffect(() => {
-    const [name, accessToken] = window.location.search.split('=')
-
-    if (accessToken && name === '?access_token') {
-      localStorage.setItem('token', accessToken)
-      window.location.href = '/'
-    }
-  })
   return (
     <>
       <ToastContainer />

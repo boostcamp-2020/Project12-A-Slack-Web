@@ -7,6 +7,13 @@ const Auth = (Component: any, option: boolean) => () => {
   const history = useHistory()
   const token = localStorage.getItem('token')
   useEffect(() => {
+    const [name, accessToken] = window.location.search.split('=')
+
+    if (accessToken && name === '?access_token') {
+      localStorage.setItem('token', accessToken)
+      window.location.href = '/'
+    }
+
     const check = async () => {
       try {
         if (token) {
