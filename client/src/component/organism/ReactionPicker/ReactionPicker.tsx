@@ -1,7 +1,9 @@
 import React from 'react'
 import M from '@molecule'
 import { ModalWrapperType } from '@atom/ModalWrapper'
-import Picker, { IEmojiData } from 'emoji-picker-react'
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker, EmojiData } from 'emoji-mart'
+
 import { ReactionPickerProps } from '.'
 
 const ReactionPicker = ({
@@ -10,8 +12,9 @@ const ReactionPicker = ({
   onReactionClick,
   onClose,
 }: ReactionPickerProps) => {
-  const handleReactionClick = (event: MouseEvent, emojiObject: IEmojiData) => {
-    console.log(emojiObject)
+  const handleEmojiSelect = (emoji: EmojiData) => {
+    const { colons } = emoji
+    console.log(colons)
   }
 
   return (
@@ -20,15 +23,13 @@ const ReactionPicker = ({
       disableCloseButton
       onClose={onClose}
     >
-      <Picker onEmojiClick={handleReactionClick} />
+      <Picker onSelect={handleEmojiSelect} />
     </M.Modal>
   )
 }
 
 const modalWrapperStyle: ModalWrapperType.StyleAttributes = {
   padding: '0',
-  backgroundColor: 'white',
-  border: '0.5px solid lightGrey',
   borderRadius: '6px',
 }
 
