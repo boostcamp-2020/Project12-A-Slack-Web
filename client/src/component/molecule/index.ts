@@ -5,6 +5,7 @@ import ActionMenuButton from './ActionMenuButton'
 import Section from './Section'
 import ReplyButton from './ReplyButton'
 import CloseButton from './CloseButton'
+import ReactionButton from './ReactionButton'
 
 export default {
   ButtonDiv,
@@ -14,4 +15,5 @@ export default {
   ReplyButton,
   Section,
   CloseButton,
+  ReactionButton,
 }
