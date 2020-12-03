@@ -1,5 +1,7 @@
-import messageModel from '@model/message.model'
+import MessageModel from '@model/message.model'
+import UserModel from '@model/user.model'
 import FileModel from '@model/file.model'
+import ReactionModel from '@model/reaction.model'
 import ThreadModel from '@model/thread.model'
 import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
@@ -38,7 +40,7 @@ const createMessage = async ({
 
   const t = await sequelize.transaction()
   try {
-    const newMessage = await messageModel.create(
+    const newMessage = await MessageModel.create(
       { userId, threadId, content },
       { transaction: t },
     )
@@ -75,21 +77,66 @@ const isValidMessageData = ({ id, userId, content }: MessageType) => {
   )
 }
 
+const readMessageById = async ({ threadId }: MessageType) => {
+  if (threadId < 0 || typeof threadId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const messages = await MessageModel.findAll({
+      include: [
+        {
+          model: FileModel,
+          attributes: ['id', 'url', 'type', 'createdAt', 'updatedAt'],
+        },
+        {
+          model: ReactionModel,
+          attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+          include: [
+            { model: UserModel, attributes: ['id', 'name', 'profileImageUrl'] },
+          ],
+        },
+        {
+          model: UserModel,
+          attributes: ['id', 'email', 'name', 'profileImageUrl'],
+        },
+      ],
+      where: { threadId },
+    })
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: messages,
+      },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 const updateMessage = async ({
   id,
   userId,
   content,
   fileInfoList,
 }: MessageType) => {
-  if (!isValidMessageData({ id, userId, content }))
+  if (!isValidMessageData({ id, userId, content })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
+  }
 
   const t = await sequelize.transaction()
   try {
-    await messageModel.update(
+    await MessageModel.update(
       { content },
       { where: { id, userId }, transaction: t },
     )
@@ -132,12 +179,12 @@ const deleteMessage = async ({ id, userId, threadId }: MessageType) => {
 
   const transaction = await sequelize.transaction()
   try {
-    await messageModel.destroy({
+    await MessageModel.destroy({
       where: { id, userId },
       transaction,
     })
     await FileModel.destroy({ where: { messageId: id }, transaction })
-    const messagesInSameThread = await messageModel.count({
+    const messagesInSameThread = await MessageModel.count({
       where: { threadId },
     })
 
@@ -159,4 +206,4 @@ const deleteMessage = async ({ id, userId, threadId }: MessageType) => {
   }
 }
 
-export default { createMessage, updateMessage, deleteMessage }
+export default { createMessage, readMessageById, updateMessage, deleteMessage }
