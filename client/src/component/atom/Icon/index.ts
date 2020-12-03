@@ -1,4 +1,5 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core'
+import { MouseEvent } from 'react'
 
 export { default } from './Icon'
 
@@ -28,6 +29,6 @@ export namespace IconType {
   export interface Props {
     icon: IconDefinition
     customStyle?: StyleAttributes
-    onClick?: () => void
+    onClick?: (event: MouseEvent<HTMLSpanElement>) => void
   }
 }
