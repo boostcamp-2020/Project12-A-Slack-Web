@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import myAxios from '@util/myAxios'
 import styled from 'styled-components'
 import O from '@organism'
 
@@ -6,11 +7,34 @@ interface ChannelBrowserPropsType {
   workspaceId: number
 }
 
+interface Channel extends Object {
+  id: number
+  type: string
+  name: string
+  memberCount: number
+  joined: boolean
+}
+
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
   const channelBrowserMainViewHeader = (
     <O.ChannelBrowserHeader workspaceId={workspaceId} />
   )
-  const channelBrowserMainViewBody = <O.ChannelList channelList={[]} />
+  const [channels, setChannels] = useState<Channel[]>([])
+
+  useEffect(() => {
+    const getWorkspaceChannels = async () => {
+      const {
+        data: { data },
+      } = await myAxios.get({
+        path: `/channel/all?workspaceId=${workspaceId}`,
+      })
+      console.log(data)
+      setChannels(data)
+    }
+    getWorkspaceChannels()
+  }, [])
+
+  const channelBrowserMainViewBody = <O.ChannelList channelList={channels} />
 
   return (
     <>

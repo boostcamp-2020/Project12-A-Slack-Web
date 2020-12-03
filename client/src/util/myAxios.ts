@@ -28,7 +28,7 @@ interface AxiosType {
 export type ResponseType = {
   success: boolean
   message?: string
-  data: object[]
+  data: any
 }
 
 const myAxios = {

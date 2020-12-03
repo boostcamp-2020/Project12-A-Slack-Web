@@ -19,6 +19,21 @@ const createChannel = async (
   }
 }
 
+const readChannelsByWorkspace = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await channelService.readChannelsByWorkspace({
+      workspaceId: +req.query.workspaceId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const readChannelsByUser = async (
   req: Request,
   res: Response,
@@ -27,7 +42,7 @@ const readChannelsByUser = async (
   try {
     const { code, json } = await channelService.readChannelsByUser({
       userId: req.user.id,
-      workspaceId: +req.params.workspaceId,
+      workspaceId: +req.query.workspaceId,
     })
     return res.status(code).json(json)
   } catch (error) {
@@ -35,13 +50,13 @@ const readChannelsByUser = async (
   }
 }
 
-const readChannelThreads = async (
+const readChannelInfo = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const { code, json } = await channelService.readChannelThreads({
+    const { code, json } = await channelService.readChannelInfo({
       channelId: +req.params.channelId,
     })
     return res.status(code).json(json)
@@ -65,6 +80,7 @@ const joinChannel = async (req: Request, res: Response, next: NextFunction) => {
 export default {
   createChannel,
   readChannelsByUser,
-  readChannelThreads,
+  readChannelsByWorkspace,
+  readChannelInfo,
   joinChannel,
 }
