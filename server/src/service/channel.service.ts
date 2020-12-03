@@ -58,8 +58,39 @@ const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
   }
 }
 
+const readChannelsByWorkspace = async ({ workspaceId }: ChannelType) => {
+  if (workspaceId < 0 || typeof workspaceId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const channels = await ChannelModel.findAll({
+      where: { workspaceId },
+    })
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: channels,
+      },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 const readChannelsByUser = async ({ userId, workspaceId }: ChannelType) => {
-  if (userId < 0 || typeof userId !== 'number') {
+  if (
+    userId < 0 ||
+    typeof userId !== 'number' ||
+    workspaceId < 0 ||
+    typeof workspaceId !== 'number'
+  ) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
@@ -101,6 +132,40 @@ interface ChannelInstance extends ChannelModel {
   // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
   user: UserModel[]
+}
+
+const readChannelInfo = async ({ channelId }: ChannelType) => {
+  if (channelId < 0 || typeof channelId !== 'number') {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const threads = (await ChannelModel.findOne({
+      include: [
+        {
+          model: UserModel,
+          as: 'user',
+          attributes: ['id', 'email', 'name', 'profileImageUrl'],
+        },
+      ],
+      attributes: ['id', 'type', 'name', 'createdAt', 'updatedAt'],
+      where: { id: channelId },
+    })) as ChannelInstance
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: threads,
+      },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
 }
 
 const readChannelThreads = async ({ channelId }: ChannelType) => {
@@ -153,7 +218,7 @@ const readChannelThreads = async ({ channelId }: ChannelType) => {
           attributes: ['id', 'email', 'name', 'profileImageUrl'],
         },
       ],
-      attributes: ['id', 'type', 'name', 'createdAt', 'updatedAt'],
+      attributes: [],
       where: { id: channelId },
     })) as ChannelInstance
     return {
@@ -222,6 +287,8 @@ const joinChannel = async ({ userId, channelId }: ChannelType) => {
 export default {
   createChannel,
   readChannelsByUser,
+  readChannelsByWorkspace,
+  readChannelInfo,
   readChannelThreads,
   joinChannel,
 }
