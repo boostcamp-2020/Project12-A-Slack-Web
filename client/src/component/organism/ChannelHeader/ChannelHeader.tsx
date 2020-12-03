@@ -54,6 +54,7 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
                   user={user}
                   size="MEDIUM"
                   avatarImageStyle={memberAvatarStyle}
+                  key={user.id}
                 />
               ))}
             <Styled.MemberCountWrapper>

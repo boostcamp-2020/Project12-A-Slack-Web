@@ -2,11 +2,11 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { createGlobalStyle } from 'styled-components'
 import {
+  WorkspaceBrowserPage,
   WorkspaceJoinPage,
-  ChannelPage,
-  LoginPage,
-  WorkspacePage,
   NewWorkspacePage,
+  WorkspacePage,
+  LoginPage,
 } from '@page'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,19 +19,22 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
-          <Route exact path="/" component={Auth(WorkspacePage, false)} />
+          <Route exact path="/" component={Auth(WorkspaceBrowserPage, false)} />
           <Route exact path="/login" component={Auth(LoginPage, true)} />
           <Route
             exact
-            path="/workspace-join"
+            path="/workspace/join"
             component={Auth(WorkspaceJoinPage, false)}
           />
           <Route
             exact
-            path="/new-workspace"
+            path="/workspace/new"
             component={Auth(NewWorkspacePage, false)}
           />
-          <Route exact path="/channel" component={Auth(ChannelPage, false)} />
+          <Route
+            path="/workspace/:workspaceId"
+            component={Auth(WorkspacePage, false)}
+          />
         </Switch>
       </Router>
     </>

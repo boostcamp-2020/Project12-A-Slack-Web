@@ -29,9 +29,9 @@ const Auth = (Component: any, option: boolean) => () => {
         }
 
         if (!token && !option) {
-          toast.warn('로그인 해주세요.')
           history.push('/login')
         }
+
         setLoading(false)
       } catch (err) {
         toast.error('잘못된 접근입니다.', {

@@ -58,7 +58,7 @@ const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
   }
 }
 
-const readChannelsByUser = async ({ userId }: ChannelType) => {
+const readChannelsByUser = async ({ userId, workspaceId }: ChannelType) => {
   if (userId < 0 || typeof userId !== 'number') {
     return {
       code: statusCode.BAD_REQUEST,
@@ -75,6 +75,7 @@ const readChannelsByUser = async ({ userId }: ChannelType) => {
           attributes: [],
         },
       ],
+      where: { workspaceId },
     })
     return {
       code: statusCode.OK,

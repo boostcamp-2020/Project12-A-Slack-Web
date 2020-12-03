@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
-import { createNewWorkspace } from '@store/reducer/workspace.reducer'
+import { createWorkspace } from '@store/reducer/workspace.reducer'
 
 const NewWorkspacePage = () => {
   const dispatch = useDispatch()
@@ -18,7 +18,9 @@ const NewWorkspacePage = () => {
   }
 
   const handleClickCreateNewWorkspace = () => {
-    dispatch(createNewWorkspace(workspaceName, workspaceImageUrl))
+    dispatch(
+      createWorkspace({ name: workspaceName, imageUrl: workspaceImageUrl }),
+    )
   }
 
   return (
