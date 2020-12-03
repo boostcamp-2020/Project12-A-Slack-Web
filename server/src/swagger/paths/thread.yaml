@@ -38,6 +38,11 @@ post:
             properties:
               success:
                 type: boolean
+              data:
+                type: object
+                properties:
+                  threadId:
+                    type: number
     '500':
       $ref: '../openapi.yaml#/components/responses/InternalServerError'
     '600':
