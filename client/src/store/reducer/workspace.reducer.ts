@@ -1,11 +1,10 @@
-import { toast } from 'react-toastify'
-import { createWorkspace, joinWorkspace } from '@api/workspace'
-
-const READ_WORKSPACE_LOADING = 'workspace/READ_LOADING' as const
-const READ_WORKSPACE_SUCCESS = 'workspace/READ_SUCCESS' as const
-const READ_WORKSPACE_ERROR = 'workspace/READ_ERROR' as const
-const CREATE_NEW_WORKSPACE = 'workspace/CREATE_NEW_WORKSPACE' as const
-const JOIN_WORKSPACE = 'workspace/JOIN_WORKSPACE' as const
+import {
+  createAction,
+  ActionType,
+  createReducer,
+  createAsyncAction,
+} from 'typesafe-actions'
+import { AxiosError } from 'axios'
 
 export interface WorkspaceType extends Object {
   id: number
@@ -13,84 +12,72 @@ export interface WorkspaceType extends Object {
   imageUrl: string
 }
 
+export interface JoinWorkspaceType {
+  workspaceId: number
+}
+
 export interface WorkspaceState {
-  workspaces: WorkspaceType[]
+  workspaceList: WorkspaceType[]
   loading: boolean
-  error: string | null
+  error: AxiosError | null
 }
 
 const initialState: WorkspaceState = {
-  workspaces: [],
+  workspaceList: [],
   loading: true,
   error: null,
 }
 
-export const readWorkspaceLoading = () => ({ type: READ_WORKSPACE_LOADING })
-export const readWorkspaceSuccess = (workspaces: any) => ({
-  type: READ_WORKSPACE_SUCCESS,
-  payload: { workspaces },
-})
-export const readWorkspaceError = (error: string) => ({
-  type: READ_WORKSPACE_ERROR,
-  payload: { error },
-})
-export const createNewWorkspace = (name: string, imageUrl?: string) => ({
-  type: CREATE_NEW_WORKSPACE,
-  payload: { name, imageUrl },
-})
-export const joinWorkspaceUser = (workspaceId: string) => ({
-  type: JOIN_WORKSPACE,
-  payload: { id: +workspaceId },
-})
+export const GET_WORKSPACES = 'workspace/GET_LOADING' as const
+const GET_WORKSPACES_SUCCESS = 'workspace/GET_SUCCESS' as const
+const GET_WORKSPACES_ERROR = 'workspace/GET_ERROR' as const
+export const CREATE_WORKSPACE = 'workspace/CREATE_WORKSPACE' as const
+export const JOIN_WORKSPACE = 'workspace/JOIN_WORKSPACE' as const
 
-export type WorkspaceAction =
-  | ReturnType<typeof readWorkspaceLoading>
-  | ReturnType<typeof readWorkspaceSuccess>
-  | ReturnType<typeof readWorkspaceError>
-  | ReturnType<typeof createNewWorkspace>
-  | ReturnType<typeof joinWorkspaceUser>
+export const getWorkspaceLoading = createAction(GET_WORKSPACES)()
+export const getWorkspaceSuccess = createAction(GET_WORKSPACES_SUCCESS)<
+  WorkspaceType[]
+>()
+export const getWorkspaceError = createAction(GET_WORKSPACES_ERROR)<
+  AxiosError
+>()
+export const createWorkspace = createAction(CREATE_WORKSPACE)<WorkspaceType>()
+export const joinWorkspace = createAction(JOIN_WORKSPACE)<JoinWorkspaceType>()
 
-function workspaceStore(
-  state: WorkspaceState = initialState,
-  action: WorkspaceAction,
-): WorkspaceState {
-  switch (action.type) {
-    case READ_WORKSPACE_LOADING:
-      return { ...state, loading: true, error: null }
+export const getWorkspaceAsync = createAsyncAction(
+  GET_WORKSPACES,
+  GET_WORKSPACES_SUCCESS,
+  GET_WORKSPACES_ERROR,
+)<number, WorkspaceType[], AxiosError>()
 
-    case READ_WORKSPACE_SUCCESS:
-      return { ...state, loading: false, workspaces: action.payload.workspaces }
-
-    case READ_WORKSPACE_ERROR:
-      return { ...state, loading: false, error: action.payload.error }
-
-    case CREATE_NEW_WORKSPACE:
-      try {
-        const create = async () => {
-          const { success } = await createWorkspace(action)
-          if (success) toast.success('workspace를 생성하였습니다.')
-        }
-        create()
-      } catch (error) {
-        toast.error(error)
-      }
-      return state
-
-    case JOIN_WORKSPACE:
-      try {
-        const join = async () => {
-          const { success } = await joinWorkspace(action)
-          if (success) toast.success('workspace에 join 하였습니다.')
-        }
-        join()
-      } catch (error) {
-        toast.error(error)
-      }
-      return state
-
-    default:
-      return state
-  }
+const actions = {
+  getWorkspaceLoading,
+  getWorkspaceSuccess,
+  getWorkspaceError,
+  createWorkspace,
+  joinWorkspace,
 }
 
-export default workspaceStore
+export type WorkspaceAction = ActionType<typeof actions>
+
+const reducer = createReducer<WorkspaceState, WorkspaceAction>(initialState, {
+  [GET_WORKSPACES]: (state, action) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  [GET_WORKSPACES_SUCCESS]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: null,
+    workspaceList: action.payload,
+  }),
+  [GET_WORKSPACES_ERROR]: (state, action) => ({
+    ...state,
+    workspaceList: [],
+    loading: false,
+    error: action.payload,
+  }),
+})
+
+export default reducer

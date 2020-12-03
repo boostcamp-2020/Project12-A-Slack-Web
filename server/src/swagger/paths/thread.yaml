@@ -48,7 +48,7 @@ post:
     '600':
       $ref: '../openapi.yaml#/components/responses/DBError'
 get:
-  summary: thread create api
+  summary: get all thread by channel
   tags:
     - thread
   security:

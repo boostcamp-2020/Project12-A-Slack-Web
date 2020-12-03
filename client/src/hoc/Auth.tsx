@@ -21,7 +21,7 @@ const Auth = (Component: any, option: boolean) => () => {
         if (token) {
           const { success } = await checkUserToken()
           if (success && option) {
-            history.push('/login')
+            history.push('/')
           }
           if (success && !option) {
             history.push(window.location.pathname)
