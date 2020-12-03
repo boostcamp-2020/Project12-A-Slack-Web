@@ -1,10 +1,15 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import {
+  GetChannelInfoResponseType,
+  GetThreadResponseType,
+} from '@store/reducer/thread.reducer'
 
 export { default } from './ThreadList'
 
 export interface ThreadListProps {
-  channel: ChannelType
+  channelInfo: GetChannelInfoResponseType
+  threads: GetThreadResponseType[]
   handleSubViewOpen: () => void
   handleSubViewClose?: () => void
   handleSubViewHeader: (header: React.ReactNode) => void

@@ -9,8 +9,8 @@ import { ChannelHeaderProps } from '.'
 
 import Styled from './ChannelHeader.style'
 
-const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
-  const { id, name, type, user: members } = channel
+const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
+  const { id, name, type, user: members } = channelInfo
   const MEMBER_PROFILE_NUMBER: number = 3
 
   const [memberListModalVisible, setMemberListModalVisible] = useState(false)
@@ -73,7 +73,7 @@ const ChannelHeader = ({ channel }: ChannelHeaderProps) => {
 
       {memberListModalVisible && (
         <O.MemberListModal
-          channel={channel}
+          channel={channelInfo}
           onClose={handleMemberListModalClose}
         />
       )}

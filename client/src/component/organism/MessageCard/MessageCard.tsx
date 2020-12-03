@@ -6,6 +6,10 @@ import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
+import {
+  GetThreadResponseType,
+  MessageType,
+} from '@store/reducer/thread.reducer'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
@@ -16,20 +20,20 @@ interface UserType {
   profileImageUrl: string
 }
 
-interface MessageType {
-  id: number
-  content: string
-  isHead: boolean
-  createdAt: string
-  updatedAt: string
-  User: UserType
-  Files: object[]
-  Reactions: {
-    id: number
-    content: string
-    User: UserType
-  }[]
-}
+// interface MessageType {
+//   id: number
+//   content: string
+//   isHead: boolean
+//   createdAt: string
+//   updatedAt: string
+//   User: UserType
+//   Files: object[]
+//   Reactions: {
+//     id: number
+//     content: string
+//     User: UserType
+//   }[]
+// }
 
 interface ThreadType {
   id: number
@@ -40,7 +44,7 @@ interface ThreadType {
 }
 
 interface MessageCardProps {
-  data: ThreadType | MessageType
+  data: GetThreadResponseType | MessageType
   // message?: MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
@@ -53,7 +57,7 @@ const MessageCard = ({
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) => {
-  const thread = data as ThreadType
+  const thread = data as GetThreadResponseType
   const message = data as MessageType
 
   const [hover, setHover] = useState(false)
@@ -122,10 +126,7 @@ const MessageCard = ({
     )
   }
 
-  if (
-    type === 'THREAD' &&
-    thread.Messages.filter((item) => item.isHead).length === 0
-  ) {
+  if (type === 'THREAD' && !thread.headMessage && thread.replyCount > 0) {
     return (
       <Styled.Container
         onMouseEnter={handleMouseEnter}
@@ -147,8 +148,8 @@ const MessageCard = ({
           </Styled.MessageWrapper>
 
           <M.ReplyButton
-            count={thread.Messages.length}
-            time={getLastTime(thread.Messages)}
+            count={thread.replyCount}
+            time={thread.lastReplyTime}
             onClick={onReplyButtonClick}
           />
         </Styled.ContentWrapper>
@@ -169,7 +170,7 @@ const MessageCard = ({
     )
   }
 
-  const headMessage = thread.Messages[0]
+  const { headMessage } = thread
   return (
     <Styled.Container
       onMouseEnter={handleMouseEnter}
@@ -199,10 +200,10 @@ const MessageCard = ({
           <O.ReactionList reactionArr={headMessage.Reactions} loginUserId={1} />
         )}
 
-        {thread.Messages.length > 1 && (
+        {thread.replyCount > 0 && (
           <M.ReplyButton
-            count={thread.Messages.length - 1}
-            time={getLastTime(thread.Messages)}
+            count={thread.replyCount}
+            time={thread.lastReplyTime}
             onClick={onReplyButtonClick}
           />
         )}

@@ -23,4 +23,12 @@ const joinChannel = async ({ channelId, userId }: ChannelRequestType) => {
   return response.data
 }
 
-export default { getChannels, joinChannel }
+const getChannelInfo = async (channelId: number) => {
+  const response = await myAxios.get({
+    path: `/channel/${channelId}`,
+  })
+
+  return response.data
+}
+
+export default { getChannels, joinChannel, getChannelInfo }

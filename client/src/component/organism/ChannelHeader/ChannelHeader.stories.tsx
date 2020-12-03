@@ -11,6 +11,8 @@ export const channelHeader = () => {
     id: 1,
     type: 'PUBLIC',
     name: 'slack-clone',
+    createdAt: '2020-11-25T15:09:30.000Z',
+    updatedAt: '2020-11-25T15:09:30.000Z',
     user: [
       {
         id: 1,
@@ -40,6 +42,8 @@ export const channelHeader = () => {
     id: 2,
     type: 'PRIVATE',
     name: 'slack-clone-private-channel',
+    createdAt: '2020-11-25T15:09:30.000Z',
+    updatedAt: '2020-11-25T15:09:30.000Z',
     user: [
       {
         id: 1,
@@ -54,11 +58,11 @@ export const channelHeader = () => {
   return (
     <>
       <div>Public channel</div>
-      <ChannelHeader channel={publicChannel} />
+      <ChannelHeader channelInfo={publicChannel} />
 
       <hr />
       <div>Private channel</div>
-      <ChannelHeader channel={privateChannel} />
+      <ChannelHeader channelInfo={privateChannel} />
     </>
   )
 }
