@@ -19,8 +19,8 @@ const Section = ({ title, type }: SectionProps) => {
   }
 
   const handleMoreOptionsClick = (event: MouseEvent) => {
-    moreOverWrapperStyle.left = String(`${event.pageX}px`)
-    moreOverWrapperStyle.top = String(`${event.pageY}px`)
+    moreOverWrapperStyle.left = String(`${event.pageX + 5}px`)
+    moreOverWrapperStyle.top = String(`${event.pageY + 5}px`)
     setMoreOptions(!moreOptions)
   }
 
@@ -58,7 +58,19 @@ const Section = ({ title, type }: SectionProps) => {
           overlayStyle={moreOverlayStyle}
           modalWrapperStyle={moreOverWrapperStyle}
           disableCloseButton
-        />
+        >
+          <Styled.SectionClickModalContent>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Create new Section
+            </M.ButtonDiv>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Browse Channels
+            </M.ButtonDiv>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Create a Channel
+            </M.ButtonDiv>
+          </Styled.SectionClickModalContent>
+        </M.Modal>
       ) : null}
       <Styled.SectionChannelContainer>
         {toggle ? (
@@ -105,21 +117,28 @@ const Section = ({ title, type }: SectionProps) => {
 
 Section.defaultProps = {}
 
+const SectionModalContentStyle = {
+  width: '140px',
+  height: '30px',
+  margin: '0px 0px 5px 0px',
+  border: '1px solid red',
+}
+
 const moreOverlayStyle = {
   zIndex: '1',
   opacity: '0',
 }
 
 let moreOverWrapperStyle = {
+  backgroundColor: 'whiteGrey',
   zIndex: '999',
   position: 'absolute',
-  border: '1px solid red',
   top: '253px',
   bottom: '0px',
   left: '192px',
   right: '0px',
-  height: '200px',
-  width: '200px',
+  height: '100px',
+  width: '150px',
   borderRadius: '10px',
   boxShadow: '0px 7px 18px 0px #EBEBEB',
 }
