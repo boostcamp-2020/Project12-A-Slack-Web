@@ -1,43 +1,68 @@
-import React, { useEffect } from 'react'
-import M from '@molecule'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { RootState } from '@store'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getWorkspaceAsync } from '@store/reducer/workspace.reducer'
+import { Route, Switch, useParams } from 'react-router-dom'
+import M from '@molecule'
+import O from '@organism'
+import styled from 'styled-components'
+import { RootState } from '@store'
+import socket, { useSocket } from '../../socket'
+import { Channel, ChannelBrowser } from './template'
+
+interface MatchParamsType {
+  workspaceId: string
+}
 
 const WorkspacePage = () => {
-  const workspaceStore = useSelector((state: RootState) => state.workspaceStore)
+  // const { channelList, loading, error } = useSelector(
+  //   (state: RootState) => state.channelStore,
+  // )
   const dispatch = useDispatch()
+  const { workspaceId } = useParams<MatchParamsType>()
 
-  useEffect(() => {
-    dispatch(getWorkspaceAsync.request())
-  }, [])
+  useSocket(socket, dispatch)
+
+  const [subViewShow, setSubViewShow] = useState(false)
+  const [subViewHeader, setSubViewHeader] = useState<React.ReactNode>(<></>)
+  const [subViewBody, setSubViewBody] = useState<React.ReactNode>(<></>)
+
+  const handleSubViewOpen = () => setSubViewShow(true)
+  const handleSubViewClose = () => setSubViewShow(false)
+  const handleSubViewHeader = (node: React.ReactNode) => setSubViewHeader(node)
+  const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 
   return (
     <WorkspaceContainer>
-      {workspaceStore.loading ? (
-        <M.ButtonDiv>Loading...</M.ButtonDiv>
-      ) : (
-        workspaceStore.workspaceList.map((workspace) => {
-          return (
-            <Link
-              to={`/workspace/${workspace.id}/channel-browser`}
-              key={workspace.id}
-            >
-              <M.ButtonDiv
-                key={workspace.id}
-                buttonStyle={WorkspaceButtonStyle}
-              >
-                {workspace.name}
-              </M.ButtonDiv>
-            </Link>
-          )
-        })
-      )}
-      <Link to="/workspace/new" style={{ textDecoration: 'none' }}>
-        <M.ButtonDiv>새로운 워크 스페이스 생성하기</M.ButtonDiv>
-      </Link>
+      <O.Header />
+
+      <WorkspaceLayout>
+        <O.SideBar />
+
+        <ViewContainer>
+          <Switch>
+            <MainView>
+              <Route path={`/workspace/${workspaceId}/channel/:channelId`}>
+                <Channel
+                  handleSubViewOpen={handleSubViewOpen}
+                  handleSubViewHeader={handleSubViewHeader}
+                  handleSubViewBody={handleSubViewBody}
+                />
+              </Route>
+              <Route path="/channel-browser">
+                <ChannelBrowser workspaceId={+workspaceId} />
+              </Route>
+            </MainView>
+          </Switch>
+          {subViewShow && (
+            <SubView>
+              <ViewHeader>
+                {subViewHeader}
+                <M.CloseButton onClick={handleSubViewClose} />
+              </ViewHeader>
+              <ViewBody>{subViewBody}</ViewBody>
+            </SubView>
+          )}
+        </ViewContainer>
+      </WorkspaceLayout>
     </WorkspaceContainer>
   )
 }
@@ -45,17 +70,53 @@ const WorkspacePage = () => {
 const WorkspaceContainer = styled.div`
   width: 100vw;
   height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 38px auto;
+  grid-template-columns: auto;
 `
 
-const WorkspaceButtonStyle = {
-  width: '10rem',
-  height: '2rem',
-  border: '1px solid lightGrey',
-}
+const WorkspaceLayout = styled.div`
+  // grid-row: 1 / 2;
+  // grid-column: 2 / 3;
+  // height: 100%;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 230px auto;
+`
+
+const ViewContainer = styled.div`
+  display: flex;
+`
+const MainView = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 3 3 0;
+`
+const SubView = styled.div`
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgb(230, 230, 230);
+  flex: 2 2 0;
+`
+
+const ViewHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 61px;
+  flex: 0 0 61px;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+  border-top: 1px solid rgb(230, 230, 230);
+`
+const ViewBody = styled.div`
+  flex: 1 1 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+`
 
 export default WorkspacePage

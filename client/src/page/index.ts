@@ -1,13 +1,13 @@
+import WorkspaceBrowserPage from './WorkspaceBrowser/WorkspaceBrowserPage'
+import WorkspaceJoinPage from './WorkspaceBrowser/WorkspaceJoinPage'
+import NewWorkspacePage from './WorkspaceBrowser/NewWorkspacePage'
 import WorkspacePage from './Workspace/WorkspacePage'
-import WorkspaceJoinPage from './Workspace/WorkspaceJoinPage'
-import NewWorkspacePage from './Workspace/NewWorkspacePage'
-import ChannelPage from './Channel/ChannelPage'
 import LoginPage from './User/LoginPage'
 
 export {
-  WorkspacePage,
+  WorkspaceBrowserPage,
   WorkspaceJoinPage,
   NewWorkspacePage,
-  ChannelPage,
+  WorkspacePage,
   LoginPage,
 }

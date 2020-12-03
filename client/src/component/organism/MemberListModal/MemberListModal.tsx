@@ -92,7 +92,7 @@ const MemberListModal = ({
             </Styled.EmptyListWrapper>
           ) : (
             memberSearchResult.map((member) => (
-              <Styled.MemberWrapper>
+              <Styled.MemberWrapper key={member.id}>
                 <O.Avatar user={member} size="BIG" clickable />
                 <A.Text customStyle={memberNameTextStyle}>{member.name}</A.Text>
               </Styled.MemberWrapper>
