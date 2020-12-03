@@ -18,74 +18,88 @@ const SideBar = () => {
           </>
         </M.ButtonDiv>
       </Styled.WorkSpacePart>
-      <Styled.OtherPagePart>
-        <M.ButtonDiv
-          buttonStyle={OtherChannelButtonStyle}
-          textStyle={OtherChannelTextStyle}
-        >
-          <>
-            <A.Icon icon={myIcon.thread} customStyle={OtherChannelIconStyle} />
-            Threads
-          </>
-        </M.ButtonDiv>
-        <M.ButtonDiv
-          buttonStyle={OtherChannelButtonStyle}
-          textStyle={OtherChannelTextStyle}
-        >
-          <>
-            <A.Icon icon={myIcon.message} customStyle={OtherChannelIconStyle} />
-            All DMs
-          </>
-        </M.ButtonDiv>
-        <M.ButtonDiv
-          buttonStyle={OtherChannelButtonStyle}
-          textStyle={OtherChannelTextStyle}
-        >
-          <>
-            <A.Icon icon={myIcon.search} customStyle={OtherChannelIconStyle} />
-            Channel Browser
-          </>
-        </M.ButtonDiv>
-        <M.ButtonDiv
-          buttonStyle={OtherChannelButtonStyle}
-          textStyle={OtherChannelTextStyle}
-        >
-          <>
-            <A.Icon icon={myIcon.people} customStyle={OtherChannelIconStyle} />
-            People
-          </>
-        </M.ButtonDiv>
-      </Styled.OtherPagePart>
-      <Styled.SectionChannelPart>
-        <M.Section title="Channels" type="CHANNEL" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-        <M.Section title="Direct Messages" type="DM" />
-      </Styled.SectionChannelPart>
+      <Styled.ScrollContainer>
+        <Styled.OtherPagePart>
+          <M.ButtonDiv
+            buttonStyle={OtherChannelButtonStyle}
+            textStyle={OtherChannelTextStyle}
+          >
+            <>
+              <A.Icon
+                icon={myIcon.thread}
+                customStyle={OtherChannelIconStyle}
+              />
+              Threads
+            </>
+          </M.ButtonDiv>
+          <M.ButtonDiv
+            buttonStyle={OtherChannelButtonStyle}
+            textStyle={OtherChannelTextStyle}
+          >
+            <>
+              <A.Icon
+                icon={myIcon.message}
+                customStyle={OtherChannelIconStyle}
+              />
+              All DMs
+            </>
+          </M.ButtonDiv>
+          <M.ButtonDiv
+            buttonStyle={OtherChannelButtonStyle}
+            textStyle={OtherChannelTextStyle}
+          >
+            <>
+              <A.Icon
+                icon={myIcon.search}
+                customStyle={OtherChannelIconStyle}
+              />
+              Channel Browser
+            </>
+          </M.ButtonDiv>
+          <M.ButtonDiv
+            buttonStyle={OtherChannelButtonStyle}
+            textStyle={OtherChannelTextStyle}
+          >
+            <>
+              <A.Icon
+                icon={myIcon.people}
+                customStyle={OtherChannelIconStyle}
+              />
+              People
+            </>
+          </M.ButtonDiv>
+        </Styled.OtherPagePart>
+        <Styled.SectionChannelPart>
+          <M.Section title="Channels" type="CHANNEL" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+          <M.Section title="Direct Messages" type="DM" />
+        </Styled.SectionChannelPart>
+      </Styled.ScrollContainer>
     </Styled.SideBarContainer>
   )
 }

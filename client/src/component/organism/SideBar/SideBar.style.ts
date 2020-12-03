@@ -1,5 +1,10 @@
 import styled from 'styled-components'
 
+const ScrollContainer = styled.div`
+  height: 90vh;
+  overflow-y: scroll;
+`
+
 const SideBarContainer = styled.div`
   height: 100%;
   width: 100%;
@@ -26,10 +31,11 @@ const OtherPagePart = styled.div`
 const SectionChannelPart = styled.div`
   margin-top: 10px;
   width: 100%;
-  height: 550px;
+  height: 100%;
+  // height: 550px;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  // overflow-y: scroll;
 `
 const DirectMessagePart = styled.div``
 
@@ -38,5 +44,6 @@ export default {
   WorkSpacePart,
   OtherPagePart,
   SectionChannelPart,
+  ScrollContainer,
   DirectMessagePart,
 }

@@ -8,6 +8,7 @@ import { SectionProps } from '.'
 const Section = ({ title, type }: SectionProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
+  const [moreOptions, setMoreOptions] = useState<boolean>(false)
 
   const handleToggleList = () => {
     setToggle(!toggle)
@@ -15,6 +16,12 @@ const Section = ({ title, type }: SectionProps) => {
 
   const handleSectionHover = () => {
     setSectionHover(!sectionHover)
+  }
+
+  const handleMoreOptionsClick = (event: MouseEvent) => {
+    moreOverWrapperStyle.left = String(`${event.pageX}px`)
+    moreOverWrapperStyle.top = String(`${event.pageY}px`)
+    setMoreOptions(!moreOptions)
   }
 
   // TODO: 채널 클릭 시 액션
@@ -40,18 +47,19 @@ const Section = ({ title, type }: SectionProps) => {
             <A.Icon
               icon={myIcon.ellipsis}
               customStyle={sectionHoverIconStyle}
+              onClick={handleMoreOptionsClick}
             />
             <A.Icon icon={myIcon.plus} customStyle={sectionHoverIconStyle} />
-            {/* {moreOptions ? (
-              <M.Modal
-                overlayStyle={moreOverlayStyle}
-                modalWrapperStyle={moreOverWrapperStyle}
-                disableCloseButton
-              />
-            ) : null} */}
           </Styled.SectionHoverContainer>
         ) : null}
       </Styled.SectionContainer>
+      {moreOptions ? (
+        <M.Modal
+          overlayStyle={moreOverlayStyle}
+          modalWrapperStyle={moreOverWrapperStyle}
+          disableCloseButton
+        />
+      ) : null}
       <Styled.SectionChannelContainer>
         {toggle ? (
           <>
@@ -102,19 +110,18 @@ const moreOverlayStyle = {
   opacity: '0',
 }
 
-const moreOverWrapperStyle = {
-  zIndex: '2',
+let moreOverWrapperStyle = {
+  zIndex: '999',
   position: 'absolute',
-  top: '0px',
-  bottom: '0px',
-  left: '0px',
-  right: '0px',
-  height: '150px',
-  width: '100px',
   border: '1px solid red',
+  top: '253px',
+  bottom: '0px',
+  left: '192px',
+  right: '0px',
+  height: '200px',
+  width: '200px',
   borderRadius: '10px',
   boxShadow: '0px 7px 18px 0px #EBEBEB',
-  backgroundColor: 'middleWhite',
 }
 
 const HeaderTextStyle = {
