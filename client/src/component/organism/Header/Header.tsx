@@ -33,141 +33,144 @@ const Header = () => {
             customStyle={profileStatusIconLoginStatusStyle}
           />
         </Styled.HeaderProfileRightContainer>
+        {modal ? (
+          <M.Modal
+            overlayStyle={HeaderInputOverlay}
+            modalWrapperStyle={HeaderInputModal}
+            disableCloseButton
+            onClose={handleSearchBarClick}
+          >
+            <>
+              <Styled.ModalInputContainer>
+                <A.Icon
+                  icon={myIcon.search}
+                  customStyle={ModalInputIconStyle}
+                />
+                <Styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
+                <A.Icon
+                  icon={myIcon.close}
+                  customStyle={ModalInputIconStyle}
+                  onClick={handleSearchBarClick}
+                />
+              </Styled.ModalInputContainer>
+              <Styled.LookingForDiv>I'm looking for...</Styled.LookingForDiv>
+              <Styled.ButtonContainer>
+                <M.ButtonDiv
+                  buttonStyle={modalButtonStyle}
+                  textStyle={modalTextStyle}
+                >
+                  <>
+                    <A.Icon
+                      icon={myIcon.message}
+                      customStyle={InModalInputIconStyle}
+                    />
+                    Message
+                  </>
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={modalButtonStyle}
+                  textStyle={modalTextStyle}
+                >
+                  <>
+                    <A.Icon
+                      icon={myIcon.file}
+                      customStyle={InModalInputIconStyle}
+                    />
+                    Files
+                  </>
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={modalButtonStyle}
+                  textStyle={modalTextStyle}
+                >
+                  <>
+                    <A.Icon
+                      icon={myIcon.channels}
+                      customStyle={InModalInputIconStyle}
+                    />
+                    Channels
+                  </>
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={modalButtonStyle}
+                  textStyle={modalTextStyle}
+                >
+                  <>
+                    <A.Icon
+                      icon={myIcon.people}
+                      customStyle={InModalInputIconStyle}
+                    />
+                    People
+                  </>
+                </M.ButtonDiv>
+              </Styled.ButtonContainer>
+            </>
+          </M.Modal>
+        ) : null}
+        {profile ? (
+          <M.Modal
+            overlayStyle={HeaderInputOverlay}
+            modalWrapperStyle={ProfileModal}
+            disableCloseButton
+            onClose={handleProfileClick}
+          >
+            <>
+              <Styled.ProfileModalContainerFirst>
+                <A.Image
+                  customStyle={profileHeaderImageStyle}
+                  onClick={handleProfileClick}
+                />
+                <Styled.ProfileInContainer>
+                  <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
+                  <A.Text customStyle={profileActiveText}>● Active</A.Text>
+                </Styled.ProfileInContainer>
+              </Styled.ProfileModalContainerFirst>
+              <Styled.ProfileModalContainerSecond>
+                <M.ButtonDiv
+                  buttonStyle={profileStatusButtonStyle}
+                  textStyle={profileStatusTextSttyle}
+                  onMouseEnter={handleProfileStatusHover}
+                >
+                  <>
+                    {toggle ? (
+                      <A.Icon
+                        icon={myIcon.toggleSmile}
+                        customStyle={profileStatusToggleIconStyle}
+                      />
+                    ) : (
+                      <A.Icon
+                        icon={myIcon.smile}
+                        customStyle={profileStatusIconStyle}
+                      />
+                    )}
+                    Update your status
+                  </>
+                </M.ButtonDiv>
+              </Styled.ProfileModalContainerSecond>
+              <Styled.ProfileModalContainerThird>
+                <M.ButtonDiv
+                  buttonStyle={profileMenuButtonStyle}
+                  textStyle={profileMenuTextStyle}
+                >
+                  View Profile
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={profileMenuButtonStyle}
+                  textStyle={profileMenuTextStyle}
+                >
+                  Set Profile
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={profileMenuButtonStyle}
+                  textStyle={profileMenuTextStyle}
+                >
+                  Preferences
+                </M.ButtonDiv>
+              </Styled.ProfileModalContainerThird>
+            </>
+          </M.Modal>
+        ) : null}
       </Styled.StyledHeaderContainer>
-      {profile ? (
-        <M.Modal
-          overlayStyle={HeaderInputOverlay}
-          modalWrapperStyle={ProfileModal}
-          disableCloseButton
-          onClose={handleProfileClick}
-        >
-          <>
-            <Styled.ProfileModalContainerFirst>
-              <A.Image
-                customStyle={profileHeaderImageStyle}
-                onClick={handleProfileClick}
-              />
-              <Styled.ProfileInContainer>
-                <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
-                <A.Text customStyle={profileActiveText}>● Active</A.Text>
-              </Styled.ProfileInContainer>
-            </Styled.ProfileModalContainerFirst>
-            <Styled.ProfileModalContainerSecond>
-              <M.ButtonDiv
-                buttonStyle={profileStatusButtonStyle}
-                textStyle={profileStatusTextSttyle}
-                onMouseEnter={handleProfileStatusHover}
-              >
-                <>
-                  {toggle ? (
-                    <A.Icon
-                      icon={myIcon.toggleSmile}
-                      customStyle={profileStatusToggleIconStyle}
-                    />
-                  ) : (
-                    <A.Icon
-                      icon={myIcon.smile}
-                      customStyle={profileStatusIconStyle}
-                    />
-                  )}
-                  Update your status
-                </>
-              </M.ButtonDiv>
-            </Styled.ProfileModalContainerSecond>
-            <Styled.ProfileModalContainerThird>
-              <M.ButtonDiv
-                buttonStyle={profileMenuButtonStyle}
-                textStyle={profileMenuTextStyle}
-              >
-                View Profile
-              </M.ButtonDiv>
-              <M.ButtonDiv
-                buttonStyle={profileMenuButtonStyle}
-                textStyle={profileMenuTextStyle}
-              >
-                Set Profile
-              </M.ButtonDiv>
-              <M.ButtonDiv
-                buttonStyle={profileMenuButtonStyle}
-                textStyle={profileMenuTextStyle}
-              >
-                Preferences
-              </M.ButtonDiv>
-            </Styled.ProfileModalContainerThird>
-          </>
-        </M.Modal>
-      ) : null}
-      {modal ? (
-        <M.Modal
-          overlayStyle={HeaderInputOverlay}
-          modalWrapperStyle={HeaderInputModal}
-          disableCloseButton
-          onClose={handleSearchBarClick}
-        >
-          <>
-            <Styled.ModalInputContainer>
-              <A.Icon icon={myIcon.search} customStyle={ModalInputIconStyle} />
-              <Styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
-              <A.Icon
-                icon={myIcon.close}
-                customStyle={ModalInputIconStyle}
-                onClick={handleSearchBarClick}
-              />
-            </Styled.ModalInputContainer>
-            <Styled.LookingForDiv>I'm looking for...</Styled.LookingForDiv>
-            <Styled.ButtonContainer>
-              <M.ButtonDiv
-                buttonStyle={modalButtonStyle}
-                textStyle={modalTextStyle}
-              >
-                <>
-                  <A.Icon
-                    icon={myIcon.message}
-                    customStyle={InModalInputIconStyle}
-                  />
-                  Message
-                </>
-              </M.ButtonDiv>
-              <M.ButtonDiv
-                buttonStyle={modalButtonStyle}
-                textStyle={modalTextStyle}
-              >
-                <>
-                  <A.Icon
-                    icon={myIcon.file}
-                    customStyle={InModalInputIconStyle}
-                  />
-                  Files
-                </>
-              </M.ButtonDiv>
-              <M.ButtonDiv
-                buttonStyle={modalButtonStyle}
-                textStyle={modalTextStyle}
-              >
-                <>
-                  <A.Icon
-                    icon={myIcon.channels}
-                    customStyle={InModalInputIconStyle}
-                  />
-                  Channels
-                </>
-              </M.ButtonDiv>
-              <M.ButtonDiv
-                buttonStyle={modalButtonStyle}
-                textStyle={modalTextStyle}
-              >
-                <>
-                  <A.Icon
-                    icon={myIcon.people}
-                    customStyle={InModalInputIconStyle}
-                  />
-                  People
-                </>
-              </M.ButtonDiv>
-            </Styled.ButtonContainer>
-          </>
-        </M.Modal>
-      ) : null}
     </>
   )
 }
@@ -274,12 +277,11 @@ const HeaderInputOverlay = {
 }
 
 const HeaderInputModal = {
-  zIndex: '2',
+  backgroundColor: 'white',
+  zIndex: '3',
   position: 'absolute',
   top: '5px',
-  bottom: 'auto',
-  left: '400px',
-  right: '0',
+  left: '30%',
   height: '400px',
   width: '600px',
   border: '1px solid lightgrey',

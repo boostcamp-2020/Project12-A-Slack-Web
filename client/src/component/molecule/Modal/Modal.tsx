@@ -15,8 +15,8 @@ const Modal = ({
   const [hidden, setHidden] = useState(false)
 
   const handleModalClose = (): void => {
-    if (onClose) onClose()
     setHidden(true)
+    if (onClose) onClose()
   }
 
   const modalBaseStyle: React.CSSProperties = {

@@ -13,6 +13,15 @@ const SectionHoverContainer = styled.div`
   align-items: center;
 `
 
+const SectionClickModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid lightgrey;
+  padding: 10px;
+`
+
 const SectionHeader = styled.div`
   width: 200px;
   padding: 5px;
@@ -27,4 +36,5 @@ export default {
   SectionHeader,
   SectionChannelContainer,
   SectionHoverContainer,
+  SectionClickModalContent,
 }

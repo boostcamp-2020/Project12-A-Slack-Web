@@ -8,6 +8,7 @@ import { SectionProps } from '.'
 const Section = ({ title, type }: SectionProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
+  const [moreOptions, setMoreOptions] = useState<boolean>(false)
 
   const handleToggleList = () => {
     setToggle(!toggle)
@@ -15,6 +16,12 @@ const Section = ({ title, type }: SectionProps) => {
 
   const handleSectionHover = () => {
     setSectionHover(!sectionHover)
+  }
+
+  const handleMoreOptionsClick = (event: MouseEvent) => {
+    moreOverWrapperStyle.left = String(`${event.pageX + 5}px`)
+    moreOverWrapperStyle.top = String(`${event.pageY + 5}px`)
+    setMoreOptions(!moreOptions)
   }
 
   // TODO: 채널 클릭 시 액션
@@ -40,18 +47,31 @@ const Section = ({ title, type }: SectionProps) => {
             <A.Icon
               icon={myIcon.ellipsis}
               customStyle={sectionHoverIconStyle}
+              onClick={handleMoreOptionsClick}
             />
             <A.Icon icon={myIcon.plus} customStyle={sectionHoverIconStyle} />
-            {/* {moreOptions ? (
-              <M.Modal
-                overlayStyle={moreOverlayStyle}
-                modalWrapperStyle={moreOverWrapperStyle}
-                disableCloseButton
-              />
-            ) : null} */}
           </Styled.SectionHoverContainer>
         ) : null}
       </Styled.SectionContainer>
+      {moreOptions ? (
+        <M.Modal
+          overlayStyle={moreOverlayStyle}
+          modalWrapperStyle={moreOverWrapperStyle}
+          disableCloseButton
+        >
+          <Styled.SectionClickModalContent>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Create new Section
+            </M.ButtonDiv>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Browse Channels
+            </M.ButtonDiv>
+            <M.ButtonDiv buttonStyle={SectionModalContentStyle}>
+              Create a Channel
+            </M.ButtonDiv>
+          </Styled.SectionClickModalContent>
+        </M.Modal>
+      ) : null}
       <Styled.SectionChannelContainer>
         {toggle ? (
           <>
@@ -97,24 +117,30 @@ const Section = ({ title, type }: SectionProps) => {
 
 Section.defaultProps = {}
 
+const SectionModalContentStyle = {
+  width: '140px',
+  height: '30px',
+  margin: '0px 0px 5px 0px',
+  border: '1px solid red',
+}
+
 const moreOverlayStyle = {
   zIndex: '1',
   opacity: '0',
 }
 
-const moreOverWrapperStyle = {
-  zIndex: '2',
+let moreOverWrapperStyle = {
+  backgroundColor: 'whiteGrey',
+  zIndex: '999',
   position: 'absolute',
-  top: '0px',
+  top: '253px',
   bottom: '0px',
-  left: '0px',
+  left: '192px',
   right: '0px',
-  height: '150px',
-  width: '100px',
-  border: '1px solid red',
+  height: '100px',
+  width: '150px',
   borderRadius: '10px',
   boxShadow: '0px 7px 18px 0px #EBEBEB',
-  backgroundColor: 'middleWhite',
 }
 
 const HeaderTextStyle = {
