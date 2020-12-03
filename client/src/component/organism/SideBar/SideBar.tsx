@@ -12,7 +12,6 @@ interface SideBarProps {
 }
 
 const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
-  console.log(workspaceInfo, channelList)
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
@@ -78,8 +77,19 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           </M.ButtonDiv>
         </Styled.OtherPagePart>
         <Styled.SectionChannelPart>
-          <M.Section title="Channels" type="CHANNEL" />
-          <M.Section title="Direct Messages" type="DM" />
+          <M.Section
+            title="Channels"
+            type="CHANNEL"
+            workspaceId={workspaceInfo ? workspaceInfo.id : 1}
+            channelList={channelList.filter((channel) => channel.type !== 'DM')}
+          />
+
+          <M.Section
+            title="Direct Messages"
+            type="DM"
+            workspaceId={workspaceInfo ? workspaceInfo.id : 1}
+            channelList={channelList.filter((channel) => channel.type === 'DM')}
+          />
         </Styled.SectionChannelPart>
       </Styled.ScrollContainer>
     </Styled.SideBarContainer>

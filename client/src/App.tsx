@@ -53,6 +53,9 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-size: 62.5%;
   }
+  a {
+    text-decoration: none;
+  }
 `
 
 export default App
