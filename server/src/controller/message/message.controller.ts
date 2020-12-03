@@ -19,6 +19,21 @@ const createMessage = async (
   }
 }
 
+const readMessageById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await messageService.readMessageById({
+      threadId: +req.query.threadId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const updateMessage = async (
   req: Request,
   res: Response,
@@ -54,4 +69,4 @@ const deleteMessage = async (
   }
 }
 
-export default { createMessage, updateMessage, deleteMessage }
+export default { createMessage, readMessageById, updateMessage, deleteMessage }
