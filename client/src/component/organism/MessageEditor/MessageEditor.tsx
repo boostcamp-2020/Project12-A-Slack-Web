@@ -34,6 +34,7 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
     }
     dispatch(createThread(data))
     console.log('CREATE MESSAGE !')
+    setContent('')
   }
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
