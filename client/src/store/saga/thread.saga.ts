@@ -7,6 +7,7 @@ import {
   getThreadsAsync,
   createThread,
 } from '../reducer/thread.reducer'
+import socket from '../../socket'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
@@ -22,7 +23,7 @@ function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
 
 interface ResponseType {
   success: boolean
-  data: object
+  data: { threadId: string }
 }
 
 function* createThreadSaga(action: ReturnType<typeof createThread>) {
@@ -31,9 +32,13 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       threadAPI.createThread,
       action.payload,
     )
-    console.log(data)
-    // if (success)  threadId 가지고 소켓 이벤트 전송
-    // 더이상 나가지 않고 여기서 끝
+    console.log('createThreadSaga: ', data)
+    console.log(socket.id)
+    if (success)
+      socket.emit('CREATE_THREAD', {
+        threadId: data.threadId,
+        channelId: action.payload.channelId,
+      })
   } catch (e) {
     console.log('Failed to create thread')
   }
