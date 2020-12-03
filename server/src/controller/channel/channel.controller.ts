@@ -27,6 +27,7 @@ const readChannelsByUser = async (
   try {
     const { code, json } = await channelService.readChannelsByUser({
       userId: req.user.id,
+      workspaceId: +req.params.workspaceId,
     })
     return res.status(code).json(json)
   } catch (error) {

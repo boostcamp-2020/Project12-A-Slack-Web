@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams } from 'react-router-dom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
+import { getChannelsAsync } from '@store/reducer/channel.reducer'
 import socket, { useSocket } from '../../socket'
 import { Channel, ChannelBrowser } from './template'
 
@@ -13,9 +14,9 @@ interface MatchParamsType {
 }
 
 const WorkspacePage = () => {
-  // const { channelList, loading, error } = useSelector(
-  //   (state: RootState) => state.channelStore,
-  // )
+  const { channelList, loading, error } = useSelector(
+    (state: RootState) => state.channelStore,
+  )
   const dispatch = useDispatch()
   const { workspaceId } = useParams<MatchParamsType>()
 
@@ -29,6 +30,10 @@ const WorkspacePage = () => {
   const handleSubViewClose = () => setSubViewShow(false)
   const handleSubViewHeader = (node: React.ReactNode) => setSubViewHeader(node)
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
+
+  useEffect(() => {
+    dispatch(getChannelsAsync.request({ workspaceId: +workspaceId }))
+  }, [])
 
   return (
     <WorkspaceContainer>
