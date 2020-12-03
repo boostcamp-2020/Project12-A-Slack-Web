@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
@@ -10,6 +11,7 @@ import socket, { useSocket } from '../../socket'
 import channelInfo from './data'
 
 const ChannelPage = () => {
+  console.log('in')
   const { threadList, loading, error } = useSelector(
     (state: RootState) => state.threadStore,
   )
@@ -30,8 +32,10 @@ const ChannelPage = () => {
   const handleSubViewClose = () => setSubViewShow(false)
 
   /** Channel Browser page */
-  // const mainViewHeader = <O.ChannelBrowserHeader workspaceId={1} />
-  // const mainViewBody = <O.ChannelList channelList={[]} />
+  const channelBrowserMainViewHeader = (
+    <O.ChannelBrowserHeader workspaceId={1} />
+  )
+  const channelBrowserMainViewBody = <O.ChannelList channelList={[]} />
 
   /** Channel page */
   const mainViewHeader = <O.ChannelHeader channel={channel} />
@@ -45,30 +49,43 @@ const ChannelPage = () => {
   )
 
   return (
-    <WorkspaceContainer>
-      <O.Header />
+    <Router>
+      <WorkspaceContainer>
+        <O.Header />
 
-      <WorkspaceLayout>
-        <O.SideBar />
+        <WorkspaceLayout>
+          <O.SideBar />
 
-        <ViewContainer>
-          <MainView>
-            <ViewHeader>{mainViewHeader}</ViewHeader>
-            <ViewBody>{mainViewBody}</ViewBody>
-          </MainView>
-
-          {subViewShow && (
-            <SubView>
-              <ViewHeader>
-                {subViewHeader}
-                <M.CloseButton onClick={handleSubViewClose} />
-              </ViewHeader>
-              <ViewBody>{subViewBody}</ViewBody>
-            </SubView>
-          )}
-        </ViewContainer>
-      </WorkspaceLayout>
-    </WorkspaceContainer>
+          <ViewContainer>
+            <MainView>
+              <Switch>
+                <Route path="/channel/:channelId">
+                  <>
+                    <ViewHeader>{mainViewHeader}</ViewHeader>
+                    <ViewBody>{mainViewBody}</ViewBody>
+                  </>
+                </Route>
+                <Route path="/channel-browser">
+                  <>
+                    <ViewHeader>{channelBrowserMainViewHeader}</ViewHeader>
+                    <ViewBody>{channelBrowserMainViewBody}</ViewBody>
+                  </>
+                </Route>
+              </Switch>
+            </MainView>
+            {subViewShow && (
+              <SubView>
+                <ViewHeader>
+                  {subViewHeader}
+                  <M.CloseButton onClick={handleSubViewClose} />
+                </ViewHeader>
+                <ViewBody>{subViewBody}</ViewBody>
+              </SubView>
+            )}
+          </ViewContainer>
+        </WorkspaceLayout>
+      </WorkspaceContainer>
+    </Router>
   )
 }
 

@@ -19,19 +19,26 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
-          <Route exact path="/" component={Auth(WorkspacePage, false)} />
+          <Route
+            exact
+            path="/workspace"
+            component={Auth(WorkspacePage, false)}
+          />
           <Route exact path="/login" component={Auth(LoginPage, true)} />
           <Route
             exact
-            path="/workspace-join"
+            path="/workspace/join"
             component={Auth(WorkspaceJoinPage, false)}
           />
           <Route
             exact
-            path="/new-workspace"
+            path="/workspace/new"
             component={Auth(NewWorkspacePage, false)}
           />
-          <Route exact path="/channel" component={Auth(ChannelPage, false)} />
+          <Route
+            path="/workspace/:workspaceId"
+            component={Auth(ChannelPage, false)}
+          />
         </Switch>
       </Router>
     </>

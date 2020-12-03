@@ -28,6 +28,13 @@ export interface CreateThreadRequestType {
   fileInfoList: { filePath: string; type: string }[] | null
 }
 
+// state
+interface ThreadState {
+  threadList: ThreadType[]
+  loading: boolean
+  error: AxiosError | null
+}
+
 // Action
 export const GET_THREADS = 'thread/GET_THREADS' as const
 export const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
@@ -65,13 +72,6 @@ const actions = {
   receiveCreateThread,
 }
 export type ThreadAction = ActionType<typeof actions>
-
-// state
-interface ThreadState {
-  threadList: ThreadType[]
-  loading: boolean
-  error: AxiosError | null
-}
 
 // initial state
 const initialState: ThreadState = {

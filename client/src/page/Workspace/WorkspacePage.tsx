@@ -4,30 +4,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { RootState } from '@store'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  readWorkspaceLoading,
-  readWorkspaceSuccess,
-  readWorkspaceError,
-} from '@store/reducer/workspace.reducer'
-import { getWorkspace } from '@api/workspace'
+import { getWorkspaceAsync } from '@store/reducer/workspace.reducer'
 
 const WorkspacePage = () => {
   const workspaceStore = useSelector((state: RootState) => state.workspaceStore)
   const dispatch = useDispatch()
 
-  const getWorkspaceByUser = async (): Promise<void> => {
-    dispatch(readWorkspaceLoading())
-    try {
-      const { success, message, data } = await getWorkspace()
-      if (success) dispatch(readWorkspaceSuccess(data))
-      if (message) alert(message)
-    } catch (error) {
-      dispatch(readWorkspaceError(error))
-    }
-  }
-
   useEffect(() => {
-    getWorkspaceByUser()
+    dispatch(getWorkspaceAsync.request())
   }, [])
 
   return (
@@ -35,15 +19,23 @@ const WorkspacePage = () => {
       {workspaceStore.loading ? (
         <M.ButtonDiv>Loading...</M.ButtonDiv>
       ) : (
-        workspaceStore.workspaces.map((workspace) => {
+        workspaceStore.workspaceList.map((workspace) => {
           return (
-            <M.ButtonDiv key={workspace.id} buttonStyle={WorkspaceButtonStyle}>
-              {workspace.name}
-            </M.ButtonDiv>
+            <Link
+              to={`/workspace/${workspace.id}/channel-browser`}
+              key={workspace.id}
+            >
+              <M.ButtonDiv
+                key={workspace.id}
+                buttonStyle={WorkspaceButtonStyle}
+              >
+                {workspace.name}
+              </M.ButtonDiv>
+            </Link>
           )
         })
       )}
-      <Link to="/new-workspace" style={{ textDecoration: 'none' }}>
+      <Link to="/workspace/new" style={{ textDecoration: 'none' }}>
         <M.ButtonDiv>새로운 워크 스페이스 생성하기</M.ButtonDiv>
       </Link>
     </WorkspaceContainer>

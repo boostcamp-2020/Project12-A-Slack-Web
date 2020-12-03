@@ -13,6 +13,7 @@ import {
 function* getWorkspaceSaga() {
   try {
     const { success, data } = yield call(workspaceAPI.getWorkspace)
+    console.log(success, data)
     if (success) toast.success('workspace를 불러왔습니다.')
     yield put(getWorkspaceAsync.success(data))
   } catch (error) {
