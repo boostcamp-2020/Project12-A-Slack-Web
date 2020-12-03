@@ -17,11 +17,15 @@ const WorkspacePage = () => {
   const { channelList, workspaceInfo, loading, error } = useSelector(
     (state: RootState) => state.channelStore,
   )
+  socket.emit(
+    'JOIN_ROOM',
+    channelList.map((channel) => channel.id),
+  )
 
   const dispatch = useDispatch()
   const { workspaceId } = useParams<MatchParamsType>()
 
-  useSocket(socket, dispatch)
+  useSocket(socket, dispatch, channelList)
 
   const [subViewShow, setSubViewShow] = useState(false)
   const [subViewHeader, setSubViewHeader] = useState<React.ReactNode>(<></>)
@@ -34,6 +38,7 @@ const WorkspacePage = () => {
 
   useEffect(() => {
     dispatch(getChannelsAsync.request({ workspaceId: +workspaceId }))
+    localStorage.setItem('workspaceId', workspaceId)
   }, [])
 
   return (

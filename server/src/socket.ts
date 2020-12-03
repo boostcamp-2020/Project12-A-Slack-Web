@@ -38,6 +38,8 @@ namespace.on('connection', (socket: Socket) => {
         id: threadId,
       })
       console.log(socket.rooms)
+      console.log(channelId.toString())
+      // socket.to(channelId.toString()).emit('CREATE_THREAD', json.data)
       namespace.to(channelId.toString()).emit('CREATE_THREAD', json.data)
     },
   )

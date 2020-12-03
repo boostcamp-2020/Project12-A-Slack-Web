@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState, createRef } from 'react'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import A from '@atom'
 import O from '@organism'
 import { InputType } from '@atom/Input'
@@ -15,11 +16,17 @@ interface MessageEditorProps {
   placeHolder?: string
 }
 
+interface MatchParamsType {
+  channelId: string
+}
+
 const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
   const fileInput = createRef<HTMLInputElement>()
+
+  const { channelId } = useParams<MatchParamsType>()
 
   const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     setContent(e.target.value)
@@ -29,7 +36,7 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
   const handleSubmitButtonClick = () => {
     const data = {
       content,
-      channelId: 1,
+      channelId: +channelId,
       fileInfoList: [],
     }
     dispatch(createThread(data))

@@ -126,7 +126,8 @@ const MessageCard = ({
     )
   }
 
-  if (type === 'THREAD' && !thread.headMessage && thread.replyCount > 0) {
+  if (type === 'THREAD' && !thread.headMessage) {
+    if (thread.replyCount === 0) return <></>
     return (
       <Styled.Container
         onMouseEnter={handleMouseEnter}
@@ -146,7 +147,6 @@ const MessageCard = ({
               </A.Text>
             </Styled.NoContentWrapper>
           </Styled.MessageWrapper>
-
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
