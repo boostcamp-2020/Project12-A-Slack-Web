@@ -2,8 +2,6 @@ import UserModel from '@model/user.model'
 import ChannelModel from '@model/channel.model'
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
-import FileModel from '@model/file.model'
-import ReactionModel from '@model/reaction.model'
 import { statusCode, resMessage } from '@util/constant'
 
 interface ChannelType {
@@ -168,74 +166,6 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
   }
 }
 
-const readChannelThreads = async ({ channelId }: ChannelType) => {
-  if (channelId < 0 || typeof channelId !== 'number') {
-    return {
-      code: statusCode.BAD_REQUEST,
-      json: { success: false, message: resMessage.OUT_OF_VALUE },
-    }
-  }
-  try {
-    const threads = (await ChannelModel.findOne({
-      include: [
-        {
-          model: ThreadModel,
-          include: [
-            {
-              model: MessageModel,
-              attributes: ['id', 'content', 'isHead', 'createdAt', 'updatedAt'],
-              include: [
-                {
-                  model: UserModel,
-                  attributes: ['id', 'email', 'name', 'profileImageUrl'],
-                },
-                {
-                  model: FileModel,
-                  attributes: ['id', 'url', 'type', 'createdAt', 'updatedAt'],
-                },
-                {
-                  model: ReactionModel,
-                  attributes: ['id', 'content'],
-                  include: [
-                    {
-                      model: UserModel,
-                      attributes: ['id', 'email', 'name', 'profileImageUrl'],
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              model: UserModel,
-              attributes: ['id', 'email', 'name', 'profileImageUrl'],
-            },
-          ],
-          attributes: ['id', 'createdAt', 'updatedAt'],
-        },
-        {
-          model: UserModel,
-          as: 'user',
-          attributes: ['id', 'email', 'name', 'profileImageUrl'],
-        },
-      ],
-      attributes: [],
-      where: { id: channelId },
-    })) as ChannelInstance
-    return {
-      code: statusCode.OK,
-      json: {
-        success: true,
-        data: threads,
-      },
-    }
-  } catch (error) {
-    return {
-      code: statusCode.DB_ERROR,
-      json: { success: false, message: resMessage.DB_ERROR },
-    }
-  }
-}
-
 const joinChannel = async ({ userId, channelId }: ChannelType) => {
   if (
     userId < 0 ||
@@ -289,6 +219,5 @@ export default {
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,
-  readChannelThreads,
   joinChannel,
 }
