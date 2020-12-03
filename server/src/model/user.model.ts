@@ -34,7 +34,6 @@ User.init(
     name: {
       type: DataTypes.STRING(128),
       allowNull: false,
-      unique: true,
     },
     googleId: {
       type: DataTypes.STRING(128),
