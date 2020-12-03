@@ -5,7 +5,7 @@ import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
 import { getThreadsAsync } from '@store/reducer/thread.reducer'
-import { useSocket } from '../../socket'
+import socket, { useSocket } from '../../socket'
 
 import channelInfo from './data'
 
@@ -19,7 +19,7 @@ const ChannelPage = () => {
     dispatch(getThreadsAsync.request(1))
   }, [])
 
-  useSocket(dispatch)
+  useSocket(socket, dispatch)
   const channel = channelInfo
 
   const [subViewShow, setSubViewShow] = useState(false)

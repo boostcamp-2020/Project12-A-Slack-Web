@@ -1,6 +1,7 @@
 import express from 'express'
 import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
+import threadService from '@service/thread.service'
 
 const server = createServer(express())
 
@@ -23,18 +24,21 @@ namespace.use((socket, next) => {
 
 namespace.on('connection', (socket: Socket) => {
   socket.on('JOIN_ROOM', (channelIds: number[]) => {
-    // room 조인
-    console.log(channelIds)
-    socket.join(`${channelIds}`)
+    console.log('JOIN_ROOM: ', channelIds)
+    socket.join(channelIds.map((id) => id.toString()))
+
+    console.log(socket.rooms)
   })
   socket.on(
     'CREATE_THREAD',
     async (data: { channelId: number; threadId: number }) => {
-      console.log(data)
+      console.log('CREATE_THREAD: ', data)
       const { channelId, threadId } = data
-      socket.emit('CREATE_THREAD', {
-        message: data,
+      const { code, json } = await threadService.readThreadsById({
+        id: threadId,
       })
+      console.log(socket.rooms)
+      namespace.to(channelId.toString()).emit('CREATE_THREAD', json.data)
     },
   )
 })

@@ -98,10 +98,10 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
-  // [CREATE_THREAD]: (state, action) => ({
-  //   ...state,
-  //   threadList: [...state.threadList, action.payload],
-  // }),
+  [RECEIVE_CREATE_THREAD]: (state, action) => ({
+    ...state,
+    threadList: [...state.threadList, action.payload],
+  }),
 })
 
 export default reducer
