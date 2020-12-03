@@ -28,8 +28,17 @@ export interface CreateThreadRequestType {
   fileInfoList: { filePath: string; type: string }[] | null
 }
 
-// state
+interface ChannelResponseType extends Object {
+  id?: number
+  type?: string
+  name?: string
+  createdAt?: string
+  updatedAt?: string
+  User?: UserType[]
+}
+
 interface ThreadState {
+  channelInfo: ChannelResponseType
   threadList: ThreadType[]
   loading: boolean
   error: AxiosError | null
@@ -75,6 +84,7 @@ export type ThreadAction = ActionType<typeof actions>
 
 // initial state
 const initialState: ThreadState = {
+  channelInfo: {},
   threadList: [],
   loading: true,
   error: null,
