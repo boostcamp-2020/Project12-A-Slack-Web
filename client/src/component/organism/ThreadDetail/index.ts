@@ -1,3 +1,5 @@
+import { MessageType } from '@store/reducer/thread.reducer'
+
 export { default } from './ThreadDetail'
 
 export interface ThreadDetailProps {
@@ -12,20 +14,20 @@ interface UserType {
   profileImageUrl: string
 }
 
-interface MessageType {
-  id: number
-  content: string
-  isHead: boolean
-  createdAt: string
-  updatedAt: string
-  User: UserType
-  Files: object[]
-  Reactions: {
-    id: number
-    content: string
-    User: UserType
-  }[]
-}
+// interface MessageType {
+//   id: number
+//   content: string
+//   isHead: boolean
+//   createdAt: string
+//   updatedAt: string
+//   User: UserType
+//   Files: object[]
+//   Reactions: {
+//     id: number
+//     content: string
+//     User: UserType
+//   }[]
+// }
 
 interface ThreadType {
   id: number

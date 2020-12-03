@@ -9,12 +9,13 @@ import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
 
 const ThreadList = ({
-  channel,
+  channelInfo,
+  threads,
   handleSubViewOpen,
   handleSubViewHeader,
   handleSubViewBody,
 }: ThreadListProps) => {
-  const { id, type, name, Threads } = channel
+  const { id, type, name } = channelInfo
 
   const threadEndRef = useRef<HTMLDivElement | null>(null)
 
@@ -24,7 +25,7 @@ const ThreadList = ({
     }
   }
 
-  useEffect(scrollToBottom, [Threads])
+  useEffect(scrollToBottom, [threads])
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -43,30 +44,31 @@ const ThreadList = ({
   return (
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer>
-        {Threads.map((thread, index, arr) => {
-          const threadDetail = (
-            <O.ThreadDetail
-              thread={thread}
-              onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
-            />
-          )
+        {threads.map((thread, index, arr) => {
+          // TODO: messages(reply) api 생성 후 합치기
 
-          const handleReplyButtonClick = () => {
-            handleSubViewOpen()
-            handleSubViewHeader(subViewHeader)
-            handleSubViewBody(threadDetail)
-          }
+          // const threadDetail = (
+          //   <O.ThreadDetail
+          //     thread={thread}
+          //     onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
+          //   />
+          // )
+
+          // const handleReplyButtonClick = () => {
+          //   handleSubViewOpen()
+          //   handleSubViewHeader(subViewHeader)
+          //   handleSubViewBody(threadDetail)
+          // }
+          const handleReplyButtonClick = () => alert('thread detail open')
 
           const prevThread = index > 0 ? arr[index - 1] : undefined
 
           const sameUser = !!(
             prevThread && prevThread.User.id === thread.User.id
           )
-          const hasReply =
-            thread.Messages.filter((msg) => !msg.isHead).length !== 0
-          const prevHasReply =
-            prevThread &&
-            prevThread.Messages.filter((msg) => !msg.isHead).length !== 0
+          const hasReply = thread.replyCount !== 0
+
+          const prevHasReply = prevThread && prevThread.replyCount !== 0
 
           const continuous = sameUser && !hasReply && !prevHasReply
           return (

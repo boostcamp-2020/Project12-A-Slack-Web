@@ -4,9 +4,12 @@ import { Route, Switch, useParams, RouteComponentProps } from 'react-router-dom'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getThreadsAsync } from '@store/reducer/thread.reducer'
+import {
+  getThreadsAsync,
+  getChannelInfoAsync,
+} from '@store/reducer/thread.reducer'
 
-import channel from './data'
+// import channel from './data'
 
 interface MatchParamsType {
   channelId: string
@@ -23,22 +26,28 @@ const Channel = ({
   handleSubViewHeader,
   handleSubViewBody,
 }: ChannelProps) => {
+  const { threadList, channelInfo, loading, error } = useSelector(
+    (state: RootState) => state.threadStore,
+  )
+
   const { channelId } = useParams<MatchParamsType>()
   const dispatch = useDispatch()
   console.log(`channelId: ${channelId}`)
 
   useEffect(() => {
+    dispatch(getChannelInfoAsync.request(+channelId))
     dispatch(getThreadsAsync.request(+channelId))
   }, [])
 
   return (
     <>
       <ViewHeader>
-        <O.ChannelHeader channel={channel} />
+        <O.ChannelHeader channelInfo={channelInfo} />
       </ViewHeader>
       <ViewBody>
         <O.ThreadList
-          channel={channel}
+          channelInfo={channelInfo}
+          threads={threadList}
           handleSubViewOpen={handleSubViewOpen}
           handleSubViewHeader={handleSubViewHeader}
           handleSubViewBody={handleSubViewBody}

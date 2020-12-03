@@ -1,17 +1,22 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
+import channelAPI from '@api/channel'
 import {
-  ThreadType,
+  // ThreadType,
+  GetThreadResponseType,
   GET_THREADS,
+  GET_CHANNEL_INFO,
   CREATE_THREAD,
+  GetChannelInfoResponseType,
   getThreadsAsync,
+  getChannelInfoAsync,
   createThread,
 } from '../reducer/thread.reducer'
 import socket from '../../socket'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
-    const threads: ThreadType[] = yield call(
+    const threads: GetThreadResponseType[] = yield call(
       threadAPI.getThreads,
       action.payload,
     )
@@ -44,7 +49,27 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
   }
 }
 
+interface ChannelInfoResponseType {
+  success: boolean
+  data: GetChannelInfoResponseType
+}
+
+function* getCannelInfoSaga(
+  action: ReturnType<typeof getChannelInfoAsync.request>,
+) {
+  try {
+    const { success, data }: ChannelInfoResponseType = yield call(
+      channelAPI.getChannelInfo,
+      action.payload,
+    )
+    if (success) yield put(getChannelInfoAsync.success(data))
+  } catch (e) {
+    yield put(getChannelInfoAsync.failure(e))
+  }
+}
+
 export default function* threadSaga() {
   yield takeEvery(GET_THREADS, getThreadsSaga)
   yield takeEvery(CREATE_THREAD, createThreadSaga)
+  yield takeEvery(GET_CHANNEL_INFO, getCannelInfoSaga)
 }
