@@ -57,7 +57,13 @@ export const getThreadsAsync = createAsyncAction(
 )<number, ThreadType[], AxiosError>()
 
 // action
-const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }
+const actions = {
+  getThreads,
+  getThreadsSuccess,
+  getThreadsError,
+  createThread,
+  receiveCreateThread,
+}
 export type ThreadAction = ActionType<typeof actions>
 
 // state
@@ -92,10 +98,10 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
-  // [CREATE_THREAD]: (state, action) => ({
-  //   ...state,
-  //   threadList: [...state.threadList, action.payload],
-  // }),
+  [RECEIVE_CREATE_THREAD]: (state, action) => ({
+    ...state,
+    threadList: [...state.threadList, action.payload],
+  }),
 })
 
 export default reducer
