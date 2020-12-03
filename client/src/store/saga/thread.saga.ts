@@ -7,6 +7,7 @@ import {
   getThreadsAsync,
   createThread,
 } from '../reducer/thread.reducer'
+import socket from '../../socket'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {

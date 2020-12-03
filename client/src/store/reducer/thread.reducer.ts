@@ -57,7 +57,13 @@ export const getThreadsAsync = createAsyncAction(
 )<number, ThreadType[], AxiosError>()
 
 // action
-const actions = { getThreads, getThreadsSuccess, getThreadsError, createThread }
+const actions = {
+  getThreads,
+  getThreadsSuccess,
+  getThreadsError,
+  createThread,
+  receiveCreateThread,
+}
 export type ThreadAction = ActionType<typeof actions>
 
 // state

@@ -19,7 +19,7 @@ const ChannelPage = () => {
     dispatch(getThreadsAsync.request(1))
   }, [])
 
-  useSocket()
+  useSocket(dispatch)
   const channel = channelInfo
 
   const [subViewShow, setSubViewShow] = useState(false)

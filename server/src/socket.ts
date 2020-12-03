@@ -22,12 +22,21 @@ namespace.use((socket, next) => {
 })
 
 namespace.on('connection', (socket: Socket) => {
-  socket.on('new message', (data) => {
-    console.log(data)
-    socket.emit('new message', {
-      message: data,
-    })
+  socket.on('JOIN_ROOM', (channelIds: number[]) => {
+    // room 조인
+    console.log(channelIds)
+    socket.join(`${channelIds}`)
   })
+  socket.on(
+    'CREATE_THREAD',
+    async (data: { channelId: number; threadId: number }) => {
+      console.log(data)
+      const { channelId, threadId } = data
+      socket.emit('CREATE_THREAD', {
+        message: data,
+      })
+    },
+  )
 })
 
 server.listen(process.env.SOCKET_PORT, () => {

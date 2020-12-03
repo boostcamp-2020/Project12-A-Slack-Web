@@ -1,8 +1,9 @@
 import { useEffect } from 'react'
-// import { dispatch } from 'react-redux'
+import { Dispatch } from 'redux'
 import { io } from 'socket.io-client'
 import { receiveCreateThread } from '@store/reducer/thread.reducer'
 
+/* Error: process.env.SOCKET_SERVER_DOMAIN_DEVELOP 가 안찍힘 */
 // const baseURL =
 //   process.env.NODE_ENV === 'development'
 //     ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
