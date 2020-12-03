@@ -25,7 +25,7 @@ const readThreadById = async (
   next: NextFunction,
 ) => {
   try {
-    const { code, json } = await threadService.readThreadsById({
+    const { code, json } = await threadService.readThreadById({
       id: +req.params.id,
     })
     return res.status(code).json(json)

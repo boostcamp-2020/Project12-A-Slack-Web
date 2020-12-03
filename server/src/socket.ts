@@ -34,7 +34,7 @@ namespace.on('connection', (socket: Socket) => {
     async (data: { channelId: number; threadId: number }) => {
       console.log('CREATE_THREAD: ', data)
       const { channelId, threadId } = data
-      const { code, json } = await threadService.readThreadsById({
+      const { code, json } = await threadService.readThreadById({
         id: threadId,
       })
       console.log(socket.rooms)
