@@ -19,11 +19,7 @@ const App = () => {
       <GlobalStyle />
       <Router>
         <Switch>
-          <Route
-            exact
-            path="/workspace"
-            component={Auth(WorkspaceBrowserPage, false)}
-          />
+          <Route exact path="/" component={Auth(WorkspaceBrowserPage, false)} />
           <Route exact path="/login" component={Auth(LoginPage, true)} />
           <Route
             exact
