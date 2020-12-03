@@ -1,11 +1,13 @@
 import React, { useState, MouseEvent } from 'react'
+import { Link } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
+import O from '@organism'
 import myIcon from '@constant/icon'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
-const Section = ({ title, type }: SectionProps) => {
+const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
@@ -18,7 +20,7 @@ const Section = ({ title, type }: SectionProps) => {
     setSectionHover(!sectionHover)
   }
 
-  const handleMoreOptionsClick = (event: MouseEvent) => {
+  const handleMoreOptionsClick = (event: MouseEvent<HTMLSpanElement>) => {
     moreOverWrapperStyle.left = String(`${event.pageX + 5}px`)
     moreOverWrapperStyle.top = String(`${event.pageY + 5}px`)
     setMoreOptions(!moreOptions)
@@ -27,7 +29,7 @@ const Section = ({ title, type }: SectionProps) => {
   // TODO: 채널 클릭 시 액션
   const handleChannelClick = () => {}
 
-  // TODO: 각 섹션별로 받아온 채널 데이터를 map 으로 순회
+  // TODO: channel.type === DM 인 경우 Icon -> Avatar 분기처리
   return (
     <>
       <Styled.SectionContainer
@@ -75,16 +77,29 @@ const Section = ({ title, type }: SectionProps) => {
       <Styled.SectionChannelContainer>
         {toggle ? (
           <>
-            <M.ButtonDiv
-              buttonStyle={ChannelButtonStyle}
-              textStyle={ChannelTextStyle}
-              onClick={handleChannelClick}
-            >
-              <>
-                <A.Icon icon={myIcon.hashtag} customStyle={ChannelIconStyle} />
-                random
-              </>
-            </M.ButtonDiv>
+            {channelList.map((channel) => (
+              <Link
+                to={`/workspace/${workspaceId}/channel/${channel.id}`}
+                key={channel.id}
+              >
+                <M.ButtonDiv
+                  buttonStyle={ChannelButtonStyle}
+                  textStyle={ChannelTextStyle}
+                  onClick={handleChannelClick}
+                >
+                  <>
+                    {/* { channel.type === 'DM' ? <O.Avatar size={"MEDIUM"} user={}/>  : }  */}
+                    <A.Icon
+                      icon={
+                        channel.type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock
+                      }
+                      customStyle={ChannelIconStyle}
+                    />
+                    {channel.name}
+                  </>
+                </M.ButtonDiv>
+              </Link>
+            ))}
             {type === 'CHANNEL' ? (
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}

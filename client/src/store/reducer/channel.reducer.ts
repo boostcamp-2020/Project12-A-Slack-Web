@@ -5,11 +5,20 @@ import {
   createAsyncAction,
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
+import { WorkspaceResponseType } from './workspace.reducer'
 
-export interface ChannelResponseType {}
+export interface ChannelResponseType {
+  id: number
+  name: string
+  type: 'PRIVATE' | 'PUBLIC' | 'DM'
+  createdAt: string
+  updatedAt: string
+  deletedAt?: string
+}
 
 export interface ChannelState {
   channelList: ChannelResponseType[]
+  workspaceInfo: WorkspaceResponseType | null
   loading: boolean
   error: AxiosError | null
 }
@@ -63,6 +72,7 @@ export type ChannelAction = ActionType<typeof actions>
 
 const initialState: ChannelState = {
   channelList: [],
+  workspaceInfo: null,
   loading: true,
   error: null,
 }

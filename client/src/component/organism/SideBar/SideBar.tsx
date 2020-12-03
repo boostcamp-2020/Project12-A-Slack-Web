@@ -2,9 +2,16 @@ import React from 'react'
 import A from '@atom'
 import M from '@molecule'
 import myIcon from '@constant/icon'
+import { ChannelResponseType } from '@store/reducer/channel.reducer'
+import { WorkspaceResponseType } from '@store/reducer/workspace.reducer'
 import Styled from './SideBar.style'
 
-const SideBar = () => {
+interface SideBarProps {
+  workspaceInfo: WorkspaceResponseType | null
+  channelList: ChannelResponseType[]
+}
+
+const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
@@ -70,34 +77,19 @@ const SideBar = () => {
           </M.ButtonDiv>
         </Styled.OtherPagePart>
         <Styled.SectionChannelPart>
-          <M.Section title="Channels" type="CHANNEL" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
-          <M.Section title="Direct Messages" type="DM" />
+          <M.Section
+            title="Channels"
+            type="CHANNEL"
+            workspaceId={workspaceInfo ? workspaceInfo.id : 1}
+            channelList={channelList.filter((channel) => channel.type !== 'DM')}
+          />
+
+          <M.Section
+            title="Direct Messages"
+            type="DM"
+            workspaceId={workspaceInfo ? workspaceInfo.id : 1}
+            channelList={channelList.filter((channel) => channel.type === 'DM')}
+          />
         </Styled.SectionChannelPart>
       </Styled.ScrollContainer>
     </Styled.SideBarContainer>
