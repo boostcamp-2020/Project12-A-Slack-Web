@@ -27,23 +27,17 @@ export interface WorkspaceState {
   error: AxiosError | null
 }
 
-const initialState: WorkspaceState = {
-  workspaceList: [],
-  loading: true,
-  error: null,
-}
-
 export const GET_WORKSPACES = 'workspace/GET_WORKSPACES' as const
 const GET_WORKSPACES_SUCCESS = 'workspace/GET_WORKSPACES_SUCCESS' as const
 const GET_WORKSPACES_ERROR = 'workspace/GET_WORKSPACES_ERROR' as const
 export const CREATE_WORKSPACE = 'workspace/CREATE_WORKSPACE' as const
 export const JOIN_WORKSPACE = 'workspace/JOIN_WORKSPACE' as const
 
-export const getWorkspaceLoading = createAction(GET_WORKSPACES)()
-export const getWorkspaceSuccess = createAction(GET_WORKSPACES_SUCCESS)<
+export const getWorkspaces = createAction(GET_WORKSPACES)()
+export const getWorkspacesSuccess = createAction(GET_WORKSPACES_SUCCESS)<
   WorkspaceResponseType[]
 >()
-export const getWorkspaceError = createAction(GET_WORKSPACES_ERROR)<
+export const getWorkspacesError = createAction(GET_WORKSPACES_ERROR)<
   AxiosError
 >()
 export const createWorkspace = createAction(CREATE_WORKSPACE)<
@@ -60,14 +54,19 @@ export const getWorkspaceAsync = createAsyncAction(
 )<undefined, WorkspaceResponseType[], AxiosError>()
 
 const actions = {
-  getWorkspaceLoading,
-  getWorkspaceSuccess,
-  getWorkspaceError,
+  getWorkspaces,
+  getWorkspacesSuccess,
+  getWorkspacesError,
   createWorkspace,
   joinWorkspace,
 }
-
 export type WorkspaceAction = ActionType<typeof actions>
+
+const initialState: WorkspaceState = {
+  workspaceList: [],
+  loading: true,
+  error: null,
+}
 
 const reducer = createReducer<WorkspaceState, WorkspaceAction>(initialState, {
   [GET_WORKSPACES]: (state, action) => ({
