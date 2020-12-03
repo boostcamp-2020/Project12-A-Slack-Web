@@ -18,7 +18,7 @@ const Section = ({ title, type }: SectionProps) => {
     setSectionHover(!sectionHover)
   }
 
-  const handleMoreOptionsClick = (event: MouseEvent) => {
+  const handleMoreOptionsClick = (event: MouseEvent<HTMLSpanElement>) => {
     moreOverWrapperStyle.left = String(`${event.pageX + 5}px`)
     moreOverWrapperStyle.top = String(`${event.pageY + 5}px`)
     setMoreOptions(!moreOptions)

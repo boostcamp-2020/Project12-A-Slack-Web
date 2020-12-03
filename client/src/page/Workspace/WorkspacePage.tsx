@@ -14,9 +14,10 @@ interface MatchParamsType {
 }
 
 const WorkspacePage = () => {
-  const { channelList, loading, error } = useSelector(
+  const { channelList, workspaceInfo, loading, error } = useSelector(
     (state: RootState) => state.channelStore,
   )
+
   const dispatch = useDispatch()
   const { workspaceId } = useParams<MatchParamsType>()
 
@@ -40,7 +41,7 @@ const WorkspacePage = () => {
       <O.Header />
 
       <WorkspaceLayout>
-        <O.SideBar />
+        <O.SideBar workspaceInfo={workspaceInfo} channelList={channelList} />
 
         <ViewContainer>
           <Switch>
