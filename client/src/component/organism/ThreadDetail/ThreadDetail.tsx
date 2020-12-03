@@ -42,6 +42,7 @@ const ThreadDetail = ({ thread }: ThreadDetailProps) => {
               data={message}
               type="MESSAGE"
               onReplyButtonClick={() => {}}
+              key={message.id}
             />
           )
         })}

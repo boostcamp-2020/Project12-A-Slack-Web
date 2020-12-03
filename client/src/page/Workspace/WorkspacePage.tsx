@@ -47,7 +47,7 @@ const WorkspacePage = () => {
                   handleSubViewBody={handleSubViewBody}
                 />
               </Route>
-              <Route path="/channel-browser">
+              <Route path={`/workspace/${workspaceId}/channel-browser`}>
                 <ChannelBrowser workspaceId={+workspaceId} />
               </Route>
             </MainView>
