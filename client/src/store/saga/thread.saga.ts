@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import channelAPI from '@api/channel'
 import {
@@ -68,8 +68,22 @@ function* getCannelInfoSaga(
   }
 }
 
-export default function* threadSaga() {
+function* watchGetThreadsSaga() {
   yield takeEvery(GET_THREADS, getThreadsSaga)
+}
+
+function* watchCreateThreadSaga() {
   yield takeEvery(CREATE_THREAD, createThreadSaga)
+}
+
+function* watchGetCannelInfoSaga() {
   yield takeEvery(GET_CHANNEL_INFO, getCannelInfoSaga)
+}
+
+export default function* threadSaga() {
+  yield all([
+    fork(watchGetThreadsSaga),
+    fork(watchCreateThreadSaga),
+    fork(watchGetCannelInfoSaga),
+  ])
 }

@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import workspaceAPI from '@api/workspace'
 import {
@@ -10,7 +10,7 @@ import {
   joinWorkspace,
 } from '../reducer/workspace.reducer'
 
-function* getWorkspaceSaga() {
+function* getWorkspacesSaga() {
   try {
     const { success, data } = yield call(workspaceAPI.getWorkspace)
     if (success) console.log('workspace를 불러왔습니다.')
@@ -46,8 +46,22 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
   }
 }
 
-export default function* workspaceSaga() {
-  yield takeEvery(GET_WORKSPACES, getWorkspaceSaga)
+function* watchGetWorkspacesSaga() {
+  yield takeEvery(GET_WORKSPACES, getWorkspacesSaga)
+}
+
+function* watchCreateWorkspaceSaga() {
   yield takeEvery(CREATE_WORKSPACE, createWorkspaceSaga)
+}
+
+function* watchJoinWorkspaceSaga() {
   yield takeEvery(JOIN_WORKSPACE, joinWorkspaceSaga)
+}
+
+export default function* workspaceSaga() {
+  yield all([
+    fork(watchGetWorkspacesSaga),
+    fork(watchCreateWorkspaceSaga),
+    fork(watchJoinWorkspaceSaga),
+  ])
 }
