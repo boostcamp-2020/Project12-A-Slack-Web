@@ -33,13 +33,13 @@ const initialState: ThreadState = {
 }
 
 export const GET_THREADS_REQUEST = 'thread/GET_THREADS_REQUEST' as const
-export const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
-export const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
+const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
+const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
 export const GET_CHANNEL_INFO_REQUEST = 'thread/GET_CHANNEL_INFO_REQUEST' as const
-export const GET_CHANNEL_INFO_SUCCESS = 'thread/GET_CHANNEL_INFO_SUCCESS' as const
-export const GET_CHANNEL_INFO_ERROR = 'thread/GET_CHANNEL_INFO_ERROR' as const
+const GET_CHANNEL_INFO_SUCCESS = 'thread/GET_CHANNEL_INFO_SUCCESS' as const
+const GET_CHANNEL_INFO_ERROR = 'thread/GET_CHANNEL_INFO_ERROR' as const
 
 const getThreadsRequest = createAction(GET_THREADS_REQUEST)<number>()
 const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
