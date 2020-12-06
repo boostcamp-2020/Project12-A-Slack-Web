@@ -12,7 +12,7 @@ import {
   getChannelInfoAsync,
   createThread,
 } from '../reducer/thread.reducer'
-import socket from '../../socket'
+import { sendSocketCreateThread } from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
@@ -38,12 +38,13 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       action.payload,
     )
     console.log('createThreadSaga: ', data)
-    console.log(socket.id)
     if (success)
-      socket.emit('CREATE_THREAD', {
-        threadId: data.threadId,
-        channelId: action.payload.channelId,
-      })
+      yield put(
+        sendSocketCreateThread({
+          channelId: +action.payload.channelId,
+          threadId: +data.threadId,
+        }),
+      )
   } catch (e) {
     console.log('Failed to create thread')
   }
