@@ -14,7 +14,7 @@ const NewWorkspacePage = () => {
   const handleNewWorkspaceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     if (name === 'workspaceName') setWorkspaceName(value)
-    if (name === 'workspaceImgaeUrl') setWorkspaceImageUrl(value)
+    if (name === 'workspaceImageUrl') setWorkspaceImageUrl(value)
   }
 
   const handleClickCreateNewWorkspace = () => {
@@ -32,7 +32,7 @@ const NewWorkspacePage = () => {
       />
 
       <A.Input
-        name="workspaceImgaeUrl"
+        name="workspaceImageUrl"
         onChange={handleNewWorkspaceInput}
         value={workspaceImageUrl}
       />
