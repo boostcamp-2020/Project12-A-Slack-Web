@@ -5,7 +5,7 @@ import {
   createAsyncAction,
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
-import { WorkspaceResponseType } from './workspace.reducer'
+import { WorkspaceResponseType } from '@type/workspace.type'
 
 export interface ChannelResponseType {
   id: number

@@ -5,21 +5,11 @@ import {
   createAsyncAction,
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
-
-export interface WorkspaceResponseType extends Object {
-  id: number
-  name: string
-  imageUrl: string
-}
-
-export interface CreateWorkspaceRequestType {
-  name: string
-  imageUrl: string
-}
-
-export interface JoinWorkspaceRequestType {
-  workspaceId: number
-}
+import {
+  WorkspaceResponseType,
+  CreateWorkspaceRequestType,
+  JoinWorkspaceRequestType,
+} from '@type/workspace.type'
 
 export interface WorkspaceState {
   workspaceList: WorkspaceResponseType[]

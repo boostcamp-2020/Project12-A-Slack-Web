@@ -3,7 +3,7 @@ import A from '@atom'
 import M from '@molecule'
 import myIcon from '@constant/icon'
 import { ChannelResponseType } from '@store/reducer/channel.reducer'
-import { WorkspaceResponseType } from '@store/reducer/workspace.reducer'
+import { WorkspaceResponseType } from '@type/workspace.type'
 import Styled from './SideBar.style'
 
 interface SideBarProps {
