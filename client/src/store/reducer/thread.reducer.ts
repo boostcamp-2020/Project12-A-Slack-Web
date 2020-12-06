@@ -45,7 +45,7 @@ export const getThreadsAsync = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
-)<number, GetThreadResponseType[], AxiosError>()
+)<{ channelId: number }, GetThreadResponseType[], AxiosError>()
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
@@ -56,7 +56,7 @@ export const getChannelInfoAsync = createAsyncAction(
   GET_CHANNEL_INFO_REQUEST,
   GET_CHANNEL_INFO_SUCCESS,
   GET_CHANNEL_INFO_ERROR,
-)<number, GetChannelInfoResponseType, AxiosError>()
+)<{ channelId: number }, GetChannelInfoResponseType, AxiosError>()
 
 const actions = {
   getThreadsRequest: getThreadsAsync.request,

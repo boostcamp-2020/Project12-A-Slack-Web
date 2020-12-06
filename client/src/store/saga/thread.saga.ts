@@ -19,7 +19,7 @@ function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
     const threads: GetThreadResponseType[] = yield call(
       threadAPI.getThreads,
-      action.payload,
+      action.payload.channelId,
     )
     yield put(getThreadsAsync.success(threads))
   } catch (e) {
@@ -62,7 +62,7 @@ function* getCannelInfoSaga(
   try {
     const { success, data }: ChannelInfoResponseType = yield call(
       channelAPI.getChannelInfo,
-      action.payload,
+      action.payload.channelId,
     )
     if (success) yield put(getChannelInfoAsync.success(data))
   } catch (e) {
