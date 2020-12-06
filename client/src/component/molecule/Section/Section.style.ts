@@ -19,7 +19,7 @@ const SectionClickModalContent = styled.div`
   justify-content: space-between;
   align-items: center;
   border: 1px solid lightgrey;
-  padding: 10px;
+  border-radius: 5px;
 `
 
 const SectionHeader = styled.div`
