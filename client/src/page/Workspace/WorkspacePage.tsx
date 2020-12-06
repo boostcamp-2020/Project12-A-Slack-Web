@@ -5,7 +5,7 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getChannelsAsync } from '@store/reducer/channel.reducer'
+import { getChannels } from '@store/reducer/channel.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser } from './template'
 
@@ -31,7 +31,7 @@ const WorkspacePage = () => {
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 
   useEffect(() => {
-    dispatch(getChannelsAsync.request({ workspaceId: +workspaceId }))
+    dispatch(getChannels.request({ workspaceId: +workspaceId }))
     localStorage.setItem('workspaceId', workspaceId)
     // TODO: workspaceId 생성 후 connectSocket 연결
     dispatch(connectSocket.request())

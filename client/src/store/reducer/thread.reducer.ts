@@ -41,27 +41,32 @@ export const GET_CHANNEL_INFO_REQUEST = 'thread/GET_CHANNEL_INFO_REQUEST' as con
 const GET_CHANNEL_INFO_SUCCESS = 'thread/GET_CHANNEL_INFO_SUCCESS' as const
 const GET_CHANNEL_INFO_ERROR = 'thread/GET_CHANNEL_INFO_ERROR' as const
 
-const getThreadsRequest = createAction(GET_THREADS_REQUEST)<number>()
-const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
-  GetThreadResponseType[]
->()
-const getThreadsError = createAction(GET_THREADS_ERROR)<AxiosError>()
+// const getThreadsRequest = createAction(GET_THREADS_REQUEST)<number>()
+// const getThreadsSuccess = createAction(GET_THREADS_SUCCESS)<
+//   GetThreadResponseType[]
+// >()
+// const getThreadsError = createAction(GET_THREADS_ERROR)<AxiosError>()
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
 export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
   GetThreadResponseType
 >()
-const getChannelInfoRequest = createAction(GET_CHANNEL_INFO_REQUEST)<number>()
-const getChannelInfoSuccess = createAction(GET_CHANNEL_INFO_SUCCESS)<
-  GetChannelInfoResponseType
->()
-const getChannelInfoError = createAction(GET_CHANNEL_INFO_ERROR)<AxiosError>()
+// const getChannelInfoRequest = createAction(GET_CHANNEL_INFO_REQUEST)<number>()
+// const getChannelInfoSuccess = createAction(GET_CHANNEL_INFO_SUCCESS)<
+//   GetChannelInfoResponseType
+// >()
+// const getChannelInfoError = createAction(GET_CHANNEL_INFO_ERROR)<AxiosError>()
 export const getThreadsAsync = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
 )<number, GetThreadResponseType[], AxiosError>()
+// const {
+//   request: getThreadsRequest,
+//   success: getThreadsSuccess,
+//   failure: getThreadsError,
+// } = getThreadsAsync
 export const getChannelInfoAsync = createAsyncAction(
   GET_CHANNEL_INFO_REQUEST,
   GET_CHANNEL_INFO_SUCCESS,
@@ -69,14 +74,14 @@ export const getChannelInfoAsync = createAsyncAction(
 )<number, GetChannelInfoResponseType, AxiosError>()
 
 const actions = {
-  getThreadsRequest,
-  getThreadsSuccess,
-  getThreadsError,
+  getThreadsRequest: getThreadsAsync.request,
+  getThreadsSuccess: getThreadsAsync.success,
+  getThreadsError: getThreadsAsync.failure,
   createThread,
   receiveCreateThread,
-  getChannelInfoRequest,
-  getChannelInfoSuccess,
-  getChannelInfoError,
+  getChannelInfoRequest: getChannelInfoAsync.request,
+  getChannelInfoSuccess: getChannelInfoAsync.success,
+  getChannelInfoError: getChannelInfoAsync.failure,
 }
 
 export type ThreadAction = ActionType<typeof actions>
