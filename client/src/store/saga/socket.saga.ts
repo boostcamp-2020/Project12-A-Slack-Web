@@ -2,10 +2,7 @@ import { fork, call, take, put, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
 import { receiveCreateThread } from '@store/reducer/thread.reducer'
-import {
-  getChannelsAsync,
-  ChannelResponseType,
-} from '@store/reducer/channel.reducer'
+import { ChannelResponseType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
   connectSocket,

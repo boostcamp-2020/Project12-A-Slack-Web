@@ -6,35 +6,18 @@ import {
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
 import { WorkspaceResponseType } from '@type/workspace.type'
-
-export interface ChannelResponseType {
-  id: number
-  name: string
-  type: 'PRIVATE' | 'PUBLIC' | 'DM'
-  createdAt: string
-  updatedAt: string
-  deletedAt?: string
-}
+import {
+  ChannelRequestType,
+  ChannelResponseType,
+  CreateChannelRequestType,
+  JoinChannelRequestType,
+} from '@type/channel.type'
 
 export interface ChannelState {
   channelList: ChannelResponseType[]
   workspaceInfo: WorkspaceResponseType | null
   loading: boolean
   error: AxiosError | null
-}
-
-export interface CreateChannelRequestType {
-  name: string
-  imageUrl: string
-}
-
-export interface JoinChannelRequestType {
-  channelId: number
-  userId: number
-}
-
-interface ChannelRequestType {
-  workspaceId?: number
 }
 
 export const GET_CHANNELS = 'channel/GET_CHANNELS' as const
