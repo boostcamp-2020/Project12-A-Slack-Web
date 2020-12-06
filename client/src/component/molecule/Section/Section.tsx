@@ -8,7 +8,7 @@ import Styled from './Section.style'
 import { SectionProps } from '.'
 
 // test
-const user = {
+const userTestData = {
   id: 1,
   email: 'test@example.com',
   name: 'test',
@@ -22,6 +22,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [sectionHover, setSectionHover] = useState<boolean>(false)
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
+  const [createModal, setCreateModal] = useState<boolean>(false)
 
   const handleToggleList = () => {
     setToggle(!toggle)
@@ -41,6 +42,12 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     plusOverWrapperStyle.left = String(`${event.pageX}px`)
     plusOverWrapperStyle.top = String(`${event.pageY}px`)
     setPlusOptions(!plusOptions)
+  }
+
+  const handleCreateModalClick = () => {
+    setCreateModal(!createModal)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
   }
 
   // TODO: 채널 클릭 시 액션
@@ -98,6 +105,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             <M.ButtonDiv
               buttonStyle={SectionModalContentStyle}
               textStyle={SectionModalCententTextStyle}
+              onClick={handleCreateModalClick}
             >
               Create a Channel
             </M.ButtonDiv>
@@ -120,6 +128,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             <M.ButtonDiv
               buttonStyle={SectionModalContentStyle}
               textStyle={SectionModalCententTextStyle}
+              onClick={handleCreateModalClick}
             >
               Create a Channel
             </M.ButtonDiv>
@@ -141,7 +150,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                 >
                   <>
                     {channel.type === 'DM' ? (
-                      <O.Avatar size="SMALL" user={user} clickable />
+                      <O.Avatar size="SMALL" user={userTestData} clickable />
                     ) : null}
                     <A.Icon
                       icon={
@@ -180,11 +189,116 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           </>
         ) : null}
       </Styled.SectionChannelContainer>
+      {createModal ? (
+        <M.Modal
+          overlayStyle={createModalOverlayStyle}
+          modalWrapperStyle={createModalWrapperStyle}
+          onClose={handleCreateModalClick}
+          disableCloseButton
+        >
+          <Styled.CreateModalContainer>
+            <Styled.CreateHeader>
+              <A.Text customStyle={modalCreateTextStyle}>
+                Create a Channel
+              </A.Text>
+              <A.Icon
+                icon={myIcon.close}
+                customStyle={modalCreateIconStyle}
+                onClick={handleCreateModalClick}
+              />
+            </Styled.CreateHeader>
+            <A.Text customStyle={crateDescStyle}>
+              Channels are where your team communicates. They're best when
+              organized around a topic - #marketing, for example.
+            </A.Text>
+            <A.Text customStyle={createInputTextStyle}>Name</A.Text>
+            <A.Input
+              customStyle={createInputStyle}
+              placeholder="# e.g plan-budget"
+            />
+            <A.Text customStyle={createInputTextStyle}>Description</A.Text>
+            <A.Input
+              customStyle={createInputStyle}
+              placeholder="# e.g For the budget control"
+            />
+            <Styled.CreateBottom>
+              <A.Text customStyle={makePrivateText}>Make Private</A.Text>
+              <Styled.ToggleButton>
+                <Styled.ToggleInput type="checkbox" />
+                <Styled.ToggleSlider />
+              </Styled.ToggleButton>
+            </Styled.CreateBottom>
+            <Styled.CreateFooter>
+              <A.Text>부스트캠프 2020 멤버쉽</A.Text>
+              <M.ButtonDiv>Create</M.ButtonDiv>
+            </Styled.CreateFooter>
+          </Styled.CreateModalContainer>
+        </M.Modal>
+      ) : null}
     </>
   )
 }
 
 Section.defaultProps = {}
+
+const makePrivateText = {
+  color: 'black',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  cursor: 'auto',
+}
+
+const createInputStyle = {
+  border: '1px solid lightgrey',
+  margin: '-25px 5px 0px 5px',
+}
+
+const createInputTextStyle = {
+  color: 'black',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+  cursor: 'auto',
+  padding: '10px',
+}
+
+const modalCreateTextStyle = {
+  color: 'black',
+  fontSize: '3rem',
+  fontWeight: 'bold',
+  cursor: 'none',
+}
+
+const modalCreateIconStyle = {
+  color: 'darkGrey',
+  margin: '10px 0px 0px 0px',
+}
+
+const crateDescStyle = {
+  color: 'fontGrey',
+  fontSize: '12px',
+  padding: '10px',
+  margin: '-15px 0px 0px 0px',
+}
+
+const createModalOverlayStyle = {
+  zIndex: '1',
+  opacity: '0.4',
+}
+
+const createModalWrapperStyle = {
+  backgroundColor: 'white',
+  boxShadow: '0px 6px 20px 0px #EBEBEB',
+  width: '400px',
+  height: '500px',
+  padding: '0',
+  borderRadius: '8px',
+  position: 'fixed',
+  left: '40%',
+  top: '15%',
+  right: '30%',
+  bottom: '15%',
+  zIndex: '1000',
+}
 
 const SectionModalContentStyle = {
   width: '140px',

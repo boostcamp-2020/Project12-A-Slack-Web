@@ -4,6 +4,7 @@ import M from '@molecule'
 import myIcon from '@constant/icon'
 import { ChannelResponseType } from '@store/reducer/channel.reducer'
 import { WorkspaceResponseType } from '@store/reducer/workspace.reducer'
+import { useHistory } from 'react-router-dom'
 import Styled from './SideBar.style'
 
 interface SideBarProps {
@@ -12,6 +13,11 @@ interface SideBarProps {
 }
 
 const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
+  const history = useHistory()
+  const workspaceId = localStorage.getItem('workspaceId')
+  const handlebrowserChannelClick = () => {
+    history.push(`/workspace/${workspaceId}/channel-browser`)
+  }
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
@@ -54,6 +60,7 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           <M.ButtonDiv
             buttonStyle={OtherChannelButtonStyle}
             textStyle={OtherChannelTextStyle}
+            onClick={handlebrowserChannelClick}
           >
             <>
               <A.Icon
