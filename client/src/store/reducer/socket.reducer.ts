@@ -34,7 +34,9 @@ export const sendSocketJoinRoom = createAction(SEND_SOCKET_JOIN_ROOM)<{
 }>()
 
 const actions = {
-  ...connectSocket,
+  connectSocketRequest: connectSocket.request,
+  connectSocketSuccess: connectSocket.success,
+  connectSocketFailure: connectSocket.failure,
   sendSocketCreateThread,
   sendSocketJoinRoom,
 }

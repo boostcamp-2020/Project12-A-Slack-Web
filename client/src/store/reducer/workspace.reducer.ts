@@ -42,7 +42,9 @@ export const joinWorkspace = createAction(JOIN_WORKSPACE)<
 >()
 
 const actions = {
-  ...getWorkspace,
+  getWorkspacesRequest: getWorkspace.request,
+  getWorkspacesSuccess: getWorkspace.success,
+  getWorkspacesFailure: getWorkspace.failure,
   createWorkspace,
   joinWorkspace,
 }
