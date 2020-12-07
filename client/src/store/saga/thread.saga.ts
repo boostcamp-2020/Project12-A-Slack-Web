@@ -19,7 +19,7 @@ function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
     const threads: GetThreadResponseType[] = yield call(
       threadAPI.getThreads,
-      action.payload.channelId,
+      action.payload,
     )
     yield put(getThreadsAsync.success(threads))
   } catch (e) {
@@ -71,7 +71,7 @@ function* getCannelInfoSaga(
 }
 
 function* watchGetThreadsSaga() {
-  yield takeEvery(GET_THREADS_REQUEST, getThreadsSaga)
+  yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
 
 function* watchCreateThreadSaga() {
