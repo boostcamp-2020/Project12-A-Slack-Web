@@ -5,6 +5,8 @@ import myIcon from '@constant/icon'
 import { ChannelResponseType } from '@store/reducer/channel.reducer'
 import { WorkspaceResponseType } from '@store/reducer/workspace.reducer'
 import { useHistory } from 'react-router-dom'
+import { ChannelResponseType } from '@type/channel.type'
+import { WorkspaceResponseType } from '@type/workspace.type'
 import Styled from './SideBar.style'
 
 interface SideBarProps {

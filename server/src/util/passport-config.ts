@@ -6,7 +6,9 @@ import {
 import { findOrCreateUser } from '@service/user.service'
 
 const serverURL =
-  process.env.NODE_ENV === 'development' ? process.env.BACK_DOMAIN_DEVELOP : ''
+  process.env.NODE_ENV === 'development'
+    ? process.env.BACK_DOMAIN_DEVELOP
+    : process.env.BACK_DOMAIN_PRODUCTION
 
 const googleConfig = {
   clientID: process.env.GOOGLE_CLIENT_ID,
