@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams, RouteComponentProps } from 'react-router-dom'
 import O from '@organism'
@@ -36,7 +36,7 @@ const Channel = ({
 
   useEffect(() => {
     dispatch(getChannelInfoAsync.request(+channelId))
-    dispatch(getThreadsAsync.request(+channelId))
+    dispatch(getThreadsAsync.request({ channelId: +channelId }))
   }, [])
 
   return (
