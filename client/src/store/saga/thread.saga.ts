@@ -9,7 +9,10 @@ import {
   createThread,
   deleteThread,
 } from '../reducer/thread.reducer'
-import { sendSocketCreateThread } from '../reducer/socket.reducer'
+import {
+  sendSocketCreateThread,
+  sendSocketDeleteThread,
+} from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -49,11 +52,16 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
 
 function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
   try {
-    const { success, data }: ResponseType = yield call(
+    const { success }: ResponseType = yield call(
       threadAPI.deleteThread,
       action.payload,
     )
-    console.log(success, data)
+    if (success)
+      yield put(
+        sendSocketDeleteThread({
+          threadId: action.payload.threadId,
+        }),
+      )
   } catch (e) {
     console.log('Failed to create thread')
   }
