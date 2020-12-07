@@ -8,26 +8,16 @@ import { AxiosError } from 'axios'
 import {
   GetThreadsRequestType,
   GetThreadResponseType,
-  GetChannelInfoResponseType,
   CreateThreadRequestType,
 } from '@type/thread.type'
 
 interface ThreadState {
-  channelInfo: GetChannelInfoResponseType
   threadList: GetThreadResponseType[]
   loading: boolean
   error: AxiosError | null
 }
 
 const initialState: ThreadState = {
-  channelInfo: {
-    id: 0,
-    type: '',
-    name: '',
-    createdAt: '',
-    updatedAt: '',
-    user: [],
-  },
   threadList: [],
   loading: true,
   error: null,
@@ -38,9 +28,6 @@ const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
 const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
-export const GET_CHANNEL_INFO_REQUEST = 'thread/GET_CHANNEL_INFO_REQUEST' as const
-const GET_CHANNEL_INFO_SUCCESS = 'thread/GET_CHANNEL_INFO_SUCCESS' as const
-const GET_CHANNEL_INFO_ERROR = 'thread/GET_CHANNEL_INFO_ERROR' as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -56,21 +43,12 @@ export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
   GetThreadResponseType
 >()
 
-export const getChannelInfo = createAsyncAction(
-  GET_CHANNEL_INFO_REQUEST,
-  GET_CHANNEL_INFO_SUCCESS,
-  GET_CHANNEL_INFO_ERROR,
-)<{ channelId: number }, GetChannelInfoResponseType, AxiosError>()
-
 const actions = {
   getThreadsRequest: getThreads.request,
   getThreadsSuccess: getThreads.success,
   getThreadsError: getThreads.failure,
   createThread,
   receiveCreateThread,
-  getChannelInfoRequest: getChannelInfo.request,
-  getChannelInfoSuccess: getChannelInfo.success,
-  getChannelInfoError: getChannelInfo.failure,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -96,23 +74,6 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
   [RECEIVE_CREATE_THREAD]: (state, action) => ({
     ...state,
     threadList: [...state.threadList, action.payload],
-  }),
-  [GET_CHANNEL_INFO_REQUEST]: (state, _) => ({
-    ...state,
-    loading: true,
-    error: null,
-  }),
-  [GET_CHANNEL_INFO_SUCCESS]: (state, action) => ({
-    ...state,
-    loading: false,
-    error: null,
-    channelInfo: action.payload,
-  }),
-  [GET_CHANNEL_INFO_ERROR]: (state, action) => ({
-    ...state,
-    channelInfo: { ...state.channelInfo },
-    loading: false,
-    error: action.payload,
   }),
 })
 

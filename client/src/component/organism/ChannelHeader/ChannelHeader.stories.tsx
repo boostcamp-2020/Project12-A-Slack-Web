@@ -1,3 +1,4 @@
+import { CurrentChannelType } from '@type/channel.type'
 import React from 'react'
 import ChannelHeader from '.'
 
@@ -7,13 +8,14 @@ export default {
 }
 
 export const channelHeader = () => {
-  const publicChannel = {
+  const publicChannel: CurrentChannelType = {
     id: 1,
     type: 'PUBLIC',
     name: 'slack-clone',
     createdAt: '2020-11-25T15:09:30.000Z',
     updatedAt: '2020-11-25T15:09:30.000Z',
-    user: [
+    memberCount: 13,
+    memberMax3: [
       {
         id: 1,
         email: 'dlgkswn885@korea.ac.kr',
@@ -38,13 +40,14 @@ export const channelHeader = () => {
     ],
   }
 
-  const privateChannel = {
+  const privateChannel: CurrentChannelType = {
     id: 2,
     type: 'PRIVATE',
     name: 'slack-clone-private-channel',
     createdAt: '2020-11-25T15:09:30.000Z',
     updatedAt: '2020-11-25T15:09:30.000Z',
-    user: [
+    memberCount: 1,
+    memberMax3: [
       {
         id: 1,
         email: 'dlgkswn885@korea.ac.kr',

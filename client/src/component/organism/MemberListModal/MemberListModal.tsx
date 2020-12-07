@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -8,6 +8,7 @@ import { InputType } from '@atom/Input'
 import { ModalWrapperType } from '@atom/ModalWrapper'
 import myIcon from '@constant/icon'
 import color from '@constant/color'
+import { UserType } from '@type/user.type'
 import { MemberListModalProps } from '.'
 import Styled from './MemberListModal.style'
 
@@ -16,7 +17,16 @@ const MemberListModal = ({
   onAddPeopleClick,
   onClose,
 }: MemberListModalProps) => {
-  const { id, type, name, user: members } = channel
+  const { id, type, name } = channel
+  const members: UserType[] = []
+
+  const getUserByChannel = (id: number) => {
+    return () => {
+      // channel 의 모든 user 호출 api
+      // members에 넣기
+    }
+  }
+  useEffect(getUserByChannel(id), [])
 
   const [searchKeyword, setSearchKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState(members)

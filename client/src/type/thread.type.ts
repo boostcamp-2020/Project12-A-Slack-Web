@@ -57,12 +57,3 @@ export interface CreateThreadRequestType {
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
 }
-
-export interface GetChannelInfoResponseType extends Object {
-  id: number
-  type: string
-  name: string
-  createdAt: string
-  updatedAt: string
-  user: UserType[]
-}

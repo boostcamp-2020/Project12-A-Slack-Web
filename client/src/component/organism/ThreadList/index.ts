@@ -1,14 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
-import {
-  GetChannelInfoResponseType,
-  GetThreadResponseType,
-} from '@type/thread.type'
+import { GetThreadResponseType } from '@type/thread.type'
+import { CurrentChannelType } from '@type/channel.type'
 
 export { default } from './ThreadList'
 
 export interface ThreadListProps {
-  channelInfo: GetChannelInfoResponseType
+  channelInfo: CurrentChannelType
   threads: GetThreadResponseType[]
   handleSubViewOpen: () => void
   handleSubViewClose?: () => void

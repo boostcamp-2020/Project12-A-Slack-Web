@@ -10,8 +10,7 @@ import { ChannelHeaderProps } from '.'
 import Styled from './ChannelHeader.style'
 
 const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
-  const { id, name, type, user: members } = channelInfo
-  const MEMBER_PROFILE_NUMBER: number = 3
+  const { name, type, memberCount, memberMax3 } = channelInfo
 
   const [memberListModalVisible, setMemberListModalVisible] = useState(false)
   const [addUserModalVisible, setAddUserModalVisible] = useState(false)
@@ -47,19 +46,15 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
           customStyle={memberListButtonStyle}
         >
           <>
-            {members
-              .filter((user, idx) => idx < MEMBER_PROFILE_NUMBER)
-              .map((user) => (
-                <O.Avatar
-                  user={user}
-                  size="MEDIUM"
-                  avatarImageStyle={memberAvatarStyle}
-                  key={user.id}
-                />
-              ))}
-            <Styled.MemberCountWrapper>
-              {members.length}
-            </Styled.MemberCountWrapper>
+            {memberMax3.map((user) => (
+              <O.Avatar
+                user={user}
+                size="MEDIUM"
+                avatarImageStyle={memberAvatarStyle}
+                key={user.id}
+              />
+            ))}
+            <Styled.MemberCountWrapper>{memberCount}</Styled.MemberCountWrapper>
           </>
         </A.Button>
 
