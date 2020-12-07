@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import checkUserToken from '@api/user'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@store'
+import { getUserInfoAsync } from '@store/reducer/user.reducer'
 
 const Auth = (Component: any, option: boolean) => () => {
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
   const history = useHistory()
+  const dispatch = useDispatch()
   const token = localStorage.getItem('token')
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -19,11 +23,12 @@ const Auth = (Component: any, option: boolean) => () => {
 
       try {
         if (token) {
-          const { success } = await checkUserToken()
-          if (success && option) {
+          dispatch(getUserInfoAsync.request())
+
+          if (currentUser.id !== -1 && option) {
             history.push('/')
           }
-          if (success && !option) {
+          if (currentUser.id !== -1 && !option) {
             history.push(window.location.pathname)
           }
         }
