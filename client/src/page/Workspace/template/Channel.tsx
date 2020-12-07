@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Switch, useParams, RouteComponentProps } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
 import { getThreads, getChannelInfo } from '@store/reducer/thread.reducer'
-
-// import channel from './data'
 
 interface MatchParamsType {
   channelId: string
@@ -29,7 +27,6 @@ const Channel = ({
 
   const { channelId } = useParams<MatchParamsType>()
   const dispatch = useDispatch()
-  console.log(`channelId: ${channelId}`)
 
   useEffect(() => {
     dispatch(getChannelInfo.request({ channelId: +channelId }))
