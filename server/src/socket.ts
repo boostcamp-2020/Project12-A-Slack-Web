@@ -23,10 +23,9 @@ namespace.use((socket, next) => {
 })
 
 namespace.on('connection', (socket: Socket) => {
-  socket.on('JOIN_ROOM', (channelIds: number[]) => {
-    console.log('JOIN_ROOM: ', channelIds)
-    socket.join(channelIds.map((id) => id.toString()))
-
+  socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {
+    console.log('JOIN_ROOM: ', channelIdList)
+    socket.join(channelIdList.map((id) => id.toString()))
     console.log(socket.rooms)
   })
   socket.on(
