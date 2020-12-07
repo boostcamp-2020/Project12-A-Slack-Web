@@ -275,14 +275,16 @@ const deleteThread = async ({ id, userId }: deleteThreadType) => {
 
   const transaction = await sequelize.transaction()
   try {
+    const messageCount = await MessageModel.count({
+      where: { threadId: id, isHead: false },
+    })
+    if (messageCount === 0) {
+      await ThreadModel.destroy({ where: { id, userId }, transaction })
+    }
     await MessageModel.destroy({
       where: { threadId: id, isHead: true },
       transaction,
     })
-    const messageCount = await MessageModel.count({ where: { threadId: id } })
-    if (messageCount > 0) {
-      await ThreadModel.destroy({ where: { id, userId }, transaction })
-    }
 
     await transaction.commit()
     return {
