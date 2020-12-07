@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
 import FileModel from '@model/file.model'
@@ -187,9 +188,16 @@ const readThreadById = async ({ id }: readThreadType) => {
 interface readThreadsType {
   userId: number
   channelId: number
+  limit: number
+  lastThreadId: number
 }
 
-const readThreadsByChannel = async ({ userId, channelId }: readThreadsType) => {
+const readThreadsByChannel = async ({
+  userId,
+  channelId,
+  limit,
+  lastThreadId,
+}: readThreadsType) => {
   if (!validator.isNumber(userId) || !validator.isNumber(channelId))
     return {
       code: statusCode.BAD_REQUEST,
@@ -229,15 +237,20 @@ const readThreadsByChannel = async ({ userId, channelId }: readThreadsType) => {
           attributes: ['id', 'email', 'name', 'profileImageUrl'],
         },
       ],
+      order: [['id', 'DESC']],
       attributes: ['id', 'createdAt', 'updatedAt'],
-      where: { channelId },
+      where: {
+        channelId,
+        id: lastThreadId ? { [Op.lt]: lastThreadId } : { [Op.ne]: null },
+      },
+      limit,
     })) as ThreadInstance[]
 
     const filteredThreads = threads.map((thread) => getFilteredThread(thread))
 
     return {
       code: statusCode.OK,
-      json: { success: true, data: filteredThreads },
+      json: { success: true, data: filteredThreads.reverse() },
     }
   } catch (error) {
     console.log(error)
