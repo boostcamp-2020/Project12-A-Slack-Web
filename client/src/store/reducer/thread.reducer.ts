@@ -50,6 +50,7 @@ const actions = {
   getThreadsError: getThreads.failure,
   createThread,
   receiveCreateThread,
+  deleteThread,
 }
 
 export type ThreadAction = ActionType<typeof actions>
