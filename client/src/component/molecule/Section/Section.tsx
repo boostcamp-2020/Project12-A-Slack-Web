@@ -17,17 +17,24 @@ const userTestData = {
 }
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
-  console.log(`test : ${channelList}`)
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
   const [createModal, setCreateModal] = useState<boolean>(false)
   const [isPrivate, setIsPrivate] = useState<boolean>(false)
+  const [privateName, setPrivateName] = useState<string>('Create a Channel')
+  const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
 
-  const handleToggleCheckbox = (event: MouseEvent<HTMLInputElement>) => {
+  const handleToggleCheckbox = () => {
     setIsPrivate(!isPrivate)
-    console.log(isPrivate)
+    if (!isPrivate) {
+      setPrivateName('Create a private Channel')
+      setPlaceholder('  🔒 e.g my plan budget')
+    } else {
+      setPrivateName('Create a Channel')
+      setPlaceholder('  # e.g plan-budget')
+    }
   }
 
   const handleToggleList = () => {
@@ -204,9 +211,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
         >
           <Styled.CreateModalContainer>
             <Styled.CreateHeader>
-              <A.Text customStyle={modalCreateTextStyle}>
-                Create a Channel
-              </A.Text>
+              <A.Text customStyle={modalCreateTextStyle}>{privateName}</A.Text>
               <A.Icon
                 icon={myIcon.close}
                 customStyle={modalCreateIconStyle}
@@ -218,15 +223,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               organized around a topic - #marketing, for example.
             </A.Text>
             <A.Text customStyle={createInputTextStyle}>Name</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder="# e.g plan-budget"
-            />
-            <A.Text customStyle={createInputTextStyle}>Description</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder="# e.g For the budget control"
-            />
+            <A.Input customStyle={createInputStyle} placeholder={placeholder} />
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
@@ -270,13 +267,14 @@ const createInputTextStyle = {
   fontWeight: 'bold',
   cursor: 'auto',
   padding: '10px',
+  margin: '0px 0px -10px 0px',
 }
 
 const modalCreateTextStyle = {
   color: 'black',
-  fontSize: '3rem',
+  fontSize: '2.5rem',
   fontWeight: 'bold',
-  cursor: 'none',
+  cursor: 'auto',
 }
 
 const modalCreateIconStyle = {
@@ -300,7 +298,7 @@ const createModalWrapperStyle = {
   backgroundColor: 'white',
   boxShadow: '0px 6px 20px 0px #EBEBEB',
   width: '400px',
-  height: '500px',
+  height: '400px',
   padding: '0',
   borderRadius: '8px',
   position: 'fixed',

@@ -45,7 +45,7 @@ const CheckBox = styled.input`
 `
 
 const CreateModalContainer = styled.div`
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
