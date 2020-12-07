@@ -32,10 +32,33 @@ const ChannelNameWrapper = styled.div`
   display: flex;
 `
 
+const ThreadListTop = styled.div`
+  display: flex;
+  padding: 16px;
+  min-height: 100px;
+`
+const ThreadTypeIconWrapper = styled.div`
+  width: 36px;
+  height: 36px;
+  background-color: #f9f5ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  margin-right: 10px;
+`
+const ColumnFlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export default {
   ChannelMainContainer,
   ThreadListContainer,
   EditorContainer,
   ThreadSubViewHeaderWrapper,
   ChannelNameWrapper,
+  ThreadListTop,
+  ThreadTypeIconWrapper,
+  ColumnFlexContainer,
 }

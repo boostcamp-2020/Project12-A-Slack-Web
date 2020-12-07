@@ -6,6 +6,7 @@ import {
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
 import {
+  GetThreadsRequestType,
   GetThreadResponseType,
   GetChannelInfoResponseType,
   CreateThreadRequestType,
@@ -41,32 +42,35 @@ export const GET_CHANNEL_INFO_REQUEST = 'thread/GET_CHANNEL_INFO_REQUEST' as con
 const GET_CHANNEL_INFO_SUCCESS = 'thread/GET_CHANNEL_INFO_SUCCESS' as const
 const GET_CHANNEL_INFO_ERROR = 'thread/GET_CHANNEL_INFO_ERROR' as const
 
-export const getThreadsAsync = createAsyncAction(
+export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
-)<{ channelId: number }, GetThreadResponseType[], AxiosError>()
+)<GetThreadsRequestType, GetThreadResponseType[], AxiosError>()
+
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
+
 export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
   GetThreadResponseType
 >()
-export const getChannelInfoAsync = createAsyncAction(
+
+export const getChannelInfo = createAsyncAction(
   GET_CHANNEL_INFO_REQUEST,
   GET_CHANNEL_INFO_SUCCESS,
   GET_CHANNEL_INFO_ERROR,
 )<{ channelId: number }, GetChannelInfoResponseType, AxiosError>()
 
 const actions = {
-  getThreadsRequest: getThreadsAsync.request,
-  getThreadsSuccess: getThreadsAsync.success,
-  getThreadsError: getThreadsAsync.failure,
+  getThreadsRequest: getThreads.request,
+  getThreadsSuccess: getThreads.success,
+  getThreadsError: getThreads.failure,
   createThread,
   receiveCreateThread,
-  getChannelInfoRequest: getChannelInfoAsync.request,
-  getChannelInfoSuccess: getChannelInfoAsync.success,
-  getChannelInfoError: getChannelInfoAsync.failure,
+  getChannelInfoRequest: getChannelInfo.request,
+  getChannelInfoSuccess: getChannelInfo.success,
+  getChannelInfoError: getChannelInfo.failure,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -81,11 +85,11 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     loading: false,
     error: null,
-    threadList: action.payload,
+    threadList: [...action.payload, ...state.threadList],
   }),
   [GET_THREADS_ERROR]: (state, action) => ({
     ...state,
-    threadList: [],
+    threadList: [...state.threadList],
     loading: false,
     error: action.payload,
   }),
