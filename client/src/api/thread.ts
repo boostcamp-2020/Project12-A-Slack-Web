@@ -1,5 +1,5 @@
 import myAxios from '@util/myAxios'
-import { GetThreadsRequestType } from '@store/reducer/thread.reducer'
+import { GetThreadsRequestType } from '@type/thread.type'
 
 interface ThreadRequestType {
   channelId?: number

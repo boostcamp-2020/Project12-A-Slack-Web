@@ -35,6 +35,11 @@ export interface MessageType {
   Reactions: ReactionType[]
 }
 
+export interface GetThreadsRequestType {
+  channelId: number
+  lastThreadId?: number
+}
+
 export interface GetThreadResponseType {
   id: number
   createdAt: string

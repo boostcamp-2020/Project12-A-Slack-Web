@@ -6,15 +6,11 @@ import {
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
 import {
+  GetThreadsRequestType,
   GetThreadResponseType,
   GetChannelInfoResponseType,
   CreateThreadRequestType,
 } from '@type/thread.type'
-
-export interface GetThreadsRequestType {
-  channelId: number
-  lastThreadId?: number
-}
 
 interface ThreadState {
   channelInfo: GetChannelInfoResponseType
