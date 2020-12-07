@@ -18,6 +18,7 @@ export namespace ModalWrapperType {
     boxShadow?: string
     backgroundColor?: string
     overflow?: string
+    transform?: string
   }
 
   export interface Props {

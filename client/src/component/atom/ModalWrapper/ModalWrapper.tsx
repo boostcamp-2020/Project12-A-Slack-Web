@@ -24,6 +24,7 @@ const ModalWrapper = ({
     backgroundColor={customStyle.backgroundColor}
     overflow={customStyle.overflow}
     hidden={hidden}
+    transform={customStyle.transform}
   >
     {children}
   </StyledModalWrapper>
