@@ -31,15 +31,22 @@ namespace.on('connection', (socket: Socket) => {
   socket.on(
     'CREATE_THREAD',
     async (data: { channelId: number; threadId: number }) => {
-      console.log('CREATE_THREAD: ', data)
       const { channelId, threadId } = data
-      const { code, json } = await threadService.readThreadById({
+      const { json } = await threadService.readThreadById({
         id: threadId,
       })
-      console.log(socket.rooms)
-      console.log(channelId.toString())
-      // socket.to(channelId.toString()).emit('CREATE_THREAD', json.data)
       namespace.to(channelId.toString()).emit('CREATE_THREAD', json.data)
+    },
+  )
+  socket.on(
+    'DELETE_THREAD',
+    async (data: { channelId: number; threadId: number }) => {
+      const { channelId, threadId } = data
+      const { json } = await threadService.readThreadById({
+        id: threadId,
+      })
+      console.log(json.data)
+      namespace.to(channelId.toString()).emit('DELETE_THREAD', json.data)
     },
   )
 })

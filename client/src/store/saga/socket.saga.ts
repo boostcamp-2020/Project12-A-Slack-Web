@@ -6,14 +6,16 @@ import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
   connectSocket,
-  sendSocketCreateThread,
   sendSocketJoinRoom,
+  sendSocketCreateThread,
+  sendSocketDeleteThread,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const CREATE_THREAD = 'CREATE_THREAD'
+const DELETE_THREAD = 'DELETE_THREAD'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -60,16 +62,24 @@ function* read(socket: Socket) {
   }
 }
 
-function* write(socket: Socket) {
+function* sendCreateThread(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketCreateThread)
     socket.emit(CREATE_THREAD, payload)
   }
 }
 
+function* sendDeleteThread(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketDeleteThread)
+    socket.emit(DELETE_THREAD, payload)
+  }
+}
+
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
-  yield fork(write, socket)
+  yield fork(sendCreateThread, socket)
+  yield fork(sendDeleteThread, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {
