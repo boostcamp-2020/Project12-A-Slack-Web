@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-<<<<<<< HEAD
-=======
-import userAPI from '@api/user'
->>>>>>> b9a55a464fa78ba70f4b94fbb713b932bf7c8f9b
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
@@ -27,14 +23,9 @@ const Auth = (Component: any, option: boolean) => () => {
 
       try {
         if (token) {
-<<<<<<< HEAD
           dispatch(getUserInfoAsync.request())
 
           if (currentUser.id !== -1 && option) {
-=======
-          const { success } = await userAPI.checkUserToken()
-          if (success && option) {
->>>>>>> b9a55a464fa78ba70f4b94fbb713b932bf7c8f9b
             history.push('/')
           }
           if (currentUser.id !== -1 && !option) {
