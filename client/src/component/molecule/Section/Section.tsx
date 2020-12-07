@@ -63,8 +63,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (plusOptions === true) setPlusOptions(false)
   }
 
-  // TODO: 채널 클릭 시 액션
   const handleChannelClick = () => {}
+
+  // TODO: Add teammates 클릭 시 액션
+  const handleAddTeammatesClick = () => {}
 
   // TODO: channel.type === DM 인 경우 Icon -> Avatar 분기처리
   return (
@@ -180,7 +182,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
-                onClick={handleChannelClick}
+                onClick={handleCreateModalClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
@@ -191,7 +193,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
-                onClick={handleChannelClick}
+                onClick={handleAddTeammatesClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
