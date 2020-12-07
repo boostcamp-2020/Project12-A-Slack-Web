@@ -3,6 +3,7 @@ import socketSaga from './socket.saga'
 import threadSaga from './thread.saga'
 import workspaceSaga from './workspace.saga'
 import channelSaga from './channel.saga'
+import userSaga from './user.saga'
 
 function* rootSaga() {
   yield all([
@@ -10,6 +11,7 @@ function* rootSaga() {
     fork(threadSaga),
     fork(workspaceSaga),
     fork(channelSaga),
+    fork(userSaga),
   ])
 }
 
