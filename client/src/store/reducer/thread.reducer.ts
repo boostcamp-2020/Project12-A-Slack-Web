@@ -75,6 +75,11 @@ export interface GetChannelInfoResponseType extends Object {
   user: UserType[]
 }
 
+export interface GetThreadsRequestType {
+  channelId: number
+  lastThreadId?: number
+}
+
 interface ThreadState {
   channelInfo: GetChannelInfoResponseType
   threadList: GetThreadResponseType[]
@@ -116,7 +121,7 @@ export const getThreadsAsync = createAsyncAction(
   GET_THREADS,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
-)<number, GetThreadResponseType[], AxiosError>()
+)<GetThreadsRequestType, GetThreadResponseType[], AxiosError>()
 
 export const getChannelInfoAsync = createAsyncAction(
   GET_CHANNEL_INFO,
@@ -162,11 +167,11 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     loading: false,
     error: null,
-    threadList: action.payload,
+    threadList: [...action.payload, ...state.threadList],
   }),
   [GET_THREADS_ERROR]: (state, action) => ({
     ...state,
-    threadList: [],
+    threadList: [...state.threadList],
     loading: false,
     error: action.payload,
   }),
