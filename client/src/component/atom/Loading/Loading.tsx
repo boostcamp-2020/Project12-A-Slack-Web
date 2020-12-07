@@ -18,7 +18,7 @@ const Circle = styled.div`
   height: 5%;
   border-radius: 50%;
   background-color: #4285f4;
-  animation: ${bounce} 2ms infinite;
+  animation: ${bounce} 1s infinite;
 `
 
 const Loading = () => {
