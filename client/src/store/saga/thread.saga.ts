@@ -4,8 +4,10 @@ import { GetThreadResponseType } from '@type/thread.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
+  DELETE_THREAD,
   getThreads,
   createThread,
+  deleteThread,
 } from '../reducer/thread.reducer'
 import { sendSocketCreateThread } from '../reducer/socket.reducer'
 
@@ -45,6 +47,18 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
   }
 }
 
+function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
+  try {
+    const { success, data }: ResponseType = yield call(
+      threadAPI.deleteThread,
+      action.payload,
+    )
+    console.log(success, data)
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -53,6 +67,14 @@ function* watchCreateThreadSaga() {
   yield takeEvery(CREATE_THREAD, createThreadSaga)
 }
 
+function* watchDeleteThreadSaga() {
+  yield takeEvery(DELETE_THREAD, deleteThreadSaga)
+}
+
 export default function* threadSaga() {
-  yield all([fork(watchGetThreadsSaga), fork(watchCreateThreadSaga)])
+  yield all([
+    fork(watchGetThreadsSaga),
+    fork(watchCreateThreadSaga),
+    fork(watchDeleteThreadSaga),
+  ])
 }
