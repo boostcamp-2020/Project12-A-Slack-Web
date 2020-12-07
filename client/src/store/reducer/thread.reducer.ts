@@ -28,20 +28,21 @@ const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
 const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
+export const DELETE_THREAD = 'thread/DELETE_THREAD' as const
+export const RECEIVE_DELETE_THREAD = 'thread/RECEIVE_DELETE_THREAD' as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
 )<GetThreadsRequestType, GetThreadResponseType[], AxiosError>()
-
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
-
 export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
   GetThreadResponseType
 >()
+export const deleteThread = createAction(DELETE_THREAD)<{ threadId: number }>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
