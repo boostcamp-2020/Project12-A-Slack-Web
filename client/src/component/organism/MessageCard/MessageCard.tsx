@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -7,6 +8,7 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
+import { deleteThread } from '@store/reducer'
 import { getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
@@ -23,6 +25,7 @@ const MessageCard = ({
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) => {
+  const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
 
@@ -32,6 +35,13 @@ const MessageCard = ({
   const handleMouseLeave = () => setHover(false)
 
   const handleDeleteButtonClick = () => {
+    let id: number = 0
+    if (type === 'THREAD') {
+      id = thread.id
+      dispatch({ threadId: id })
+    } else {
+      id = message.id
+    }
     alert(`Delete message`)
   }
   const handleEditButtonClick = () => {
@@ -116,7 +126,7 @@ const MessageCard = ({
             <ActionBar
               targetType={type}
               targetId={thread.id}
-              targetAuthorId={-1}
+              targetAuthorId={thread.User.id}
               loginUserId={5} // TODO: change to store user id after UserStore
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
@@ -172,7 +182,7 @@ const MessageCard = ({
             targetType={type}
             targetId={thread.id}
             targetAuthorId={thread.User.id}
-            loginUserId={1} // TODO: change to store user id
+            loginUserId={5} // TODO: change to store user id
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
           />
