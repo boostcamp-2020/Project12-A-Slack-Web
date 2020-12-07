@@ -1,23 +1,23 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import workspaceAPI from '@api/workspace'
 import {
-  getWorkspaceAsync,
-  createWorkspace,
-  GET_WORKSPACES,
+  GET_WORKSPACES_REQUEST,
   CREATE_WORKSPACE,
   JOIN_WORKSPACE,
+  getWorkspace,
+  createWorkspace,
   joinWorkspace,
 } from '../reducer/workspace.reducer'
 
-function* getWorkspaceSaga() {
+function* getWorkspacesSaga() {
   try {
     const { success, data } = yield call(workspaceAPI.getWorkspace)
     if (success) console.log('workspace를 불러왔습니다.')
-    yield put(getWorkspaceAsync.success(data))
+    yield put(getWorkspace.success(data))
   } catch (error) {
     toast.error('Failed to read workspace')
-    yield put(getWorkspaceAsync.failure(error))
+    yield put(getWorkspace.failure(error))
   }
 }
 
@@ -46,8 +46,22 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
   }
 }
 
-export default function* workspaceSaga() {
-  yield takeEvery(GET_WORKSPACES, getWorkspaceSaga)
+function* watchGetWorkspacesSaga() {
+  yield takeEvery(GET_WORKSPACES_REQUEST, getWorkspacesSaga)
+}
+
+function* watchCreateWorkspaceSaga() {
   yield takeEvery(CREATE_WORKSPACE, createWorkspaceSaga)
+}
+
+function* watchJoinWorkspaceSaga() {
   yield takeEvery(JOIN_WORKSPACE, joinWorkspaceSaga)
+}
+
+export default function* workspaceSaga() {
+  yield all([
+    fork(watchGetWorkspacesSaga),
+    fork(watchCreateWorkspaceSaga),
+    fork(watchJoinWorkspaceSaga),
+  ])
 }

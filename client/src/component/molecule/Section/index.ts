@@ -1,4 +1,4 @@
-import { ChannelResponseType } from '@store/reducer/channel.reducer'
+import { ChannelResponseType } from '@type/channel.type'
 
 export { default } from './Section'
 

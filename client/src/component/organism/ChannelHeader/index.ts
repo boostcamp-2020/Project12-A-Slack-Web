@@ -1,4 +1,4 @@
-import { GetChannelInfoResponseType } from '@store/reducer/thread.reducer'
+import { GetChannelInfoResponseType } from '@type/thread.type'
 
 export { default } from './ChannelHeader'
 
