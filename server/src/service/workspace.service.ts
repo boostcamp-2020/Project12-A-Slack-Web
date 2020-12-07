@@ -72,14 +72,12 @@ const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
       )
 
       if (isUserBelongingToWorkspace) {
-        const userProfileSet = workspaceUserList.map(
-          (user) => user.profileImageUrl,
-        )
         const userProfileMax5 =
           workspaceUserList.length >= 5
-            ? userProfileSet.slice(0, 5)
-            : userProfileSet
-        const userCount = userProfileSet.length
+            ? workspaceUserList.slice(0, 5)
+            : workspaceUserList
+
+        const userCount = workspaceUserList.length
 
         const { id, name, imageUrl, createdAt, updatedAt } = workspace
         return {
