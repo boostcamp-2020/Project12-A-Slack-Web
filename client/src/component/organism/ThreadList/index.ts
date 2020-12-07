@@ -3,7 +3,7 @@ import React from 'react'
 import {
   GetChannelInfoResponseType,
   GetThreadResponseType,
-} from '@store/reducer/thread.reducer'
+} from '@type/thread.type'
 
 export { default } from './ThreadList'
 

@@ -2,12 +2,13 @@ import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import channelAPI from '@api/channel'
 import {
-  // ThreadType,
   GetThreadResponseType,
-  GET_THREADS,
-  GET_CHANNEL_INFO,
-  CREATE_THREAD,
   GetChannelInfoResponseType,
+} from '@type/thread.type'
+import {
+  GET_THREADS_REQUEST,
+  GET_CHANNEL_INFO_REQUEST,
+  CREATE_THREAD,
   getThreadsAsync,
   getChannelInfoAsync,
   createThread,
@@ -18,7 +19,7 @@ function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
   try {
     const threads: GetThreadResponseType[] = yield call(
       threadAPI.getThreads,
-      action.payload,
+      action.payload.channelId,
     )
     yield put(getThreadsAsync.success(threads))
   } catch (e) {
@@ -61,7 +62,7 @@ function* getCannelInfoSaga(
   try {
     const { success, data }: ChannelInfoResponseType = yield call(
       channelAPI.getChannelInfo,
-      action.payload,
+      action.payload.channelId,
     )
     if (success) yield put(getChannelInfoAsync.success(data))
   } catch (e) {
@@ -70,7 +71,7 @@ function* getCannelInfoSaga(
 }
 
 function* watchGetThreadsSaga() {
-  yield takeEvery(GET_THREADS, getThreadsSaga)
+  yield takeEvery(GET_THREADS_REQUEST, getThreadsSaga)
 }
 
 function* watchCreateThreadSaga() {
@@ -78,7 +79,7 @@ function* watchCreateThreadSaga() {
 }
 
 function* watchGetCannelInfoSaga() {
-  yield takeEvery(GET_CHANNEL_INFO, getCannelInfoSaga)
+  yield takeEvery(GET_CHANNEL_INFO_REQUEST, getCannelInfoSaga)
 }
 
 export default function* threadSaga() {

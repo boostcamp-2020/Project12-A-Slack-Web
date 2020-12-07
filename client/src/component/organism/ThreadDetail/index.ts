@@ -1,4 +1,4 @@
-import { MessageType } from '@store/reducer/thread.reducer'
+import { MessageType } from '@type/thread.type'
 
 export { default } from './ThreadDetail'
 
@@ -13,21 +13,6 @@ interface UserType {
   name: string
   profileImageUrl: string
 }
-
-// interface MessageType {
-//   id: number
-//   content: string
-//   isHead: boolean
-//   createdAt: string
-//   updatedAt: string
-//   User: UserType
-//   Files: object[]
-//   Reactions: {
-//     id: number
-//     content: string
-//     User: UserType
-//   }[]
-// }
 
 interface ThreadType {
   id: number
