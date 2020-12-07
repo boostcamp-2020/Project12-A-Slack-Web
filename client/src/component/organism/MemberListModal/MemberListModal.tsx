@@ -9,6 +9,7 @@ import { ModalWrapperType } from '@atom/ModalWrapper'
 import myIcon from '@constant/icon'
 import color from '@constant/color'
 import { UserType } from '@type/user.type'
+import userAPI from '@api/user'
 import { MemberListModalProps } from '.'
 import Styled from './MemberListModal.style'
 
@@ -18,15 +19,18 @@ const MemberListModal = ({
   onClose,
 }: MemberListModalProps) => {
   const { id, type, name } = channel
-  const members: UserType[] = []
+  let members: UserType[] = []
 
-  const getUserByChannel = (id: number) => {
-    return () => {
-      // channel 의 모든 user 호출 api
-      // members에 넣기
+  useEffect(() => {
+    const getUsersByChannel = async () => {
+      const { success, data } = await userAPI.getUsersByChannel({
+        channelId: id,
+      })
+      // TODO: 응답 잘 오는지 확인
+      if (success) members = data
     }
-  }
-  useEffect(getUserByChannel(id), [])
+    getUsersByChannel()
+  }, [])
 
   const [searchKeyword, setSearchKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState(members)

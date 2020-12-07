@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import checkUserToken from '@api/user'
+import userAPI from '@api/user'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -19,7 +19,7 @@ const Auth = (Component: any, option: boolean) => () => {
 
       try {
         if (token) {
-          const { success } = await checkUserToken()
+          const { success } = await userAPI.checkUserToken()
           if (success && option) {
             history.push('/')
           }
