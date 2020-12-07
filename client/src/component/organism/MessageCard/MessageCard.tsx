@@ -7,12 +7,11 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { getTimePassedFromNow, getDateAndTime } from '@util/date'
+import { getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
-  // message?: MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
   onReplyButtonClick: () => void
@@ -37,15 +36,6 @@ const MessageCard = ({
   }
   const handleEditButtonClick = () => {
     alert(`Edit message`)
-  }
-
-  const getLastTime = (messages: MessageType[]) => {
-    const lastUpdateMessage = messages.reduce((prev, result) => {
-      return new Date(prev.updatedAt) < new Date(result.updatedAt)
-        ? result
-        : prev
-    })
-    return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
 
   if (type === 'MESSAGE') {
@@ -127,7 +117,7 @@ const MessageCard = ({
               targetType={type}
               targetId={thread.id}
               targetAuthorId={-1}
-              loginUserId={1} // TODO: change to store user id
+              loginUserId={5} // TODO: change to store user id after UserStore
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
             />
