@@ -5,4 +5,12 @@ const checkUserToken = async () => {
   return response.data
 }
 
-export default checkUserToken
+const getUsersByChannel = async ({ channelId }: { channelId: number }) => {
+  const response = await myAxios.get({ path: `/user/channel/${channelId}` })
+  return response.data
+}
+
+export default {
+  checkUserToken,
+  getUsersByChannel,
+}

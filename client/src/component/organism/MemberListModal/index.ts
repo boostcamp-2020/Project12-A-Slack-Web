@@ -1,21 +1,9 @@
+import { CurrentChannelType } from '@type/channel.type'
+
 export { default } from './MemberListModal'
 
 export interface MemberListModalProps {
-  channel: Channel
+  channel: CurrentChannelType
   onAddPeopleClick?: () => void
   onClose?: () => void
-}
-
-interface User {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
-}
-
-interface Channel {
-  id: number
-  type: string
-  name: string
-  user: User[]
 }

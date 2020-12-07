@@ -127,7 +127,6 @@ interface ThreadInstance extends ThreadModel {
 
 interface ChannelInstance extends ChannelModel {
   thread: ThreadInstance[]
-  // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
   user: UserModel[]
 }
@@ -140,7 +139,7 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
     }
   }
   try {
-    const threads = (await ChannelModel.findOne({
+    const channel = (await ChannelModel.findOne({
       include: [
         {
           model: UserModel,
@@ -151,11 +150,21 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
       attributes: ['id', 'type', 'name', 'createdAt', 'updatedAt'],
       where: { id: channelId },
     })) as ChannelInstance
+
+    const { id, type, name, createdAt, updatedAt } = channel
+    const memberCount = channel.user.length
+    const notFilteredMemberMax3 = [...new Set(channel.user)].slice(0, 3)
+    const memberMax3 = notFilteredMemberMax3.map(
+      ({ id, email, name, profileImageUrl }) => {
+        return { id, email, name, profileImageUrl }
+      },
+    )
+
     return {
       code: statusCode.OK,
       json: {
         success: true,
-        data: threads,
+        data: { id, type, name, createdAt, updatedAt, memberCount, memberMax3 },
       },
     }
   } catch (error) {

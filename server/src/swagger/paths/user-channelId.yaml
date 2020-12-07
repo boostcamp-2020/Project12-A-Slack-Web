@@ -1,0 +1,39 @@
+get:
+  summary: get users by channel
+  tags:
+    - user
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: channelId
+      description: channel id
+      type: integer
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    email:
+                      type: string
+                    name:
+                      type: string
+                    profileImageUrl:
+                      type: string
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
