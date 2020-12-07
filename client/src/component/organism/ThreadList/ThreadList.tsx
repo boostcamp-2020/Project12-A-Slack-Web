@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store'
-import { getThreadsAsync } from '@store/reducer/thread.reducer'
+import { getThreads } from '@store/reducer/thread.reducer'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
@@ -34,7 +34,7 @@ const ThreadList = ({
     const { scrollTop } = threadListEl.current as HTMLDivElement
     if (scrollTop <= 150) {
       dispatch(
-        getThreadsAsync.request({
+        getThreads.request({
           channelId: +channelInfo.id,
           lastThreadId: threadList[0].id,
         }),

@@ -9,21 +9,21 @@ import {
   GET_THREADS_REQUEST,
   GET_CHANNEL_INFO_REQUEST,
   CREATE_THREAD,
-  getThreadsAsync,
-  getChannelInfoAsync,
+  getThreads,
+  getChannelInfo,
   createThread,
 } from '../reducer/thread.reducer'
 import { sendSocketCreateThread } from '../reducer/socket.reducer'
 
-function* getThreadsSaga(action: ReturnType<typeof getThreadsAsync.request>) {
+function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
     const threads: GetThreadResponseType[] = yield call(
       threadAPI.getThreads,
       action.payload,
     )
-    yield put(getThreadsAsync.success(threads))
+    yield put(getThreads.success(threads))
   } catch (e) {
-    yield put(getThreadsAsync.failure(e))
+    yield put(getThreads.failure(e))
   }
 }
 
@@ -56,17 +56,15 @@ interface ChannelInfoResponseType {
   data: GetChannelInfoResponseType
 }
 
-function* getCannelInfoSaga(
-  action: ReturnType<typeof getChannelInfoAsync.request>,
-) {
+function* getCannelInfoSaga(action: ReturnType<typeof getChannelInfo.request>) {
   try {
     const { success, data }: ChannelInfoResponseType = yield call(
       channelAPI.getChannelInfo,
       action.payload.channelId,
     )
-    if (success) yield put(getChannelInfoAsync.success(data))
+    if (success) yield put(getChannelInfo.success(data))
   } catch (e) {
-    yield put(getChannelInfoAsync.failure(e))
+    yield put(getChannelInfo.failure(e))
   }
 }
 

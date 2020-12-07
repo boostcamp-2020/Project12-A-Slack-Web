@@ -4,10 +4,7 @@ import { Route, Switch, useParams, RouteComponentProps } from 'react-router-dom'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import {
-  getThreadsAsync,
-  getChannelInfoAsync,
-} from '@store/reducer/thread.reducer'
+import { getThreads, getChannelInfo } from '@store/reducer/thread.reducer'
 
 // import channel from './data'
 
@@ -35,8 +32,8 @@ const Channel = ({
   console.log(`channelId: ${channelId}`)
 
   useEffect(() => {
-    dispatch(getChannelInfoAsync.request({ channelId: +channelId }))
-    dispatch(getThreadsAsync.request({ channelId: +channelId }))
+    dispatch(getChannelInfo.request({ channelId: +channelId }))
+    dispatch(getThreads.request({ channelId: +channelId }))
   }, [])
 
   return (
