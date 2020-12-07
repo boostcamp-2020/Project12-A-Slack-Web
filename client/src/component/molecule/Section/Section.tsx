@@ -17,7 +17,6 @@ const userTestData = {
 }
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
-  console.log(`test : ${channelList}`)
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
