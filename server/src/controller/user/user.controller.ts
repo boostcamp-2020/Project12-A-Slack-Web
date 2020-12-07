@@ -1,4 +1,5 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
+import userService from '@service/user.service'
 import jwt from '@util/jwt'
 
 const frontURL =
@@ -26,4 +27,23 @@ const statusController = (req: Request, res: Response) => {
   return res.status(201).json({ success: true, data: currentUser })
 }
 
-export default { handleGoogleLoginCallback, statusController }
+const readUsersByChannel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await userService.readUsersByChannel({
+      channelId: +req.params.channelId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+export default {
+  handleGoogleLoginCallback,
+  statusController,
+  readUsersByChannel,
+}

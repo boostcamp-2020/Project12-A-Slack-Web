@@ -1,5 +1,7 @@
 /api/user/status:
   $ref: './user.yaml'
+/api/user/channel/{channelId}:
+  $ref: './user-channelId.yaml'
 /api/workspace:
   $ref: './workspace.yaml'
 /api/workspace/join:

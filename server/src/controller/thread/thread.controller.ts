@@ -39,10 +39,15 @@ const readThreadsByChannel = async (
   res: Response,
   next: NextFunction,
 ) => {
+  // TODO: remove magic number
+  const limit = 30
+
   try {
     const { code, json } = await threadService.readThreadsByChannel({
       userId: +req.user.id,
       channelId: +req.query.channelId,
+      limit,
+      lastThreadId: +req.query.lastThreadId,
     })
     return res.status(code).json(json)
   } catch (error) {

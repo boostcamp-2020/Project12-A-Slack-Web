@@ -22,6 +22,20 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
   const [createModal, setCreateModal] = useState<boolean>(false)
+  const [isPrivate, setIsPrivate] = useState<boolean>(false)
+  const [privateName, setPrivateName] = useState<string>('Create a Channel')
+  const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
+
+  const handleToggleCheckbox = () => {
+    setIsPrivate(!isPrivate)
+    if (!isPrivate) {
+      setPrivateName('Create a private Channel')
+      setPlaceholder('  🔒 e.g my plan budget')
+    } else {
+      setPrivateName('Create a Channel')
+      setPlaceholder('  # e.g plan-budget')
+    }
+  }
 
   const handleToggleList = () => {
     setToggle(!toggle)
@@ -49,8 +63,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (plusOptions === true) setPlusOptions(false)
   }
 
-  // TODO: 채널 클릭 시 액션
   const handleChannelClick = () => {}
+
+  // TODO: Add teammates 클릭 시 액션
+  const handleAddTeammatesClick = () => {}
 
   // TODO: channel.type === DM 인 경우 Icon -> Avatar 분기처리
   return (
@@ -166,7 +182,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
-                onClick={handleChannelClick}
+                onClick={handleCreateModalClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
@@ -177,7 +193,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
-                onClick={handleChannelClick}
+                onClick={handleAddTeammatesClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
@@ -197,9 +213,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
         >
           <Styled.CreateModalContainer>
             <Styled.CreateHeader>
-              <A.Text customStyle={modalCreateTextStyle}>
-                Create a Channel
-              </A.Text>
+              <A.Text customStyle={modalCreateTextStyle}>{privateName}</A.Text>
               <A.Icon
                 icon={myIcon.close}
                 customStyle={modalCreateIconStyle}
@@ -211,21 +225,18 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               organized around a topic - #marketing, for example.
             </A.Text>
             <A.Text customStyle={createInputTextStyle}>Name</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder="# e.g plan-budget"
-            />
-            <A.Text customStyle={createInputTextStyle}>Description</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder="# e.g For the budget control"
-            />
+            <A.Input customStyle={createInputStyle} placeholder={placeholder} />
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
-              <Styled.ToggleButton>
-                <Styled.ToggleInput type="checkbox" />
-                <Styled.ToggleSlider />
-              </Styled.ToggleButton>
+              <Styled.CheckBoxWrapper>
+                <Styled.CheckBox
+                  id="checkbox"
+                  type="checkbox"
+                  checked={isPrivate}
+                  onClick={handleToggleCheckbox}
+                />
+                <Styled.CheckBoxLabel htmlFor="checkbox" />
+              </Styled.CheckBoxWrapper>
             </Styled.CreateBottom>
             <Styled.CreateFooter>
               <A.Text>부스트캠프 2020 멤버쉽</A.Text>
@@ -258,13 +269,14 @@ const createInputTextStyle = {
   fontWeight: 'bold',
   cursor: 'auto',
   padding: '10px',
+  margin: '0px 0px -10px 0px',
 }
 
 const modalCreateTextStyle = {
   color: 'black',
-  fontSize: '3rem',
+  fontSize: '2.5rem',
   fontWeight: 'bold',
-  cursor: 'none',
+  cursor: 'auto',
 }
 
 const modalCreateIconStyle = {
@@ -288,7 +300,7 @@ const createModalWrapperStyle = {
   backgroundColor: 'white',
   boxShadow: '0px 6px 20px 0px #EBEBEB',
   width: '400px',
-  height: '500px',
+  height: '400px',
   padding: '0',
   borderRadius: '8px',
   position: 'fixed',

@@ -5,4 +5,12 @@ const getUserInfo = async () => {
   return response.data
 }
 
-export default { getUserInfo }
+const getUsersByChannel = async ({ channelId }: { channelId: number }) => {
+  const response = await myAxios.get({ path: `/user/channel/${channelId}` })
+  return response.data
+}
+
+export default {
+  getUserInfo,
+  getUsersByChannel,
+}

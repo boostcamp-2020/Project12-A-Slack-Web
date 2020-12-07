@@ -3,13 +3,13 @@ import A from '@atom'
 import M from '@molecule'
 import myIcon from '@constant/icon'
 import { useHistory } from 'react-router-dom'
-import { ChannelResponseType } from '@type/channel.type'
+import { ChannelType } from '@type/channel.type'
 import { WorkspaceResponseType } from '@type/workspace.type'
 import Styled from './SideBar.style'
 
 interface SideBarProps {
   workspaceInfo: WorkspaceResponseType | null
-  channelList: ChannelResponseType[]
+  channelList: ChannelType[]
 }
 
 const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {

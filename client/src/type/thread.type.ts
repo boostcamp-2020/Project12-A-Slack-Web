@@ -35,6 +35,11 @@ export interface MessageType {
   Reactions: ReactionType[]
 }
 
+export interface GetThreadsRequestType {
+  channelId: number
+  lastThreadId?: number
+}
+
 export interface GetThreadResponseType {
   id: number
   createdAt: string
@@ -51,13 +56,4 @@ export interface CreateThreadRequestType {
   content: string
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
-}
-
-export interface GetChannelInfoResponseType extends Object {
-  id: number
-  type: string
-  name: string
-  createdAt: string
-  updatedAt: string
-  user: UserType[]
 }

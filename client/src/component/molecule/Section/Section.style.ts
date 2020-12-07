@@ -1,49 +1,51 @@
 import styled from 'styled-components'
 
-const ToggleButton = styled.label`
+const CheckBoxWrapper = styled.div`
   position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
 `
-
-const ToggleInput = styled.input`
-  opacity: 0;
-  width: 0;
-  height: 0;
-  background-color: #2196f3;
-  &:focus {
-    box-shadow: 0 0 1px #2196f3;
-  }
-`
-
-const ToggleSlider = styled.span`
-  background-color: #2196f3;
+const CheckBoxLabel = styled.label`
   position: absolute;
-  cursor: pointer;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
-  &:before {
-    transform: translateX(26px);
-    border-radius: 50%;
-    position: absolute;
+  width: 42px;
+  height: 26px;
+  border-radius: 15px;
+  background: #bebebe;
+  cursor: pointer;
+  &::after {
     content: '';
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: 0.4s;
+    display: block;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: #ffffff;
+    box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+  }
+`
+const CheckBox = styled.input`
+  opacity: 0;
+  z-index: 1;
+  border-radius: 15px;
+  width: 50px;
+  height: 30px;
+  &:checked + ${CheckBoxLabel} {
+    background: #1f57e7;
+    &::after {
+      content: '';
+      display: block;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      margin-left: 21px;
+      transition: 0.2s;
+    }
   }
 `
 
 const CreateModalContainer = styled.div`
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -109,7 +111,7 @@ export default {
   CreateHeader,
   CreateBottom,
   CreateFooter,
-  ToggleButton,
-  ToggleInput,
-  ToggleSlider,
+  CheckBoxWrapper,
+  CheckBox,
+  CheckBoxLabel,
 }
