@@ -127,7 +127,6 @@ interface ThreadInstance extends ThreadModel {
 
 interface ChannelInstance extends ChannelModel {
   thread: ThreadInstance[]
-  // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
   user: UserModel[]
 }

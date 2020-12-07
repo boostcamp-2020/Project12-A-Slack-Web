@@ -4,8 +4,8 @@
     "es2021": true
   },
   "extends": [
-    "airbnb-base", 
-    "eslint:recommended", 
+    "airbnb-base",
+    "eslint:recommended",
     "plugin:prettier/recommended",
     "plugin:import/typescript"
   ],
@@ -15,29 +15,29 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "prettier", "import"],
-  "rules": { 
-      "prettier/prettier": "error",
-      "import/extensions": [
-        "error",
-        "ignorePackages",
-        {
-          "js": "never",
-          "jsx": "never",
-          "ts": "never",
-          "tsx": "never"
-        }
-      ]
+  "rules": {
+    "prettier/prettier": "error",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }]
   },
-  "settings": { 
+  "settings": {
     "import/extensions": [".js", ".ts"],
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
-      "typescript": {
-      },
-      "node": { 
-        "extensions": [".js", ".jsx", ".ts", ".tsx"] 
+      "typescript": {},
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
   }
