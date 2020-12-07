@@ -5,8 +5,8 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getChannelsAsync } from '@store/reducer/channel.reducer'
-import socket, { useSocket } from '../../socket'
+import { getChannels } from '@store/reducer/channel.reducer'
+import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser } from './template'
 
 interface MatchParamsType {
@@ -17,15 +17,9 @@ const WorkspacePage = () => {
   const { channelList, workspaceInfo, loading, error } = useSelector(
     (state: RootState) => state.channelStore,
   )
-  socket.emit(
-    'JOIN_ROOM',
-    channelList.map((channel) => channel.id),
-  )
 
   const dispatch = useDispatch()
   const { workspaceId } = useParams<MatchParamsType>()
-
-  useSocket(socket, dispatch, channelList)
 
   const [subViewShow, setSubViewShow] = useState(false)
   const [subViewHeader, setSubViewHeader] = useState<React.ReactNode>(<></>)
@@ -37,8 +31,10 @@ const WorkspacePage = () => {
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 
   useEffect(() => {
-    dispatch(getChannelsAsync.request({ workspaceId: +workspaceId }))
+    dispatch(getChannels.request({ workspaceId: +workspaceId }))
     localStorage.setItem('workspaceId', workspaceId)
+    // TODO: workspaceId 생성 후 connectSocket 연결
+    dispatch(connectSocket.request())
   }, [])
 
   return (

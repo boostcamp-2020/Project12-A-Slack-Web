@@ -1,23 +1,22 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import {
-  getChannelsAsync,
+  GET_CHANNELS_REQUEST,
+  CREATE_CHANNEL,
+  JOIN_CHANNEL,
   getChannels,
   createChannel,
   joinChannel,
-  GET_CHANNELS,
-  CREATE_CHANNEL,
-  JOIN_CHANNEL,
 } from '../reducer/channel.reducer'
 
-function* getChannelSaga(action: ReturnType<typeof getChannelsAsync.request>) {
+function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
   try {
     const { success, data } = yield call(channelAPI.getChannels, action.payload)
     if (success) console.log(data)
-    yield put(getChannelsAsync.success(data))
+    yield put(getChannels.success(data))
   } catch (error) {
-    yield put(getChannelsAsync.failure(error))
+    yield put(getChannels.failure(error))
   }
 }
 
@@ -30,7 +29,14 @@ function* joinChannelSaga(action: ReturnType<typeof joinChannel>) {
   }
 }
 
-export default function* channelSaga() {
-  yield takeEvery(GET_CHANNELS, getChannelSaga)
+function* watchGetChannelsSaga() {
+  yield takeEvery(GET_CHANNELS_REQUEST, getChannelsSaga)
+}
+
+function* watchJoinChannelSaga() {
   yield takeEvery(JOIN_CHANNEL, joinChannelSaga)
+}
+
+export default function* channelSaga() {
+  yield all([fork(watchGetChannelsSaga), fork(watchJoinChannelSaga)])
 }

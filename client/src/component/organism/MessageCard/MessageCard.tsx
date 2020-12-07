@@ -6,42 +6,9 @@ import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
-import {
-  GetThreadResponseType,
-  MessageType,
-} from '@store/reducer/thread.reducer'
+import { GetThreadResponseType, MessageType } from '@type/thread.type'
 import { getTimePassedFromNow, getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
-
-interface UserType {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
-}
-
-// interface MessageType {
-//   id: number
-//   content: string
-//   isHead: boolean
-//   createdAt: string
-//   updatedAt: string
-//   User: UserType
-//   Files: object[]
-//   Reactions: {
-//     id: number
-//     content: string
-//     User: UserType
-//   }[]
-// }
-
-interface ThreadType {
-  id: number
-  createdAt: string
-  updatedAt: string
-  Messages: MessageType[]
-  User: UserType
-}
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType

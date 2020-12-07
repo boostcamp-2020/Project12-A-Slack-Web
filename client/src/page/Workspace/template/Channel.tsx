@@ -35,7 +35,7 @@ const Channel = ({
   console.log(`channelId: ${channelId}`)
 
   useEffect(() => {
-    dispatch(getChannelInfoAsync.request(+channelId))
+    dispatch(getChannelInfoAsync.request({ channelId: +channelId }))
     dispatch(getThreadsAsync.request({ channelId: +channelId }))
   }, [])
 

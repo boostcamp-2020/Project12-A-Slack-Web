@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { RootState } from '@store'
 import { useSelector, useDispatch } from 'react-redux'
-import { getWorkspaceAsync } from '@store/reducer/workspace.reducer'
+import { getWorkspace } from '@store/reducer/workspace.reducer'
 
 const WorkspaceBrowserPage = () => {
   const workspaceStore = useSelector((state: RootState) => state.workspaceStore)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getWorkspaceAsync.request())
+    dispatch(getWorkspace.request())
   }, [])
 
   return (

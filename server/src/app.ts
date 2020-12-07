@@ -36,7 +36,7 @@ app.use(
     origin:
       process.env.NODE_ENV === 'development'
         ? [process.env.FRONT_DOMAIN_DEVELOP, process.env.FRONT_DOMAIN_DEVELOP_2]
-        : '',
+        : process.env.FRONT_DOMAIN_PRODUCTION,
     credentials: true,
   }),
 )
