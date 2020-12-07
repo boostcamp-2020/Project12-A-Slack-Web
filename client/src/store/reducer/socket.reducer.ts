@@ -34,6 +34,7 @@ export const sendSocketCreateThread = createAction(SEND_SOCKET_CREATE_THREAD)<{
   threadId: number
 }>()
 export const sendSocketDeleteThread = createAction(SEND_SOCKET_DELETE_THREAD)<{
+  channelId: number
   threadId: number
 }>()
 

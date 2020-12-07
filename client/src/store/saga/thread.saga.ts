@@ -1,4 +1,12 @@
-import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  fork,
+  all,
+  select,
+} from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
@@ -37,6 +45,7 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       threadAPI.createThread,
       action.payload,
     )
+
     console.log('createThreadSaga: ', data)
     if (success)
       yield put(
@@ -56,10 +65,14 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
       threadAPI.deleteThread,
       action.payload,
     )
+    const channelId = yield select(
+      (state) => state.channelStore.currentChannel.id,
+    )
     if (success)
       yield put(
         sendSocketDeleteThread({
-          threadId: action.payload.threadId,
+          channelId: +channelId,
+          threadId: +action.payload.threadId,
         }),
       )
   } catch (e) {
