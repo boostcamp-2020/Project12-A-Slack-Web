@@ -24,7 +24,7 @@ const getThreads = async ({
 }
 
 const deleteThread = async ({ threadId }: { threadId: number }) => {
-  const response = await myAxios.get({ path: `/thread/${threadId}` })
+  const response = await myAxios.delete({ path: `/thread/${threadId}` })
   return response.data
 }
 

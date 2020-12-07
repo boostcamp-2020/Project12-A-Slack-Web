@@ -8,7 +8,7 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { deleteThread } from '@store/reducer'
+import { deleteThread } from '@store/reducer/thread.reducer'
 import { getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
@@ -38,7 +38,7 @@ const MessageCard = ({
     let id: number = 0
     if (type === 'THREAD') {
       id = thread.id
-      dispatch({ threadId: id })
+      dispatch(deleteThread({ threadId: id }))
     } else {
       id = message.id
     }
