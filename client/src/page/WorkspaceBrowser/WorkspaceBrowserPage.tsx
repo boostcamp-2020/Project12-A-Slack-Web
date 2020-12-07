@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import A from '@atom'
 import M from '@molecule'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
@@ -17,7 +18,7 @@ const WorkspaceBrowserPage = () => {
   return (
     <WorkspaceContainer>
       {workspaceStore.loading ? (
-        <M.ButtonDiv>Loading...</M.ButtonDiv>
+        <A.Loading />
       ) : (
         workspaceStore.workspaceList.map((workspace) => {
           return (

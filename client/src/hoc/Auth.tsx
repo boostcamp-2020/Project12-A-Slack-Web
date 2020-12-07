@@ -3,6 +3,7 @@ import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
+import A from '@atom'
 import { RootState } from '@store'
 import { getUserInfoAsync } from '@store/reducer/user.reducer'
 
@@ -47,7 +48,7 @@ const Auth = (Component: any, option: boolean) => () => {
     check()
   }, [])
 
-  return loading ? <Container>Loading...</Container> : <Component />
+  return loading ? <A.Loading /> : <Component />
 }
 
 const Container = styled.div`
