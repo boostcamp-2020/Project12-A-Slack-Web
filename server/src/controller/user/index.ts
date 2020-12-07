@@ -19,5 +19,5 @@ router.get(
 )
 
 router.get('/status', verifyUser, userController.statusController)
-
+router.get('/channel/:channelId', verifyUser, userController.readUsersByChannel)
 export default router
