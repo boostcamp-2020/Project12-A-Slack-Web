@@ -23,6 +23,12 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
   const [createModal, setCreateModal] = useState<boolean>(false)
+  const [isPrivate, setIsPrivate] = useState<boolean>(false)
+
+  const handleToggleCheckbox = (event: MouseEvent<HTMLInputElement>) => {
+    setIsPrivate(!isPrivate)
+    console.log(isPrivate)
+  }
 
   const handleToggleList = () => {
     setToggle(!toggle)
@@ -223,10 +229,15 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             />
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
-              <Styled.ToggleButton>
-                <Styled.ToggleInput type="checkbox" />
-                <Styled.ToggleSlider />
-              </Styled.ToggleButton>
+              <Styled.CheckBoxWrapper>
+                <Styled.CheckBox
+                  id="checkbox"
+                  type="checkbox"
+                  checked={isPrivate}
+                  onClick={handleToggleCheckbox}
+                />
+                <Styled.CheckBoxLabel htmlFor="checkbox" />
+              </Styled.CheckBoxWrapper>
             </Styled.CreateBottom>
             <Styled.CreateFooter>
               <A.Text>부스트캠프 2020 멤버쉽</A.Text>
