@@ -1,7 +1,10 @@
 import { fork, call, take, put, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
-import { receiveCreateThread } from '@store/reducer/thread.reducer'
+import {
+  receiveCreateThread,
+  receiveDeleteThread,
+} from '@store/reducer/thread.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
@@ -45,8 +48,14 @@ function subscribeSocket(socket: Socket) {
       emit(receiveCreateThread(data))
     }
 
+    const handleDeleteThread = (data: any) => {
+      console.log('delete thread: ', data)
+      emit(receiveDeleteThread(data))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(CREATE_THREAD, handleCreateThread)
+    socket.on(DELETE_THREAD, handleDeleteThread)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
