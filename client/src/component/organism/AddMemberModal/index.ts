@@ -4,5 +4,5 @@ export { default } from './AddMemberModal'
 
 export interface AddMemberModalProps {
   channel: CurrentChannelType
-  onClose?: () => void
+  onClose: () => void
 }
