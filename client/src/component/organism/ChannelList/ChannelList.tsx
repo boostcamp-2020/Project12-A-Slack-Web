@@ -7,7 +7,11 @@ import { ChannelListProps } from '.'
 
 import Styled from './ChannelList.style'
 
-const ChannelList = ({ channelList }: ChannelListProps) => {
+const ChannelList = ({
+  channelList,
+  onJoinButtonClick,
+  onLeaveButtonClick,
+}: ChannelListProps) => {
   const channelCount = channelList.length
 
   const [searchKeyword, setSearchKeyword] = useState('')
@@ -33,7 +37,12 @@ const ChannelList = ({ channelList }: ChannelListProps) => {
 
       <Styled.ResultListWrapper>
         {channelList.map((channel) => (
-          <O.ChannelCard channel={channel} key={channel.id} />
+          <O.ChannelCard
+            channel={channel}
+            key={channel.id}
+            onJoinButtonClick={onJoinButtonClick}
+            onLeaveButtonClick={onLeaveButtonClick}
+          />
         ))}
       </Styled.ResultListWrapper>
     </Styled.Wrapper>

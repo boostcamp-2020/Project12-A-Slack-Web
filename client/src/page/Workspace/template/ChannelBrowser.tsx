@@ -4,23 +4,17 @@ import myAxios from '@util/myAxios'
 import styled from 'styled-components'
 import O from '@organism'
 import { RootState } from '@store'
-import { getChannels } from '@store/reducer/channel.reducer'
+import { joinChannel } from '@store/reducer/channel.reducer'
+import { Channel } from '@type/channel.type'
 
 interface ChannelBrowserPropsType {
   workspaceId: number
 }
 
-interface Channel extends Object {
-  id: number
-  type: string
-  name: string
-  memberCount: number
-  joined: boolean
-}
-
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
   const { channelList } = useSelector((state: RootState) => state.channelStore)
   const [channels, setChannels] = useState<Channel[]>([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const getWorkspaceChannels = async () => {
@@ -42,10 +36,28 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
     getWorkspaceChannels()
   }, [channelList])
 
+  const handleJoinButtonClick = (channel: Channel) => () => {
+    dispatch(joinChannel.request({ channel }))
+    // TODO: ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
+  }
+
+  const handleLeaveButtonClick = (channel: Channel) => () => {
+    // channel 탈퇴 (saga async api 요청)
+    // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제
+    // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount--
+    alert(`${channel.id} leave!`)
+  }
+
   const channelBrowserMainViewHeader = (
     <O.ChannelBrowserHeader workspaceId={workspaceId} />
   )
-  const channelBrowserMainViewBody = <O.ChannelList channelList={channels} />
+  const channelBrowserMainViewBody = (
+    <O.ChannelList
+      channelList={channels}
+      onJoinButtonClick={handleJoinButtonClick}
+      onLeaveButtonClick={handleLeaveButtonClick}
+    />
+  )
 
   return (
     <>

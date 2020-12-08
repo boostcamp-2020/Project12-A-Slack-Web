@@ -22,19 +22,9 @@ const ChannelCard = ({
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
 
-  // onJoinButtonClick = () => {
-  //   // channel 가입 (saga async api 요청)
-  //   // channel 가입 성공 시 channelStore의 channelList에 추가
-  //   // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
-  // }
-
-  // onLeaveButtonClick = () => {
-  //   // channel 탈퇴 (saga async api 요청)
-  //   // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제
-  //   // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount--
-  // }
-
-  const handleButtonClick = joined ? onLeaveButtonClick : onJoinButtonClick
+  const handleButtonClick = joined
+    ? onLeaveButtonClick(channel)
+    : onJoinButtonClick(channel)
   const optionalButtonStyle = joined ? leaveButtonStyle : joinButtonStyle
   const optionalButtonTextStyle = joined ? {} : { color: 'white' }
   const buttonText = joined ? 'Leave' : 'Join'
