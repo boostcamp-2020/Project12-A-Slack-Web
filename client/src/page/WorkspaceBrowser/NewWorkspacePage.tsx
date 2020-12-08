@@ -8,7 +8,7 @@ const NewWorkspacePage = () => {
   const dispatch = useDispatch()
   const [workspaceName, setWorkspaceName] = useState<string>('')
   const [workspaceImageUrl, setWorkspaceImageUrl] = useState<string>(
-    'example image url',
+    'https://issue-tracker-team14.kr.object.ncloudstorage.com/1607424718809.png',
   )
 
   const handleNewWorkspaceInput = (e: React.ChangeEvent<HTMLInputElement>) => {

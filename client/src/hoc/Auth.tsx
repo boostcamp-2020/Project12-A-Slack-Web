@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import A from '@atom'
 import { RootState } from '@store'
