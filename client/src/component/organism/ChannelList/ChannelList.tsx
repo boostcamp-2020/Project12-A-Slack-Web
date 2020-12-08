@@ -33,7 +33,7 @@ const ChannelList = ({ channelList }: ChannelListProps) => {
 
       <Styled.ResultListWrapper>
         {channelList.map((channel) => (
-          <O.ChannelCard channel={channel} />
+          <O.ChannelCard channel={channel} key={channel.id} />
         ))}
       </Styled.ResultListWrapper>
     </Styled.Wrapper>

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import myAxios from '@util/myAxios'
 import styled from 'styled-components'
 import O from '@organism'
+import { RootState } from '@store'
+import { getChannels } from '@store/reducer/channel.reducer'
 
 interface ChannelBrowserPropsType {
   workspaceId: number
@@ -16,9 +19,7 @@ interface Channel extends Object {
 }
 
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
-  const channelBrowserMainViewHeader = (
-    <O.ChannelBrowserHeader workspaceId={workspaceId} />
-  )
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
   const [channels, setChannels] = useState<Channel[]>([])
 
   useEffect(() => {
@@ -28,12 +29,22 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
       } = await myAxios.get({
         path: `/channel/all?workspaceId=${workspaceId}`,
       })
-      console.log(data)
-      setChannels(data)
+
+      const filterdChannels = data.map((channel: Channel) => {
+        return {
+          ...channel,
+          joined: channelList.find((chann) => chann.id === channel.id),
+        }
+      })
+
+      setChannels(filterdChannels)
     }
     getWorkspaceChannels()
-  }, [])
+  }, [channelList])
 
+  const channelBrowserMainViewHeader = (
+    <O.ChannelBrowserHeader workspaceId={workspaceId} />
+  )
   const channelBrowserMainViewBody = <O.ChannelList channelList={channels} />
 
   return (

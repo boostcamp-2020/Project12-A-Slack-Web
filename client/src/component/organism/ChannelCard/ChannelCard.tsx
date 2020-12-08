@@ -10,7 +10,7 @@ import { ChannelCardProps } from '.'
 
 import Styled from './ChannelCard.style'
 
-const ChannelHeader = ({
+const ChannelCard = ({
   channel,
   onJoinButtonClick,
   onLeaveButtonClick,
@@ -21,6 +21,18 @@ const ChannelHeader = ({
 
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
+
+  // onJoinButtonClick = () => {
+  //   // channel 가입 (saga async api 요청)
+  //   // channel 가입 성공 시 channelStore의 channelList에 추가
+  //   // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
+  // }
+
+  // onLeaveButtonClick = () => {
+  //   // channel 탈퇴 (saga async api 요청)
+  //   // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제
+  //   // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount--
+  // }
 
   const handleButtonClick = joined ? onLeaveButtonClick : onJoinButtonClick
   const optionalButtonStyle = joined ? leaveButtonStyle : joinButtonStyle
@@ -70,7 +82,7 @@ const ChannelHeader = ({
   )
 }
 
-ChannelHeader.defaultProps = {}
+ChannelCard.defaultProps = {}
 
 const channelNameTextStyle: TextType.StyleAttributes = {
   fontWeight: 'bold',
@@ -83,6 +95,7 @@ const buttonStyle: ButtonType.StyleAttributes = {
   padding: '10px',
   width: '80px',
   height: '36px',
+  cursor: 'pointer',
 }
 const buttonTextStyle: TextType.StyleAttributes = {
   fontWeight: '500',
@@ -117,4 +130,4 @@ const memberCountTextStyle: TextType.StyleAttributes = {
   fontSize: '1.3rem',
 }
 
-export default ChannelHeader
+export default ChannelCard
