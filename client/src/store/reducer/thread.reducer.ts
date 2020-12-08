@@ -44,7 +44,7 @@ export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
 >()
 export const deleteThread = createAction(DELETE_THREAD)<{ threadId: number }>()
 export const receiveDeleteThread = createAction(RECEIVE_DELETE_THREAD)<
-  GetThreadResponseType
+  GetThreadResponseType | number
 >()
 
 const actions = {
@@ -81,10 +81,23 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     threadList: [...state.threadList, action.payload],
   }),
-  [RECEIVE_DELETE_THREAD]: (state, action) => ({
-    ...state,
-    threadList: [...state.threadList, action.payload],
-  }),
+  [RECEIVE_DELETE_THREAD]: (state, action) => {
+    if (typeof action.payload === 'number')
+      return {
+        ...state,
+        threadList: state.threadList.filter(
+          (thread) => thread.id !== action.payload,
+        ),
+      }
+    const deletedThread: GetThreadResponseType = action.payload
+    return {
+      ...state,
+      threadList: state.threadList.map((thread) => {
+        if (thread.id === deletedThread.id) return deletedThread
+        return thread
+      }),
+    }
+  },
 })
 
 export default reducer

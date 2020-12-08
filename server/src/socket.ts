@@ -45,8 +45,9 @@ namespace.on('connection', (socket: Socket) => {
       const { json } = await threadService.readThreadById({
         id: threadId,
       })
-      console.log(json.data)
-      namespace.to(channelId.toString()).emit('DELETE_THREAD', json.data)
+      namespace
+        .to(channelId.toString())
+        .emit('DELETE_THREAD', json.data || threadId)
     },
   )
 })
