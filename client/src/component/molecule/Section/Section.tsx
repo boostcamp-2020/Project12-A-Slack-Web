@@ -47,7 +47,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     )
   }
 
-  const handleCreateDMClick = () => {
+  const handleCreateDmClick = () => {
     // history.push(`/workspace/alldmpage`)
   }
 
@@ -159,7 +159,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={SectionModalContentStyle}
                 textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDMClick}
+                onClick={handleCreateDmClick}
               >
                 Create a DM
               </M.ButtonDiv>
