@@ -4,6 +4,7 @@ import { io, Socket } from 'socket.io-client'
 import {
   receiveCreateThread,
   receiveDeleteThread,
+  receiveUpdateThread,
 } from '@store/reducer/thread.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
@@ -55,9 +56,15 @@ function subscribeSocket(socket: Socket) {
       emit(receiveDeleteThread(data))
     }
 
+    const handleUpdateThread = (data: any) => {
+      console.log('update thread: ', data)
+      emit(receiveUpdateThread(data))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
+    socket.on(UPDATE_THREAD, handleUpdateThread)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
