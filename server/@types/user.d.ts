@@ -9,6 +9,7 @@ declare global {
       id: number
       email: string
       name: string
+      profileImageUrl: string
     }
   }
 }

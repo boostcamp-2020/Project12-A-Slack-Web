@@ -1,10 +1,10 @@
-import { ChannelResponseType } from '@type/channel.type'
+import { ChannelType } from '@type/channel.type'
 
 export { default } from './Section'
 
 export interface SectionProps {
   title: string
   type: 'CHANNEL' | 'DM'
-  channelList: ChannelResponseType[]
+  channelList: ChannelType[]
   workspaceId: number
 }

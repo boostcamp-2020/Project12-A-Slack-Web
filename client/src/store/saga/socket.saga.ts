@@ -2,7 +2,7 @@ import { fork, call, take, put, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
 import { receiveCreateThread } from '@store/reducer/thread.reducer'
-import { ChannelResponseType } from '@type/channel.type'
+import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
   connectSocket,
@@ -73,7 +73,7 @@ function* handleIO(socket: Socket) {
 }
 
 function* socketJoinRoom(socket: Socket) {
-  const channelList: ChannelResponseType[] = yield select(
+  const channelList: ChannelType[] = yield select(
     (state: RootState) => state.channelStore.channelList,
   )
   socket.emit(JOIN_ROOM, {

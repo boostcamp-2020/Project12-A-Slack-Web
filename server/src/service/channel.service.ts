@@ -183,11 +183,21 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
       attributes: ['id', 'type', 'name', 'createdAt', 'updatedAt'],
       where: { id: channelId },
     })) as ChannelInstance
+
+    const { id, type, name, createdAt, updatedAt } = channel
+    const memberCount = channel.user.length
+    const notFilteredMemberMax3 = [...new Set(channel.user)].slice(0, 3)
+    const memberMax3 = notFilteredMemberMax3.map(
+      ({ id, email, name, profileImageUrl }) => {
+        return { id, email, name, profileImageUrl }
+      },
+    )
+
     return {
       code: statusCode.OK,
       json: {
         success: true,
-        data: channel,
+        data: { id, type, name, createdAt, updatedAt, memberCount, memberMax3 },
       },
     }
   } catch (error) {

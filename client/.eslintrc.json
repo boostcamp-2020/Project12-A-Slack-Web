@@ -37,7 +37,8 @@
         "tsx": "never"
       }
     ],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_$" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_$" }],
+    "@typescript-eslint/no-unused-vars": ["error", { "args": "none" }]
   },
   "settings": {
     "import/resolver": {

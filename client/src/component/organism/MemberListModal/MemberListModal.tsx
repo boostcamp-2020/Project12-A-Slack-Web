@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -8,6 +8,8 @@ import { InputType } from '@atom/Input'
 import { ModalWrapperType } from '@atom/ModalWrapper'
 import myIcon from '@constant/icon'
 import color from '@constant/color'
+import { UserType } from '@type/user.type'
+import userAPI from '@api/user'
 import { MemberListModalProps } from '.'
 import Styled from './MemberListModal.style'
 
@@ -16,7 +18,19 @@ const MemberListModal = ({
   onAddPeopleClick,
   onClose,
 }: MemberListModalProps) => {
-  const { id, type, name, user: members } = channel
+  const { id, type, name } = channel
+  let members: UserType[] = []
+
+  useEffect(() => {
+    const getUsersByChannel = async () => {
+      const { success, data } = await userAPI.getUsersByChannel({
+        channelId: id,
+      })
+      // TODO: 응답 잘 오는지 확인
+      if (success) members = data
+    }
+    getUsersByChannel()
+  }, [])
 
   const [searchKeyword, setSearchKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState(members)

@@ -1,3 +1,5 @@
+import { UserType } from '@type/user.type'
+
 export interface ChannelCardType extends Object {
   id: number
   name: string
@@ -6,13 +8,18 @@ export interface ChannelCardType extends Object {
   joined: boolean
 }
 
-export interface ChannelResponseType {
+export interface ChannelType {
   id: number
   name: string
   type: 'PRIVATE' | 'PUBLIC' | 'DM'
   createdAt?: string
   updatedAt?: string
   deletedAt?: string
+}
+
+export interface CurrentChannelType extends ChannelType {
+  memberCount: number
+  memberMax3: UserType[]
 }
 
 export interface CreateChannelRequestType {

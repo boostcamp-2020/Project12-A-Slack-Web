@@ -13,6 +13,8 @@ interface WorkspaceInstance extends WorkspaceModel {
   // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
   user: UserModel[]
+  createdAt: string
+  updatedAt: string
 }
 
 const isValidNewWorkspaceData = ({ name, imageUrl }: WorkspaceType) => {
@@ -53,22 +55,49 @@ const createWorkspace = async ({ userId, name, imageUrl }: WorkspaceType) => {
 
 const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
   try {
-    const workspaces = await WorkspaceModel.findAll({
+    const workspaces = (await WorkspaceModel.findAll({
       include: [
         {
           model: UserModel,
           as: 'user',
-          where: { id: userId },
-          attributes: [],
         },
       ],
+      attributes: ['id', 'name', 'imageUrl', 'createdAt', 'updatedAt'],
+    })) as WorkspaceInstance[]
+
+    const filteredWorkspaces = workspaces.map((workspace) => {
+      const workspaceUserList = workspace.user
+      const isUserBelongingToWorkspace = workspaceUserList.some(
+        (user) => user.id === userId,
+      )
+
+      if (isUserBelongingToWorkspace) {
+        const userProfileMax5 =
+          workspaceUserList.length >= 5
+            ? workspaceUserList.slice(0, 5)
+            : workspaceUserList
+
+        const userCount = workspaceUserList.length
+
+        const { id, name, imageUrl, createdAt, updatedAt } = workspace
+        return {
+          id,
+          name,
+          imageUrl,
+          createdAt,
+          updatedAt,
+          userProfileMax5,
+          userCount,
+        }
+      }
+      return null
     })
 
     return {
       code: statusCode.OK,
       json: {
         success: true,
-        data: workspaces,
+        data: filteredWorkspaces.filter((workspace) => workspace !== null),
       },
     }
   } catch (error) {
