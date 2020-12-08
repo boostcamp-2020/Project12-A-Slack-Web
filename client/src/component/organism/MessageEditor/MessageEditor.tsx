@@ -7,14 +7,14 @@ import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
 import { createThread } from '@store/reducer/thread.reducer'
-import { UpdateThreadRequestType } from '@type/thread.type'
+import { UpdateMessageRequestType } from '@type/message.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
   id?: number
   value?: string
   placeHolder?: string
-  onSubmitButtonClick?: (data: UpdateThreadRequestType) => void
+  onSubmitButtonClick?: (data: UpdateMessageRequestType) => void
 }
 
 interface MatchParamsType {
