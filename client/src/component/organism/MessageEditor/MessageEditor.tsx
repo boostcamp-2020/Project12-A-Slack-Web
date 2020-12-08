@@ -46,6 +46,9 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
+  const handleReactionClick = (emoji: string) => {
+    console.log(emoji)
+  }
 
   const handleAddFileButtonClick = () => fileInput.current?.click()
   const handleSelectFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +110,7 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
             bottom: '210px',
             right: '0',
           }}
+          onReactionClick={handleReactionClick}
           onClose={handleReactionPickerClose}
         />
       )}
