@@ -1,17 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
+import MessageAPI from '@api/message'
+import { MessageType } from '@type/thread.type'
 import { ThreadDetailProps } from '.'
-
 import Styled from './ThreadDetail.style'
 
 const ThreadDetail = ({ thread }: ThreadDetailProps) => {
-  const { id, Messages, User } = thread
-  const replyList = Messages.filter((message) => !message.isHead)
-  const replyCount = replyList.length
+  const { id, headMessage, replyCount } = thread
+  const [replyList, setReplyList] = useState<MessageType[]>([])
 
-  const firstMessage = Messages[0]
+  useEffect(() => {
+    const getMessages = async () => {
+      const { success, data } = await MessageAPI.getMessages(id)
+      if (success) setReplyList(data)
+      else toast.error('Message를 가져오는데 실패했습니다.')
+    }
+    getMessages()
+  }, [])
+
+  const firstMessage = headMessage
 
   return (
     <Styled.ThreadContainer>

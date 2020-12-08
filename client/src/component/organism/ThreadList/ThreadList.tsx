@@ -92,21 +92,18 @@ const ThreadList = ({
         </Styled.ThreadListTop>
 
         {threads.map((thread, index, arr) => {
-          // TODO: messages(reply) api 생성 후 합치기
+          const threadDetail = (
+            <O.ThreadDetail
+              thread={thread}
+              onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
+            />
+          )
 
-          // const threadDetail = (
-          //   <O.ThreadDetail
-          //     thread={thread}
-          //     onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
-          //   />
-          // )
-
-          // const handleReplyButtonClick = () => {
-          //   handleSubViewOpen()
-          //   handleSubViewHeader(subViewHeader)
-          //   handleSubViewBody(threadDetail)
-          // }
-          const handleReplyButtonClick = () => alert('thread detail open')
+          const handleReplyButtonClick = () => {
+            handleSubViewOpen()
+            handleSubViewHeader(subViewHeader)
+            handleSubViewBody(threadDetail)
+          }
 
           const prevThread = index > 0 ? arr[index - 1] : undefined
 
