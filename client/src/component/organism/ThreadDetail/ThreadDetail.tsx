@@ -25,7 +25,7 @@ const ThreadDetail = ({ thread }: ThreadDetailProps) => {
 
   return (
     <Styled.ThreadContainer>
-      {firstMessage.isHead ? (
+      {firstMessage ? (
         <O.MessageCard
           data={firstMessage}
           type="MESSAGE"
