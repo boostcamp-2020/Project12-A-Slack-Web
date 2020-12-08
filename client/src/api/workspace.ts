@@ -4,6 +4,11 @@ import {
   JoinWorkspaceRequestType,
 } from '@type/workspace.type'
 
+interface GetTeammatesRequestType {
+  workspaceId: number
+  searchKeyword: string
+}
+
 const createWorkspace = async (data: CreateWorkspaceRequestType) => {
   const response = await myAxios.post({
     path: '/workspace',
@@ -31,4 +36,16 @@ const getWorkspace = async () => {
   return response.data
 }
 
-export default { createWorkspace, joinWorkspace, getWorkspace }
+const getTeammates = async ({
+  workspaceId,
+  searchKeyword,
+}: GetTeammatesRequestType) => {
+  const response = await myAxios.get({
+    path: `/workspace/${workspaceId}/teammate${
+      searchKeyword ? `?searchKeyword=${searchKeyword}` : ''
+    }`,
+  })
+  return response.data
+}
+
+export default { createWorkspace, joinWorkspace, getWorkspace, getTeammates }

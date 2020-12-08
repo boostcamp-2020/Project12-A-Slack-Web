@@ -17,6 +17,7 @@ import ThreadDetail from './ThreadDetail'
 import ReactionList from './ReactionList'
 import WorkspaceList from './WorkspaceList'
 import WorkspaceCard from './WorkspaceCard'
+import AddMemberModal from './AddMemberModal'
 
 export default {
   Header,
@@ -38,4 +39,5 @@ export default {
   ReactionList,
   WorkspaceList,
   WorkspaceCard,
+  AddMemberModal,
 }

@@ -10,19 +10,21 @@ import { ChannelCardProps } from '.'
 
 import Styled from './ChannelCard.style'
 
-const ChannelHeader = ({
+const ChannelCard = ({
   channel,
   onJoinButtonClick,
   onLeaveButtonClick,
 }: ChannelCardProps) => {
   const { id, name, type, memberCount, joined } = channel
-
+  
   const [hover, setHover] = useState<boolean>(false)
 
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
 
-  const handleButtonClick = joined ? onLeaveButtonClick : onJoinButtonClick
+  const handleButtonClick = joined
+    ? onLeaveButtonClick(channel)
+    : onJoinButtonClick(channel)
   const optionalButtonStyle = joined ? leaveButtonStyle : joinButtonStyle
   const optionalButtonTextStyle = joined ? {} : { color: 'white' }
   const buttonText = joined ? 'Leave' : 'Join'
@@ -70,7 +72,7 @@ const ChannelHeader = ({
   )
 }
 
-ChannelHeader.defaultProps = {}
+ChannelCard.defaultProps = {}
 
 const channelNameTextStyle: TextType.StyleAttributes = {
   fontWeight: 'bold',
@@ -80,9 +82,11 @@ const channelNameTextStyle: TextType.StyleAttributes = {
 }
 
 const buttonStyle: ButtonType.StyleAttributes = {
+  cursor: 'pointer',
   padding: '10px',
   width: '80px',
   height: '36px',
+  cursor: 'pointer',
 }
 const buttonTextStyle: TextType.StyleAttributes = {
   fontWeight: '500',
@@ -117,4 +121,4 @@ const memberCountTextStyle: TextType.StyleAttributes = {
   fontSize: '1.3rem',
 }
 
-export default ChannelHeader
+export default ChannelCard

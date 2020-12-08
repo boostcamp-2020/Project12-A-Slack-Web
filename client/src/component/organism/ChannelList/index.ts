@@ -1,13 +1,10 @@
+/* eslint-disable no-unused-vars */
+import { ChannelCardType } from '@type/channel.type'
+
 export { default } from './ChannelList'
 
 export interface ChannelListProps {
-  channelList: Channel[]
-}
-
-interface Channel {
-  id: number
-  type: string
-  name: string
-  memberCount: number
-  joined: boolean
+  channelList: ChannelCardType[]
+  onJoinButtonClick: (channel: ChannelCardType) => () => void
+  onLeaveButtonClick: (channel: ChannelCardType) => () => void
 }

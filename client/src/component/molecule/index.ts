@@ -6,6 +6,8 @@ import Section from './Section'
 import ReplyButton from './ReplyButton'
 import CloseButton from './CloseButton'
 import ReactionButton from './ReactionButton'
+import SelectedTeammate from './SelectedTeammate'
+import SelectableTeammate from './SelectableTeammate'
 
 export default {
   ButtonDiv,
@@ -16,4 +18,6 @@ export default {
   Section,
   CloseButton,
   ReactionButton,
+  SelectedTeammate,
+  SelectableTeammate,
 }

@@ -1,15 +1,18 @@
-import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
+import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
+import { ChannelType } from '@type/channel.type'
 import {
   GET_CHANNELS_REQUEST,
   GET_CURRENT_CHANNEL_REQUEST,
-  CREATE_CHANNEL,
-  JOIN_CHANNEL,
+  JOIN_CHANNEL_REQUEST,
+  JOIN_MEMBERS_TO_CHANNEL_REQUEST,
+  CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
   joinChannel,
+  joinMembersToChannel,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -36,12 +39,46 @@ function* getCurrentChannelSaga(
   }
 }
 
-function* joinChannelSaga(action: ReturnType<typeof joinChannel>) {
+function* joinChannelSaga(action: ReturnType<typeof joinChannel.request>) {
   try {
-    const { success, data } = yield call(channelAPI.joinChannel, action.payload)
-    if (success) toast.success('channel에 참가했습니다.')
+    const { success } = yield call(channelAPI.joinChannel, action.payload)
+    if (success) {
+      yield put(joinChannel.success(action.payload.channel as ChannelType))
+    }
   } catch (error) {
     toast.error('Failed to join channel')
+    yield put(joinChannel.failure(error))
+  }
+}
+
+function* joinMembersToChannelSaga(
+  action: ReturnType<typeof joinMembersToChannel.request>,
+) {
+  try {
+    const { success } = yield call(
+      channelAPI.joinMembersToChannel,
+      action.payload,
+    )
+    if (success) {
+      action.payload.onSuccess!()
+      yield put(joinMembersToChannel.success(action.payload))
+    }
+  } catch (error) {
+    toast.error('Failed to add people to channel')
+    yield put(joinMembersToChannel.failure(error))
+  }
+}
+
+function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
+  try {
+    const { success, data } = yield call(
+      channelAPI.createNewChannel,
+      action.payload,
+    )
+    console.log(data)
+    if (success) yield put(createChannel.success(data))
+  } catch (error) {
+    yield put(createChannel.failure(error))
   }
 }
 
@@ -53,8 +90,16 @@ function* watchGetCurrentChannelSaga() {
   yield takeEvery(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
 }
 
+function* watchCreateChannelSaga() {
+  yield takeLatest(CREATE_CHANNEL_REQUEST, createChannelSage)
+}
+
 function* watchJoinChannelSaga() {
-  yield takeEvery(JOIN_CHANNEL, joinChannelSaga)
+  yield takeLatest(JOIN_CHANNEL_REQUEST, joinChannelSaga)
+}
+
+function* watchJoinMembersToChannelSaga() {
+  yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
 
 export default function* channelSaga() {
@@ -62,5 +107,7 @@ export default function* channelSaga() {
     fork(watchGetChannelsSaga),
     fork(watchGetCurrentChannelSaga),
     fork(watchJoinChannelSaga),
+    fork(watchJoinMembersToChannelSaga),
+    fork(watchCreateChannelSaga),
   ])
 }
