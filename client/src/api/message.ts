@@ -1,5 +1,13 @@
 import myAxios from '@util/myAxios'
 import { UpdateMessageRequestType } from '@type/message.type'
+import { MessageType } from '@type/thread.type'
+
+const getMessages = async (threadId: number) => {
+  const response = await myAxios.get({
+    path: `/message?threadId=${threadId}`,
+  })
+  return response.data as { success: true; data: MessageType[] }
+}
 
 const updateMessage = async (originalData: UpdateMessageRequestType) => {
   const data: object = {
@@ -14,5 +22,6 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 }
 
 export default {
+  getMessages,
   updateMessage,
 }
