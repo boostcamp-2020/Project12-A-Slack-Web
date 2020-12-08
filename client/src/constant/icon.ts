@@ -28,6 +28,7 @@ import {
   faPaperPlane,
   faPaperclip,
   faCheck,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -60,6 +61,7 @@ const myIcon = {
   paperPlane: faPaperPlane,
   paperClip: faPaperclip,
   check: faCheck,
+  rightArrow: faArrowRight,
 }
 
 export default myIcon

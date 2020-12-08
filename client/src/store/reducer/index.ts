@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import userStore from './user.reducer'
 import socketStore from './socket.reducer'
 import workspaceStore from './workspace.reducer'
 import threadStore from './thread.reducer'
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   workspaceStore,
   threadStore,
   channelStore,
+  userStore,
 })
 
 export default rootReducer

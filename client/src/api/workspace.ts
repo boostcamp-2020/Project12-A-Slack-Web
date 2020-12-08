@@ -29,7 +29,6 @@ const getWorkspace = async () => {
   const response = await myAxios.get({
     path: '/workspace',
   })
-  console.log(response)
   return response.data
 }
 

@@ -45,4 +45,7 @@ color.set('ivory', '#f3f4f6')
 color.set('LightCyan', '#E0FFFF')
 color.set('yellow', '#FFFF00')
 
+// purple
+color.set('purple', '#4a154b')
+
 export default color

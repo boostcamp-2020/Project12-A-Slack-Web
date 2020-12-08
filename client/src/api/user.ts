@@ -1,6 +1,6 @@
 import myAxios from '@util/myAxios'
 
-const checkUserToken = async () => {
+const getUserInfo = async () => {
   const response = await myAxios.get({ path: '/user/status' })
   return response.data
 }
@@ -11,6 +11,6 @@ const getUsersByChannel = async ({ channelId }: { channelId: number }) => {
 }
 
 export default {
-  checkUserToken,
+  getUserInfo,
   getUsersByChannel,
 }
