@@ -6,6 +6,7 @@ import O from '@organism'
 import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
+import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
 import { deleteThread } from '@store/reducer/thread.reducer'
@@ -45,10 +46,8 @@ const MessageCard = ({
       // TODO: delete message
     }
   }
-  const handleEditButtonClick = () => {
-    setEditMode(true)
-    // alert(`Edit message`)
-  }
+  const handleEditCancelButtonClick = () => setEditMode(false)
+  const handleEditButtonClick = () => setEditMode(true)
   if (editMode) {
     return (
       <Styled.Container editMode>
@@ -61,6 +60,13 @@ const MessageCard = ({
             value={thread?.headMessage?.content || message?.content}
             placeHolder="Edit Message"
           />
+          <M.ButtonDiv
+            buttonStyle={editCancelButtonStyle}
+            textStyle={editCancelButtonTextStyle}
+            onClick={handleEditCancelButtonClick}
+          >
+            Cancel
+          </M.ButtonDiv>
         </Styled.ContentWrapper>
       </Styled.Container>
     )
@@ -244,4 +250,20 @@ const noMessageTextStyle: TextType.StyleAttributes = {
   color: 'iconColorGrey',
 }
 
+const editCancelButtonStyle: ButtonType.StyleAttributes = {
+  height: '28px',
+  width: '64px',
+  margin: '8px 0px 0px 0px',
+  border: '1px solid #868686',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '4px',
+}
+
+const editCancelButtonTextStyle: TextType.StyleAttributes = {
+  fontSize: '13px',
+  fontWeight: '600',
+  color: '#1d1c1d',
+}
 export default MessageCard
