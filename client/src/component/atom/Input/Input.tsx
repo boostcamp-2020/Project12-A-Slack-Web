@@ -9,6 +9,7 @@ const Input = ({
   value,
   placeholder,
   onChange,
+  onKeyPress,
 }: InputType.Props) => {
   return (
     <StyledInput
@@ -24,6 +25,7 @@ const Input = ({
       overflow={customStyle.overflow}
       outline={customStyle.outline}
       onChange={onChange}
+      onKeyPress={onKeyPress}
       placeholder={placeholder}
       name={name}
       value={value}

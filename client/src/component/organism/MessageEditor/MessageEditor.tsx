@@ -53,6 +53,10 @@ const MessageEditor = ({
     console.log('CREATE MESSAGE !')
   }
 
+  const handleEnterKeyPress = (e: any) => {
+    if (e.key === 'Enter') handleSubmitButtonClick()
+  }
+
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
   const handleReactionClick = (emoji: string) => {
@@ -72,6 +76,7 @@ const MessageEditor = ({
         placeholder={placeHolder}
         value={content}
         onChange={handleInputValueChange}
+        onKeyPress={handleEnterKeyPress}
       />
       <Styled.ButtonWrapper>
         <Styled.LeftButtonWrapper />
