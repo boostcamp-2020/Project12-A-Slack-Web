@@ -71,7 +71,24 @@ const joinChannel = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { code, json } = await channelService.joinChannel({
       channelId: +req.params.channelId,
-      userId: +req.body.userId,
+      userId: req.user.id,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
+const joinMembersToChannel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { userList } = req.body
+  try {
+    const { code, json } = await channelService.joinMembersToChannel({
+      channelId: +req.params.channelId,
+      userList,
     })
     return res.status(code).json(json)
   } catch (error) {
@@ -85,4 +102,5 @@ export default {
   readChannelsByWorkspace,
   readChannelInfo,
   joinChannel,
+  joinMembersToChannel,
 }

@@ -1,8 +1,11 @@
 import UserModel from '@model/user.model'
 import ChannelModel from '@model/channel.model'
+import UserChannelSection from '@model/userChannelSection.model'
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
 import { statusCode, resMessage } from '@util/constant'
+import sequelize, { Op } from 'sequelize'
+import sequelizeDB from '@model/sequelize'
 
 interface ChannelType {
   name?: string
@@ -10,6 +13,28 @@ interface ChannelType {
   userId?: number
   workspaceId?: number
   channelId?: number
+}
+
+interface UserType {
+  id: number
+  email: string
+  name: string
+  profileImageUrl: string
+}
+interface AddMembersType {
+  channelId: number
+  userList: UserType[]
+}
+
+interface ThreadInstance extends ThreadModel {
+  message: MessageModel[]
+}
+
+interface ChannelInstance extends ChannelModel {
+  thread: ThreadInstance[]
+  // eslint-disable-next-line no-unused-vars
+  addUser: (id: number) => Promise<void>
+  user: UserModel[]
 }
 
 const isValidNewChannelData = ({ name, type, workspaceId }: ChannelType) => {
@@ -89,9 +114,39 @@ const readChannelsByWorkspace = async ({ workspaceId }: ChannelType) => {
     }
   }
   try {
-    const channels = await ChannelModel.findAll({
-      where: { workspaceId },
+    // const channels = await ChannelModel.findAll({
+    //   include: [
+    //     {
+    //       model: UserModel,
+    //       as: 'user',
+    //       attributes: [],
+    //     },
+    //   ],
+    //   attributes: {
+    //     include: [
+    //       'id',
+    //       'name',
+    //       'type',
+    //       'createdAt',
+    //       [sequelize.fn('COUNT', sequelize.col('user.id')), 'memberCount'],
+    //     ],
+    //   },
+    //   group: ['Channel.id'],
+    //   where: {
+    //     workspaceId,
+    //     type: {
+    //       [Op.or]: ['PRIVATE', 'PUBLIC'],
+    //     },
+    //   },
+    // })
+
+    const query =
+      "SELECT `Channel`.`id`, `Channel`.`name`, `Channel`.`type`, `Channel`.`createdAt`, COUNT(`user`.`id`) AS `memberCount` FROM `channel` AS `Channel` LEFT OUTER JOIN ( `userChannelSection` INNER JOIN `user` ON `user`.`id` = `userChannelSection`.`UserId` AND (`userChannelSection`.`deletedAt` IS NULL)) ON `Channel`.`id` = `userChannelSection`.`channelId` AND (`user`.`deletedAt` IS NULL) WHERE (`Channel`.`deletedAt` IS NULL AND (`Channel`.`workspaceId` = 1 AND (`Channel`.`type` = 'PRIVATE' OR `Channel`.`type` = 'PUBLIC'))) GROUP BY `Channel`.`id`;"
+    const channels = await sequelizeDB.query(query, {
+      replacements: { workspaceId },
+      type: sequelize.QueryTypes.SELECT,
     })
+
     return {
       code: statusCode.OK,
       json: {
@@ -144,16 +199,6 @@ const readChannelsByUser = async ({ userId, workspaceId }: ChannelType) => {
       json: { success: false, message: resMessage.DB_ERROR },
     }
   }
-}
-
-interface ThreadInstance extends ThreadModel {
-  message: MessageModel[]
-}
-
-interface ChannelInstance extends ChannelModel {
-  thread: ThreadInstance[]
-  addUser: (id: number) => Promise<void>
-  user: UserModel[]
 }
 
 const readChannelInfo = async ({ channelId }: ChannelType) => {
@@ -248,10 +293,65 @@ const joinChannel = async ({ userId, channelId }: ChannelType) => {
   }
 }
 
+const joinMembersToChannel = async ({
+  userList,
+  channelId,
+}: AddMembersType) => {
+  if (
+    userList.some(({ id }) => id < 0 || typeof id !== 'number') ||
+    channelId < 0 ||
+    typeof channelId !== 'number'
+  ) {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const targetChannel = (await ChannelModel.findOne({
+      include: [{ model: UserModel, as: 'user' }],
+      where: { id: channelId },
+    })) as ChannelInstance
+
+    if (!targetChannel) {
+      return {
+        code: statusCode.DB_ERROR,
+        json: { success: false, message: resMessage.DB_ERROR },
+      }
+    }
+
+    const currentUsers = targetChannel.user.map((user) => user.id)
+
+    if (!userList.some((user) => currentUsers.includes(user.id))) {
+      await UserChannelSection.bulkCreate(
+        userList.map(({ id }) => {
+          return { UserId: id, ChannelId: channelId }
+        }),
+      )
+      return {
+        code: statusCode.CREATED,
+        json: {
+          success: true,
+        },
+      }
+    }
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,
   joinChannel,
+  joinMembersToChannel,
 }

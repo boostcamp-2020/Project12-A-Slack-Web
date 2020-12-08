@@ -57,6 +57,7 @@ const readWorkspaceUsers = async (
   try {
     const { code, json } = await workspaceService.readWorkspaceUsers({
       workspaceId: +req.params.workspaceId,
+      searchKeyword: (req.query.searchKeyword as string) || '',
     })
     return res.status(code).json(json)
   } catch (error) {

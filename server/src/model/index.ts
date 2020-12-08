@@ -5,7 +5,7 @@ import Message from './message.model'
 import Reaction from './reaction.model'
 import Thread from './thread.model'
 import Channel from './channel.model'
-import UserChannelSection from './userChannelSection'
+import UserChannelSection from './userChannelSection.model'
 import File from './file.model'
 import { sequelize } from './sequelize'
 

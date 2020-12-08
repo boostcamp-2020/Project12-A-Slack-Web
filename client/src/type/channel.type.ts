@@ -1,11 +1,19 @@
 import { UserType } from '@type/user.type'
 
+export interface ChannelCardType extends Object {
+  id: number
+  name: string
+  type: 'PRIVATE' | 'PUBLIC' | 'DM'
+  memberCount: number
+  joined: boolean
+}
+
 export interface ChannelType {
   id: number
   name: string
   type: 'PRIVATE' | 'PUBLIC' | 'DM'
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
   deletedAt?: string
 }
 
@@ -21,8 +29,14 @@ export interface CreateChannelRequestType {
 }
 
 export interface JoinChannelRequestType {
+  channel: ChannelCardType
+  userId?: number
+}
+
+export interface JoinMembersToChannelRequestType {
+  onSuccess?: () => void
   channelId: number
-  userId: number
+  userList: UserType[]
 }
 
 export interface ChannelRequestType {

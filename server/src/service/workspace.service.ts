@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'
 import UserModel from '@model/user.model'
 import WorkspaceModel from '@model/workspace.model'
 import { statusCode, resMessage } from '@util/constant'
@@ -7,6 +8,11 @@ interface WorkspaceType {
   imageUrl?: string
   userId?: number
   workspaceId?: number
+}
+
+interface GetTeammatesRequestType {
+  workspaceId?: number
+  searchKeyword?: string
 }
 
 interface WorkspaceInstance extends WorkspaceModel {
@@ -145,7 +151,10 @@ const joinWorkspace = async ({ userId, workspaceId }: WorkspaceType) => {
   }
 }
 
-const readWorkspaceUsers = async ({ workspaceId }: WorkspaceType) => {
+const readWorkspaceUsers = async ({
+  workspaceId,
+  searchKeyword,
+}: GetTeammatesRequestType) => {
   try {
     const userList = await UserModel.findAll({
       include: [
@@ -156,7 +165,21 @@ const readWorkspaceUsers = async ({ workspaceId }: WorkspaceType) => {
           attributes: [],
         },
       ],
-      attributes: ['id', 'email', 'profileImageUrl'],
+      where: {
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${searchKeyword}%`,
+            },
+          },
+          {
+            email: {
+              [Op.like]: `%${searchKeyword}%`,
+            },
+          },
+        ],
+      },
+      attributes: ['id', 'email', 'name', 'profileImageUrl'],
     })
     return {
       code: statusCode.OK,

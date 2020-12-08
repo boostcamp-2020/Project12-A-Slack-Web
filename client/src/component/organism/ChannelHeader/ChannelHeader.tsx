@@ -13,14 +13,14 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
   const { name, type, memberCount, memberMax3 } = channelInfo
 
   const [memberListModalVisible, setMemberListModalVisible] = useState(false)
-  const [addUserModalVisible, setAddUserModalVisible] = useState(false)
+  const [addPeopleModalVisible, setAddPeopleModalVisible] = useState(false)
 
   /** modal open/close handler */
   const handleMemeberListButtonClick = () => setMemberListModalVisible(true)
   const handleMemberListModalClose = () => setMemberListModalVisible(false)
 
-  const handleAddUserButtonClick = () => setAddUserModalVisible(true)
-  const handleAddUserModalClose = () => setAddUserModalVisible(false)
+  const handleAddPeopleButtonClick = () => setAddPeopleModalVisible(true)
+  const handleAddPeopleModalClose = () => setAddPeopleModalVisible(false)
 
   const handleStarButtonClick = () => alert('channel - section')
   const handleInfoButtonClick = () => alert('show detailed info')
@@ -58,7 +58,10 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
           </>
         </A.Button>
 
-        <A.Button onClick={handleAddUserButtonClick} customStyle={buttonStyle}>
+        <A.Button
+          onClick={handleAddPeopleButtonClick}
+          customStyle={buttonStyle}
+        >
           <A.Icon icon={myIcon.addUser} />
         </A.Button>
         <A.Button onClick={handleInfoButtonClick} customStyle={buttonStyle}>
@@ -72,13 +75,12 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
           onClose={handleMemberListModalClose}
         />
       )}
-      {/* {addUserModalVisible && (
-        <O.AddUserModal
-          channel={channel}
-          modalAttributes={{ position: 'fixed', left: '50%', top: '50%' }}
-          onClose={handleAddUserModalClose}
+      {addPeopleModalVisible && (
+        <O.AddMemberModal
+          channel={channelInfo}
+          onClose={handleAddPeopleModalClose}
         />
-      )} */}
+      )}
     </Styled.Wrapper>
   )
 }

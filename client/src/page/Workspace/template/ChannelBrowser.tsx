@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import myAxios from '@util/myAxios'
 import styled from 'styled-components'
 import O from '@organism'
+import { RootState } from '@store'
+import { joinChannel } from '@store/reducer/channel.reducer'
+import { ChannelCardType } from '@type/channel.type'
 
 interface ChannelBrowserPropsType {
   workspaceId: number
 }
 
-interface Channel extends Object {
-  id: number
-  type: string
-  name: string
-  memberCount: number
-  joined: boolean
-}
-
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
-  const channelBrowserMainViewHeader = (
-    <O.ChannelBrowserHeader workspaceId={workspaceId} />
-  )
-  const [channels, setChannels] = useState<Channel[]>([])
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
+  const [channels, setChannels] = useState<ChannelCardType[]>([])
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const getWorkspaceChannels = async () => {
@@ -28,9 +23,19 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
       } = await myAxios.get({
         path: `/channel/all?workspaceId=${workspaceId}`,
       })
-      // console.log(data)
-      setChannels(data)
+      
+      const filterdChannels = data.map((channel: ChannelCardType) => {
+        return {
+          ...channel,
+          joined: channelList.find((chann) => chann.id === channel.id),
+        }
+      })
+      setChannels(filterdChannels)
     }
+    getWorkspaceChannels()
+  }, [channelList])
+
+  useEffect(() => {
     const getUserInChannels = async () => {
       const {
         data: { data },
@@ -40,11 +45,31 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
       })
       console.log(data)
     }
-    getWorkspaceChannels()
     getUserInChannels()
   }, [])
+  
+  const handleJoinButtonClick = (channel: ChannelCardType) => () => {
+    dispatch(joinChannel.request({ channel }))
+    // TODO: ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
+  }
+        
+  const handleLeaveButtonClick = (channel: ChannelCardType) => () => {
+    // channel 탈퇴 (saga async api 요청)
+    // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제
+    // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount--
+    alert(`${channel.id} leave!`)
+  }
 
-  const channelBrowserMainViewBody = <O.ChannelList channelList={channels} />
+  const channelBrowserMainViewHeader = (
+    <O.ChannelBrowserHeader workspaceId={workspaceId} />
+  )
+  const channelBrowserMainViewBody = (
+    <O.ChannelList
+      channelList={channels}
+      onJoinButtonClick={handleJoinButtonClick}
+      onLeaveButtonClick={handleLeaveButtonClick}
+    />
+  )
 
   return (
     <>
