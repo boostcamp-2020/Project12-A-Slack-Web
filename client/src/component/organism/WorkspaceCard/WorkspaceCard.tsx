@@ -69,6 +69,7 @@ const ContentWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-top: 1px solid rgb(230, 230, 230);
   &:hover {
     background-color: #d1d5da;
   }
