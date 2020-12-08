@@ -164,6 +164,7 @@ const MessageCard = ({
               loginUserId={5} // TODO: change to store user id after UserStore
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
+              onReplyButtonClick={onReplyButtonClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -219,6 +220,7 @@ const MessageCard = ({
             loginUserId={5} // TODO: change to store user id
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
+            onReplyButtonClick={onReplyButtonClick}
           />
         )}
       </Styled.ActionBarWrapper>

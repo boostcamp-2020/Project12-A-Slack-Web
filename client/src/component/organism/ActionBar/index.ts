@@ -7,4 +7,5 @@ export interface ActionBarProps {
   loginUserId: number
   onDeleteButtonClick: () => void
   onEditButtonClick: () => void
+  onReplyButtonClick?: () => void
 }

@@ -14,6 +14,7 @@ const ActionBar = ({
   loginUserId,
   onDeleteButtonClick,
   onEditButtonClick,
+  onReplyButtonClick,
 }: ActionBarProps) => {
   const [actionsMenuVisible, setActionsMenuVisible] = useState(false)
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
@@ -25,7 +26,7 @@ const ActionBar = ({
   }
 
   const handleReplyButtonClick = (): void => {
-    alert(`Open Thread Detail, targetId=${targetId}`)
+    if (onReplyButtonClick) onReplyButtonClick()
   }
 
   const handleMoreActionsButtonClick = () => setActionsMenuVisible(true)
