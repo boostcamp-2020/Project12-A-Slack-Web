@@ -8,18 +8,22 @@ import {
   select,
 } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
+import messageAPI from '@api/message'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
   DELETE_THREAD,
+  UPDATE_THREAD,
   getThreads,
   createThread,
   deleteThread,
+  updateThread,
 } from '../reducer/thread.reducer'
 import {
   sendSocketCreateThread,
   sendSocketDeleteThread,
+  sendSocketUpdateThread,
 } from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -80,6 +84,25 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
   }
 }
 
+function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
+  try {
+    const { success }: ResponseType = yield call(
+      messageAPI.updateMessage,
+      action.payload,
+    )
+    if (success && action.payload.threadId) {
+      yield put(
+        sendSocketUpdateThread({
+          channelId: +action.payload.channelId,
+          threadId: +action.payload.threadId,
+        }),
+      )
+    }
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -92,10 +115,15 @@ function* watchDeleteThreadSaga() {
   yield takeEvery(DELETE_THREAD, deleteThreadSaga)
 }
 
+function* watchUpdateThreadSaga() {
+  yield takeEvery(UPDATE_THREAD, updateThreadSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
     fork(watchCreateThreadSaga),
     fork(watchDeleteThreadSaga),
+    fork(watchUpdateThreadSaga),
   ])
 }

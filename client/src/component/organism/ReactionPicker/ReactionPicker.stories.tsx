@@ -9,5 +9,10 @@ export default {
 export const reactionPicker = () => {
   const targetId = 1
 
-  return <ReactionPicker targetId={targetId} />
+  return (
+    <ReactionPicker
+      targetId={targetId}
+      onReactionClick={(emoji: string) => console.log(emoji)}
+    />
+  )
 }

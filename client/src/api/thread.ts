@@ -1,12 +1,10 @@
 import myAxios from '@util/myAxios'
-import { GetThreadsRequestType } from '@type/thread.type'
+import {
+  GetThreadsRequestType,
+  CreateThreadRequestType,
+} from '@type/thread.type'
 
-interface ThreadRequestType {
-  channelId?: number
-  content?: string
-}
-
-const createThread = async (data: ThreadRequestType) => {
+const createThread = async (data: CreateThreadRequestType) => {
   const response = await myAxios.post({ path: '/thread', data })
   return response.data
 }

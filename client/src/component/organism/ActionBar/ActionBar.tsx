@@ -20,6 +20,9 @@ const ActionBar = ({
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
+  const handleReactionClick = (emoji: string) => {
+    console.log(emoji)
+  }
 
   const handleReplyButtonClick = (): void => {
     alert(`Open Thread Detail, targetId=${targetId}`)
@@ -64,6 +67,7 @@ const ActionBar = ({
         <O.ReactionPicker
           targetId={targetId}
           modalAttributes={{ position: 'absolute', left: '0', top: '105%' }}
+          onReactionClick={handleReactionClick}
           onClose={handleReactionPickerClose}
         />
       )}

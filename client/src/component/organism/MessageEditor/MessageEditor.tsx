@@ -6,21 +6,27 @@ import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import threadApi from '@api/thread'
 import { createThread } from '@store/reducer/thread.reducer'
+import { UpdateMessageRequestType } from '@type/message.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
   id?: number
   value?: string
   placeHolder?: string
+  onSubmitButtonClick?: (data: UpdateMessageRequestType) => void
 }
 
 interface MatchParamsType {
   channelId: string
 }
 
-const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
+const MessageEditor = ({
+  id,
+  value,
+  placeHolder,
+  onSubmitButtonClick,
+}: MessageEditorProps) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
@@ -39,13 +45,20 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
       channelId: +channelId,
       fileInfoList: [],
     }
-    dispatch(createThread(data))
-    console.log('CREATE MESSAGE !')
+
+    if (id && onSubmitButtonClick)
+      onSubmitButtonClick({ ...data, messageId: id })
+    else dispatch(createThread(data))
     setContent('')
+    console.log('CREATE MESSAGE !')
   }
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
+  const handleReactionClick = (emoji: string) => {
+    // TODO: content의 가장 끝에 추가/ parsing 필요
+    console.log(emoji)
+  }
 
   const handleAddFileButtonClick = () => fileInput.current?.click()
   const handleSelectFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -107,6 +120,7 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
             bottom: '210px',
             right: '0',
           }}
+          onReactionClick={handleReactionClick}
           onClose={handleReactionPickerClose}
         />
       )}
@@ -118,6 +132,7 @@ MessageEditor.defaultProps = {
   id: 0,
   value: '',
   placeHolder: 'Jot something down',
+  onSubmitButtonClick: null,
 }
 
 const InputStyle: InputType.StyleAttributes = {
