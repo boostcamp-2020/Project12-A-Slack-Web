@@ -11,6 +11,7 @@ export interface WorkspaceResponseType extends Object {
 export interface CreateWorkspaceRequestType {
   name: string
   imageUrl: string
+  channelName: string
 }
 
 export interface JoinWorkspaceRequestType {
