@@ -5,9 +5,9 @@ import { ChannelType } from '@type/channel.type'
 import {
   GET_CHANNELS_REQUEST,
   GET_CURRENT_CHANNEL_REQUEST,
-  CREATE_CHANNEL,
   JOIN_CHANNEL_REQUEST,
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
+  CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
@@ -69,12 +69,29 @@ function* joinMembersToChannelSaga(
   }
 }
 
+function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
+  try {
+    const { success, data } = yield call(
+      channelAPI.createNewChannel,
+      action.payload,
+    )
+    console.log(data)
+    if (success) yield put(createChannel.success(data))
+  } catch (error) {
+    yield put(createChannel.failure(error))
+  }
+}
+
 function* watchGetChannelsSaga() {
   yield takeEvery(GET_CHANNELS_REQUEST, getChannelsSaga)
 }
 
 function* watchGetCurrentChannelSaga() {
   yield takeEvery(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
+}
+
+function* watchCreateChannelSaga() {
+  yield takeLatest(CREATE_CHANNEL_REQUEST, createChannelSage)
 }
 
 function* watchJoinChannelSaga() {
@@ -91,5 +108,6 @@ export default function* channelSaga() {
     fork(watchGetCurrentChannelSaga),
     fork(watchJoinChannelSaga),
     fork(watchJoinMembersToChannelSaga),
+    fork(watchCreateChannelSaga),
   ])
 }

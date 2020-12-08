@@ -1,13 +1,30 @@
-import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  fork,
+  all,
+  select,
+} from 'redux-saga/effects'
 import threadAPI from '@api/thread'
+import messageAPI from '@api/message'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
+  DELETE_THREAD,
+  UPDATE_THREAD,
   getThreads,
   createThread,
+  deleteThread,
+  updateThread,
 } from '../reducer/thread.reducer'
-import { sendSocketCreateThread } from '../reducer/socket.reducer'
+import {
+  sendSocketCreateThread,
+  sendSocketDeleteThread,
+  sendSocketUpdateThread,
+} from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -32,6 +49,7 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       threadAPI.createThread,
       action.payload,
     )
+
     console.log('createThreadSaga: ', data)
     if (success)
       yield put(
@@ -45,6 +63,46 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
   }
 }
 
+function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
+  try {
+    const { success }: ResponseType = yield call(
+      threadAPI.deleteThread,
+      action.payload,
+    )
+    const channelId = yield select(
+      (state) => state.channelStore.currentChannel.id,
+    )
+    if (success)
+      yield put(
+        sendSocketDeleteThread({
+          channelId: +channelId,
+          threadId: +action.payload.threadId,
+        }),
+      )
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
+function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
+  try {
+    const { success }: ResponseType = yield call(
+      messageAPI.updateMessage,
+      action.payload,
+    )
+    if (success && action.payload.threadId) {
+      yield put(
+        sendSocketUpdateThread({
+          channelId: +action.payload.channelId,
+          threadId: +action.payload.threadId,
+        }),
+      )
+    }
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -53,6 +111,19 @@ function* watchCreateThreadSaga() {
   yield takeEvery(CREATE_THREAD, createThreadSaga)
 }
 
+function* watchDeleteThreadSaga() {
+  yield takeEvery(DELETE_THREAD, deleteThreadSaga)
+}
+
+function* watchUpdateThreadSaga() {
+  yield takeEvery(UPDATE_THREAD, updateThreadSaga)
+}
+
 export default function* threadSaga() {
-  yield all([fork(watchGetThreadsSaga), fork(watchCreateThreadSaga)])
+  yield all([
+    fork(watchGetThreadsSaga),
+    fork(watchCreateThreadSaga),
+    fork(watchDeleteThreadSaga),
+    fork(watchUpdateThreadSaga),
+  ])
 }

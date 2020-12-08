@@ -10,6 +10,7 @@ import {
   GetThreadResponseType,
   CreateThreadRequestType,
 } from '@type/thread.type'
+import { UpdateMessageRequestType } from '@type/message.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
@@ -28,18 +29,30 @@ const GET_THREADS_SUCCESS = 'thread/GET_THREADS_SUCCESS' as const
 const GET_THREADS_ERROR = 'thread/GET_THREADS_ERROR' as const
 export const CREATE_THREAD = 'thread/CREATE_THREAD' as const
 export const RECEIVE_CREATE_THREAD = 'thread/RECEIVE_CREATE_THREAD' as const
+export const DELETE_THREAD = 'thread/DELETE_THREAD' as const
+export const RECEIVE_DELETE_THREAD = 'thread/RECEIVE_DELETE_THREAD' as const
+export const UPDATE_THREAD = 'thread/UPDATE_THREAD' as const
+export const RECEIVE_UPDATE_THREAD = 'thread/RECEIVE_UPDATE_THREAD' as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
 )<GetThreadsRequestType, GetThreadResponseType[], AxiosError>()
-
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
-
 export const receiveCreateThread = createAction(RECEIVE_CREATE_THREAD)<
+  GetThreadResponseType
+>()
+export const deleteThread = createAction(DELETE_THREAD)<{ threadId: number }>()
+export const receiveDeleteThread = createAction(RECEIVE_DELETE_THREAD)<
+  GetThreadResponseType | number
+>()
+export const updateThread = createAction(UPDATE_THREAD)<
+  UpdateMessageRequestType
+>()
+export const receiveUpdateThread = createAction(RECEIVE_UPDATE_THREAD)<
   GetThreadResponseType
 >()
 
@@ -49,6 +62,10 @@ const actions = {
   getThreadsError: getThreads.failure,
   createThread,
   receiveCreateThread,
+  deleteThread,
+  receiveDeleteThread,
+  updateThread,
+  receiveUpdateThread,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -75,6 +92,32 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     threadList: [...state.threadList, action.payload],
   }),
+  [RECEIVE_DELETE_THREAD]: (state, action) => {
+    if (typeof action.payload === 'number')
+      return {
+        ...state,
+        threadList: state.threadList.filter(
+          (thread) => thread.id !== action.payload,
+        ),
+      }
+    const deletedThread: GetThreadResponseType = action.payload
+    return {
+      ...state,
+      threadList: state.threadList.map((thread) => {
+        if (thread.id === deletedThread.id) return deletedThread
+        return thread
+      }),
+    }
+  },
+  [RECEIVE_UPDATE_THREAD]: (state, action) => {
+    return {
+      ...state,
+      threadList: state.threadList.map((thread) => {
+        if (thread.id === action.payload.id) return action.payload
+        return thread
+      }),
+    }
+  },
 })
 
 export default reducer

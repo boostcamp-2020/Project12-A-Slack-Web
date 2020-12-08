@@ -24,7 +24,8 @@ export interface CurrentChannelType extends ChannelType {
 
 export interface CreateChannelRequestType {
   name: string
-  imageUrl: string
+  type: string
+  workspaceId: number
 }
 
 export interface JoinChannelRequestType {

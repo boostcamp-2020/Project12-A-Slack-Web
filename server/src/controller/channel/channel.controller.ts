@@ -7,11 +7,13 @@ const createChannel = async (
   next: NextFunction,
 ) => {
   const { name, type, workspaceId } = req.body
+  const { id: userId } = req.user
   try {
     const { code, json } = await channelService.createChannel({
       name,
       type,
       workspaceId,
+      userId,
     })
     return res.status(code).json(json)
   } catch (error) {

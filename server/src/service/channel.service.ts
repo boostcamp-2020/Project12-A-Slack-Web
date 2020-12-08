@@ -49,27 +49,52 @@ const isValidNewChannelData = ({ name, type, workspaceId }: ChannelType) => {
   return true
 }
 
-const createChannel = async ({ name, type, workspaceId }: ChannelType) => {
+interface ChnnelInstance extends ChannelModel {
+  addUser: (id: number) => Promise<void>
+}
+
+const createChannel = async ({
+  name,
+  type,
+  workspaceId,
+  userId,
+}: ChannelType) => {
   if (!isValidNewChannelData({ name, type, workspaceId })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
+
   try {
     const currentChannel = await ChannelModel.findOne({
       where: { name, workspaceId },
     })
+
     if (currentChannel) {
       return {
         code: statusCode.BAD_REQUEST,
         json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
       }
     }
-    await ChannelModel.create({ name, type, workspaceId })
+
+    const newChannel = (await ChannelModel.create({
+      name,
+      type,
+      workspaceId,
+    })) as ChnnelInstance
+    await newChannel.addUser(userId)
+
     return {
       code: statusCode.CREATED,
       json: {
+        data: {
+          id: newChannel.id,
+          type: newChannel.type,
+          name: newChannel.name,
+          createdAt: newChannel.createdAt,
+          updatedAt: newChannel.updatedAt,
+        },
         success: true,
       },
     }
