@@ -6,8 +6,7 @@ import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import threadApi from '@api/thread'
-import { createThread } from '@store/reducer/thread.reducer'
+import { createThread, updateThread } from '@store/reducer/thread.reducer'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
@@ -39,7 +38,8 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
       channelId: +channelId,
       fileInfoList: [],
     }
-    dispatch(createThread(data))
+    if (id) dispatch(updateThread({ ...data, messageId: id }))
+    else dispatch(createThread(data))
     setContent('')
     console.log('CREATE MESSAGE !')
   }

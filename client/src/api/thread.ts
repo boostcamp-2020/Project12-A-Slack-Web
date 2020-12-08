@@ -1,12 +1,11 @@
 import myAxios from '@util/myAxios'
-import { GetThreadsRequestType } from '@type/thread.type'
+import {
+  GetThreadsRequestType,
+  CreateThreadRequestType,
+  UpdateThreadRequestType,
+} from '@type/thread.type'
 
-interface ThreadRequestType {
-  channelId?: number
-  content?: string
-}
-
-const createThread = async (data: ThreadRequestType) => {
+const createThread = async (data: CreateThreadRequestType) => {
   const response = await myAxios.post({ path: '/thread', data })
   return response.data
 }
@@ -28,8 +27,17 @@ const deleteThread = async ({ threadId }: { threadId: number }) => {
   return response.data
 }
 
+const updateThread = async (data: UpdateThreadRequestType) => {
+  const response = await myAxios.patch({
+    path: `/message/${data.messageId}`,
+    data,
+  })
+  return response.data
+}
+
 export default {
   createThread,
   getThreads,
   deleteThread,
+  updateThread,
 }
