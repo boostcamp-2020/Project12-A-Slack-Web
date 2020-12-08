@@ -12,6 +12,7 @@ import {
   CurrentChannelType,
   CreateChannelRequestType,
   JoinChannelRequestType,
+  JoinMembersToChannelRequestType,
 } from '@type/channel.type'
 
 export interface ChannelState {
@@ -48,6 +49,10 @@ export const JOIN_CHANNEL_REQUEST = 'channel/JOIN_CHANNEL_REQUEST' as const
 const JOIN_CHANNEL_SUCCESS = 'channel/JOIN_CHANNEL_SUCCESS' as const
 const JOIN_CHANNEL_ERROR = 'channel/JOIN_CHANNEL_ERROR' as const
 
+export const JOIN_MEMBERS_TO_CHANNEL_REQUEST = 'channel/JOIN_MEMBERS_TO_CHANNEL_REQUEST' as const
+const JOIN_MEMBERS_TO_CHANNEL_SUCCESS = 'channel/JOIN_MEMBERS_TO_CHANNEL_SUCCESS' as const
+const JOIN_MEMBERS_TO_CHANNEL_ERROR = 'channel/JOIN_MEMBERS_TO_CHANNEL_ERROR' as const
+
 export const GET_CURRENT_CHANNEL_REQUEST = 'thread/GET_CURRENT_CHANNEL_REQUEST' as const
 const GET_CURRENT_CHANNEL_SUCCESS = 'thread/GET_CURRENT_CHANNEL_SUCCESS' as const
 const GET_CURRENT_CHANNEL_ERROR = 'thread/GET_CURRENT_CHANNEL_ERROR' as const
@@ -67,6 +72,16 @@ export const joinChannel = createAsyncAction(
   JOIN_CHANNEL_ERROR,
 )<JoinChannelRequestType, ChannelType, AxiosError>()
 
+export const joinMembersToChannel = createAsyncAction(
+  JOIN_MEMBERS_TO_CHANNEL_REQUEST,
+  JOIN_MEMBERS_TO_CHANNEL_SUCCESS,
+  JOIN_MEMBERS_TO_CHANNEL_ERROR,
+)<
+  JoinMembersToChannelRequestType,
+  JoinMembersToChannelRequestType,
+  AxiosError
+>()
+
 export const getCurrentChannel = createAsyncAction(
   GET_CURRENT_CHANNEL_REQUEST,
   GET_CURRENT_CHANNEL_SUCCESS,
@@ -78,7 +93,12 @@ const actions = {
   getChannelsSuccess: getChannels.success,
   getChannelsError: getChannels.failure,
   createChannel,
-  joinChannel,
+  joinChannelRequest: joinChannel.request,
+  joinChannelSuccess: joinChannel.success,
+  joinChannelError: joinChannel.failure,
+  joinMembersToChannelRequest: joinMembersToChannel.request,
+  joinMembersToChannelSuccess: joinMembersToChannel.success,
+  joinMembersToChannelError: joinMembersToChannel.failure,
   getCurrentChannelRequest: getCurrentChannel.request,
   getCurrentChannelSuccess: getCurrentChannel.success,
   getCurrentChannelError: getCurrentChannel.failure,
@@ -116,6 +136,36 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     channelList: [...state.channelList, action.payload],
   }),
   [JOIN_CHANNEL_ERROR]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.payload,
+  }),
+  [JOIN_MEMBERS_TO_CHANNEL_REQUEST]: (state, _) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  [JOIN_MEMBERS_TO_CHANNEL_SUCCESS]: (state, action) => {
+    const { userList, channelId } = action.payload
+    const sameChannel = channelId === state.currentChannel.id
+    const newMemberCount =
+      state.currentChannel.memberCount + (sameChannel ? userList.length : 0)
+    const newMemberMax3 =
+      sameChannel && state.currentChannel.memberMax3.length < 3
+        ? [...state.currentChannel.memberMax3, ...userList].slice(0, 3)
+        : state.currentChannel.memberMax3
+    return {
+      ...state,
+      loading: false,
+      currentChannel: {
+        ...state.currentChannel,
+        memberCount: newMemberCount,
+        memberMax3: newMemberMax3,
+      },
+      error: null,
+    }
+  },
+  [JOIN_MEMBERS_TO_CHANNEL_ERROR]: (state, action) => ({
     ...state,
     loading: false,
     error: action.payload,

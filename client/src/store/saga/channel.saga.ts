@@ -7,10 +7,12 @@ import {
   GET_CURRENT_CHANNEL_REQUEST,
   CREATE_CHANNEL,
   JOIN_CHANNEL_REQUEST,
+  JOIN_MEMBERS_TO_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
   joinChannel,
+  joinMembersToChannel,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -49,6 +51,24 @@ function* joinChannelSaga(action: ReturnType<typeof joinChannel.request>) {
   }
 }
 
+function* joinMembersToChannelSaga(
+  action: ReturnType<typeof joinMembersToChannel.request>,
+) {
+  try {
+    const { success } = yield call(
+      channelAPI.joinMembersToChannel,
+      action.payload,
+    )
+    if (success) {
+      action.payload.onSuccess!()
+      yield put(joinMembersToChannel.success(action.payload))
+    }
+  } catch (error) {
+    toast.error('Failed to add people to channel')
+    yield put(joinMembersToChannel.failure(error))
+  }
+}
+
 function* watchGetChannelsSaga() {
   yield takeEvery(GET_CHANNELS_REQUEST, getChannelsSaga)
 }
@@ -61,10 +81,15 @@ function* watchJoinChannelSaga() {
   yield takeLatest(JOIN_CHANNEL_REQUEST, joinChannelSaga)
 }
 
+function* watchJoinMembersToChannelSaga() {
+  yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
+}
+
 export default function* channelSaga() {
   yield all([
     fork(watchGetChannelsSaga),
     fork(watchGetCurrentChannelSaga),
     fork(watchJoinChannelSaga),
+    fork(watchJoinMembersToChannelSaga),
   ])
 }

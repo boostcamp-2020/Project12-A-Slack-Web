@@ -32,6 +32,12 @@ export interface JoinChannelRequestType {
   userId?: number
 }
 
+export interface JoinMembersToChannelRequestType {
+  onSuccess?: () => void
+  channelId: number
+  userList: UserType[]
+}
+
 export interface ChannelRequestType {
   workspaceId?: number
 }

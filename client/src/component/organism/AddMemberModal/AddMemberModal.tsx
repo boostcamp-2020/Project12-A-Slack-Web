@@ -10,9 +10,8 @@ import myIcon from '@constant/icon'
 import color from '@constant/color'
 import { UserType } from '@type/user.type'
 import userAPI from '@api/user'
-import channelAPI from '@api/channel'
 import workspaceAPI from '@api/workspace'
-// import { joinMembersToChannel } from '@store/reducer/channel.reducer'
+import { joinMembersToChannel } from '@store/reducer/channel.reducer'
 import { AddMemberModalProps } from '.'
 import Styled from './AddMemberModal.style'
 
@@ -66,25 +65,14 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
 
   const handleAddButtonClick = () => {
     if (selectedUserList.length === 0) return
-    const joinMembersToChannel = async () => {
-      const { success } = await channelAPI.joinMembersToChannel({
+
+    dispatch(
+      joinMembersToChannel.request({
         channelId: id,
         userList: selectedUserList,
-      })
-      // TODO: ChannelHeader의 member 요약 정보 수정 (count, image)
-      if (success) {
-        onClose()
-      }
-    }
-    joinMembersToChannel()
-
-    // dispatch(
-    //   joinMembersToChannel.request({
-    //     channelId: id,
-    //     userList: selectedUserList,
-    //     onSuccess: onClose,
-    //   }),
-    // )
+        onSuccess: onClose,
+      }),
+    )
   }
 
   return (
