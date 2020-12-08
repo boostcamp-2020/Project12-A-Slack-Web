@@ -1,9 +1,16 @@
+export interface Channel extends Object {
+  id: number
+  name: string
+  type: 'PRIVATE' | 'PUBLIC' | 'DM'
+  memberCount: number
+  joined: boolean
+}
 export interface ChannelResponseType {
   id: number
   name: string
   type: 'PRIVATE' | 'PUBLIC' | 'DM'
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
   deletedAt?: string
 }
 
@@ -13,8 +20,8 @@ export interface CreateChannelRequestType {
 }
 
 export interface JoinChannelRequestType {
-  channelId: number
-  userId: number
+  channel: Channel
+  userId?: number
 }
 
 export interface ChannelRequestType {
