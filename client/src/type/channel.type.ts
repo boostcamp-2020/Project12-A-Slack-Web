@@ -1,10 +1,11 @@
-export interface Channel extends Object {
+export interface ChannelCardType extends Object {
   id: number
   name: string
   type: 'PRIVATE' | 'PUBLIC' | 'DM'
   memberCount: number
   joined: boolean
 }
+
 export interface ChannelResponseType {
   id: number
   name: string
@@ -20,7 +21,7 @@ export interface CreateChannelRequestType {
 }
 
 export interface JoinChannelRequestType {
-  channel: Channel
+  channel: ChannelCardType
   userId?: number
 }
 

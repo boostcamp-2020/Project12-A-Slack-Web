@@ -15,7 +15,7 @@ const ChannelCard = ({
   onJoinButtonClick,
   onLeaveButtonClick,
 }: ChannelCardProps) => {
-  const { id, name, type, memberCount, joined } = channel
+  const { name, type, memberCount, joined } = channel
 
   const [hover, setHover] = useState<boolean>(false)
 

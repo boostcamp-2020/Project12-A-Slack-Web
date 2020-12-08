@@ -1,5 +1,5 @@
 import React from 'react'
-import { Channel } from '@type/channel.type'
+import { ChannelCardType } from '@type/channel.type'
 import ChannelCard from '.'
 
 export default {
@@ -8,7 +8,7 @@ export default {
 }
 
 export const channelCard = () => {
-  const publicChannel: Channel = {
+  const publicChannel: ChannelCardType = {
     id: 1,
     type: 'PUBLIC',
     name: 'slack-clone',
@@ -16,7 +16,7 @@ export const channelCard = () => {
     joined: true,
   }
 
-  const privateChannel: Channel = {
+  const privateChannel: ChannelCardType = {
     id: 2,
     type: 'PRIVATE',
     name: 'slack-clone-private-channel',
@@ -24,10 +24,10 @@ export const channelCard = () => {
     joined: false,
   }
 
-  const handleJoinButtonClick = (channel: Channel) => () =>
+  const handleJoinButtonClick = (channel: ChannelCardType) => () =>
     alert(`${channel.id} join!`)
 
-  const handleLeaveButtonClick = (channel: Channel) => () =>
+  const handleLeaveButtonClick = (channel: ChannelCardType) => () =>
     alert(`${channel.id} leave!`)
 
   return (
