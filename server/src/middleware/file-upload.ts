@@ -5,8 +5,8 @@ import path from 'path'
 
 const endpoint = new AWS.Endpoint('https://kr.object.ncloudstorage.com')
 const region = 'kr-standard'
-const accessKey = process.env.ACCESS_KEY
-const secretKey = process.env.SECRET_KEY
+const accessKey = process.env.NCP_ACCESS_KEY
+const secretKey = process.env.NCP_SECRET_KEY
 
 const S3 = new AWS.S3({
   endpoint,

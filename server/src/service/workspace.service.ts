@@ -1,9 +1,9 @@
 import { Op } from 'sequelize'
 import UserModel from '@model/user.model'
 import WorkspaceModel from '@model/workspace.model'
-import ChannelModel from '@model/channel.model'
-import { sequelize } from '@model/sequelize'
+// import { sequelize } from '@model/sequelize'
 import { statusCode, resMessage } from '@util/constant'
+import { createChannel } from './channel.service'
 
 interface WorkspaceType {
   name?: string
@@ -40,31 +40,31 @@ const createWorkspace = async ({
   imageUrl,
   channelName,
 }: WorkspaceType) => {
+  console.log(userId, name, imageUrl, channelName)
   if (!isValidNewWorkspaceData({ name, imageUrl })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
-  const t = await sequelize.transaction()
+  // TODO: addUser에 transaction 거는 법을 알아야할듯..
+  // const t = await sequelize.transaction()
   try {
     const workspace = (await WorkspaceModel.create(
       {
         name,
         imageUrl,
       },
-      { transaction: t },
+      // { transaction: t },
     )) as WorkspaceInstance
     await workspace.addUser(userId)
-    await ChannelModel.create(
-      {
-        name: channelName,
-        type: 'PUBLIC',
-        workspaceId: workspace.id,
-      },
-      { transaction: t },
-    )
-    await t.commit()
+    await createChannel({
+      userId,
+      name: channelName,
+      type: 'PUBLIC',
+      workspaceId: workspace.id,
+    })
+    // await t.commit()
     return {
       code: statusCode.CREATED,
       json: {
@@ -72,7 +72,7 @@ const createWorkspace = async ({
       },
     }
   } catch (error) {
-    await t.rollback()
+    // await t.rollback()
     return {
       code: statusCode.DB_ERROR,
       json: { success: false, message: resMessage.DB_ERROR },
