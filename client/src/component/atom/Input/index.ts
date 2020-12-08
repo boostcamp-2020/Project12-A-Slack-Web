@@ -25,5 +25,6 @@ export namespace InputType {
     value?: string
     placeholder?: string
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onKeyPress?: (e: any) => void
   }
 }
