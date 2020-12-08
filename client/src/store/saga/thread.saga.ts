@@ -1,13 +1,26 @@
-import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  fork,
+  all,
+  select,
+} from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
+  DELETE_THREAD,
   getThreads,
   createThread,
+  deleteThread,
 } from '../reducer/thread.reducer'
-import { sendSocketCreateThread } from '../reducer/socket.reducer'
+import {
+  sendSocketCreateThread,
+  sendSocketDeleteThread,
+} from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -32,12 +45,34 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       threadAPI.createThread,
       action.payload,
     )
+
     console.log('createThreadSaga: ', data)
     if (success)
       yield put(
         sendSocketCreateThread({
           channelId: +action.payload.channelId,
           threadId: +data.threadId,
+        }),
+      )
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
+function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
+  try {
+    const { success }: ResponseType = yield call(
+      threadAPI.deleteThread,
+      action.payload,
+    )
+    const channelId = yield select(
+      (state) => state.channelStore.currentChannel.id,
+    )
+    if (success)
+      yield put(
+        sendSocketDeleteThread({
+          channelId: +channelId,
+          threadId: +action.payload.threadId,
         }),
       )
   } catch (e) {
@@ -53,6 +88,14 @@ function* watchCreateThreadSaga() {
   yield takeEvery(CREATE_THREAD, createThreadSaga)
 }
 
+function* watchDeleteThreadSaga() {
+  yield takeEvery(DELETE_THREAD, deleteThreadSaga)
+}
+
 export default function* threadSaga() {
-  yield all([fork(watchGetThreadsSaga), fork(watchCreateThreadSaga)])
+  yield all([
+    fork(watchGetThreadsSaga),
+    fork(watchCreateThreadSaga),
+    fork(watchDeleteThreadSaga),
+  ])
 }

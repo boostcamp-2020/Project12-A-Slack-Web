@@ -273,18 +273,26 @@ const deleteThread = async ({ id, userId }: deleteThreadType) => {
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
 
-  const t = await sequelize.transaction()
+  const transaction = await sequelize.transaction()
   try {
-    await ThreadModel.destroy({ where: { id, userId }, transaction: t })
-    await MessageModel.destroy({ where: { threadId: id } })
+    const messageCount = await MessageModel.count({
+      where: { threadId: id, isHead: false },
+    })
+    if (messageCount === 0) {
+      await ThreadModel.destroy({ where: { id, userId }, transaction })
+    }
+    await MessageModel.destroy({
+      where: { threadId: id, isHead: true },
+      transaction,
+    })
 
-    await t.commit()
+    await transaction.commit()
     return {
       code: statusCode.OK,
       json: { success: true },
     }
   } catch (error) {
-    await t.rollback()
+    await transaction.rollback()
     console.log(error)
     return {
       code: statusCode.DB_ERROR,

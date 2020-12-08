@@ -26,7 +26,6 @@ const Channel = ({
   const { currentChannel } = useSelector(
     (state: RootState) => state.channelStore,
   )
-
   const { channelId } = useParams<MatchParamsType>()
   const dispatch = useDispatch()
 

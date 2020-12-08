@@ -1,19 +1,24 @@
 import { fork, call, take, put, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
-import { receiveCreateThread } from '@store/reducer/thread.reducer'
+import {
+  receiveCreateThread,
+  receiveDeleteThread,
+} from '@store/reducer/thread.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
   connectSocket,
-  sendSocketCreateThread,
   sendSocketJoinRoom,
+  sendSocketCreateThread,
+  sendSocketDeleteThread,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const CREATE_THREAD = 'CREATE_THREAD'
+const DELETE_THREAD = 'DELETE_THREAD'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -43,8 +48,14 @@ function subscribeSocket(socket: Socket) {
       emit(receiveCreateThread(data))
     }
 
+    const handleDeleteThread = (data: any) => {
+      console.log('delete thread: ', data)
+      emit(receiveDeleteThread(data))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(CREATE_THREAD, handleCreateThread)
+    socket.on(DELETE_THREAD, handleDeleteThread)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
@@ -60,16 +71,24 @@ function* read(socket: Socket) {
   }
 }
 
-function* write(socket: Socket) {
+function* sendCreateThread(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketCreateThread)
     socket.emit(CREATE_THREAD, payload)
   }
 }
 
+function* sendDeleteThread(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketDeleteThread)
+    socket.emit(DELETE_THREAD, payload)
+  }
+}
+
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
-  yield fork(write, socket)
+  yield fork(sendCreateThread, socket)
+  yield fork(sendDeleteThread, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {

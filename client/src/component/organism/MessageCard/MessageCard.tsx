@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -7,12 +8,12 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { getTimePassedFromNow, getDateAndTime } from '@util/date'
+import { deleteThread } from '@store/reducer/thread.reducer'
+import { getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
-  // message?: MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
   onReplyButtonClick: () => void
@@ -24,6 +25,7 @@ const MessageCard = ({
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) => {
+  const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
 
@@ -33,19 +35,17 @@ const MessageCard = ({
   const handleMouseLeave = () => setHover(false)
 
   const handleDeleteButtonClick = () => {
-    alert(`Delete message`)
+    let id: number = 0
+    if (type === 'THREAD') {
+      id = thread.id
+      dispatch(deleteThread({ threadId: id }))
+    } else {
+      id = message.id
+      // TODO: delete message
+    }
   }
   const handleEditButtonClick = () => {
     alert(`Edit message`)
-  }
-
-  const getLastTime = (messages: MessageType[]) => {
-    const lastUpdateMessage = messages.reduce((prev, result) => {
-      return new Date(prev.updatedAt) < new Date(result.updatedAt)
-        ? result
-        : prev
-    })
-    return getTimePassedFromNow(lastUpdateMessage.updatedAt)
   }
 
   if (type === 'MESSAGE') {
@@ -126,8 +126,8 @@ const MessageCard = ({
             <ActionBar
               targetType={type}
               targetId={thread.id}
-              targetAuthorId={-1}
-              loginUserId={1} // TODO: change to store user id
+              targetAuthorId={thread.User.id}
+              loginUserId={5} // TODO: change to store user id after UserStore
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
             />
@@ -182,7 +182,7 @@ const MessageCard = ({
             targetType={type}
             targetId={thread.id}
             targetAuthorId={thread.User.id}
-            loginUserId={1} // TODO: change to store user id
+            loginUserId={5} // TODO: change to store user id
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
           />
