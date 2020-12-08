@@ -30,6 +30,7 @@ const MessageCard = ({
   const message = data as MessageType
 
   const [hover, setHover] = useState(false)
+  const [editMode, setEditMode] = useState(false)
 
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
@@ -45,7 +46,24 @@ const MessageCard = ({
     }
   }
   const handleEditButtonClick = () => {
-    alert(`Edit message`)
+    setEditMode(true)
+    // alert(`Edit message`)
+  }
+  if (editMode) {
+    return (
+      <Styled.Container editMode>
+        <Styled.AvatarWrapper>
+          <O.Avatar user={message.User} size="BIG" clickable />
+        </Styled.AvatarWrapper>
+        <Styled.ContentWrapper>
+          <O.MessageEditor
+            id={thread?.id || message?.id}
+            value={thread?.headMessage?.content || message?.content}
+            placeHolder="Edit Message"
+          />
+        </Styled.ContentWrapper>
+      </Styled.Container>
+    )
   }
 
   if (type === 'MESSAGE') {

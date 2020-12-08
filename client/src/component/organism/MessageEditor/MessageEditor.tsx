@@ -40,13 +40,14 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
       fileInfoList: [],
     }
     dispatch(createThread(data))
-    console.log('CREATE MESSAGE !')
     setContent('')
+    console.log('CREATE MESSAGE !')
   }
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
   const handleReactionClick = (emoji: string) => {
+    // TODO: content의 가장 끝에 추가/ parsing 필요
     console.log(emoji)
   }
 
