@@ -28,10 +28,20 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
       } = await myAxios.get({
         path: `/channel/all?workspaceId=${workspaceId}`,
       })
-      console.log(data)
+      // console.log(data)
       setChannels(data)
     }
+    const getUserInChannels = async () => {
+      const {
+        data: { data },
+      } = await myAxios.get({
+        path: `/channel/`,
+        data: { workspaceId },
+      })
+      console.log(data)
+    }
     getWorkspaceChannels()
+    getUserInChannels()
   }, [])
 
   const channelBrowserMainViewBody = <O.ChannelList channelList={channels} />
