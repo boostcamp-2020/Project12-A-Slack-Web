@@ -23,6 +23,7 @@ import {
 import {
   sendSocketCreateThread,
   sendSocketDeleteThread,
+  sendSocketUpdateThread,
 } from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -89,14 +90,14 @@ function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
       messageAPI.updateMessage,
       action.payload,
     )
-    if (success) console.log('success update thread request')
-
-    //   yield put(
-    //     sendSocketDeleteThread({
-    //       channelId: +channelId,
-    //       threadId: +action.payload.threadId,
-    //     }),
-    //   )
+    if (success && action.payload.threadId) {
+      yield put(
+        sendSocketUpdateThread({
+          channelId: +action.payload.channelId,
+          threadId: +action.payload.threadId,
+        }),
+      )
+    }
   } catch (e) {
     console.log('Failed to create thread')
   }

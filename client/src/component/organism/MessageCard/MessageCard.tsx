@@ -52,7 +52,8 @@ const MessageCard = ({
   const handleEditSubmitButtonClick = (
     updateData: UpdateMessageRequestType,
   ) => {
-    dispatch(updateThread(updateData))
+    if (thread) dispatch(updateThread({ ...updateData, threadId: thread.id }))
+    // TODO: else -> message 일때
     setEditMode(false)
   }
 

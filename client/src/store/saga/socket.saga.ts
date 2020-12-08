@@ -12,6 +12,7 @@ import {
   sendSocketJoinRoom,
   sendSocketCreateThread,
   sendSocketDeleteThread,
+  sendSocketUpdateThread,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
@@ -19,6 +20,7 @@ const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
+const UPDATE_THREAD = 'UPDATE_THREAD'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -85,10 +87,18 @@ function* sendDeleteThread(socket: Socket) {
   }
 }
 
+function* sendUpdateThread(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketUpdateThread)
+    socket.emit(UPDATE_THREAD, payload)
+  }
+}
+
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
   yield fork(sendCreateThread, socket)
   yield fork(sendDeleteThread, socket)
+  yield fork(sendUpdateThread, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {
