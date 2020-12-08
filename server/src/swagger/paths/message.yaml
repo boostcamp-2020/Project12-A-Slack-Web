@@ -1,3 +1,93 @@
+get:
+  summary: Get all message in thread
+  tags:
+    - message
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: query
+      name: threadId
+      description: thread id
+      type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                    content:
+                      type: string
+                    createdAt:
+                      type: string
+                    updatedAt:
+                      type: string
+                    userId:
+                      type: number
+                    Files:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                          url:
+                            type: string
+                          type:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                    Reactions:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                          content:
+                            type: string
+                          createdAt:
+                            type: string
+                          updatedAt:
+                            type: string
+                          User:
+                            type: object
+                            properties:
+                              id:
+                                type: number
+                              name:
+                                type: string
+                              profileImageUrl:
+                                type: string
+                    User:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        email:
+                          type: string
+                        name:
+                          type: string
+                        profileImageUrl:
+                          type: string
+
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
+
 post:
   summary: message create api
   tags:

@@ -104,6 +104,7 @@ const readMessageById = async ({ threadId }: MessageType) => {
         },
       ],
       where: { threadId },
+      attributes: ['id', 'content', 'createdAt', 'updatedAt', 'userId'],
     })
     return {
       code: statusCode.OK,
