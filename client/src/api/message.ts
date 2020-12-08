@@ -16,5 +16,3 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 export default {
   updateMessage,
 }
-
-// threadId 넣고 있었다.

@@ -50,6 +50,16 @@ namespace.on('connection', (socket: Socket) => {
         .emit('DELETE_THREAD', json.data || threadId)
     },
   )
+  socket.on(
+    'UPDATE_THREAD',
+    async (data: { channelId: number; threadId: number }) => {
+      const { channelId, threadId } = data
+      const { json } = await threadService.readThreadById({
+        id: threadId,
+      })
+      namespace.to(channelId.toString()).emit('UPDATE_THREAD', json.data)
+    },
+  )
 })
 
 server.listen(process.env.SOCKET_PORT, () => {
