@@ -8,8 +8,12 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
-import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { deleteThread } from '@store/reducer/thread.reducer'
+import {
+  GetThreadResponseType,
+  MessageType,
+  UpdateThreadRequestType,
+} from '@type/thread.type'
+import { deleteThread, updateThread } from '@store/reducer/thread.reducer'
 import { getDateAndTime } from '@util/date'
 import Styled from './MessageCard.style'
 
@@ -48,6 +52,11 @@ const MessageCard = ({
   }
   const handleEditCancelButtonClick = () => setEditMode(false)
   const handleEditButtonClick = () => setEditMode(true)
+  const handleEditSubmitButtonClick = (updateData: UpdateThreadRequestType) => {
+    dispatch(updateThread(updateData))
+    setEditMode(false)
+  }
+
   if (editMode) {
     return (
       <Styled.Container editMode>
@@ -59,6 +68,7 @@ const MessageCard = ({
             id={thread?.headMessage?.id || message?.id}
             value={thread?.headMessage?.content || message?.content}
             placeHolder="Edit Message"
+            onSubmitButtonClick={handleEditSubmitButtonClick}
           />
           <M.ButtonDiv
             buttonStyle={editCancelButtonStyle}

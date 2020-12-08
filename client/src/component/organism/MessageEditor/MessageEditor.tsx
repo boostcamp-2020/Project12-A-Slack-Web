@@ -6,20 +6,27 @@ import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import { createThread, updateThread } from '@store/reducer/thread.reducer'
+import { createThread } from '@store/reducer/thread.reducer'
+import { UpdateThreadRequestType } from '@type/thread.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
   id?: number
   value?: string
   placeHolder?: string
+  onSubmitButtonClick?: (data: UpdateThreadRequestType) => void
 }
 
 interface MatchParamsType {
   channelId: string
 }
 
-const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
+const MessageEditor = ({
+  id,
+  value,
+  placeHolder,
+  onSubmitButtonClick,
+}: MessageEditorProps) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
@@ -38,7 +45,9 @@ const MessageEditor = ({ id, value, placeHolder }: MessageEditorProps) => {
       channelId: +channelId,
       fileInfoList: [],
     }
-    if (id) dispatch(updateThread({ ...data, messageId: id }))
+
+    if (id && onSubmitButtonClick)
+      onSubmitButtonClick({ ...data, messageId: id })
     else dispatch(createThread(data))
     setContent('')
     console.log('CREATE MESSAGE !')
@@ -123,6 +132,7 @@ MessageEditor.defaultProps = {
   id: 0,
   value: '',
   placeHolder: 'Jot something down',
+  onSubmitButtonClick: null,
 }
 
 const InputStyle: InputType.StyleAttributes = {
