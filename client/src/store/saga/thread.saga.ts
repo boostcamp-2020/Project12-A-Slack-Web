@@ -13,9 +13,11 @@ import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
   DELETE_THREAD,
+  UPDATE_THREAD,
   getThreads,
   createThread,
   deleteThread,
+  updateThread,
 } from '../reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -80,6 +82,25 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
   }
 }
 
+function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
+  try {
+    const { success }: ResponseType = yield call(
+      threadAPI.updateThread,
+      action.payload,
+    )
+    if (success) console.log('success update thread request')
+
+    //   yield put(
+    //     sendSocketDeleteThread({
+    //       channelId: +channelId,
+    //       threadId: +action.payload.threadId,
+    //     }),
+    //   )
+  } catch (e) {
+    console.log('Failed to create thread')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -92,10 +113,15 @@ function* watchDeleteThreadSaga() {
   yield takeEvery(DELETE_THREAD, deleteThreadSaga)
 }
 
+function* watchUpdateThreadSaga() {
+  yield takeEvery(UPDATE_THREAD, updateThreadSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
     fork(watchCreateThreadSaga),
     fork(watchDeleteThreadSaga),
+    fork(watchUpdateThreadSaga),
   ])
 }

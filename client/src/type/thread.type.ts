@@ -57,3 +57,7 @@ export interface CreateThreadRequestType {
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
 }
+
+export interface UpdateThreadRequestType extends CreateThreadRequestType {
+  messageId: number
+}

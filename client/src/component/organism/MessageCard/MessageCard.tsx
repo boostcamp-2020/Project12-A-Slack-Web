@@ -56,7 +56,7 @@ const MessageCard = ({
         </Styled.AvatarWrapper>
         <Styled.ContentWrapper>
           <O.MessageEditor
-            id={thread?.id || message?.id}
+            id={thread?.headMessage?.id || message?.id}
             value={thread?.headMessage?.content || message?.content}
             placeHolder="Edit Message"
           />
