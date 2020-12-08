@@ -41,8 +41,8 @@ const MessageCard = ({
       dispatch(deleteThread({ threadId: id }))
     } else {
       id = message.id
+      // TODO: delete message
     }
-    alert(`Delete message`)
   }
   const handleEditButtonClick = () => {
     alert(`Edit message`)
