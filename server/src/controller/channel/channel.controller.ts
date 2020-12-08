@@ -77,10 +77,28 @@ const joinChannel = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const joinMembersToChannel = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { userList } = req.body
+  try {
+    const { code, json } = await channelService.joinMembersToChannel({
+      channelId: +req.params.channelId,
+      userList,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,
   joinChannel,
+  joinMembersToChannel,
 }

@@ -1,5 +1,6 @@
 import UserModel from '@model/user.model'
 import ChannelModel from '@model/channel.model'
+import UserChannelSection from '@model/userChannelSection.model'
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
 import { statusCode, resMessage } from '@util/constant'
@@ -12,6 +13,17 @@ interface ChannelType {
   userId?: number
   workspaceId?: number
   channelId?: number
+}
+
+interface UserType {
+  id: number
+  email: string
+  name: string
+  profileImageUrl: string
+}
+interface AddMembersType {
+  channelId: number
+  userList: UserType[]
 }
 
 interface ThreadInstance extends ThreadModel {
@@ -256,10 +268,65 @@ const joinChannel = async ({ userId, channelId }: ChannelType) => {
   }
 }
 
+const joinMembersToChannel = async ({
+  userList,
+  channelId,
+}: AddMembersType) => {
+  if (
+    userList.some(({ id }) => id < 0 || typeof id !== 'number') ||
+    channelId < 0 ||
+    typeof channelId !== 'number'
+  ) {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const targetChannel = (await ChannelModel.findOne({
+      include: [{ model: UserModel, as: 'user' }],
+      where: { id: channelId },
+    })) as ChannelInstance
+
+    if (!targetChannel) {
+      return {
+        code: statusCode.DB_ERROR,
+        json: { success: false, message: resMessage.DB_ERROR },
+      }
+    }
+
+    const currentUsers = targetChannel.user.map((user) => user.id)
+
+    if (!userList.some((user) => currentUsers.includes(user.id))) {
+      await UserChannelSection.bulkCreate(
+        userList.map(({ id }) => {
+          return { UserId: id, ChannelId: channelId }
+        }),
+      )
+      return {
+        code: statusCode.CREATED,
+        json: {
+          success: true,
+        },
+      }
+    }
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,
   joinChannel,
+  joinMembersToChannel,
 }
