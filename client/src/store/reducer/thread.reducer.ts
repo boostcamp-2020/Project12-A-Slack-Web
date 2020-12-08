@@ -9,8 +9,8 @@ import {
   GetThreadsRequestType,
   GetThreadResponseType,
   CreateThreadRequestType,
-  UpdateThreadRequestType,
 } from '@type/thread.type'
+import { UpdateMessageRequestType } from '@type/message.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
@@ -50,7 +50,7 @@ export const receiveDeleteThread = createAction(RECEIVE_DELETE_THREAD)<
   GetThreadResponseType | number
 >()
 export const updateThread = createAction(UPDATE_THREAD)<
-  UpdateThreadRequestType
+  UpdateMessageRequestType
 >()
 export const receiveUpdateThread = createAction(RECEIVE_UPDATE_THREAD)<
   GetThreadResponseType

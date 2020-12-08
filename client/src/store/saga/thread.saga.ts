@@ -8,6 +8,7 @@ import {
   select,
 } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
+import messageAPI from '@api/message'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   GET_THREADS_REQUEST,
@@ -85,7 +86,7 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
 function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
   try {
     const { success }: ResponseType = yield call(
-      threadAPI.updateThread,
+      messageAPI.updateMessage,
       action.payload,
     )
     if (success) console.log('success update thread request')
