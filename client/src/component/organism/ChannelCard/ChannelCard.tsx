@@ -16,7 +16,7 @@ const ChannelCard = ({
   onLeaveButtonClick,
 }: ChannelCardProps) => {
   const { id, name, type, memberCount, joined } = channel
-  
+
   const [hover, setHover] = useState<boolean>(false)
 
   const handleMouseEnter = () => setHover(true)
@@ -86,7 +86,6 @@ const buttonStyle: ButtonType.StyleAttributes = {
   padding: '10px',
   width: '80px',
   height: '36px',
-  cursor: 'pointer',
 }
 const buttonTextStyle: TextType.StyleAttributes = {
   fontWeight: '500',
