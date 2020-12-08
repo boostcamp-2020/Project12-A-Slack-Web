@@ -80,13 +80,14 @@ const ThreadList = ({
               </>
             </A.Text>
             <A.Text customStyle={channelDescTextStyle}>
-              {`This channel was created on ${new Date(
-                channelInfo.createdAt,
-              ).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}.`}
+              {channelInfo.createdAt &&
+                `This channel was created on ${new Date(
+                  channelInfo.createdAt,
+                ).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}.`}
             </A.Text>
           </Styled.ColumnFlexContainer>
         </Styled.ThreadListTop>
