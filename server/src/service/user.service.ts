@@ -48,7 +48,7 @@ const checkUser = async ({ id, email, name }: UserInfo): Promise<boolean> => {
   }
 }
 
-const readUsersByChannel = ({ channelId }: { channelId: number }) => {
+const readUsersByChannel = async ({ channelId }: { channelId: number }) => {
   if (!validator.isNumber(channelId))
     return {
       code: statusCode.BAD_REQUEST,
@@ -56,7 +56,7 @@ const readUsersByChannel = ({ channelId }: { channelId: number }) => {
     }
 
   try {
-    const users = UserModel.findAll({
+    const users = await UserModel.findAll({
       include: [
         {
           model: ChannelModel,
@@ -65,7 +65,7 @@ const readUsersByChannel = ({ channelId }: { channelId: number }) => {
           attributes: [],
         },
       ],
-      // attributes: ['id', 'email', 'name', 'profileImageUrl'],
+      attributes: ['id', 'email', 'name', 'profileImageUrl'],
     })
 
     return {
