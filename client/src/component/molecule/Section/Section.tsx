@@ -1,9 +1,11 @@
 import React, { useState, MouseEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
+import { useDispatch } from 'react-redux'
+import { createChannel } from '@store/reducer/channel.reducer'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
@@ -17,14 +19,37 @@ const userTestData = {
 }
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
   const [toggle, setToggle] = useState<boolean>(false)
   const [sectionHover, setSectionHover] = useState<boolean>(false)
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
   const [createModal, setCreateModal] = useState<boolean>(false)
+  const [newChannelName, setNewChannelName] = useState<string>('')
   const [isPrivate, setIsPrivate] = useState<boolean>(false)
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
+  const [channelType, setChannelType] = useState<string>('')
+
+  const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setNewChannelName(value)
+  }
+
+  const handleCreateNewChannelClick = () => {
+    dispatch(
+      createChannel.request({
+        name: newChannelName,
+        type: channelType,
+        workspaceId,
+      }),
+    )
+  }
+
+  const handleCreateDmClick = () => {
+    // history.push(`/workspace/alldmpage`)
+  }
 
   const handleToggleCheckbox = () => {
     setIsPrivate(!isPrivate)
@@ -34,6 +59,11 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     } else {
       setPrivateName('Create a Channel')
       setPlaceholder('  # e.g plan-budget')
+    }
+    if (type === 'DM') {
+      setChannelType('DM')
+    } else {
+      setChannelType(isPrivate ? 'PUBLIC' : 'PRIVATE')
     }
   }
 
@@ -117,13 +147,23 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             >
               Browse Channels
             </M.ButtonDiv>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-              onClick={handleCreateModalClick}
-            >
-              Create a Channel
-            </M.ButtonDiv>
+            {type === 'CHANNEL' ? (
+              <M.ButtonDiv
+                buttonStyle={SectionModalContentStyle}
+                textStyle={SectionModalCententTextStyle}
+                onClick={handleCreateModalClick}
+              >
+                Create a Channel
+              </M.ButtonDiv>
+            ) : (
+              <M.ButtonDiv
+                buttonStyle={SectionModalContentStyle}
+                textStyle={SectionModalCententTextStyle}
+                onClick={handleCreateDmClick}
+              >
+                Create a DM
+              </M.ButtonDiv>
+            )}
           </Styled.SectionClickModalContent>
         </M.Modal>
       ) : null}
@@ -140,13 +180,23 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             >
               Browse Channels
             </M.ButtonDiv>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-              onClick={handleCreateModalClick}
-            >
-              Create a Channel
-            </M.ButtonDiv>
+            {type === 'CHANNEL' ? (
+              <M.ButtonDiv
+                buttonStyle={SectionModalContentStyle}
+                textStyle={SectionModalCententTextStyle}
+                onClick={handleCreateModalClick}
+              >
+                Create a Channel
+              </M.ButtonDiv>
+            ) : (
+              <M.ButtonDiv
+                buttonStyle={SectionModalContentStyle}
+                textStyle={SectionModalCententTextStyle}
+                onClick={handleCreateDMClick}
+              >
+                Create a DM
+              </M.ButtonDiv>
+            )}
           </Styled.SectionClickModalContent>
         </M.Modal>
       ) : null}
@@ -225,7 +275,12 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               organized around a topic - #marketing, for example.
             </A.Text>
             <A.Text customStyle={createInputTextStyle}>Name</A.Text>
-            <A.Input customStyle={createInputStyle} placeholder={placeholder} />
+            <A.Input
+              customStyle={createInputStyle}
+              placeholder={placeholder}
+              onChange={handleNewChannelInput}
+              value={newChannelName}
+            />
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
@@ -240,7 +295,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             </Styled.CreateBottom>
             <Styled.CreateFooter>
               <A.Text>부스트캠프 2020 멤버쉽</A.Text>
-              <M.ButtonDiv>Create</M.ButtonDiv>
+              <M.ButtonDiv onClick={handleCreateNewChannelClick}>
+                Create
+              </M.ButtonDiv>
             </Styled.CreateFooter>
           </Styled.CreateModalContainer>
         </M.Modal>

@@ -34,9 +34,11 @@ export const getWorkspace = createAsyncAction(
   GET_WORKSPACES_SUCCESS,
   GET_WORKSPACES_ERROR,
 )<undefined, WorkspaceResponseType[], AxiosError>()
+
 export const createWorkspace = createAction(CREATE_WORKSPACE)<
   CreateWorkspaceRequestType
 >()
+
 export const joinWorkspace = createAction(JOIN_WORKSPACE)<
   JoinWorkspaceRequestType
 >()
