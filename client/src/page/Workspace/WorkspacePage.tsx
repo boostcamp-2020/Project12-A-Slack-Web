@@ -6,6 +6,7 @@ import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
 import { getChannels } from '@store/reducer/channel.reducer'
+import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser } from './template'
 
@@ -26,7 +27,10 @@ const WorkspacePage = () => {
   const [subViewBody, setSubViewBody] = useState<React.ReactNode>(<></>)
 
   const handleSubViewOpen = () => setSubViewShow(true)
-  const handleSubViewClose = () => setSubViewShow(false)
+  const handleSubViewClose = () => {
+    setSubViewShow(false)
+    dispatch(clearCurrentThread())
+  }
   const handleSubViewHeader = (node: React.ReactNode) => setSubViewHeader(node)
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 

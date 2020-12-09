@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
-import MessageAPI from '@api/message'
 import { MessageType } from '@type/thread.type'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
 
-const ThreadDetail = ({ thread }: ThreadDetailProps) => {
-  const { id, headMessage, replyCount } = thread
-  const [replyList, setReplyList] = useState<MessageType[]>([])
-
-  const getMessages = async () => {
-    const { success, data } = await MessageAPI.getMessages(id)
-    if (success) setReplyList(data)
-    else toast.error('Message를 가져오는데 실패했습니다.')
+const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
+  const { thread, messageList } = useSelector(
+    (state: RootState) => state.threadStore.currentThread,
+  )
+  let headMessage: MessageType | null = null
+  let replyCount: number = 0
+  if (thread) {
+    headMessage = thread.headMessage
+    replyCount = thread.replyCount
   }
-  useEffect(() => {
-    getMessages()
-  }, [id])
-
-  const firstMessage = headMessage
+  const replyList = messageList
 
   return (
     <Styled.ThreadContainer>
-      {firstMessage ? (
+      {headMessage ? (
         <O.MessageCard
-          data={firstMessage}
+          data={headMessage}
           type="MESSAGE"
           onReplyButtonClick={() => {}}
         />
