@@ -4,6 +4,7 @@ import {
   ChannelRequestType,
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
+  DeleteMemberRequestType,
 } from '@type/channel.type'
 
 // TODO: workspace 전체의 채널을 어떻게 읽을 것인가
@@ -34,6 +35,13 @@ const joinMembersToChannel = async ({
   return response.data
 }
 
+const deleteMember = async ({ channelId, userId }: DeleteMemberRequestType) => {
+  const response = await myAxios.delete({
+    path: `/channel/${channelId}/user/${userId}`,
+  })
+  return response.data
+}
+
 const getChannelInfo = async (channelId: number) => {
   const response = await myAxios.get({
     path: `/channel/${channelId}`,
@@ -56,4 +64,5 @@ export default {
   joinMembersToChannel,
   getChannelInfo,
   createNewChannel,
+  deleteMember,
 }

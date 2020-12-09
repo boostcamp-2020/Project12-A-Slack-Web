@@ -39,6 +39,11 @@ export interface JoinMembersToChannelRequestType {
   userList: UserType[]
 }
 
+export interface DeleteMemberRequestType {
+  channelId: number
+  userId: number
+}
+
 export interface ChannelRequestType {
   workspaceId?: number
 }
