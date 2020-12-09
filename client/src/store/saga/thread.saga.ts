@@ -11,10 +11,11 @@ import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
+import { OnlySuccessResponseType } from '@type/response.type'
+import { RootState } from '@store'
 import {
   GetMessagesResponseType,
   CreateMessageResponseType,
-  MessageSocketResponseType,
 } from '@type/message.type'
 import {
   GET_THREADS_REQUEST,
@@ -31,15 +32,14 @@ import {
   setCurrentThread,
   createMessage,
   deleteMessage,
-} from '../reducer/thread.reducer'
+} from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
   sendSocketDeleteThread,
   sendSocketUpdateThread,
   sendSocketCreateMessage,
-} from '../reducer/socket.reducer'
-import { OnlySuccessResponseType } from '@type/response.type'
-import { RootState } from '@store'
+  sendSocketDeleteMessage,
+} from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
