@@ -22,6 +22,11 @@ const Header = () => {
     setToggle(!toggle)
   }
 
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    window.location.href = '/'
+  }
+
   return (
     <>
       <Styled.StyledHeaderContainer>
@@ -179,8 +184,9 @@ const Header = () => {
                 <M.ButtonDiv
                   buttonStyle={profileMenuButtonStyle}
                   textStyle={profileMenuTextStyle}
+                  onClick={handleLogout}
                 >
-                  Preferences
+                  Logout
                 </M.ButtonDiv>
               </Styled.ProfileModalContainerThird>
             </>
