@@ -96,6 +96,22 @@ const joinMembersToChannel = async (
   }
 }
 
+const deleteMember = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await channelService.deleteMember({
+      channelId: +req.params.channelId,
+      userId: +req.params.userId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
@@ -103,4 +119,5 @@ export default {
   readChannelInfo,
   joinChannel,
   joinMembersToChannel,
+  deleteMember,
 }

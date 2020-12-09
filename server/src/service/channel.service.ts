@@ -4,7 +4,7 @@ import UserChannelSection from '@model/userChannelSection.model'
 import ThreadModel from '@model/thread.model'
 import MessageModel from '@model/message.model'
 import { statusCode, resMessage } from '@util/constant'
-import sequelize, { Op } from 'sequelize'
+import sequelize from 'sequelize'
 import sequelizeDB from '@model/sequelize'
 
 interface ChannelType {
@@ -347,6 +347,42 @@ const joinMembersToChannel = async ({
   }
 }
 
+const deleteMember = async ({
+  channelId,
+  userId,
+}: {
+  channelId: number
+  userId: number
+}) => {
+  if (
+    typeof channelId !== 'number' ||
+    channelId < 0 ||
+    typeof userId !== 'number' ||
+    userId < 0
+  )
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  try {
+    await UserChannelSection.destroy({
+      where: { ChannelId: channelId, UserId: userId },
+    })
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+      },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
@@ -354,4 +390,5 @@ export default {
   readChannelInfo,
   joinChannel,
   joinMembersToChannel,
+  deleteMember,
 }
