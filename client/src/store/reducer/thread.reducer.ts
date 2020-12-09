@@ -87,6 +87,7 @@ export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
 >()
 export const deleteMessage = createAction(DELETE_MESSAGE)<{
   messageId: number
+  threadId: number
 }>()
 export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<
   MessageSocketResponseDataType

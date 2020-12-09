@@ -103,10 +103,13 @@ function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
       messageAPI.updateMessage,
       action.payload,
     )
+    const { id: channelId } = yield select(
+      (state: RootState) => state.channelStore.currentChannel,
+    )
     if (success && action.payload.threadId) {
       yield put(
         sendSocketUpdateThread({
-          channelId: +action.payload.channelId,
+          channelId: +channelId,
           threadId: +action.payload.threadId,
         }),
       )

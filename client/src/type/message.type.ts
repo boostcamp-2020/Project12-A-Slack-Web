@@ -8,6 +8,7 @@ interface FileType {
   type: string
   createdAt?: string
   updatedAt?: string
+  messageId?: number
 }
 
 interface ReactionType {
@@ -15,6 +16,8 @@ interface ReactionType {
   content: string
   createdAt?: string
   updatedAt?: string
+  messageId?: number
+  userId?: number
   User: UserType
 }
 
@@ -24,14 +27,11 @@ export interface MessageType {
   isHead?: false
   createdAt: string
   updatedAt: string
+  userId?: number
+  threadId?: number
   User: UserType
   File: FileType[]
   Reactions: ReactionType[]
-}
-
-export interface UpdateMessageRequestType extends CreateThreadRequestType {
-  messageId: number
-  threadId?: number
 }
 
 export interface GetMessagesResponseType extends ResponseType {
@@ -49,6 +49,13 @@ export interface CreateMessageResponseType extends ResponseType {
 export interface MessageSocketResponseDataType {
   thread: GetThreadResponseType
   message: MessageType
+}
+
+export interface UpdateMessageRequestType {
+  content: string
+  fileInfoList: { filePath: string; type: string }[] | null
+  messageId: number
+  threadId?: number
 }
 
 export interface MessageSocketResponseType extends ResponseType {
