@@ -32,6 +32,7 @@ import {
   sendSocketCreateThread,
   sendSocketDeleteThread,
   sendSocketUpdateThread,
+  sendSocketCreateMessage,
 } from '../reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -138,13 +139,13 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
     )
 
     if (success) {
-      console.log(data)
-      // yield put(
-      //   sendSocketCreateThread({
-      //     channelId: +action.payload.channelId,
-      //     threadId: +data.threadId,
-      //   }),
-      // )
+      yield put(
+        sendSocketCreateMessage({
+          channelId: +action.payload.channelId,
+          threadId: +action.payload.threadId,
+          messageId: +data.messageId,
+        }),
+      )
     }
   } catch (e) {
     console.log('Failed to create thread')
