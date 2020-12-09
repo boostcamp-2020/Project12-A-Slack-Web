@@ -8,11 +8,15 @@ import {
   receiveCreateMessage,
   clearCurrentThread,
   receiveDeleteMessage,
+  receiveUpdateMessage,
 } from '@store/reducer/thread.reducer'
 import { receiveDeleteMember } from '@store/reducer/channel.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '@store'
-import { DeleteMessageSocketResponseType } from '@type/message.type'
+import {
+  MessageType,
+  DeleteMessageSocketResponseType,
+} from '@type/message.type'
 import {
   connectSocket,
   sendSocketJoinRoom,
@@ -97,6 +101,11 @@ function subscribeSocket(socket: Socket) {
       }
     }
 
+    const handleUpdateMessage = (data: MessageType) => {
+      console.log('update message: ', data)
+      emit(receiveUpdateMessage(data))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
@@ -104,6 +113,7 @@ function subscribeSocket(socket: Socket) {
     socket.on(UPDATE_THREAD, handleUpdateThread)
     socket.on(CREATE_MESSAGE, handleCreateMessage)
     socket.on(DELETE_MESSAGE, handleDeleteMessage)
+    socket.on(UPDATE_MESSAGE, handleUpdateMessage)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)

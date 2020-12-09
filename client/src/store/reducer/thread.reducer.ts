@@ -13,6 +13,7 @@ import {
   CurrentThreadType,
 } from '@type/thread.type'
 import {
+  MessageType,
   CreateMessageRequestType,
   MessageSocketResponseDataType,
   DeleteMessageRequestType,
@@ -98,9 +99,9 @@ export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<{
 export const updateMessage = createAction(UPDATE_MESSAGE)<
   UpdateMessageRequestType
 >()
-export const receiveUpdateMessage = createAction(RECEIVE_UPDATE_MESSAGE)<{
-  messageId: number
-}>()
+export const receiveUpdateMessage = createAction(RECEIVE_UPDATE_MESSAGE)<
+  MessageType
+>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -237,6 +238,18 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         messageList: state.currentThread.messageList.filter(
           (message) => message.id !== action.payload.messageId,
         ),
+      },
+    }
+  },
+  [RECEIVE_UPDATE_MESSAGE]: (state, action) => {
+    return {
+      ...state,
+      currentThread: {
+        thread: state.currentThread.thread,
+        messageList: state.currentThread.messageList.map((message) => {
+          if (message.id === action.payload.id) return action.payload
+          return message
+        }),
       },
     }
   },
