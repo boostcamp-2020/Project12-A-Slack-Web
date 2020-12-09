@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import A from '@atom'
-import { RootState } from '@store'
-import { getUserInfoAsync } from '@store/reducer/user.reducer'
+import userAPI from '@api/user'
+import { insertUserInfo } from '@store/reducer/user.reducer'
 
 const Auth = (Component: any, option: boolean) => () => {
-  const { currentUser } = useSelector((state: RootState) => state.userStore)
   const history = useHistory()
   const dispatch = useDispatch()
   const token = localStorage.getItem('token')
@@ -23,30 +22,40 @@ const Auth = (Component: any, option: boolean) => () => {
 
       try {
         if (token) {
-          dispatch(getUserInfoAsync.request())
+          const { success, data } = await userAPI.getUserInfo()
 
-          if (currentUser.id !== -1 && option) {
+          if (success && option) {
+            dispatch(insertUserInfo(data))
             history.push('/')
           }
 
-          if (currentUser.id !== -1 && !option) {
+          if (success && !option) {
+            dispatch(insertUserInfo(data))
             history.push(window.location.pathname)
+          }
+
+          if (!success) {
+            localStorage.removeItem('token')
+            history.push('/login')
           }
         }
 
-        if (!token && (!option || currentUser.id !== -1)) {
+        if (!token && !option) {
           history.push('/login')
         }
 
         setLoading(false)
       } catch (err) {
         toast.error('잘못된 접근입니다.', {
-          onClose: () => history.push('/login'),
+          onClose: () => {
+            history.push('/login')
+            localStorage.removeItem('token')
+          },
         })
       }
     }
     check()
-  }, [currentUser.id])
+  }, [])
 
   return loading ? <A.Loading /> : <Component />
 }
