@@ -3,21 +3,41 @@ import { toast } from 'react-toastify'
 import workspaceAPI from '@api/workspace'
 import {
   GET_WORKSPACES_REQUEST,
+  GET_CURRENT_WORKSPACE_INFO_REQUEST,
   CREATE_WORKSPACE,
   JOIN_WORKSPACE,
   getWorkspace,
+  getCurrentWorkspaceInfo,
   createWorkspace,
   joinWorkspace,
 } from '../reducer/workspace.reducer'
 
 function* getWorkspacesSaga() {
   try {
-    const { success, data } = yield call(workspaceAPI.getWorkspace)
+    const { success, data } = yield call(workspaceAPI.getWorkspaces)
     if (success) console.log('workspace를 불러왔습니다.')
     yield put(getWorkspace.success(data))
   } catch (error) {
     toast.error('Failed to read workspace')
     yield put(getWorkspace.failure(error))
+  }
+}
+
+function* getCurrentWorkspaceInfoSaga(
+  action: ReturnType<typeof getCurrentWorkspaceInfo.request>,
+) {
+  try {
+    const { success, data } = yield call(
+      workspaceAPI.getCurrentWorkspaceInfo,
+      action.payload,
+    )
+    if (success) {
+      console.log('workspace를 불러왔습니다.')
+      yield put(getCurrentWorkspaceInfo.success(data))
+    }
+  } catch (error) {
+    toast.error('Failed to read current workspace info')
+    yield put(getCurrentWorkspaceInfo.failure(error))
   }
 }
 
@@ -60,10 +80,18 @@ function* watchJoinWorkspaceSaga() {
   yield takeLatest(JOIN_WORKSPACE, joinWorkspaceSaga)
 }
 
+function* watchGetCurrentWorkspaceInfoSaga() {
+  yield takeLatest(
+    GET_CURRENT_WORKSPACE_INFO_REQUEST,
+    getCurrentWorkspaceInfoSaga,
+  )
+}
+
 export default function* workspaceSaga() {
   yield all([
     fork(watchGetWorkspacesSaga),
     fork(watchCreateWorkspaceSaga),
     fork(watchJoinWorkspaceSaga),
+    fork(watchGetCurrentWorkspaceInfoSaga),
   ])
 }

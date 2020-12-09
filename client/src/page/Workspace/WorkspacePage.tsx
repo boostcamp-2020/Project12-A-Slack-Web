@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams } from 'react-router-dom'
+import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
+import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
 import { getChannels } from '@store/reducer/channel.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
@@ -15,8 +17,11 @@ interface MatchParamsType {
 }
 
 const WorkspacePage = () => {
-  const { channelList, workspaceInfo, loading, error } = useSelector(
+  const { channelList, loading, error } = useSelector(
     (state: RootState) => state.channelStore,
+  )
+  const { currentWorkspace } = useSelector(
+    (state: RootState) => state.workspaceStore,
   )
 
   const dispatch = useDispatch()
@@ -36,9 +41,8 @@ const WorkspacePage = () => {
 
   useEffect(() => {
     dispatch(getChannels.request({ workspaceId: +workspaceId }))
-    localStorage.setItem('workspaceId', workspaceId)
-    // TODO: workspaceId 생성 후 connectSocket 연결
-    dispatch(connectSocket.request())
+    dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
+    dispatch(connectSocket.request({ workspaceId: +workspaceId }))
   }, [])
 
   return (
@@ -46,7 +50,14 @@ const WorkspacePage = () => {
       <O.Header />
 
       <WorkspaceLayout>
-        <O.SideBar workspaceInfo={workspaceInfo} channelList={channelList} />
+        {loading ? (
+          <A.Loading />
+        ) : (
+          <O.SideBar
+            workspaceInfo={currentWorkspace}
+            channelList={channelList}
+          />
+        )}
 
         <ViewContainer>
           <Switch>

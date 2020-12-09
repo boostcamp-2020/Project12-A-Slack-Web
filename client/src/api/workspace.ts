@@ -2,6 +2,7 @@ import myAxios from '@util/myAxios'
 import {
   CreateWorkspaceRequestType,
   JoinWorkspaceRequestType,
+  CurrentWorkSpaceInfoRequestType,
 } from '@type/workspace.type'
 
 interface GetTeammatesRequestType {
@@ -29,9 +30,18 @@ const joinWorkspace = async (data: JoinWorkspaceRequestType) => {
   return response.data
 }
 
-const getWorkspace = async () => {
+const getWorkspaces = async () => {
   const response = await myAxios.get({
     path: '/workspace',
+  })
+  return response.data
+}
+
+const getCurrentWorkspaceInfo = async (
+  data: CurrentWorkSpaceInfoRequestType,
+) => {
+  const response = await myAxios.get({
+    path: `/workspace/${data.id}`,
   })
   return response.data
 }
@@ -48,4 +58,10 @@ const getTeammates = async ({
   return response.data
 }
 
-export default { createWorkspace, joinWorkspace, getWorkspace, getTeammates }
+export default {
+  createWorkspace,
+  joinWorkspace,
+  getWorkspaces,
+  getTeammates,
+  getCurrentWorkspaceInfo,
+}
