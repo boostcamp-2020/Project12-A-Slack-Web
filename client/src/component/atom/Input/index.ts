@@ -17,6 +17,7 @@ export namespace InputType {
     cursor?: string
     outline?: string
     name?: string
+    borderBottom?: string
   }
 
   export interface Props {
