@@ -10,7 +10,10 @@ import {
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import { ChannelType } from '@type/channel.type'
-import { sendSocketDeleteMember } from '@store/reducer/socket.reducer'
+import {
+  sendSocketDeleteMember,
+  sendSocketJoinRoom,
+} from '@store/reducer/socket.reducer'
 import {
   GET_CHANNELS_REQUEST,
   GET_CURRENT_CHANNEL_REQUEST,
@@ -27,7 +30,6 @@ import {
   deleteMember,
   receiveDeleteMember,
 } from '../reducer/channel.reducer'
-import { sendSocketJoinRoom } from '../reducer/socket.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
   try {
@@ -109,8 +111,7 @@ function* receiveDeleteMemberSaga(
         return {
           loginUserId: state.userStore.currentUser.id,
           currentChannelId: state.channelStore.currentChannel.id,
-          // TODO: workspaceId 교체
-          workspaceId: 1, // state.workspaceStore.currentWorkspace.id,
+          workspaceId: state.workspaceStore.currentWorkspace.id,
         }
       },
     )
