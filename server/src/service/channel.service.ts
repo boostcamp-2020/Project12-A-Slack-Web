@@ -368,6 +368,7 @@ const deleteMember = async ({
   try {
     await UserChannelSection.destroy({
       where: { ChannelId: channelId, UserId: userId },
+      force: true,
     })
     return {
       code: statusCode.OK,
