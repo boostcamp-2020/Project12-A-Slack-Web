@@ -6,11 +6,13 @@ import {
   receiveDeleteThread,
   receiveUpdateThread,
 } from '@store/reducer/thread.reducer'
+import { receiveDeleteMember } from '@store/reducer/channel.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
 import {
   connectSocket,
   sendSocketJoinRoom,
+  sendSocketDeleteMember,
   sendSocketCreateThread,
   sendSocketDeleteThread,
   sendSocketUpdateThread,
@@ -19,6 +21,7 @@ import {
 const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
+const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
 const UPDATE_THREAD = 'UPDATE_THREAD'
@@ -46,6 +49,11 @@ function subscribeSocket(socket: Socket) {
       console.log('disconnected')
     }
 
+    const handleDeleteMember = (data: any) => {
+      console.log('delete member: ', data)
+      emit(receiveDeleteMember(data))
+    }
+
     const handleCreateThread = (data: any) => {
       console.log('new thread: ', data)
       emit(receiveCreateThread(data))
@@ -62,6 +70,7 @@ function subscribeSocket(socket: Socket) {
     }
 
     socket.on(DISCONNECT, handleDisconnect)
+    socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
     socket.on(UPDATE_THREAD, handleUpdateThread)
@@ -77,6 +86,13 @@ function* read(socket: Socket) {
   while (true) {
     const action = yield take(channel)
     yield put(action)
+  }
+}
+
+function* sendDeleteMember(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketDeleteMember)
+    socket.emit(DELETE_MEMBER, payload)
   }
 }
 
@@ -103,6 +119,7 @@ function* sendUpdateThread(socket: Socket) {
 
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
+  yield fork(sendDeleteMember, socket)
   yield fork(sendCreateThread, socket)
   yield fork(sendDeleteThread, socket)
   yield fork(sendUpdateThread, socket)
