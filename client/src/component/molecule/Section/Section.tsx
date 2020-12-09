@@ -30,7 +30,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [isPrivate, setIsPrivate] = useState<boolean>(false)
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
-  const [channelType, setChannelType] = useState<string>('')
+  const [channelType, setChannelType] = useState<string>('PUBLIC')
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -45,6 +45,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
         workspaceId,
       }),
     )
+    setCreateModal(false)
   }
 
   const handleCreateDmClick = () => {
@@ -55,7 +56,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setIsPrivate(!isPrivate)
     if (!isPrivate) {
       setPrivateName('Create a private Channel')
-      setPlaceholder('  🔒 e.g my plan budget')
+      setPlaceholder('  🔒 e.g plan-budget')
     } else {
       setPrivateName('Create a Channel')
       setPlaceholder('  # e.g plan-budget')
@@ -98,7 +99,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   // TODO: Add teammates 클릭 시 액션
   const handleAddTeammatesClick = () => {}
 
-  // TODO: channel.type === DM 인 경우 Icon -> Avatar 분기처리
   return (
     <>
       <Styled.SectionContainer
@@ -288,14 +288,17 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                   id="checkbox"
                   type="checkbox"
                   checked={isPrivate}
-                  onClick={handleToggleCheckbox}
+                  onChange={handleToggleCheckbox}
                 />
                 <Styled.CheckBoxLabel htmlFor="checkbox" />
               </Styled.CheckBoxWrapper>
             </Styled.CreateBottom>
             <Styled.CreateFooter>
               <A.Text>부스트캠프 2020 멤버쉽</A.Text>
-              <M.ButtonDiv onClick={handleCreateNewChannelClick}>
+              <M.ButtonDiv
+                onClick={handleCreateNewChannelClick}
+                textStyle={createTextStyle}
+              >
                 Create
               </M.ButtonDiv>
             </Styled.CreateFooter>
@@ -307,6 +310,11 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
 }
 
 Section.defaultProps = {}
+
+const createTextStyle = {
+  fontSize: '14px',
+  fontWeight: 'bold',
+}
 
 const makePrivateText = {
   color: 'black',
