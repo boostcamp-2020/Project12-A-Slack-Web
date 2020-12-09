@@ -21,9 +21,10 @@ import {
   CREATE_THREAD,
   DELETE_THREAD,
   UPDATE_THREAD,
-  DELETE_MESSAGE,
   SET_CURRENT_THREAD_REQUEST,
   CREATE_MESSAGE,
+  DELETE_MESSAGE,
+  UPDATE_MESSAGE,
   getThreads,
   createThread,
   deleteThread,
@@ -31,6 +32,7 @@ import {
   setCurrentThread,
   createMessage,
   deleteMessage,
+  updateMessage,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -177,6 +179,26 @@ function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
   }
 }
 
+function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
+  try {
+    const { success } = yield call(messageAPI.updateMessage, action.payload)
+    console.log(success)
+    const { id: threadId, channelId } = yield select(
+      (state: RootState) => state.threadStore.currentThread.thread,
+    )
+    if (success) {
+      // yield put(
+      //   sendSocketUpdateThread({
+      //     channelId: +channelId,
+      //     threadId: +threadId,
+      //   }),
+      // )
+    }
+  } catch (e) {
+    toast.error('Failed to update thread')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -205,6 +227,10 @@ function* watchDeleteMessageSaga() {
   yield takeEvery(DELETE_MESSAGE, deleteMessageSaga)
 }
 
+function* watchUpdateMessageSaga() {
+  yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -214,5 +240,6 @@ export default function* threadSaga() {
     fork(watchSetCurrentThreadSaga),
     fork(watchCreateMessageSaga),
     fork(watchDeleteMessageSaga),
+    fork(watchUpdateMessageSaga),
   ])
 }

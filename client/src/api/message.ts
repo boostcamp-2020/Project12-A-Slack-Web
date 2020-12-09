@@ -6,6 +6,7 @@ import {
   CreateMessageRequestType,
   CreateMessageResponseType,
   DeleteMessageRequestType,
+  UpdateMessageRequestType,
 } from '@type/message.type'
 
 const createMessage = async (
@@ -24,7 +25,9 @@ const getMessages = async (
   return response.data
 }
 
-const updateMessage = async (originalData: UpdateThreadRequestType) => {
+const updateMessage = async (
+  originalData: UpdateThreadRequestType | UpdateMessageRequestType,
+): Promise<OnlySuccessResponseType> => {
   const data: object = {
     content: originalData.content,
     fileInfoList: originalData.fileInfoList,
