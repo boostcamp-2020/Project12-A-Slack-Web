@@ -56,14 +56,10 @@ delete:
       name: id
       description: message id
       type: integer
-  requestBody:
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            threadId:
-              type: integer
+    - in: query
+      name: threadId
+      description: thread id
+      type: integer
   responses:
     '200':
       content:

@@ -15,6 +15,7 @@ import {
   UpdateMessageRequestType,
   CreateMessageRequestType,
   MessageSocketResponseDataType,
+  DeleteMessageRequestType,
 } from '@type/message.type'
 
 interface ThreadState {
@@ -85,10 +86,9 @@ export const createMessage = createAction(CREATE_MESSAGE)<
 export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
   MessageSocketResponseDataType
 >()
-export const deleteMessage = createAction(DELETE_MESSAGE)<{
-  messageId: number
-  threadId: number
-}>()
+export const deleteMessage = createAction(DELETE_MESSAGE)<
+  DeleteMessageRequestType
+>()
 export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<
   MessageSocketResponseDataType
 >()

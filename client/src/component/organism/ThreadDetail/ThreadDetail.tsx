@@ -4,11 +4,7 @@ import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
-import {
-  MessageType,
-  CreateMessageRequestType,
-  MessageWithThreadIdType,
-} from '@type/message.type'
+import { MessageType, CreateMessageRequestType } from '@type/message.type'
 import { createMessage } from '@store/reducer/thread.reducer'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
@@ -37,7 +33,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
     <Styled.ThreadContainer>
       {headMessage ? (
         <O.MessageCard
-          data={{ ...headMessage, threadId } as MessageWithThreadIdType}
+          data={{ ...headMessage, threadId } as MessageType}
           type="MESSAGE"
           onReplyButtonClick={() => {}}
         />
@@ -59,7 +55,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
         {replyList.map((message) => {
           return (
             <O.MessageCard
-              data={{ ...message, threadId } as MessageWithThreadIdType}
+              data={{ ...message, threadId }}
               type="MESSAGE"
               onReplyButtonClick={() => {}}
               key={message.id}

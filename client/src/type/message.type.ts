@@ -62,6 +62,7 @@ export interface MessageSocketResponseType extends ResponseType {
   data: MessageSocketResponseDataType
 }
 
-export interface MessageWithThreadIdType extends MessageType {
+export interface DeleteMessageRequestType {
+  messageId: number
   threadId: number
 }

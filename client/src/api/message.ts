@@ -1,10 +1,12 @@
 import myAxios from '@util/myAxios'
+import { OnlySuccessResponseType } from '@type/response.type'
 import {
   UpdateMessageRequestType,
   GetMessagesResponseType,
   CreateMessageRequestType,
   CreateMessageResponseType,
   MessageSocketResponseType,
+  DeleteMessageRequestType,
 } from '@type/message.type'
 
 const createMessage = async (
@@ -38,10 +40,7 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 const deleteMessage = async ({
   messageId,
   threadId,
-}: {
-  messageId: number
-  threadId: number
-}): Promise<MessageSocketResponseType> => {
+}: DeleteMessageRequestType): Promise<OnlySuccessResponseType> => {
   const response = await myAxios.delete({
     path: `/message/${messageId}?threadId=${threadId}`,
   })

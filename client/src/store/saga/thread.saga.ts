@@ -160,10 +160,7 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
 
 function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
   try {
-    const { success }: OnlySuccessResponseType = yield call(
-      messageAPI.deleteMessage,
-      action.payload,
-    )
+    const { success } = yield call(messageAPI.deleteMessage, action.payload)
     const { channelId, id: threadId } = yield select(
       (state: RootState) => state.threadStore.currentThread.thread,
     )

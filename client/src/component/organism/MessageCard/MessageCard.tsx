@@ -10,10 +10,7 @@ import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
 import { getDateAndTime } from '@util/date'
 import { GetThreadResponseType } from '@type/thread.type'
-import {
-  UpdateMessageRequestType,
-  MessageWithThreadIdType,
-} from '@type/message.type'
+import { UpdateMessageRequestType, MessageType } from '@type/message.type'
 import { RootState } from '@store'
 import {
   deleteThread,
@@ -22,9 +19,10 @@ import {
 } from '@store/reducer/thread.reducer'
 
 import Styled from './MessageCard.style'
+import ThreadDetailStyle from '@organism/ThreadDetail/ThreadDetail.style'
 
 interface MessageCardProps {
-  data: GetThreadResponseType | MessageWithThreadIdType
+  data: GetThreadResponseType | MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
   onReplyButtonClick: (thread: GetThreadResponseType) => void
@@ -39,7 +37,7 @@ const MessageCard = ({
   const { currentUser } = useSelector((state: RootState) => state.userStore)
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
-  const message = data as MessageWithThreadIdType
+  const message = data as MessageType
 
   const [hover, setHover] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -50,7 +48,7 @@ const MessageCard = ({
   const handleDeleteButtonClick = () => {
     if (type === 'THREAD') {
       dispatch(deleteThread({ threadId: thread.id }))
-    } else {
+    } else if (message.threadId) {
       dispatch(
         deleteMessage({ messageId: message.id, threadId: message.threadId }),
       )
