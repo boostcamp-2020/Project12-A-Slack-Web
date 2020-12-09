@@ -22,13 +22,17 @@ const MemberListModal = ({
 
   const [inputKeyword, setInputKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState<UserType[]>([])
+  const [memberTotalCount, setMemberTotalCount] = useState<number>(0)
 
   useEffect(() => {
     const getUsersByChannel = async () => {
       const { success, data } = await userAPI.getUsersByChannel({
         channelId: id,
       })
-      if (success) setMemberSearchResult(data)
+      if (success) {
+        setMemberSearchResult(data)
+        setMemberTotalCount(data.length)
+      }
     }
     getUsersByChannel()
   }, [])
@@ -66,7 +70,7 @@ const MemberListModal = ({
         <Styled.UpperWrapper>
           <A.Text customStyle={modalTitleTextStyle}>
             <>
-              {`${memberSearchResult.length} members in`}
+              {`${memberTotalCount} members in`}
               <A.Icon
                 icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
                 customStyle={{ margin: '0 3px 0 6px' }}
@@ -175,7 +179,7 @@ const clearSearchButtonStyle: ButtonType.StyleAttributes = {
 }
 
 const clearSearchButtonTextStyle: TextType.StyleAttributes = {
-  fontSize: '1.5rem',
+  fontSize: '1.4rem',
   fontWeight: '600',
 }
 
