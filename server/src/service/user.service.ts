@@ -1,20 +1,26 @@
+import { Op } from 'sequelize'
 import UserModel from '@model/user.model'
 import ChannelModel from '@model/channel.model'
 // import UserChannelSection from '@model/userChannelSection.model'
 import { statusCode, resMessage } from '@util/constant'
 import validator from '@util/validator'
 
-type GoogleUser = {
+interface GoogleUser {
   sub: string
   email: string
   name: string
   picture: string
 }
 
-type UserInfo = {
+interface UserInfo {
   id: number
   email: string
   name: string
+}
+
+interface GetMembersRequestType {
+  channelId?: number
+  searchKeyword?: string
 }
 
 const findOrCreateUser = async ({ sub, email, name, picture }: GoogleUser) => {
@@ -48,7 +54,10 @@ const checkUser = async ({ id, email, name }: UserInfo): Promise<boolean> => {
   }
 }
 
-const readUsersByChannel = async ({ channelId }: { channelId: number }) => {
+const readUsersByChannel = async ({
+  channelId,
+  searchKeyword,
+}: GetMembersRequestType) => {
   if (!validator.isNumber(channelId))
     return {
       code: statusCode.BAD_REQUEST,
@@ -65,6 +74,20 @@ const readUsersByChannel = async ({ channelId }: { channelId: number }) => {
           attributes: [],
         },
       ],
+      where: {
+        [Op.or]: [
+          {
+            name: {
+              [Op.like]: `%${searchKeyword}%`,
+            },
+          },
+          {
+            email: {
+              [Op.like]: `%${searchKeyword}%`,
+            },
+          },
+        ],
+      },
       attributes: ['id', 'email', 'name', 'profileImageUrl'],
     })
 
