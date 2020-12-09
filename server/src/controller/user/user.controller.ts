@@ -35,6 +35,7 @@ const readUsersByChannel = async (
   try {
     const { code, json } = await userService.readUsersByChannel({
       channelId: +req.params.channelId,
+      searchKeyword: (req.query.searchKeyword as string) || '',
     })
     return res.status(code).json(json)
   } catch (error) {

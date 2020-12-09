@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -19,40 +21,53 @@ const MemberListModal = ({
   onClose,
 }: MemberListModalProps) => {
   const { id, type, name } = channel
-  let members: UserType[] = []
+  const {
+    currentUser: { id: loginUserId },
+  } = useSelector((state: RootState) => state.userStore)
+
+  const [inputKeyword, setInputKeyword] = useState('')
+  const [memberSearchResult, setMemberSearchResult] = useState<UserType[]>([])
+  const [memberTotalCount, setMemberTotalCount] = useState<number>(0)
 
   useEffect(() => {
     const getUsersByChannel = async () => {
       const { success, data } = await userAPI.getUsersByChannel({
         channelId: id,
       })
-      // TODO: 응답 잘 오는지 확인
-      if (success) members = data
+      if (success) {
+        setMemberSearchResult(data)
+        setMemberTotalCount(data.length)
+      }
     }
     getUsersByChannel()
   }, [])
 
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [memberSearchResult, setMemberSearchResult] = useState(members)
+  useEffect(() => {
+    const searchMembers = async (searchKeyword: string) => {
+      const { success, data } = await userAPI.searchMembers({
+        channelId: id,
+        searchKeyword,
+      })
+      if (success) {
+        setMemberSearchResult(data)
+        return
+      }
+      setMemberSearchResult([])
+    }
+    searchMembers(inputKeyword)
+  }, [inputKeyword])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const input = e.target.value
-    setSearchKeyword(input)
-
-    const escapedInput = input.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // 특수문자 검색 처리
-    const searchResult =
-      escapedInput === ''
-        ? members
-        : members.filter((member) => {
-            const regex = new RegExp(escapedInput, 'gi')
-            return member.name.match(regex) || member.email.match(regex)
-          })
-    setMemberSearchResult(searchResult)
+    const inputValue = e.target.value
+    setInputKeyword(inputValue)
   }
 
   const handleClearSearchButtonClick = (): void => {
-    setSearchKeyword('')
-    setMemberSearchResult(members)
+    setInputKeyword('')
+  }
+
+  const handleRemoveButtonClick = () => {
+    alert('remove')
   }
 
   return (
@@ -66,7 +81,7 @@ const MemberListModal = ({
         <Styled.UpperWrapper>
           <A.Text customStyle={modalTitleTextStyle}>
             <>
-              {`${members.length} members in`}
+              {`${memberTotalCount} members in`}
               <A.Icon
                 icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
                 customStyle={{ margin: '0 3px 0 6px' }}
@@ -81,7 +96,7 @@ const MemberListModal = ({
 
           <A.Input
             placeholder="Search members"
-            value={searchKeyword}
+            value={inputKeyword}
             onChange={handleInputChange}
             customStyle={inputStyle}
           />
@@ -90,12 +105,14 @@ const MemberListModal = ({
         <Styled.MemberListWrapper>
           {memberSearchResult.length === 0 ? (
             <Styled.EmptyListWrapper>
-              <div>
-                No matches found for
-                <A.Text customStyle={searchKeywordTextStyle}>
-                  {searchKeyword}
-                </A.Text>
-              </div>
+              <A.Text customStyle={{ fontSize: '1.5rem' }}>
+                <>
+                  {'No matches found for '}
+                  <A.Text customStyle={inputKeywordTextStyle}>
+                    {inputKeyword}
+                  </A.Text>
+                </>
+              </A.Text>
               <M.ButtonDiv
                 buttonStyle={clearSearchButtonStyle}
                 textStyle={clearSearchButtonTextStyle}
@@ -107,8 +124,22 @@ const MemberListModal = ({
           ) : (
             memberSearchResult.map((member) => (
               <Styled.MemberWrapper key={member.id}>
-                <O.Avatar user={member} size="BIG" clickable />
-                <A.Text customStyle={memberNameTextStyle}>{member.name}</A.Text>
+                <Styled.MemberLeftWrapper>
+                  <O.Avatar user={member} size="BIG" clickable />
+                  <A.Text customStyle={memberNameTextStyle}>
+                    {member.name + (loginUserId === member.id ? ' (you)' : '')}
+                  </A.Text>
+                </Styled.MemberLeftWrapper>
+
+                {type === 'PRIVATE' && loginUserId !== member.id && (
+                  <M.ButtonDiv
+                    onClick={handleRemoveButtonClick}
+                    buttonStyle={removeButtonStyle}
+                    textStyle={removeButtonTextStyle}
+                  >
+                    Remove
+                  </M.ButtonDiv>
+                )}
               </Styled.MemberWrapper>
             ))
           )}
@@ -153,14 +184,15 @@ const inputStyle: InputType.StyleAttributes = {
   fontSize: '1.4rem',
 }
 
-const searchKeywordTextStyle: TextType.StyleAttributes = {
-  fontWeight: 'bold',
+const inputKeywordTextStyle: TextType.StyleAttributes = {
+  fontWeight: '800',
+  fontSize: '1.5rem',
   margin: '0 0 0 5px',
 }
 
 const memberNameTextStyle: TextType.StyleAttributes = {
-  fontWeight: '600',
-  fontSize: '1.4rem',
+  fontWeight: '700',
+  fontSize: '1.5rem',
   margin: '0 0 0 10px',
 }
 
@@ -173,8 +205,23 @@ const clearSearchButtonStyle: ButtonType.StyleAttributes = {
 }
 
 const clearSearchButtonTextStyle: TextType.StyleAttributes = {
-  fontSize: '0.9rem',
+  fontSize: '1.4rem',
   fontWeight: '600',
+}
+
+const removeButtonStyle: ButtonType.StyleAttributes = {
+  cursor: 'pointer',
+  padding: '10px',
+  width: '80px',
+  height: '36px',
+  borderRadius: '4px',
+  border: `1px solid ${color.get('grey')}`,
+  backgroundColor: 'white',
+  hoverBackgroundColor: 'greyHover',
+}
+const removeButtonTextStyle: TextType.StyleAttributes = {
+  fontWeight: '600',
+  fontSize: '1.4rem',
 }
 
 export default MemberListModal

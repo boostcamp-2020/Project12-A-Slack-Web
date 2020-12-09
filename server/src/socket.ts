@@ -2,6 +2,7 @@ import express from 'express'
 import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import threadService from '@service/thread.service'
+import messageService from '@service/message.service'
 
 const server = createServer(express())
 
@@ -58,6 +59,26 @@ namespace.on('connection', (socket: Socket) => {
         id: threadId,
       })
       namespace.to(channelId.toString()).emit('UPDATE_THREAD', json.data)
+    },
+  )
+  socket.on(
+    'CREATE_MESSAGE',
+    async (data: {
+      channelId: number
+      threadId: number
+      messageId: number
+    }) => {
+      const { channelId, threadId, messageId } = data
+      const { json: threadRes } = await threadService.readThreadById({
+        id: threadId,
+      })
+      const { json: messageRes } = await messageService.readMessageById({
+        id: messageId,
+      })
+      namespace.to(channelId.toString()).emit('CREATE_MESSAGE', {
+        thread: threadRes.data,
+        message: messageRes.data,
+      })
     },
   )
 })

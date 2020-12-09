@@ -21,6 +21,7 @@ const SEND_SOCKET_JOIN_ROOM = 'socket/SEND_SOCKET_JOIN_ROOM' as const
 const SEND_SOCKET_CREATE_THREAD = 'socket/SECT_SOCKET_CREATE_THREAD' as const
 const SEND_SOCKET_DELETE_THREAD = 'socket/SEND_SOCKET_DELETE_THREAD' as const
 const SEND_SOCKET_UPDATE_THREAD = 'socket/SEND_SOCKET_UPDATE_THREAD' as const
+const SEND_SOCKET_CREATE_MESSAGE = 'socket/SEND_SOCKET_CREATE_MESSAGE' as const
 
 export const connectSocket = createAsyncAction(
   CONNECT_SOCKET_REQUEST,
@@ -42,6 +43,13 @@ export const sendSocketUpdateThread = createAction(SEND_SOCKET_UPDATE_THREAD)<{
   channelId: number
   threadId: number
 }>()
+export const sendSocketCreateMessage = createAction(
+  SEND_SOCKET_CREATE_MESSAGE,
+)<{
+  channelId: number
+  threadId: number
+  messageId: number
+}>()
 
 const actions = {
   connectSocketRequest: connectSocket.request,
@@ -51,6 +59,7 @@ const actions = {
   sendSocketCreateThread,
   sendSocketDeleteThread,
   sendSocketUpdateThread,
+  sendSocketCreateMessage,
 }
 
 type SocketAction = ActionType<typeof actions>

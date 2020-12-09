@@ -1,7 +1,6 @@
 import myAxios from '@util/myAxios'
-import { CreateChannelRequestType } from '@type/channel.type'
-
 import {
+  CreateChannelRequestType,
   ChannelRequestType,
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
@@ -51,5 +50,10 @@ const createNewChannel = async (data: CreateChannelRequestType) => {
   return response.data
 }
 
-export default { getChannels, joinChannel, joinMembersToChannel, getChannelInfo, createNewChannel }
-
+export default {
+  getChannels,
+  joinChannel,
+  joinMembersToChannel,
+  getChannelInfo,
+  createNewChannel,
+}

@@ -11,7 +11,11 @@ import {
   CreateThreadRequestType,
   CurrentThreadType,
 } from '@type/thread.type'
-import { UpdateMessageRequestType } from '@type/message.type'
+import {
+  UpdateMessageRequestType,
+  CreateMessageRequestType,
+  CreateMessageSocketResponseType,
+} from '@type/message.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
@@ -43,6 +47,8 @@ export const SET_CURRENT_THREAD_REQUEST = `thread/SET_CURRENT_THREAD_REQUEST` as
 const SET_CURRENT_THREAD_SUCCESS = `thread/SET_CURRENT_THREAD_SUCCESS` as const
 const SET_CURRENT_THREAD_ERROR = `thread/SET_CURRENT_THREAD_ERROR` as const
 const CLEAR_CURRENT_THREAD = `thread/CLEAR_CURRENT_THREAD` as const
+export const CREATE_MESSAGE = `thread/CREATE_MESSAGE` as const
+export const RECEIVE_CREATE_MESSAGE = `thread/RECEIVE_CREATE_MESSAGE` as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -71,6 +77,12 @@ export const setCurrentThread = createAsyncAction(
   SET_CURRENT_THREAD_ERROR,
 )<GetThreadResponseType, CurrentThreadType, AxiosError>()
 export const clearCurrentThread = createAction(CLEAR_CURRENT_THREAD)()
+export const createMessage = createAction(CREATE_MESSAGE)<
+  CreateMessageRequestType
+>()
+export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
+  CreateMessageSocketResponseType
+>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -86,6 +98,8 @@ const actions = {
   setCurrentThreadSuccess: setCurrentThread.success,
   setCurrentThreadFailure: setCurrentThread.failure,
   clearCurrentThread,
+  createMessage,
+  receiveCreateMessage,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -164,6 +178,17 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         if (thread.id === action.payload.id) return action.payload
         return thread
       }),
+    }
+  },
+  [RECEIVE_CREATE_MESSAGE]: (state, action) => {
+    const { thread, message } = action.payload
+    if (thread.id !== state.currentThread.thread?.id) return { ...state }
+    return {
+      ...state,
+      currentThread: {
+        thread,
+        messageList: [...state.currentThread.messageList, message],
+      },
     }
   },
 })
