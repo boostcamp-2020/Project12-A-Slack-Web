@@ -57,7 +57,7 @@ const createMessage = async ({
     await t.commit()
     return {
       code: statusCode.CREATED,
-      json: { success: true },
+      json: { success: true, data: { messageId: newMessage.id } },
     }
   } catch (error) {
     await t.rollback()
