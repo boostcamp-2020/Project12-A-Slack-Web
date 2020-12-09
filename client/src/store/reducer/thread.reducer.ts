@@ -89,9 +89,9 @@ export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
 export const deleteMessage = createAction(DELETE_MESSAGE)<
   DeleteMessageRequestType
 >()
-export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<
-  MessageSocketResponseDataType
->()
+export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<{
+  messageId: number
+}>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -203,13 +203,13 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     }
   },
   [RECEIVE_DELETE_MESSAGE]: (state, action) => {
-    const { thread, message } = action.payload
-    if (thread.id !== state.currentThread.thread?.id) return { ...state }
     return {
       ...state,
       currentThread: {
-        thread,
-        messageList: [...state.currentThread.messageList, message],
+        thread: state.currentThread.thread,
+        messageList: state.currentThread.messageList.filter(
+          (message) => message.id !== action.payload.messageId,
+        ),
       },
     }
   },

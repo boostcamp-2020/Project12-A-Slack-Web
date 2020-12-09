@@ -14,7 +14,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
     (state: RootState) => state.threadStore.currentThread,
   )
   let headMessage: MessageType | null = null
-  let replyCount: number = -1
+  let replyCount: number = 0
   let threadId: number = -1
   if (thread) {
     headMessage = thread.headMessage

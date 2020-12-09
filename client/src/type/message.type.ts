@@ -66,3 +66,9 @@ export interface DeleteMessageRequestType {
   messageId: number
   threadId: number
 }
+
+export interface DeleteMessageSocketResponseType {
+  threadId?: number
+  thread?: GetThreadResponseType
+  messageId?: number
+}

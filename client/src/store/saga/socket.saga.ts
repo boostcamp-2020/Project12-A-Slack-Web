@@ -6,9 +6,12 @@ import {
   receiveDeleteThread,
   receiveUpdateThread,
   receiveCreateMessage,
+  clearCurrentThread,
+  receiveDeleteMessage,
 } from '@store/reducer/thread.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
+import { DeleteMessageSocketResponseType } from '@type/message.type'
 import {
   connectSocket,
   sendSocketJoinRoom,
@@ -72,10 +75,16 @@ function subscribeSocket(socket: Socket) {
       emit(receiveUpdateThread(data.thread))
     }
 
-    const handleDeleteMessage = (data: any) => {
+    const handleDeleteMessage = (data: DeleteMessageSocketResponseType) => {
       console.log('delete message: ', data)
-      emit(receiveCreateMessage(data))
-      emit(receiveUpdateThread(data.thread))
+      if (data.threadId) {
+        emit(clearCurrentThread())
+        emit(receiveDeleteThread(data.threadId))
+      }
+      if (data.messageId && data.thread) {
+        emit(receiveDeleteMessage({ messageId: data.messageId }))
+        emit(receiveDeleteThread(data.thread))
+      }
     }
 
     socket.on(DISCONNECT, handleDisconnect)
@@ -137,7 +146,6 @@ function* sendDeleteMessage(socket: Socket) {
 function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
-    console.log(payload)
     socket.emit(JOIN_ROOM, payload)
   }
 }
