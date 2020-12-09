@@ -50,14 +50,7 @@ const WorkspacePage = () => {
       <O.Header />
 
       <WorkspaceLayout>
-        {loading ? (
-          <A.Loading />
-        ) : (
-          <O.SideBar
-            workspaceInfo={currentWorkspace}
-            channelList={channelList}
-          />
-        )}
+        <O.SideBar workspaceInfo={currentWorkspace} channelList={channelList} />
 
         <ViewContainer>
           <Switch>
