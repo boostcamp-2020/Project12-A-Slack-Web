@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
+import { MessageType } from '@type/thread.type'
 import { ThreadDetailProps } from '.'
-
 import Styled from './ThreadDetail.style'
 
-const ThreadDetail = ({ thread }: ThreadDetailProps) => {
-  const { id, Messages, User } = thread
-  const replyList = Messages.filter((message) => !message.isHead)
-  const replyCount = replyList.length
-
-  const firstMessage = Messages[0]
+const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
+  const { thread, messageList } = useSelector(
+    (state: RootState) => state.threadStore.currentThread,
+  )
+  let headMessage: MessageType | null = null
+  let replyCount: number = 0
+  if (thread) {
+    headMessage = thread.headMessage
+    replyCount = thread.replyCount
+  }
+  const replyList = messageList
 
   return (
     <Styled.ThreadContainer>
-      {firstMessage.isHead ? (
+      {headMessage ? (
         <O.MessageCard
-          data={firstMessage}
+          data={headMessage}
           type="MESSAGE"
           onReplyButtonClick={() => {}}
         />

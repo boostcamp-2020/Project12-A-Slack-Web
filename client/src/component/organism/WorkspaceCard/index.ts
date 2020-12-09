@@ -1,14 +1,9 @@
+import { UserType as User } from '@type/user.type'
+
 export { default } from './WorkspaceCard'
 
 export interface WorkspaceProps {
   workspace: Workspace
-}
-
-export interface User {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
 }
 
 export interface Workspace {

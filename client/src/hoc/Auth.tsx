@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
-import styled from 'styled-components'
 import { useSelector, useDispatch } from 'react-redux'
 import A from '@atom'
 import { RootState } from '@store'
@@ -29,12 +28,13 @@ const Auth = (Component: any, option: boolean) => () => {
           if (currentUser.id !== -1 && option) {
             history.push('/')
           }
+
           if (currentUser.id !== -1 && !option) {
             history.push(window.location.pathname)
           }
         }
 
-        if (!token && !option) {
+        if (!token && (!option || currentUser.id !== -1)) {
           history.push('/login')
         }
 
@@ -46,19 +46,9 @@ const Auth = (Component: any, option: boolean) => () => {
       }
     }
     check()
-  }, [])
+  }, [currentUser.id])
 
   return loading ? <A.Loading /> : <Component />
 }
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`
 
 export default Auth

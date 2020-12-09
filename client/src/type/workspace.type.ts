@@ -1,9 +1,4 @@
-interface User {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
-}
+import { UserType as User } from './user.type'
 
 export interface WorkspaceResponseType extends Object {
   id: number
@@ -16,6 +11,7 @@ export interface WorkspaceResponseType extends Object {
 export interface CreateWorkspaceRequestType {
   name: string
   imageUrl: string
+  channelName: string
 }
 
 export interface JoinWorkspaceRequestType {

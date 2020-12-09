@@ -1,4 +1,4 @@
-import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
+import { call, put, takeLatest, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import workspaceAPI from '@api/workspace'
 import {
@@ -23,12 +23,12 @@ function* getWorkspacesSaga() {
 
 function* createWorkspaceSaga(action: ReturnType<typeof createWorkspace>) {
   try {
-    //   TODO: data로 workspace id 가지고 와서 해당 워크스페이스로 접속하기
-    const { success, data } = yield call(
-      workspaceAPI.createWorkspace,
-      action.payload,
-    )
-    if (success) toast.success('workspace를 생성했습니다.')
+    const { success } = yield call(workspaceAPI.createWorkspace, action.payload)
+    if (success) {
+      toast.success('workspace를 생성했습니다.')
+      // TODO: 필요한 경우 redux-middleware에서 사용하는 custom history를 사용하자
+      window.location.href = '/'
+    }
   } catch (error) {
     toast.error('Failed to create workspace')
   }
@@ -40,22 +40,24 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
       workspaceAPI.joinWorkspace,
       action.payload,
     )
-    if (success) toast.success('workspace에 참가했습니다.')
+    if (success) {
+      toast.success('workspace에 참가했습니다.')
+    }
   } catch (error) {
     toast.error('Failed to join workspace')
   }
 }
 
 function* watchGetWorkspacesSaga() {
-  yield takeEvery(GET_WORKSPACES_REQUEST, getWorkspacesSaga)
+  yield takeLatest(GET_WORKSPACES_REQUEST, getWorkspacesSaga)
 }
 
 function* watchCreateWorkspaceSaga() {
-  yield takeEvery(CREATE_WORKSPACE, createWorkspaceSaga)
+  yield takeLatest(CREATE_WORKSPACE, createWorkspaceSaga)
 }
 
 function* watchJoinWorkspaceSaga() {
-  yield takeEvery(JOIN_WORKSPACE, joinWorkspaceSaga)
+  yield takeLatest(JOIN_WORKSPACE, joinWorkspaceSaga)
 }
 
 export default function* workspaceSaga() {

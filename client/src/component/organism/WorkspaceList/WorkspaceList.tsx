@@ -15,10 +15,17 @@ const WorkspaceList = ({ workspaceList }: WorkspaceListProps) => {
         <A.Text customStyle={IntroTextStyle}>님의 워크스페이스 관리</A.Text>
       </Styled.UserInfoWrapper>
       <Styled.WorkspaceListWrapper>
-        {workspaceList.length > 0 &&
+        {workspaceList.length > 0 ? (
           workspaceList.map((workspace) => (
             <O.WorkspaceCard key={workspace.id} workspace={workspace} />
-          ))}
+          ))
+        ) : (
+          <Styled.NoContentWrapper>
+            <A.Text customStyle={UserEmailTextStyle}>
+              워크스페이스를 생성해주세요!
+            </A.Text>
+          </Styled.NoContentWrapper>
+        )}
       </Styled.WorkspaceListWrapper>
     </Styled.ContentWrapper>
   )

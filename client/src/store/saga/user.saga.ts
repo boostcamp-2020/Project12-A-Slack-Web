@@ -1,4 +1,4 @@
-import { call, put, takeEvery, fork, all } from 'redux-saga/effects'
+import { call, put, takeLatest, fork, all } from 'redux-saga/effects'
 import UserAPI from '@api/user'
 import { GetUserInfoResponseType } from '@type/user.type'
 import {
@@ -24,7 +24,7 @@ function* getUserInfoSaga() {
 }
 
 function* watchGetUserInfoSage() {
-  yield takeEvery(GET_USER_INFO_REQUEST, getUserInfoSaga)
+  yield takeLatest(GET_USER_INFO_REQUEST, getUserInfoSaga)
 }
 
 export default function* userSaga() {

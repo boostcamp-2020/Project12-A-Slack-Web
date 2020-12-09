@@ -1,17 +1,19 @@
+import { AxiosError } from 'axios'
 import { UserType } from './user.type'
 
 interface FileType {
   id: number
   url: string
   type: string
-  createdAt: string
-  updatedAt: string
-  profileImageUrl: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface ReactionType {
   id: number
   content: string
+  createdAt?: string
+  updatedAt?: string
   User: UserType
 }
 
@@ -27,7 +29,7 @@ export interface ThreadType {
 export interface MessageType {
   id: number
   content: string
-  isHead: true
+  isHead?: false
   createdAt: string
   updatedAt: string
   User: UserType
@@ -56,4 +58,9 @@ export interface CreateThreadRequestType {
   content: string
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
+}
+
+export interface CurrentThreadType {
+  thread: GetThreadResponseType | null
+  messageList: MessageType[]
 }

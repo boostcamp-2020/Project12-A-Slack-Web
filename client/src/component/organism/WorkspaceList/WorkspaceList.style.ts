@@ -29,5 +29,18 @@ const WorkspaceListWrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `
+const NoContentWrapper = styled.div`
+  width: 100%;
+  height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid rgb(230, 230, 230);
+`
 
-export default { ContentWrapper, UserInfoWrapper, WorkspaceListWrapper }
+export default {
+  ContentWrapper,
+  UserInfoWrapper,
+  NoContentWrapper,
+  WorkspaceListWrapper,
+}

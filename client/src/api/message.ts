@@ -1,5 +1,17 @@
 import myAxios from '@util/myAxios'
-import { UpdateMessageRequestType } from '@type/message.type'
+import {
+  UpdateMessageRequestType,
+  GetMessagesResponseType,
+} from '@type/message.type'
+
+const getMessages = async (
+  threadId: number,
+): Promise<GetMessagesResponseType> => {
+  const response = await myAxios.get({
+    path: `/message?threadId=${threadId}`,
+  })
+  return response.data
+}
 
 const updateMessage = async (originalData: UpdateMessageRequestType) => {
   const data: object = {
@@ -14,5 +26,6 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 }
 
 export default {
+  getMessages,
   updateMessage,
 }

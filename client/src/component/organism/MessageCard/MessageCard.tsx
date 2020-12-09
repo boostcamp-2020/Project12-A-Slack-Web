@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -12,13 +12,14 @@ import { GetThreadResponseType, MessageType } from '@type/thread.type'
 import { UpdateMessageRequestType } from '@type/message.type'
 import { deleteThread, updateThread } from '@store/reducer/thread.reducer'
 import { getDateAndTime } from '@util/date'
+import { RootState } from '@store'
 import Styled from './MessageCard.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
-  onReplyButtonClick: () => void
+  onReplyButtonClick: (thread: GetThreadResponseType) => void
 }
 
 const MessageCard = ({
@@ -27,6 +28,7 @@ const MessageCard = ({
   continuous,
   onReplyButtonClick,
 }: MessageCardProps) => {
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
@@ -56,6 +58,8 @@ const MessageCard = ({
     // TODO: else -> message 일때
     setEditMode(false)
   }
+
+  const handleReplyButtonClick = () => onReplyButtonClick(thread)
 
   if (editMode) {
     return (
@@ -117,7 +121,7 @@ const MessageCard = ({
               targetType={type}
               targetId={message.id}
               targetAuthorId={message.User.id}
-              loginUserId={1} // TODO: change to store user id
+              loginUserId={currentUser.id}
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
             />
@@ -151,7 +155,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
-            onClick={onReplyButtonClick}
+            onClick={handleReplyButtonClick}
           />
         </Styled.ContentWrapper>
 
@@ -161,9 +165,10 @@ const MessageCard = ({
               targetType={type}
               targetId={thread.id}
               targetAuthorId={thread.User.id}
-              loginUserId={5} // TODO: change to store user id after UserStore
+              loginUserId={currentUser.id}
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
+              onReplyButtonClick={handleReplyButtonClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -205,7 +210,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
-            onClick={onReplyButtonClick}
+            onClick={handleReplyButtonClick}
           />
         )}
       </Styled.ContentWrapper>
@@ -216,9 +221,10 @@ const MessageCard = ({
             targetType={type}
             targetId={thread.id}
             targetAuthorId={thread.User.id}
-            loginUserId={5} // TODO: change to store user id
+            loginUserId={currentUser.id}
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
+            onReplyButtonClick={handleReplyButtonClick}
           />
         )}
       </Styled.ActionBarWrapper>
