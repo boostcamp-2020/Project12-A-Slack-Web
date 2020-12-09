@@ -166,7 +166,8 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     threadList: [...state.threadList, action.payload],
   }),
   [RECEIVE_DELETE_THREAD]: (state, action) => {
-    const { thread: currentThread } = state.currentThread
+    const { thread: currentThread, messageList } = state.currentThread
+    console.log(currentThread, currentThread?.id, messageList.length)
     if (typeof action.payload === 'number')
       return {
         ...state,
@@ -191,7 +192,7 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
       currentThread: {
         thread:
           currentThread && currentThread.id === deletedThread.id
-            ? null
+            ? deletedThread
             : state.currentThread.thread,
         messageList: state.currentThread.messageList,
       },
