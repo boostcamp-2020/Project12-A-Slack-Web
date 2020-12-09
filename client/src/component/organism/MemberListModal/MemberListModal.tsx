@@ -122,7 +122,13 @@ const MemberListModal = ({
           ) : (
             memberSearchResult.map((member) => {
               const handleRemoveButtonClick = () => {
-                dispatch(deleteMember({ channelId: id, userId: member.id }))
+                dispatch(
+                  deleteMember({
+                    channelId: id,
+                    userId: member.id,
+                    onSuccess: onClose,
+                  }),
+                )
               }
               return (
                 <Styled.MemberWrapper key={member.id}>

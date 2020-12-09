@@ -42,6 +42,7 @@ export interface JoinMembersToChannelRequestType {
 export interface DeleteMemberRequestType {
   channelId: number
   userId: number
+  onSuccess?: () => void
 }
 
 export interface ChannelRequestType {
