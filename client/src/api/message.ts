@@ -4,6 +4,7 @@ import {
   GetMessagesResponseType,
   CreateMessageRequestType,
   CreateMessageResponseType,
+  MessageSocketResponseType,
 } from '@type/message.type'
 
 const createMessage = async (
@@ -34,8 +35,18 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
   return response.data
 }
 
+const deleteMessage = async ({
+  messageId,
+}: {
+  messageId: number
+}): Promise<MessageSocketResponseType> => {
+  const response = await myAxios.delete({ path: `/message/${messageId}` })
+  return response.data
+}
+
 export default {
   createMessage,
   getMessages,
   updateMessage,
+  deleteMessage,
 }
