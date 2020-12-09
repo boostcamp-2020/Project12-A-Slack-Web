@@ -40,9 +40,9 @@ const WorkspacePage = () => {
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 
   useEffect(() => {
-    dispatch(getChannels.request({ workspaceId: +workspaceId }))
     dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
-    dispatch(connectSocket.request())
+    dispatch(getChannels.request({ workspaceId: +workspaceId }))
+    dispatch(connectSocket.request({ workspaceId: +workspaceId }))
   }, [])
 
   return (
