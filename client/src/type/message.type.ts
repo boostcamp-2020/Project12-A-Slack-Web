@@ -30,3 +30,7 @@ export interface MessageSocketResponseDataType {
 export interface MessageSocketResponseType extends ResponseType {
   data: MessageSocketResponseDataType
 }
+
+export interface MessageWithThreadIdType extends MessageType {
+  threadId: number
+}

@@ -37,10 +37,14 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 
 const deleteMessage = async ({
   messageId,
+  threadId,
 }: {
   messageId: number
+  threadId: number
 }): Promise<MessageSocketResponseType> => {
-  const response = await myAxios.delete({ path: `/message/${messageId}` })
+  const response = await myAxios.delete({
+    path: `/message/${messageId}?threadId=${threadId}`,
+  })
   return response.data
 }
 

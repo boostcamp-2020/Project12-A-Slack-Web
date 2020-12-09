@@ -174,7 +174,7 @@ function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
       )
     }
   } catch (e) {
-    toast.error('Failed to create message')
+    toast.error('Failed to delete message')
   }
 }
 

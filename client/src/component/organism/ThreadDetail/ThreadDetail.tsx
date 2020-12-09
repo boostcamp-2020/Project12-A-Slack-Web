@@ -5,7 +5,10 @@ import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
 import { MessageType } from '@type/thread.type'
-import { CreateMessageRequestType } from '@type/message.type'
+import {
+  CreateMessageRequestType,
+  MessageWithThreadIdType,
+} from '@type/message.type'
 import { createMessage } from '@store/reducer/thread.reducer'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
@@ -15,10 +18,12 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
     (state: RootState) => state.threadStore.currentThread,
   )
   let headMessage: MessageType | null = null
-  let replyCount: number = 0
+  let replyCount: number = -1
+  let threadId: number = -1
   if (thread) {
     headMessage = thread.headMessage
     replyCount = thread.replyCount
+    threadId = thread.id
   }
   const replyList = messageList
 
@@ -32,7 +37,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
     <Styled.ThreadContainer>
       {headMessage ? (
         <O.MessageCard
-          data={headMessage}
+          data={{ ...headMessage, threadId } as MessageWithThreadIdType}
           type="MESSAGE"
           onReplyButtonClick={() => {}}
         />
@@ -54,7 +59,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
         {replyList.map((message) => {
           return (
             <O.MessageCard
-              data={message}
+              data={{ ...message, threadId } as MessageWithThreadIdType}
               type="MESSAGE"
               onReplyButtonClick={() => {}}
               key={message.id}

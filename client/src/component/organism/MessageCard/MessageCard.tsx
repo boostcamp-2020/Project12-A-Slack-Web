@@ -9,7 +9,10 @@ import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { UpdateMessageRequestType } from '@type/message.type'
+import {
+  UpdateMessageRequestType,
+  MessageWithThreadIdType,
+} from '@type/message.type'
 import {
   deleteThread,
   updateThread,
@@ -20,7 +23,7 @@ import { RootState } from '@store'
 import Styled from './MessageCard.style'
 
 interface MessageCardProps {
-  data: GetThreadResponseType | MessageType
+  data: GetThreadResponseType | MessageWithThreadIdType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
   onReplyButtonClick: (thread: GetThreadResponseType) => void
@@ -35,7 +38,7 @@ const MessageCard = ({
   const { currentUser } = useSelector((state: RootState) => state.userStore)
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
-  const message = data as MessageType
+  const message = data as MessageWithThreadIdType
 
   const [hover, setHover] = useState(false)
   const [editMode, setEditMode] = useState(false)
@@ -50,7 +53,7 @@ const MessageCard = ({
       dispatch(deleteThread({ threadId: id }))
     } else {
       id = message.id
-      dispatch(deleteMessage({ messageId: id }))
+      dispatch(deleteMessage({ messageId: id, threadId: message.threadId }))
     }
   }
   const handleEditCancelButtonClick = () => setEditMode(false)
