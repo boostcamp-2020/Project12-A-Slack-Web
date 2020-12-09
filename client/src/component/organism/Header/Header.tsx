@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import myIcon from '@constant/icon'
+import { useSelector } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
 import Styled from './Header.style'
 
 const Header = () => {
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
   const [modal, setModal] = useState<boolean>(false)
   const [profile, setProfile] = useState<boolean>(false)
   const [toggle, setToggle] = useState<boolean>(false)
@@ -25,6 +28,7 @@ const Header = () => {
         <M.HeaderInput onClick={handleSearchBarClick} />
         <Styled.HeaderProfileRightContainer>
           <A.Image
+            url={currentUser.profileImageUrl}
             customStyle={headerImageStyle}
             onClick={handleProfileClick}
           />
@@ -117,12 +121,24 @@ const Header = () => {
             <>
               <Styled.ProfileModalContainerFirst>
                 <A.Image
+                  url={currentUser.profileImageUrl}
                   customStyle={profileHeaderImageStyle}
                   onClick={handleProfileClick}
                 />
                 <Styled.ProfileInContainer>
-                  <A.Text customStyle={profileNameText}>J00_캠퍼</A.Text>
-                  <A.Text customStyle={profileActiveText}>● Active</A.Text>
+                  <A.Text customStyle={profileNameText}>
+                    {currentUser.name}
+                  </A.Text>
+                  <div>
+                    <A.Icon
+                      icon={myIcon.online}
+                      customStyle={{
+                        color: 'green',
+                        margin: '1rem',
+                      }}
+                    />
+                    <A.Text customStyle={profileActiveText}>Active</A.Text>
+                  </div>
                 </Styled.ProfileInContainer>
               </Styled.ProfileModalContainerFirst>
               <Styled.ProfileModalContainerSecond>
@@ -194,7 +210,7 @@ const profileStatusIconStyle = {
 
 const profileStatusIconLoginStatusStyle = {
   position: 'absolute',
-  color: 'white',
+  color: 'green',
   bottom: '0',
   right: '7px',
   top: '17px;',

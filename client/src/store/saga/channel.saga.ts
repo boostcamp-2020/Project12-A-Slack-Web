@@ -27,6 +27,7 @@ import {
   deleteMember,
   receiveDeleteMember,
 } from '../reducer/channel.reducer'
+import { sendSocketJoinRoom } from '../reducer/socket.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
   try {
@@ -136,7 +137,10 @@ function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
       action.payload,
     )
     console.log(data)
-    if (success) yield put(createChannel.success(data))
+    if (success) {
+      yield put(createChannel.success(data))
+      yield put(sendSocketJoinRoom({ channelIdList: [data.id] }))
+    }
   } catch (error) {
     yield put(createChannel.failure(error))
   }

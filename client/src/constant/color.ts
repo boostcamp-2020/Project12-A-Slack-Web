@@ -16,6 +16,7 @@ color.set('sky', '#f1f8ff')
 color.set('linkBlue', '#1264a3')
 color.set('aliceBlue', '#F0F8FF')
 color.set('lightSkyBlue', '#87CEFA')
+color.set('slackBlue', '#1f57e7')
 
 // grey
 color.set('darkGrey', '#808080')

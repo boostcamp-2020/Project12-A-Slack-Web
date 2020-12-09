@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { RootState } from '@store'
 import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
 import { GetThreadResponseType } from '@type/thread.type'
@@ -23,12 +24,16 @@ const ThreadList = ({
 
   const dispatch = useDispatch()
   const { threadList } = useSelector((state: RootState) => state.threadStore)
+  const { channelId } = useParams<{
+    channelId: string
+  }>()
 
   const scrollToBottom = () => {
     if (threadEndRef) {
       threadEndRef.current!.scrollIntoView()
     }
   }
+
   useEffect(scrollToBottom, [threads[threads.length - 1]])
 
   const handleScrollTop = () => {
@@ -59,11 +64,7 @@ const ThreadList = ({
     </Styled.ThreadSubViewHeaderWrapper>
   )
 
-  const threadDetail = (
-    <O.ThreadDetail
-      onReplyButtonClick={() => alert(`reply button in thread `)}
-    />
-  )
+  const threadDetail = <O.ThreadDetail channelId={+channelId} />
 
   const handleReplyButtonClick = (thread: GetThreadResponseType) => {
     dispatch(setCurrentThread.request(thread))

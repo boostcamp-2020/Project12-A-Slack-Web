@@ -18,6 +18,10 @@ interface GetTeammatesRequestType {
   searchKeyword?: string
 }
 
+interface getCurrentWorkspaceInfoType {
+  workspaceId: number
+}
+
 interface WorkspaceInstance extends WorkspaceModel {
   // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
@@ -217,9 +221,33 @@ const readWorkspaceUsers = async ({
   }
 }
 
+const readCurrentWorkspaceInfo = async ({
+  workspaceId,
+}: getCurrentWorkspaceInfoType) => {
+  try {
+    const targetWorkspaceInfo = await WorkspaceModel.findOne({
+      where: { id: workspaceId },
+      attributes: ['id', 'name', 'imageUrl'],
+    })
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: targetWorkspaceInfo,
+      },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createWorkspace,
   readWorkspaceByUser,
   joinWorkspace,
   readWorkspaceUsers,
+  readCurrentWorkspaceInfo,
 }

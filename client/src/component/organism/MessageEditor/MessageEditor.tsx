@@ -7,14 +7,18 @@ import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
 import { createThread } from '@store/reducer/thread.reducer'
-import { UpdateMessageRequestType } from '@type/message.type'
+import {
+  CreateMessageRequestType,
+  UpdateMessageRequestType,
+} from '@type/message.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
   id?: number
   value?: string
   placeHolder?: string
-  onSubmitButtonClick?: (data: UpdateMessageRequestType) => void
+  type?: 'THREAD' | 'MESSAGE'
+  onSubmitButtonClick?: (data: any) => void
 }
 
 interface MatchParamsType {
@@ -25,6 +29,7 @@ const MessageEditor = ({
   id,
   value,
   placeHolder,
+  type = 'THREAD',
   onSubmitButtonClick,
 }: MessageEditorProps) => {
   const dispatch = useDispatch()
@@ -38,17 +43,18 @@ const MessageEditor = ({
     setContent(e.target.value)
     console.log('CHANGEd CONTENT !')
   }
-
   const handleSubmitButtonClick = () => {
     const data = {
       content,
       channelId: +channelId,
       fileInfoList: [],
     }
-
-    if (id && onSubmitButtonClick)
-      onSubmitButtonClick({ ...data, messageId: id })
-    else dispatch(createThread(data))
+    if (id && onSubmitButtonClick) {
+      if (type === 'MESSAGE') onSubmitButtonClick({ ...data, threadId: id })
+      else onSubmitButtonClick({ ...data, messageId: id })
+    } else {
+      dispatch(createThread(data))
+    }
     setContent('')
     console.log('CREATE MESSAGE !')
   }
@@ -137,6 +143,7 @@ MessageEditor.defaultProps = {
   id: 0,
   value: '',
   placeHolder: 'Jot something down',
+  type: 'THREAD',
   onSubmitButtonClick: null,
 }
 

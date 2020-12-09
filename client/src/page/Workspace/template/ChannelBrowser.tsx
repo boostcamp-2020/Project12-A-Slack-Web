@@ -29,29 +29,21 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
         path: `/channel/all?workspaceId=${workspaceId}`,
       })
 
-      const filterdChannels = data.map((channel: ChannelCardType) => {
-        return {
-          ...channel,
-          joined: channelList.find((chann) => chann.id === channel.id),
-        }
-      })
+      const filterdChannels = data
+        .map((channel: ChannelCardType) => {
+          return {
+            ...channel,
+            joined: channelList.find((chann) => chann.id === channel.id),
+          }
+        })
+        .filter(
+          (ch: ChannelCardType) =>
+            (ch.type === 'PRIVATE' && ch.joined) || ch.type === 'PUBLIC',
+        )
       setChannels(filterdChannels)
     }
     getWorkspaceChannels()
   }, [channelList])
-
-  useEffect(() => {
-    const getUserInChannels = async () => {
-      const {
-        data: { data },
-      } = await myAxios.get({
-        path: `/channel/`,
-        data: { workspaceId },
-      })
-      console.log(data)
-    }
-    getUserInChannels()
-  }, [])
 
   const handleJoinButtonClick = (channel: ChannelCardType) => () => {
     dispatch(joinChannel.request({ channel }))
