@@ -11,6 +11,7 @@ import { ModalWrapperType } from '@atom/ModalWrapper'
 import myIcon from '@constant/icon'
 import color from '@constant/color'
 import { UserType } from '@type/user.type'
+import { deleteMember } from '@store/reducer/channel.reducer'
 import userAPI from '@api/user'
 import { MemberListModalProps } from '.'
 import Styled from './MemberListModal.style'
@@ -24,6 +25,7 @@ const MemberListModal = ({
   const {
     currentUser: { id: loginUserId },
   } = useSelector((state: RootState) => state.userStore)
+  const dispatch = useDispatch()
 
   const [inputKeyword, setInputKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState<UserType[]>([])
@@ -64,10 +66,6 @@ const MemberListModal = ({
 
   const handleClearSearchButtonClick = (): void => {
     setInputKeyword('')
-  }
-
-  const handleRemoveButtonClick = () => {
-    alert('remove')
   }
 
   return (
@@ -122,26 +120,34 @@ const MemberListModal = ({
               </M.ButtonDiv>
             </Styled.EmptyListWrapper>
           ) : (
-            memberSearchResult.map((member) => (
-              <Styled.MemberWrapper key={member.id}>
-                <Styled.MemberLeftWrapper>
-                  <O.Avatar user={member} size="BIG" clickable />
-                  <A.Text customStyle={memberNameTextStyle}>
-                    {member.name + (loginUserId === member.id ? ' (you)' : '')}
-                  </A.Text>
-                </Styled.MemberLeftWrapper>
+            memberSearchResult.map((member) => {
+              const handleRemoveButtonClick = () => {
+                dispatch(
+                  deleteMember.request({ channelId: id, userId: member.id }),
+                )
+              }
+              return (
+                <Styled.MemberWrapper key={member.id}>
+                  <Styled.MemberLeftWrapper>
+                    <O.Avatar user={member} size="BIG" clickable />
+                    <A.Text customStyle={memberNameTextStyle}>
+                      {member.name +
+                        (loginUserId === member.id ? ' (you)' : '')}
+                    </A.Text>
+                  </Styled.MemberLeftWrapper>
 
-                {type === 'PRIVATE' && loginUserId !== member.id && (
-                  <M.ButtonDiv
-                    onClick={handleRemoveButtonClick}
-                    buttonStyle={removeButtonStyle}
-                    textStyle={removeButtonTextStyle}
-                  >
-                    Remove
-                  </M.ButtonDiv>
-                )}
-              </Styled.MemberWrapper>
-            ))
+                  {type === 'PRIVATE' && loginUserId !== member.id && (
+                    <M.ButtonDiv
+                      onClick={handleRemoveButtonClick}
+                      buttonStyle={removeButtonStyle}
+                      textStyle={removeButtonTextStyle}
+                    >
+                      Remove
+                    </M.ButtonDiv>
+                  )}
+                </Styled.MemberWrapper>
+              )
+            })
           )}
         </Styled.MemberListWrapper>
       </Styled.Wrapper>
