@@ -63,6 +63,4 @@ export interface CreateThreadRequestType {
 export interface CurrentThreadType {
   thread: GetThreadResponseType | null
   messageList: MessageType[]
-  loading: boolean
-  error: AxiosError | null
 }
