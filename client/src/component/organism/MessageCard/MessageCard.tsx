@@ -19,7 +19,7 @@ interface MessageCardProps {
   data: GetThreadResponseType | MessageType
   type: 'THREAD' | 'MESSAGE'
   continuous?: boolean
-  onReplyButtonClick: () => void
+  onReplyButtonClick: (thread: GetThreadResponseType) => void
 }
 
 const MessageCard = ({
@@ -58,6 +58,8 @@ const MessageCard = ({
     // TODO: else -> message 일때
     setEditMode(false)
   }
+
+  const handleReplyButtonClick = () => onReplyButtonClick(thread)
 
   if (editMode) {
     return (
@@ -153,7 +155,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
-            onClick={onReplyButtonClick}
+            onClick={handleReplyButtonClick}
           />
         </Styled.ContentWrapper>
 
@@ -166,7 +168,7 @@ const MessageCard = ({
               loginUserId={currentUser.id}
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
-              onReplyButtonClick={onReplyButtonClick}
+              onReplyButtonClick={handleReplyButtonClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -208,7 +210,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
-            onClick={onReplyButtonClick}
+            onClick={handleReplyButtonClick}
           />
         )}
       </Styled.ContentWrapper>
@@ -222,7 +224,7 @@ const MessageCard = ({
             loginUserId={currentUser.id}
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
-            onReplyButtonClick={onReplyButtonClick}
+            onReplyButtonClick={handleReplyButtonClick}
           />
         )}
       </Styled.ActionBarWrapper>

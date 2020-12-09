@@ -105,6 +105,25 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
+  [SET_CURRENT_THREAD_REQUEST]: (state, _) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  [SET_CURRENT_THREAD_SUCCESS]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: null,
+    currentThread: {
+      thread: action.payload.thread,
+      messageList: action.payload.messageList,
+    },
+  }),
+  [SET_CURRENT_THREAD_ERROR]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.payload,
+  }),
   [RECEIVE_CREATE_THREAD]: (state, action) => ({
     ...state,
     threadList: [...state.threadList, action.payload],

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store'
-import { getThreads } from '@store/reducer/thread.reducer'
+import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
@@ -9,6 +9,7 @@ import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
+import { GetThreadResponseType } from '@type/thread.type'
 
 const ThreadList = ({
   channelInfo,
@@ -58,6 +59,20 @@ const ThreadList = ({
     </Styled.ThreadSubViewHeaderWrapper>
   )
 
+  const threadDetail = (
+    <O.ThreadDetail
+      thread={threadList[0]}
+      onReplyButtonClick={() => alert(`reply button in thread `)}
+    />
+  )
+
+  const handleReplyButtonClick = (thread: GetThreadResponseType) => {
+    dispatch(setCurrentThread.request(thread))
+    handleSubViewOpen()
+    handleSubViewHeader(subViewHeader)
+    handleSubViewBody(threadDetail)
+  }
+
   return (
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer ref={threadListEl} onScroll={handleScrollTop}>
@@ -93,19 +108,6 @@ const ThreadList = ({
         </Styled.ThreadListTop>
 
         {threads.map((thread, index, arr) => {
-          const threadDetail = (
-            <O.ThreadDetail
-              thread={thread}
-              onReplyButtonClick={() => alert(`reply to ${thread.id}`)}
-            />
-          )
-
-          const handleReplyButtonClick = () => {
-            handleSubViewOpen()
-            handleSubViewHeader(subViewHeader)
-            handleSubViewBody(threadDetail)
-          }
-
           const prevThread = index > 0 ? arr[index - 1] : undefined
 
           const sameUser = !!(
