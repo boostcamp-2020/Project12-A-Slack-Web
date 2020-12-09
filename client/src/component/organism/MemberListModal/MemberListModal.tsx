@@ -19,40 +19,40 @@ const MemberListModal = ({
   onClose,
 }: MemberListModalProps) => {
   const { id, type, name } = channel
-  let members: UserType[] = []
+
+  const [inputKeyword, setInputKeyword] = useState('')
+  const [memberSearchResult, setMemberSearchResult] = useState<UserType[]>([])
 
   useEffect(() => {
     const getUsersByChannel = async () => {
       const { success, data } = await userAPI.getUsersByChannel({
         channelId: id,
       })
-      // TODO: 응답 잘 오는지 확인
-      if (success) members = data
+      if (success) setMemberSearchResult(data)
     }
     getUsersByChannel()
   }, [])
 
-  const [searchKeyword, setSearchKeyword] = useState('')
-  const [memberSearchResult, setMemberSearchResult] = useState(members)
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const input = e.target.value
-    setSearchKeyword(input)
+    const inputValue = e.target.value
+    setInputKeyword(inputValue)
 
-    const escapedInput = input.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // 특수문자 검색 처리
-    const searchResult =
-      escapedInput === ''
-        ? members
-        : members.filter((member) => {
-            const regex = new RegExp(escapedInput, 'gi')
-            return member.name.match(regex) || member.email.match(regex)
-          })
-    setMemberSearchResult(searchResult)
+    const searchMembers = async (searchKeyword: string) => {
+      const { success, data } = await userAPI.searchMembers({
+        channelId: id,
+        searchKeyword,
+      })
+      if (success) {
+        setMemberSearchResult(data)
+        return
+      }
+      setMemberSearchResult([])
+    }
+    searchMembers(inputValue)
   }
 
   const handleClearSearchButtonClick = (): void => {
-    setSearchKeyword('')
-    setMemberSearchResult(members)
+    setInputKeyword('')
   }
 
   return (
@@ -66,7 +66,7 @@ const MemberListModal = ({
         <Styled.UpperWrapper>
           <A.Text customStyle={modalTitleTextStyle}>
             <>
-              {`${members.length} members in`}
+              {`${memberSearchResult.length} members in`}
               <A.Icon
                 icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
                 customStyle={{ margin: '0 3px 0 6px' }}
@@ -81,7 +81,7 @@ const MemberListModal = ({
 
           <A.Input
             placeholder="Search members"
-            value={searchKeyword}
+            value={inputKeyword}
             onChange={handleInputChange}
             customStyle={inputStyle}
           />
@@ -90,12 +90,14 @@ const MemberListModal = ({
         <Styled.MemberListWrapper>
           {memberSearchResult.length === 0 ? (
             <Styled.EmptyListWrapper>
-              <div>
-                No matches found for
-                <A.Text customStyle={searchKeywordTextStyle}>
-                  {searchKeyword}
-                </A.Text>
-              </div>
+              <A.Text customStyle={{ fontSize: '1.5rem' }}>
+                <>
+                  {'No matches found for '}
+                  <A.Text customStyle={inputKeywordTextStyle}>
+                    {inputKeyword}
+                  </A.Text>
+                </>
+              </A.Text>
               <M.ButtonDiv
                 buttonStyle={clearSearchButtonStyle}
                 textStyle={clearSearchButtonTextStyle}
@@ -153,7 +155,7 @@ const inputStyle: InputType.StyleAttributes = {
   fontSize: '1.4rem',
 }
 
-const searchKeywordTextStyle: TextType.StyleAttributes = {
+const inputKeywordTextStyle: TextType.StyleAttributes = {
   fontWeight: 'bold',
   margin: '0 0 0 5px',
 }
@@ -173,7 +175,7 @@ const clearSearchButtonStyle: ButtonType.StyleAttributes = {
 }
 
 const clearSearchButtonTextStyle: TextType.StyleAttributes = {
-  fontSize: '0.9rem',
+  fontSize: '1.5rem',
   fontWeight: '600',
 }
 
