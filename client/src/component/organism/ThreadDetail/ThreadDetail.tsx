@@ -12,14 +12,14 @@ const ThreadDetail = ({ thread }: ThreadDetailProps) => {
   const { id, headMessage, replyCount } = thread
   const [replyList, setReplyList] = useState<MessageType[]>([])
 
+  const getMessages = async () => {
+    const { success, data } = await MessageAPI.getMessages(id)
+    if (success) setReplyList(data)
+    else toast.error('Message를 가져오는데 실패했습니다.')
+  }
   useEffect(() => {
-    const getMessages = async () => {
-      const { success, data } = await MessageAPI.getMessages(id)
-      if (success) setReplyList(data)
-      else toast.error('Message를 가져오는데 실패했습니다.')
-    }
     getMessages()
-  }, [])
+  }, [id])
 
   const firstMessage = headMessage
 
