@@ -1,4 +1,12 @@
-import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  fork,
+  all,
+  select,
+} from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import { ChannelType } from '@type/channel.type'
@@ -9,6 +17,7 @@ import {
   JOIN_CHANNEL_REQUEST,
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
   DELETE_MEMBER,
+  RECEIVE_DELETE_MEMBER,
   CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
@@ -16,6 +25,7 @@ import {
   joinChannel,
   joinMembersToChannel,
   deleteMember,
+  receiveDeleteMember,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -89,6 +99,29 @@ function* deleteMemberSaga(action: ReturnType<typeof deleteMember>) {
   }
 }
 
+function* receiveDeleteMemberSaga(
+  action: ReturnType<typeof receiveDeleteMember>,
+) {
+  try {
+    const { loginUserId, workspaceId } = yield select((state) => {
+      return {
+        loginUserId: state.userStore.currentUser.id,
+        // TODO: workspaceId 교체
+        workspaceId: 1, // state.workspaceStore.currentWorkspace.id,
+      }
+    })
+
+    if (loginUserId === action.payload.userId) {
+      toast.success(
+        `You have been removed from the private channel ${action.payload.channelInfo.name}`,
+      )
+      window.location.href = `/workspace/${workspaceId}/channel-browser`
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
   try {
     const { success, data } = yield call(
@@ -122,6 +155,10 @@ function* watchDeleteMemberSaga() {
   yield takeLatest(DELETE_MEMBER, deleteMemberSaga)
 }
 
+function* watchRecieveDeleteMemberSaga() {
+  yield takeLatest(RECEIVE_DELETE_MEMBER, receiveDeleteMemberSaga)
+}
+
 function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
@@ -133,6 +170,7 @@ export default function* channelSaga() {
     fork(watchJoinChannelSaga),
     fork(watchJoinMembersToChannelSaga),
     fork(watchDeleteMemberSaga),
+    fork(watchRecieveDeleteMemberSaga),
     fork(watchCreateChannelSaga),
   ])
 }

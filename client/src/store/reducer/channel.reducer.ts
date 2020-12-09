@@ -89,9 +89,10 @@ export const joinMembersToChannel = createAsyncAction(
 export const deleteMember = createAction(DELETE_MEMBER)<
   DeleteMemberRequestType
 >()
-export const receiveDeleteMember = createAction(RECEIVE_DELETE_MEMBER)<
-  CurrentChannelType
->()
+export const receiveDeleteMember = createAction(RECEIVE_DELETE_MEMBER)<{
+  channelInfo: CurrentChannelType
+  userId: number
+}>()
 
 export const createChannel = createAsyncAction(
   CREATE_CHANNEL_REQUEST,
@@ -193,11 +194,11 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
   }),
 
   [RECEIVE_DELETE_MEMBER]: (state, action) => {
-    const { id } = action.payload
-    if (state.currentChannel.id === id) {
+    const { channelInfo } = action.payload
+    if (state.currentChannel.id === channelInfo.id) {
       return {
         ...state,
-        currentChannel: { ...action.payload },
+        currentChannel: { ...channelInfo },
       }
     }
     return {

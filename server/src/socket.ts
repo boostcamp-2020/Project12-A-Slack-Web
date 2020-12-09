@@ -36,7 +36,11 @@ namespace.on('connection', (socket: Socket) => {
       const { json } = await channelService.readChannelInfo({
         channelId,
       })
-      namespace.to(channelId.toString()).emit('DELETE_MEMBER', json.data)
+      const payload = {
+        channelInfo: json.data,
+        userId,
+      }
+      namespace.to(channelId.toString()).emit('DELETE_MEMBER', payload)
     },
   )
   socket.on(
