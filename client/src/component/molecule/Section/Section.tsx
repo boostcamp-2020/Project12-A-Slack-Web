@@ -428,8 +428,10 @@ const plusIconStyle = {
 }
 
 const ChannelButtonStyle = {
+  borderRadius: '0',
   width: '100%',
-  hoverBackgroundColor: 'orange',
+  hoverBackgroundColor: 'slackBlue',
+  hoverColor: 'white',
   padding: '5px',
   display: 'flex',
   justifyContent: 'flex-start',

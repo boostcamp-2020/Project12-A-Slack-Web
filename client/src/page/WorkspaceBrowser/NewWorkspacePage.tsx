@@ -400,7 +400,6 @@ const WorkspaceImageStyle = {
   width: '15rem',
   height: '15rem',
   radius: '1rem',
-  cursor: false,
 }
 
 const slackImageStyle = {
