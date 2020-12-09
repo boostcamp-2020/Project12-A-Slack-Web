@@ -10,15 +10,18 @@ import {
 import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { GetThreadResponseType } from '@type/thread.type'
+import { GetMessagesResponseType } from '@type/message.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
   DELETE_THREAD,
   UPDATE_THREAD,
+  SET_CURRENT_THREAD_REQUEST,
   getThreads,
   createThread,
   deleteThread,
   updateThread,
+  setCurrentThread,
 } from '../reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -103,6 +106,32 @@ function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
   }
 }
 
+function* setCurrentThreadSaga(
+  action: ReturnType<typeof setCurrentThread.request>,
+) {
+  try {
+    const { success, data }: GetMessagesResponseType = yield call(
+      messageAPI.getMessages,
+      action.payload.id,
+    )
+
+    if (success) {
+      console.log(data)
+      // yield put(
+      //   sendSocketCreateThread({
+      //     channelId: +action.payload.channelId,
+      //     threadId: +data.threadId,
+      //   }),
+      // )
+    }
+    yield put(
+      setCurrentThread.success({ thread: action.payload, messageList: data }),
+    )
+  } catch (error) {
+    yield put(setCurrentThread.failure(error))
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -119,11 +148,16 @@ function* watchUpdateThreadSaga() {
   yield takeEvery(UPDATE_THREAD, updateThreadSaga)
 }
 
+function* watchSetCurrentThreadSaga() {
+  yield takeEvery(SET_CURRENT_THREAD_REQUEST, setCurrentThreadSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
     fork(watchCreateThreadSaga),
     fork(watchDeleteThreadSaga),
     fork(watchUpdateThreadSaga),
+    fork(watchSetCurrentThreadSaga),
   ])
 }
