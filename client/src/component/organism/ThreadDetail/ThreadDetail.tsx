@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
-import { MessageType } from '@type/thread.type'
-import { CreateMessageRequestType } from '@type/message.type'
+import { MessageType, CreateMessageRequestType } from '@type/message.type'
 import { createMessage } from '@store/reducer/thread.reducer'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
@@ -16,9 +15,11 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
   )
   let headMessage: MessageType | null = null
   let replyCount: number = 0
+  let threadId: number = -1
   if (thread) {
     headMessage = thread.headMessage
     replyCount = thread.replyCount
+    threadId = thread.id
   }
   const replyList = messageList
 
@@ -32,7 +33,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
     <Styled.ThreadContainer>
       {headMessage ? (
         <O.MessageCard
-          data={headMessage}
+          data={{ ...headMessage, threadId } as MessageType}
           type="MESSAGE"
           onReplyButtonClick={() => {}}
         />
@@ -54,7 +55,7 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
         {replyList.map((message) => {
           return (
             <O.MessageCard
-              data={message}
+              data={{ ...message, threadId }}
               type="MESSAGE"
               onReplyButtonClick={() => {}}
               key={message.id}

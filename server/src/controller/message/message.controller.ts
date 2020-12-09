@@ -76,7 +76,7 @@ const deleteMessage = async (
     const { code, json } = await messageService.deleteMessage({
       id: +req.params.id,
       userId: +req.user.id,
-      threadId: +req.body.threadId,
+      threadId: +req.query.threadId,
     })
     return res.status(code).json(json)
   } catch (error) {

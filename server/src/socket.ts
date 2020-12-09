@@ -96,6 +96,23 @@ namespace.on('connection', (socket: Socket) => {
       })
     },
   )
+  socket.on(
+    'DELETE_MESSAGE',
+    async (data: {
+      channelId: number
+      threadId: number
+      messageId: number
+    }) => {
+      const { channelId, threadId, messageId } = data
+      const { json: threadRes } = await threadService.readThreadById({
+        id: threadId,
+      })
+      const response = threadRes.data
+        ? { thread: threadRes.data, messageId }
+        : { threadId }
+      namespace.to(channelId.toString()).emit('DELETE_MESSAGE', response)
+    },
+  )
 })
 
 server.listen(process.env.SOCKET_PORT, () => {

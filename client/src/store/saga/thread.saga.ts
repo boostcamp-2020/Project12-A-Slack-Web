@@ -11,6 +11,8 @@ import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
+import { OnlySuccessResponseType } from '@type/response.type'
+import { RootState } from '@store'
 import {
   GetMessagesResponseType,
   CreateMessageResponseType,
@@ -20,6 +22,7 @@ import {
   CREATE_THREAD,
   DELETE_THREAD,
   UPDATE_THREAD,
+  DELETE_MESSAGE,
   SET_CURRENT_THREAD_REQUEST,
   CREATE_MESSAGE,
   getThreads,
@@ -28,13 +31,15 @@ import {
   updateThread,
   setCurrentThread,
   createMessage,
-} from '../reducer/thread.reducer'
+  deleteMessage,
+} from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
   sendSocketDeleteThread,
   sendSocketUpdateThread,
   sendSocketCreateMessage,
-} from '../reducer/socket.reducer'
+  sendSocketDeleteMessage,
+} from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -98,10 +103,13 @@ function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
       messageAPI.updateMessage,
       action.payload,
     )
+    const { id: channelId } = yield select(
+      (state: RootState) => state.channelStore.currentChannel,
+    )
     if (success && action.payload.threadId) {
       yield put(
         sendSocketUpdateThread({
-          channelId: +action.payload.channelId,
+          channelId: +channelId,
           threadId: +action.payload.threadId,
         }),
       )
@@ -150,6 +158,26 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
   }
 }
 
+function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
+  try {
+    const { success } = yield call(messageAPI.deleteMessage, action.payload)
+    const { channelId, id: threadId } = yield select(
+      (state: RootState) => state.threadStore.currentThread.thread,
+    )
+    if (success) {
+      yield put(
+        sendSocketDeleteMessage({
+          channelId: +channelId,
+          threadId: +threadId,
+          messageId: +action.payload.messageId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to delete message')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -174,6 +202,10 @@ function* watchCreateMessageSaga() {
   yield takeEvery(CREATE_MESSAGE, createMessageSaga)
 }
 
+function* watchDeleteMessageSaga() {
+  yield takeEvery(DELETE_MESSAGE, deleteMessageSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -182,5 +214,6 @@ export default function* threadSaga() {
     fork(watchUpdateThreadSaga),
     fork(watchSetCurrentThreadSaga),
     fork(watchCreateMessageSaga),
+    fork(watchDeleteMessageSaga),
   ])
 }

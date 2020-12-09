@@ -8,12 +8,18 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
-import { GetThreadResponseType, MessageType } from '@type/thread.type'
-import { UpdateMessageRequestType } from '@type/message.type'
-import { deleteThread, updateThread } from '@store/reducer/thread.reducer'
 import { getDateAndTime } from '@util/date'
+import { GetThreadResponseType } from '@type/thread.type'
+import { UpdateMessageRequestType, MessageType } from '@type/message.type'
 import { RootState } from '@store'
+import {
+  deleteThread,
+  updateThread,
+  deleteMessage,
+} from '@store/reducer/thread.reducer'
+
 import Styled from './MessageCard.style'
+import ThreadDetailStyle from '@organism/ThreadDetail/ThreadDetail.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
@@ -40,13 +46,12 @@ const MessageCard = ({
   const handleMouseLeave = () => setHover(false)
 
   const handleDeleteButtonClick = () => {
-    let id: number = 0
     if (type === 'THREAD') {
-      id = thread.id
-      dispatch(deleteThread({ threadId: id }))
-    } else {
-      id = message.id
-      // TODO: delete message
+      dispatch(deleteThread({ threadId: thread.id }))
+    } else if (message.threadId) {
+      dispatch(
+        deleteMessage({ messageId: message.id, threadId: message.threadId }),
+      )
     }
   }
   const handleEditCancelButtonClick = () => setEditMode(false)

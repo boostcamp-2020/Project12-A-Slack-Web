@@ -6,10 +6,13 @@ import {
   receiveDeleteThread,
   receiveUpdateThread,
   receiveCreateMessage,
+  clearCurrentThread,
+  receiveDeleteMessage,
 } from '@store/reducer/thread.reducer'
 import { receiveDeleteMember } from '@store/reducer/channel.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
+import { DeleteMessageSocketResponseType } from '@type/message.type'
 import {
   connectSocket,
   sendSocketJoinRoom,
@@ -18,6 +21,7 @@ import {
   sendSocketDeleteThread,
   sendSocketUpdateThread,
   sendSocketCreateMessage,
+  sendSocketDeleteMessage,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
@@ -28,6 +32,7 @@ const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
 const UPDATE_THREAD = 'UPDATE_THREAD'
 const CREATE_MESSAGE = 'CREATE_MESSAGE'
+const DELETE_MESSAGE = 'DELETE_MESSAGE'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -78,12 +83,25 @@ function subscribeSocket(socket: Socket) {
       emit(receiveUpdateThread(data.thread))
     }
 
+    const handleDeleteMessage = (data: DeleteMessageSocketResponseType) => {
+      console.log('delete message: ', data)
+      if (data.threadId) {
+        emit(clearCurrentThread())
+        emit(receiveDeleteThread(data.threadId))
+      }
+      if (data.messageId && data.thread) {
+        emit(receiveDeleteMessage({ messageId: data.messageId }))
+        emit(receiveDeleteThread(data.thread))
+      }
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
     socket.on(UPDATE_THREAD, handleUpdateThread)
     socket.on(CREATE_MESSAGE, handleCreateMessage)
+    socket.on(DELETE_MESSAGE, handleDeleteMessage)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
@@ -126,6 +144,7 @@ function* sendUpdateThread(socket: Socket) {
     socket.emit(UPDATE_THREAD, payload)
   }
 }
+
 function* sendCreateMessage(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketCreateMessage)
@@ -133,10 +152,16 @@ function* sendCreateMessage(socket: Socket) {
   }
 }
 
+function* sendDeleteMessage(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketDeleteMessage)
+    socket.emit(DELETE_MESSAGE, payload)
+  }
+}
+
 function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
-    console.log(payload)
     socket.emit(JOIN_ROOM, payload)
   }
 }
@@ -149,6 +174,7 @@ function* handleIO(socket: Socket) {
   yield fork(sendUpdateThread, socket)
   yield fork(socketJoinRoomNew, socket)
   yield fork(sendCreateMessage, socket)
+  yield fork(sendDeleteMessage, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {

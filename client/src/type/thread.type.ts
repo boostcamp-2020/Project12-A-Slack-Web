@@ -1,21 +1,5 @@
-import { AxiosError } from 'axios'
 import { UserType } from './user.type'
-
-interface FileType {
-  id: number
-  url: string
-  type: string
-  createdAt?: string
-  updatedAt?: string
-}
-
-interface ReactionType {
-  id: number
-  content: string
-  createdAt?: string
-  updatedAt?: string
-  User: UserType
-}
+import { MessageType } from './message.type'
 
 export interface ThreadType {
   id: number
@@ -24,17 +8,6 @@ export interface ThreadType {
   messageCount: number
   profileImageUrl: string[] | null
   User: UserType
-}
-
-export interface MessageType {
-  id: number
-  content: string
-  isHead?: false
-  createdAt: string
-  updatedAt: string
-  User: UserType
-  File: FileType[]
-  Reactions: ReactionType[]
 }
 
 export interface GetThreadsRequestType {
@@ -46,6 +19,7 @@ export interface GetThreadResponseType {
   id: number
   createdAt: string
   updatedAt: string
+  channelId: number
   User: UserType
   headMessage: MessageType
   replyCount: number
