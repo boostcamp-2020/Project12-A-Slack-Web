@@ -4,7 +4,7 @@ import myAxios from '@util/myAxios'
 import styled from 'styled-components'
 import O from '@organism'
 import { RootState } from '@store'
-import { joinChannel } from '@store/reducer/channel.reducer'
+import { joinChannel, deleteMember } from '@store/reducer/channel.reducer'
 import { ChannelCardType } from '@type/channel.type'
 
 interface ChannelBrowserPropsType {
@@ -12,7 +12,12 @@ interface ChannelBrowserPropsType {
 }
 
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
-  const { channelList } = useSelector((state: RootState) => state.channelStore)
+  const { channelList, loginUserId } = useSelector((state: RootState) => {
+    return {
+      channelList: state.channelStore.channelList,
+      loginUserId: state.userStore.currentUser.id,
+    }
+  })
   const [channels, setChannels] = useState<ChannelCardType[]>([])
   const dispatch = useDispatch()
 
@@ -54,10 +59,16 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
   }
 
   const handleLeaveButtonClick = (channel: ChannelCardType) => () => {
-    // channel 탈퇴 (saga async api 요청)
-    // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제
-    // & ChannelBrowser 페이지 - channels의 해당 channel에 memberCount--
-    alert(`${channel.id} leave!`)
+    // TODO: redirection 말고 channel browser의 data와 store의 channel list를 update 하는 방식 고려
+    dispatch(
+      deleteMember({
+        channelId: channel.id,
+        userId: loginUserId,
+        onSuccess: () => {
+          window.location.href = `/workspace/${workspaceId}/channel-browser`
+        },
+      }),
+    )
   }
 
   const channelBrowserMainViewHeader = (
