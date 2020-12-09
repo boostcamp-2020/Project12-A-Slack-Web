@@ -181,8 +181,8 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     }
   },
   [RECEIVE_CREATE_MESSAGE]: (state, action) => {
-    console.log(action.payload)
     const { thread, message } = action.payload
+    if (thread.id !== state.currentThread.thread?.id) return { ...state }
     return {
       ...state,
       currentThread: {
