@@ -53,7 +53,7 @@ interface ChnnelInstance extends ChannelModel {
   addUser: (id: number) => Promise<void>
 }
 
-const createChannel = async ({
+export const createChannel = async ({
   name,
   type,
   workspaceId,

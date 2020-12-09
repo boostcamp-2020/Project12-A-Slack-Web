@@ -22,7 +22,7 @@ const URL = `${serverURL}/api`
 
 interface AxiosType {
   path: string
-  data?: object
+  data?: object | FormData
 }
 
 export type ResponseType = {
@@ -48,7 +48,7 @@ const myAxios = {
     return axios.delete<ResponseType>(URL + path, headerConfig)
   },
 
-  filepost({ path = '/fileupload', data }: AxiosType) {
+  filepost({ path, data }: AxiosType) {
     return axios.post<ResponseType>(URL + path, data, fileUploadHeaderConfig)
   },
 }

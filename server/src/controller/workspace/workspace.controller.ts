@@ -11,6 +11,7 @@ const createWorkspace = async (
       userId: req.user.id,
       name: req.body.name,
       imageUrl: req.body.imageUrl,
+      channelName: req.body.channelName,
     })
     return res.status(code).json(json)
   } catch (error) {
