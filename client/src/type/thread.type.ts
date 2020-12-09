@@ -4,14 +4,15 @@ interface FileType {
   id: number
   url: string
   type: string
-  createdAt: string
-  updatedAt: string
-  profileImageUrl: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface ReactionType {
   id: number
   content: string
+  createdAt?: string
+  updatedAt?: string
   User: UserType
 }
 
@@ -27,7 +28,7 @@ export interface ThreadType {
 export interface MessageType {
   id: number
   content: string
-  isHead: true
+  isHead?: false
   createdAt: string
   updatedAt: string
   User: UserType
