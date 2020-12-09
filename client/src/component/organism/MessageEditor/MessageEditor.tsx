@@ -6,7 +6,7 @@ import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import { createThread } from '@store/reducer/thread.reducer'
+import { createThread, createMessage } from '@store/reducer/thread.reducer'
 import { UpdateMessageRequestType } from '@type/message.type'
 import Styled from './MessageEditor.style'
 
@@ -14,6 +14,7 @@ interface MessageEditorProps {
   id?: number
   value?: string
   placeHolder?: string
+  type?: 'THREAD' | 'MESSAGE'
   onSubmitButtonClick?: (data: UpdateMessageRequestType) => void
 }
 
@@ -25,6 +26,7 @@ const MessageEditor = ({
   id,
   value,
   placeHolder,
+  type = 'THREAD',
   onSubmitButtonClick,
 }: MessageEditorProps) => {
   const dispatch = useDispatch()
@@ -46,9 +48,13 @@ const MessageEditor = ({
       fileInfoList: [],
     }
 
-    if (id && onSubmitButtonClick)
-      onSubmitButtonClick({ ...data, messageId: id })
-    else dispatch(createThread(data))
+    if (id && type === 'MESSAGE') {
+      dispatch(createMessage({ ...data, threadId: id }))
+    } else {
+      if (id && onSubmitButtonClick)
+        onSubmitButtonClick({ ...data, messageId: id })
+      dispatch(createThread(data))
+    }
     setContent('')
     console.log('CREATE MESSAGE !')
   }

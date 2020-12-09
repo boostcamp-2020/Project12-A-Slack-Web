@@ -56,7 +56,11 @@ const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
       </Styled.ReplyListContainer>
 
       <Styled.EditorContainer>
-        <O.MessageEditor placeHolder="Reply..." />
+        <O.MessageEditor
+          placeHolder="Reply..."
+          type="MESSAGE"
+          id={thread?.id}
+        />
       </Styled.EditorContainer>
     </Styled.ThreadContainer>
   )
