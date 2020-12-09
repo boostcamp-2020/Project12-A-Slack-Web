@@ -22,7 +22,11 @@ export interface CreateMessageResponseType extends ResponseType {
   data: { messageId: number }
 }
 
-export interface CreateMessageSocketResponseType {
+export interface MessageSocketResponseDataType {
   thread: GetThreadResponseType
   message: MessageType
+}
+
+export interface MessageSocketResponseType extends ResponseType {
+  data: MessageSocketResponseDataType
 }
