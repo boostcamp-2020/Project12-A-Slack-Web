@@ -1,5 +1,13 @@
 import styled from 'styled-components'
 
+const EachChannelContainer = styled.div`
+  width: 200px;
+  hieght: 35px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+`
+
 const CheckBoxWrapper = styled.div`
   position: relative;
 `
@@ -114,4 +122,5 @@ export default {
   CheckBoxWrapper,
   CheckBox,
   CheckBoxLabel,
+  EachChannelContainer,
 }

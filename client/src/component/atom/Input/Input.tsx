@@ -19,6 +19,7 @@ const Input = ({
       margin={customStyle.margin}
       padding={customStyle.padding}
       border={customStyle.border}
+      borderBottom={customStyle.borderBottom}
       borderRadius={customStyle.borderRadius}
       backgroundColor={customStyle.backgroundColor}
       fontSize={customStyle.fontSize}
@@ -53,6 +54,7 @@ const StyledInput = styled.input<InputType.StyleAttributes>`
   margin: ${({ margin }) => margin || defaultStyle.margin};
   padding: ${({ padding }) => padding || defaultStyle.padding};
   border: ${({ border }) => border || defaultStyle.border};
+  border-bottom: ${({ borderBottom }) => borderBottom};
   border-radius: ${({ borderRadius }) =>
     borderRadius || defaultStyle.borderRadius};
   background: ${({ backgroundColor }) => color.get(backgroundColor) || 'none'};

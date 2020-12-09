@@ -137,7 +137,6 @@ function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
       channelAPI.createNewChannel,
       action.payload,
     )
-    console.log(data)
     if (success) {
       yield put(createChannel.success(data))
       yield put(sendSocketJoinRoom({ channelIdList: [data.id] }))
