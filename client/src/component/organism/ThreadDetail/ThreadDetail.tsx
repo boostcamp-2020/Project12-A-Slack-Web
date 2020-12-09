@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
 import { MessageType } from '@type/thread.type'
+import { CreateMessageRequestType } from '@type/message.type'
+import { createMessage } from '@store/reducer/thread.reducer'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
 
-const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
+const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
   const { thread, messageList } = useSelector(
     (state: RootState) => state.threadStore.currentThread,
   )
@@ -19,6 +21,12 @@ const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
     replyCount = thread.replyCount
   }
   const replyList = messageList
+
+  const dispatch = useDispatch()
+
+  const handleSubmitButtonClick = (data: CreateMessageRequestType) => {
+    dispatch(createMessage({ ...data, channelId }))
+  }
 
   return (
     <Styled.ThreadContainer>
@@ -56,7 +64,12 @@ const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
       </Styled.ReplyListContainer>
 
       <Styled.EditorContainer>
-        <O.MessageEditor placeHolder="Reply..." />
+        <O.MessageEditor
+          placeHolder="Reply..."
+          type="MESSAGE"
+          id={thread?.id}
+          onSubmitButtonClick={handleSubmitButtonClick}
+        />
       </Styled.EditorContainer>
     </Styled.ThreadContainer>
   )

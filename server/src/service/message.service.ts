@@ -57,7 +57,7 @@ const createMessage = async ({
     await t.commit()
     return {
       code: statusCode.CREATED,
-      json: { success: true },
+      json: { success: true, data: { messageId: newMessage.id } },
     }
   } catch (error) {
     await t.rollback()
@@ -77,7 +77,53 @@ const isValidMessageData = ({ id, userId, content }: MessageType) => {
   )
 }
 
-const readMessageById = async ({ threadId }: MessageType) => {
+const readMessageById = async ({ id }: { id: number }) => {
+  console.log(id, validator.isNumber(id))
+  if (!validator.isNumber(id)) {
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  }
+  try {
+    const message = await MessageModel.findOne({
+      include: [
+        {
+          model: FileModel,
+          attributes: ['id', 'url', 'type', 'createdAt', 'updatedAt'],
+        },
+        {
+          model: ReactionModel,
+          attributes: ['id', 'content', 'createdAt', 'updatedAt'],
+          include: [
+            { model: UserModel, attributes: ['id', 'name', 'profileImageUrl'] },
+          ],
+        },
+        {
+          model: UserModel,
+          attributes: ['id', 'email', 'name', 'profileImageUrl'],
+        },
+      ],
+      where: { id },
+      attributes: ['id', 'content', 'createdAt', 'updatedAt', 'userId'],
+    })
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: message,
+      },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
+const readMessagesByThread = async ({ threadId }: MessageType) => {
   if (threadId < 0 || typeof threadId !== 'number') {
     return {
       code: statusCode.BAD_REQUEST,
@@ -207,4 +253,10 @@ const deleteMessage = async ({ id, userId, threadId }: MessageType) => {
   }
 }
 
-export default { createMessage, readMessageById, updateMessage, deleteMessage }
+export default {
+  createMessage,
+  readMessageById,
+  readMessagesByThread,
+  updateMessage,
+  deleteMessage,
+}
