@@ -8,7 +8,7 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
-import { GetThreadResponseType, MessageType } from '@type/thread.type'
+import { GetThreadResponseType } from '@type/thread.type'
 import {
   UpdateMessageRequestType,
   MessageWithThreadIdType,
