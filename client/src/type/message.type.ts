@@ -13,3 +13,7 @@ export interface GetMessagesResponseType extends ResponseType {
 export interface CreateMessageRequestType extends CreateThreadRequestType {
   threadId: number
 }
+
+export interface CreateMessageResponseType extends ResponseType {
+  data: { messageId: number }
+}

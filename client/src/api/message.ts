@@ -2,7 +2,16 @@ import myAxios from '@util/myAxios'
 import {
   UpdateMessageRequestType,
   GetMessagesResponseType,
+  CreateMessageRequestType,
+  CreateMessageResponseType,
 } from '@type/message.type'
+
+const createMessage = async (
+  data: CreateMessageRequestType,
+): Promise<CreateMessageResponseType> => {
+  const response = await myAxios.post({ path: '/message', data })
+  return response.data
+}
 
 const getMessages = async (
   threadId: number,
@@ -26,6 +35,7 @@ const updateMessage = async (originalData: UpdateMessageRequestType) => {
 }
 
 export default {
+  createMessage,
   getMessages,
   updateMessage,
 }
