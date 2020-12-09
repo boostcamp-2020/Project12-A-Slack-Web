@@ -14,7 +14,7 @@ import {
 import {
   UpdateMessageRequestType,
   CreateMessageRequestType,
-  CreateMessageSocketResponseType,
+  MessageSocketResponseDataType,
 } from '@type/message.type'
 
 interface ThreadState {
@@ -49,6 +49,7 @@ const SET_CURRENT_THREAD_ERROR = `thread/SET_CURRENT_THREAD_ERROR` as const
 const CLEAR_CURRENT_THREAD = `thread/CLEAR_CURRENT_THREAD` as const
 export const CREATE_MESSAGE = `thread/CREATE_MESSAGE` as const
 export const RECEIVE_CREATE_MESSAGE = `thread/RECEIVE_CREATE_MESSAGE` as const
+export const DELETE_MESSAGE = 'thread/DELETE_MESSAGE' as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -81,7 +82,11 @@ export const createMessage = createAction(CREATE_MESSAGE)<
   CreateMessageRequestType
 >()
 export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
-  CreateMessageSocketResponseType
+  MessageSocketResponseDataType
+>()
+export const deleteMessage = createAction(DELETE_MESSAGE)<{
+  messageId: number
+}>()
 >()
 
 const actions = {

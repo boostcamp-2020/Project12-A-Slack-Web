@@ -10,7 +10,11 @@ import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
 import { GetThreadResponseType, MessageType } from '@type/thread.type'
 import { UpdateMessageRequestType } from '@type/message.type'
-import { deleteThread, updateThread } from '@store/reducer/thread.reducer'
+import {
+  deleteThread,
+  updateThread,
+  deleteMessage,
+} from '@store/reducer/thread.reducer'
 import { getDateAndTime } from '@util/date'
 import { RootState } from '@store'
 import Styled from './MessageCard.style'
@@ -46,7 +50,7 @@ const MessageCard = ({
       dispatch(deleteThread({ threadId: id }))
     } else {
       id = message.id
-      // TODO: delete message
+      dispatch(deleteMessage({ messageId: id }))
     }
   }
   const handleEditCancelButtonClick = () => setEditMode(false)
