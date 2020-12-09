@@ -42,10 +42,7 @@ const MemberListModal = ({
     getUsersByChannel()
   }, [])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const inputValue = e.target.value
-    setInputKeyword(inputValue)
-
+  useEffect(() => {
     const searchMembers = async (searchKeyword: string) => {
       const { success, data } = await userAPI.searchMembers({
         channelId: id,
@@ -57,7 +54,12 @@ const MemberListModal = ({
       }
       setMemberSearchResult([])
     }
-    searchMembers(inputValue)
+    searchMembers(inputKeyword)
+  }, [inputKeyword])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const inputValue = e.target.value
+    setInputKeyword(inputValue)
   }
 
   const handleClearSearchButtonClick = (): void => {
@@ -183,7 +185,8 @@ const inputStyle: InputType.StyleAttributes = {
 }
 
 const inputKeywordTextStyle: TextType.StyleAttributes = {
-  fontWeight: 'bold',
+  fontWeight: '800',
+  fontSize: '1.5rem',
   margin: '0 0 0 5px',
 }
 
