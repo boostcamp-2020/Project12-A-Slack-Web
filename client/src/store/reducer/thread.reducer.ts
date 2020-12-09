@@ -9,17 +9,25 @@ import {
   GetThreadsRequestType,
   GetThreadResponseType,
   CreateThreadRequestType,
+  CurrentThreadType,
 } from '@type/thread.type'
 import { UpdateMessageRequestType } from '@type/message.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
+  currentThread: CurrentThreadType
   loading: boolean
   error: AxiosError | null
 }
 
 const initialState: ThreadState = {
   threadList: [],
+  currentThread: {
+    thread: null,
+    messageList: [],
+    loading: true,
+    error: null,
+  },
   loading: true,
   error: null,
 }

@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { UserType } from './user.type'
 
 interface FileType {
@@ -57,4 +58,11 @@ export interface CreateThreadRequestType {
   content: string
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
+}
+
+export interface CurrentThreadType {
+  thread: GetThreadResponseType | null
+  messageList: MessageType[]
+  loading: boolean
+  error: AxiosError | null
 }
