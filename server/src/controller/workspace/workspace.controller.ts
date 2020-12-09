@@ -34,6 +34,21 @@ const readWorkspaceByUser = async (
   }
 }
 
+const readCurrentWorkspaceInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await workspaceService.readCurrentWorkspaceInfo({
+      workspaceId: +req.params.workspaceId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const joinWorkspace = async (
   req: Request,
   res: Response,
@@ -71,4 +86,5 @@ export default {
   readWorkspaceByUser,
   joinWorkspace,
   readWorkspaceUsers,
+  readCurrentWorkspaceInfo,
 }

@@ -1,5 +1,13 @@
 import { UserType as User } from './user.type'
 
+export interface CurrentWorkSpaceInfoRequestType {
+  id: number
+}
+export interface CurrentWorkSpaceInfoResponseType {
+  id: number
+  name: string
+  imageUrl: string
+}
 export interface WorkspaceResponseType extends Object {
   id: number
   name: string

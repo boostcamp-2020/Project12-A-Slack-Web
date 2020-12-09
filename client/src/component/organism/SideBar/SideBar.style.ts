@@ -39,7 +39,15 @@ const SectionChannelPart = styled.div`
 `
 const DirectMessagePart = styled.div``
 
+const WorkspaceTitleWrapper = styled.div`
+  width: 20rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+
 export default {
+  WorkspaceTitleWrapper,
   SideBarContainer,
   WorkSpacePart,
   OtherPagePart,

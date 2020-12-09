@@ -1,9 +1,12 @@
 import React, { useState, createRef } from 'react'
 import { useDispatch } from 'react-redux'
-import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import A from '@atom'
 import M from '@molecule'
+import { TextType } from '@atom/Text'
+import { ButtonType } from '@atom/Button'
+import { InputType } from '@atom/Input'
+import { ImageType } from '@atom/Image'
 import myIcon from '@constant/icon'
 import { createWorkspace } from '@store/reducer/workspace.reducer'
 import myAxios from '@util/myAxios'
@@ -343,7 +346,7 @@ const StageButtonWrapper = styled.div`
   align-items: center;
 `
 
-const StageIndicatorTextStyle = {
+const StageIndicatorTextStyle: TextType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
   fontSize: '1.4rem',
@@ -353,7 +356,7 @@ const StageIndicatorTextStyle = {
   margin: '1rem 0',
 }
 
-const StageFirstTextStyle = {
+const StageFirstTextStyle: TextType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
   fontSize: '3rem',
@@ -362,7 +365,7 @@ const StageFirstTextStyle = {
   color: 'black',
 }
 
-const StageSecondTextStyle = {
+const StageSecondTextStyle: TextType.StyleAttributes = {
   height: 'auto',
   width: 'auto',
   fontSize: '1.3rem',
@@ -372,37 +375,37 @@ const StageSecondTextStyle = {
   margin: '1rem 0',
 }
 
-const StageBackButtonStyle = {
+const StageBackButtonStyle: ButtonType.StyleAttributes = {
   width: '6rem',
   height: '3.8rem',
   border: '1px solid lightGrey',
   backgroundColor: 'lightGrey',
 }
 
-const StageNextButtonStyle = {
+const StageNextButtonStyle: ButtonType.StyleAttributes = {
   height: '3.8rem',
   border: '1px solid lightGrey',
   backgroundColor: 'purple',
 }
 
-const StageNextButtonTextStyle = {
+const StageNextButtonTextStyle: TextType.StyleAttributes = {
   color: 'white',
 }
 
-const StageInputStyle = {
+const StageInputStyle: InputType.StyleAttributes = {
   width: '100%',
   height: '90%',
   borderRadius: '4px',
   border: '1px solid lightGrey',
 }
 
-const WorkspaceImageStyle = {
+const WorkspaceImageStyle: ImageType.StyleAttributes = {
   width: '15rem',
   height: '15rem',
   radius: '1rem',
 }
 
-const slackImageStyle = {
+const slackImageStyle: ImageType.StyleAttributes = {
   height: '8rem',
   width: '18rem',
 }

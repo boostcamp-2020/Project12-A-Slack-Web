@@ -5,7 +5,6 @@ import {
   createAsyncAction,
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
-import { WorkspaceResponseType } from '@type/workspace.type'
 import {
   ChannelRequestType,
   ChannelType,
@@ -18,7 +17,6 @@ import {
 export interface ChannelState {
   channelList: ChannelType[]
   currentChannel: CurrentChannelType
-  workspaceInfo: WorkspaceResponseType | null
   loading: boolean
   error: AxiosError | null
 }
@@ -34,8 +32,6 @@ const initialState: ChannelState = {
     memberCount: 0,
     memberMax3: [],
   },
-  // TODO: move workspaceInfo to workspace store
-  workspaceInfo: null,
   loading: true,
   error: null,
 }
