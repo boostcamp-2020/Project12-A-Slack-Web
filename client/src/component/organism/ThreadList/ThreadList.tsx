@@ -61,7 +61,6 @@ const ThreadList = ({
 
   const threadDetail = (
     <O.ThreadDetail
-      thread={threadList[0]}
       onReplyButtonClick={() => alert(`reply button in thread `)}
     />
   )

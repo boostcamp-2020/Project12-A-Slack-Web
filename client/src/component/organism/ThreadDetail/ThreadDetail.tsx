@@ -8,7 +8,7 @@ import { MessageType } from '@type/thread.type'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
 
-const ThreadDetail = (props: ThreadDetailProps) => {
+const ThreadDetail = ({ onReplyButtonClick }: ThreadDetailProps) => {
   const { thread, messageList } = useSelector(
     (state: RootState) => state.threadStore.currentThread,
   )
