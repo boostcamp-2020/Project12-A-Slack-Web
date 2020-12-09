@@ -46,13 +46,12 @@ const MessageEditor = ({
       fileInfoList: [],
     }
     if (id && onSubmitButtonClick) {
-      if (type === 'MESSAGE') onSubmitButtonClick({ ...data, threadId: id })
-      else onSubmitButtonClick({ ...data, messageId: id })
+      if (type === 'MESSAGE') onSubmitButtonClick({ ...data, messageId: id })
+      else onSubmitButtonClick({ ...data, threadId: id })
     } else {
       dispatch(createThread(data))
     }
     setContent('')
-    console.log('CREATE MESSAGE !')
   }
 
   const handleEnterKeyPress = (e: any) => {
