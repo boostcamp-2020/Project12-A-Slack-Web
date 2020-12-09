@@ -20,7 +20,7 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
     history.push(`/workspace/${workspaceInfo.id}/channel-browser`)
   }
   const handleAllDmChannelClick = () => {
-    history.push(`/workspace/${workspaceId}/all-dm`)
+    history.push(`/workspace/${workspaceInfo.id}/all-dm`)
   }
   return (
     <Styled.SideBarContainer>
