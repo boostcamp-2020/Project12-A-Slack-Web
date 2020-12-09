@@ -103,15 +103,22 @@ function* receiveDeleteMemberSaga(
   action: ReturnType<typeof receiveDeleteMember>,
 ) {
   try {
-    const { loginUserId, workspaceId } = yield select((state) => {
-      return {
-        loginUserId: state.userStore.currentUser.id,
-        // TODO: workspaceId 교체
-        workspaceId: 1, // state.workspaceStore.currentWorkspace.id,
-      }
-    })
+    const { loginUserId, workspaceId, currentChannelId } = yield select(
+      (state) => {
+        return {
+          loginUserId: state.userStore.currentUser.id,
+          currentChannelId: state.channelStore.currentChannel.id,
+          // TODO: workspaceId 교체
+          workspaceId: 1, // state.workspaceStore.currentWorkspace.id,
+        }
+      },
+    )
+    // TODO: channel list update 필요
 
-    if (loginUserId === action.payload.userId) {
+    if (
+      loginUserId === action.payload.userId &&
+      currentChannelId === action.payload.channelInfo.id
+    ) {
       toast.success(
         `You have been removed from the private channel ${action.payload.channelInfo.name}`,
       )
