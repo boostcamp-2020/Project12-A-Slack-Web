@@ -18,6 +18,9 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   const handlebrowserChannelClick = () => {
     history.push(`/workspace/${workspaceId}/channel-browser`)
   }
+  const handleAllDmChannelClick = () => {
+    history.push(`/workspace/${workspaceId}/all-dm`)
+  }
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
@@ -48,6 +51,7 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           <M.ButtonDiv
             buttonStyle={OtherChannelButtonStyle}
             textStyle={OtherChannelTextStyle}
+            onClick={handleAllDmChannelClick}
           >
             <>
               <A.Icon

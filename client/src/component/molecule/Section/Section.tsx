@@ -49,7 +49,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   }
 
   const handleCreateDmClick = () => {
-    // history.push(`/workspace/alldmpage`)
+    history.push(`/workspace/${workspaceId}/all-dm`)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
   }
 
   const handleToggleCheckbox = () => {

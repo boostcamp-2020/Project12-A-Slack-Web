@@ -8,7 +8,7 @@ import { RootState } from '@store'
 import { getChannels } from '@store/reducer/channel.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
-import { Channel, ChannelBrowser } from './template'
+import { Channel, ChannelBrowser, AllDms } from './template'
 
 interface MatchParamsType {
   workspaceId: string
@@ -60,6 +60,9 @@ const WorkspacePage = () => {
               </Route>
               <Route path={`/workspace/${workspaceId}/channel-browser`}>
                 <ChannelBrowser workspaceId={+workspaceId} />
+              </Route>
+              <Route path={`/workspace/${workspaceId}/all-dm`}>
+                <AllDms workspaceId={+workspaceId} />
               </Route>
             </MainView>
           </Switch>
