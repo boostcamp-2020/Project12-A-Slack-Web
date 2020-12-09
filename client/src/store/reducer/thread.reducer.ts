@@ -166,12 +166,20 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     threadList: [...state.threadList, action.payload],
   }),
   [RECEIVE_DELETE_THREAD]: (state, action) => {
+    const { thread: currentThread } = state.currentThread
     if (typeof action.payload === 'number')
       return {
         ...state,
         threadList: state.threadList.filter(
           (thread) => thread.id !== action.payload,
         ),
+        currentThread: {
+          thread:
+            currentThread && currentThread.id === action.payload
+              ? null
+              : state.currentThread.thread,
+          messageList: state.currentThread.messageList,
+        },
       }
     const deletedThread: GetThreadResponseType = action.payload
     return {
@@ -180,6 +188,13 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         if (thread.id === deletedThread.id) return deletedThread
         return thread
       }),
+      currentThread: {
+        thread:
+          currentThread && currentThread.id === deletedThread.id
+            ? null
+            : state.currentThread.thread,
+        messageList: state.currentThread.messageList,
+      },
     }
   },
   [RECEIVE_UPDATE_THREAD]: (state, action) => {
