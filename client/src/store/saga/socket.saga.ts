@@ -120,7 +120,6 @@ function* sendCreateMessage(socket: Socket) {
 function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
-    console.log(payload)
     socket.emit(JOIN_ROOM, payload)
   }
 }
