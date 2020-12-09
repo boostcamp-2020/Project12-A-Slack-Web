@@ -6,8 +6,11 @@ import O from '@organism'
 import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import { createThread, createMessage } from '@store/reducer/thread.reducer'
-import { UpdateMessageRequestType } from '@type/message.type'
+import { createThread } from '@store/reducer/thread.reducer'
+import {
+  CreateMessageRequestType,
+  UpdateMessageRequestType,
+} from '@type/message.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {
@@ -15,7 +18,7 @@ interface MessageEditorProps {
   value?: string
   placeHolder?: string
   type?: 'THREAD' | 'MESSAGE'
-  onSubmitButtonClick?: (data: UpdateMessageRequestType) => void
+  onSubmitButtonClick?: (data: any) => void
 }
 
 interface MatchParamsType {
@@ -40,19 +43,16 @@ const MessageEditor = ({
     setContent(e.target.value)
     console.log('CHANGEd CONTENT !')
   }
-
   const handleSubmitButtonClick = () => {
     const data = {
       content,
       channelId: +channelId,
       fileInfoList: [],
     }
-
-    if (id && type === 'MESSAGE') {
-      dispatch(createMessage({ ...data, threadId: id }))
+    if (id && onSubmitButtonClick) {
+      if (type === 'MESSAGE') onSubmitButtonClick({ ...data, threadId: id })
+      else onSubmitButtonClick({ ...data, messageId: id })
     } else {
-      if (id && onSubmitButtonClick)
-        onSubmitButtonClick({ ...data, messageId: id })
       dispatch(createThread(data))
     }
     setContent('')
@@ -143,6 +143,7 @@ MessageEditor.defaultProps = {
   id: 0,
   value: '',
   placeHolder: 'Jot something down',
+  type: 'THREAD',
   onSubmitButtonClick: null,
 }
 
