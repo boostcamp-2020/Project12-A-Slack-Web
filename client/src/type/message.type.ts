@@ -1,4 +1,8 @@
-import { CreateThreadRequestType, MessageType } from './thread.type'
+import {
+  CreateThreadRequestType,
+  MessageType,
+  GetThreadResponseType,
+} from './thread.type'
 import { ResponseType } from './response.type'
 
 export interface UpdateMessageRequestType extends CreateThreadRequestType {
@@ -16,4 +20,9 @@ export interface CreateMessageRequestType extends CreateThreadRequestType {
 
 export interface CreateMessageResponseType extends ResponseType {
   data: { messageId: number }
+}
+
+export interface CreateMessageSocketResponseType {
+  thread: GetThreadResponseType
+  message: MessageType
 }

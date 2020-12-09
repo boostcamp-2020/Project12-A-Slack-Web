@@ -5,6 +5,7 @@ import {
   receiveCreateThread,
   receiveDeleteThread,
   receiveUpdateThread,
+  receiveCreateMessage,
 } from '@store/reducer/thread.reducer'
 import { ChannelType } from '@type/channel.type'
 import { RootState } from '../index'
@@ -63,10 +64,17 @@ function subscribeSocket(socket: Socket) {
       emit(receiveUpdateThread(data))
     }
 
+    const handleCreateMessage = (data: any) => {
+      console.log('create message: ', data)
+      emit(receiveCreateMessage(data))
+      emit(receiveUpdateThread(data.thread))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
     socket.on(UPDATE_THREAD, handleUpdateThread)
+    socket.on(CREATE_MESSAGE, handleCreateMessage)
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
