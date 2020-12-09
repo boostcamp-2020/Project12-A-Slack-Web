@@ -192,7 +192,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={SectionModalContentStyle}
                 textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDMClick}
+                onClick={handleCreateDmClick}
               >
                 Create a DM
               </M.ButtonDiv>
