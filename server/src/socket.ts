@@ -114,7 +114,7 @@ namespace.on('connection', (socket: Socket) => {
     },
   )
   socket.on(
-    'DELETE_MESSAGE',
+    'UPDATE_MESSAGE',
     async (data: { channelId: number; messageId: number }) => {
       const { channelId, messageId } = data
       const { json } = await messageService.readMessageById({
