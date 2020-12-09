@@ -42,6 +42,7 @@ export const RECEIVE_UPDATE_THREAD = 'thread/RECEIVE_UPDATE_THREAD' as const
 export const SET_CURRENT_THREAD_REQUEST = `thread/SET_CURRENT_THREAD_REQUEST` as const
 const SET_CURRENT_THREAD_SUCCESS = `thread/SET_CURRENT_THREAD_SUCCESS` as const
 const SET_CURRENT_THREAD_ERROR = `thread/SET_CURRENT_THREAD_ERROR` as const
+const DELETE_CURRENT_THREAD = `thread/DELETE_CURRENT_THREAD` as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -69,6 +70,7 @@ export const setCurrentThread = createAsyncAction(
   SET_CURRENT_THREAD_SUCCESS,
   SET_CURRENT_THREAD_ERROR,
 )<GetThreadResponseType, CurrentThreadType, AxiosError>()
+export const deleteCurrentThread = createAction(DELETE_CURRENT_THREAD)()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -83,6 +85,7 @@ const actions = {
   setCurrentThreadRequest: setCurrentThread.request,
   setCurrentThreadSuccess: setCurrentThread.success,
   setCurrentThreadFailure: setCurrentThread.failure,
+  deleteCurrentThread,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -123,6 +126,15 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     loading: false,
     error: action.payload,
+  }),
+  [DELETE_CURRENT_THREAD]: (state, _) => ({
+    ...state,
+    currentThread: {
+      thread: null,
+      messageList: [],
+    },
+    loading: false,
+    error: null,
   }),
   [RECEIVE_CREATE_THREAD]: (state, action) => ({
     ...state,

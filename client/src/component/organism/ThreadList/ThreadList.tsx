@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '@store'
 import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
+import { GetThreadResponseType } from '@type/thread.type'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
@@ -9,7 +10,6 @@ import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
-import { GetThreadResponseType } from '@type/thread.type'
 
 const ThreadList = ({
   channelInfo,
