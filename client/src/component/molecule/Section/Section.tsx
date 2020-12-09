@@ -213,18 +213,30 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                   textStyle={ChannelTextStyle}
                   onClick={handleChannelClick}
                 >
-                  <>
-                    {channel.type === 'DM' ? (
-                      <O.Avatar size="SMALL" user={userTestData} clickable />
-                    ) : null}
-                    <A.Icon
-                      icon={
-                        channel.type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock
-                      }
-                      customStyle={ChannelIconStyle}
-                    />
-                    {channel.name}
-                  </>
+                  {channel.type === 'DM' ? (
+                    <Styled.EachChannelContainer>
+                      <O.Avatar
+                        size="SMALL"
+                        user={userTestData}
+                        avatarImageStyle={dmAvatarStyle}
+                      />
+                      <A.Text customStyle={channelNameStyle}>
+                        {channel.name}
+                      </A.Text>
+                    </Styled.EachChannelContainer>
+                  ) : (
+                    <>
+                      <A.Icon
+                        icon={
+                          channel.type === 'PUBLIC'
+                            ? myIcon.hashtag
+                            : myIcon.lock
+                        }
+                        customStyle={ChannelIconStyle}
+                      />
+                      {channel.name}
+                    </>
+                  )}
                 </M.ButtonDiv>
               </Link>
             ))}
@@ -310,6 +322,15 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
 }
 
 Section.defaultProps = {}
+
+const dmAvatarStyle = {
+  margin: '0px 0px 0px 15px',
+}
+
+const channelNameStyle = {
+  fontSize: '12px',
+  margin: '0px 0px 0px 5px',
+}
 
 const createTextStyle = {
   fontSize: '14px',
