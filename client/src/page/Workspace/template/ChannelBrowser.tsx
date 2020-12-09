@@ -23,36 +23,28 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
       } = await myAxios.get({
         path: `/channel/all?workspaceId=${workspaceId}`,
       })
-      
-      const filterdChannels = data.map((channel: ChannelCardType) => {
-        return {
-          ...channel,
-          joined: channelList.find((chann) => chann.id === channel.id),
-        }
-      })
+
+      const filterdChannels = data
+        .map((channel: ChannelCardType) => {
+          return {
+            ...channel,
+            joined: channelList.find((chann) => chann.id === channel.id),
+          }
+        })
+        .filter(
+          (ch: ChannelCardType) =>
+            (ch.type === 'PRIVATE' && ch.joined) || ch.type === 'PUBLIC',
+        )
       setChannels(filterdChannels)
     }
     getWorkspaceChannels()
   }, [channelList])
 
-  useEffect(() => {
-    const getUserInChannels = async () => {
-      const {
-        data: { data },
-      } = await myAxios.get({
-        path: `/channel/`,
-        data: { workspaceId },
-      })
-      console.log(data)
-    }
-    getUserInChannels()
-  }, [])
-  
   const handleJoinButtonClick = (channel: ChannelCardType) => () => {
     dispatch(joinChannel.request({ channel }))
     // TODO: ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
   }
-        
+
   const handleLeaveButtonClick = (channel: ChannelCardType) => () => {
     // channel 탈퇴 (saga async api 요청)
     // channel 탈퇴 성공 시 channelStore의 channelList에서 삭제

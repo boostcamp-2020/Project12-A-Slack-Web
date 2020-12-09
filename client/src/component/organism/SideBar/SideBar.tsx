@@ -108,24 +108,25 @@ const WorkSpaceButtonStyle = {
   height: '100%',
   display: 'flex',
   justifyContent: 'center',
-  hoverBackgroundColor: 'orange',
+  hoverBackgroundColor: 'slackBlue',
+  hoverColor: 'white',
 }
 
 const OtherChannelButtonStyle = {
   width: '100%',
   height: '100%',
-  hoverBackgroundColor: 'orange',
+  hoverBackgroundColor: 'slackBlue',
+  hoverColor: 'white',
   display: 'flex',
   justifyContent: 'flex-start',
+  borderRadius: '0',
 }
 
 const OtherChannelTextStyle = {
   fontSize: '12px',
-  color: 'textGrey',
 }
 
 const OtherChannelIconStyle = {
-  color: 'textGrey',
   fontSize: '12px',
   margin: '0px 10px 0px 20px',
 }

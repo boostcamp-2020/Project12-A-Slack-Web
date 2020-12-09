@@ -117,11 +117,20 @@ function* sendCreateMessage(socket: Socket) {
   }
 }
 
+function* socketJoinRoomNew(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketJoinRoom)
+    console.log(payload)
+    socket.emit(JOIN_ROOM, payload)
+  }
+}
+
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
   yield fork(sendCreateThread, socket)
   yield fork(sendDeleteThread, socket)
   yield fork(sendUpdateThread, socket)
+  yield fork(socketJoinRoomNew, socket)
   yield fork(sendCreateMessage, socket)
 }
 
@@ -132,10 +141,6 @@ function* socketJoinRoom(socket: Socket) {
   socket.emit(JOIN_ROOM, {
     channelIdList: channelList.map((channel: any) => +channel.id),
   })
-  // while (true) {
-  //   const { payload } = yield take(sendSocketJoinRoom)
-  //   socket.emit(JOIN_ROOM, payload)
-  // }
 }
 
 function* socketFlow() {
