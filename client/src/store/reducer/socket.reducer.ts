@@ -22,6 +22,7 @@ const SEND_SOCKET_CREATE_THREAD = 'socket/SECT_SOCKET_CREATE_THREAD' as const
 const SEND_SOCKET_DELETE_THREAD = 'socket/SEND_SOCKET_DELETE_THREAD' as const
 const SEND_SOCKET_UPDATE_THREAD = 'socket/SEND_SOCKET_UPDATE_THREAD' as const
 const SEND_SOCKET_CREATE_MESSAGE = 'socket/SEND_SOCKET_CREATE_MESSAGE' as const
+const SEND_SOCKET_DELETE_MESSAGE = 'socket/SEND_SOCKET_DELETE_MESSAGE' as const
 
 export const connectSocket = createAsyncAction(
   CONNECT_SOCKET_REQUEST,
@@ -50,6 +51,13 @@ export const sendSocketCreateMessage = createAction(
   threadId: number
   messageId: number
 }>()
+export const sendSocketDeleteMessage = createAction(
+  SEND_SOCKET_DELETE_MESSAGE,
+)<{
+  channelId: number
+  threadId: number
+  messageId: number
+}>()
 
 const actions = {
   connectSocketRequest: connectSocket.request,
@@ -60,6 +68,7 @@ const actions = {
   sendSocketDeleteThread,
   sendSocketUpdateThread,
   sendSocketCreateMessage,
+  sendSocketDeleteMessage,
 }
 
 type SocketAction = ActionType<typeof actions>

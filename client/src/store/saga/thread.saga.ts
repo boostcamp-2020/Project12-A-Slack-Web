@@ -14,12 +14,14 @@ import { GetThreadResponseType } from '@type/thread.type'
 import {
   GetMessagesResponseType,
   CreateMessageResponseType,
+  MessageSocketResponseType,
 } from '@type/message.type'
 import {
   GET_THREADS_REQUEST,
   CREATE_THREAD,
   DELETE_THREAD,
   UPDATE_THREAD,
+  DELETE_MESSAGE,
   SET_CURRENT_THREAD_REQUEST,
   CREATE_MESSAGE,
   getThreads,
@@ -28,6 +30,7 @@ import {
   updateThread,
   setCurrentThread,
   createMessage,
+  deleteMessage,
 } from '../reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -35,6 +38,8 @@ import {
   sendSocketUpdateThread,
   sendSocketCreateMessage,
 } from '../reducer/socket.reducer'
+import { OnlySuccessResponseType } from '@type/response.type'
+import { RootState } from '@store'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -150,6 +155,29 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
   }
 }
 
+function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
+  try {
+    const { success }: OnlySuccessResponseType = yield call(
+      messageAPI.deleteMessage,
+      action.payload,
+    )
+    const { channelId, id: threadId } = yield select(
+      (state: RootState) => state.threadStore.currentThread.thread,
+    )
+    if (success) {
+      yield put(
+        sendSocketDeleteMessage({
+          channelId: +channelId,
+          threadId: +threadId,
+          messageId: +action.payload.messageId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to create message')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -174,6 +202,10 @@ function* watchCreateMessageSaga() {
   yield takeEvery(CREATE_MESSAGE, createMessageSaga)
 }
 
+function* watchDeleteMessageSaga() {
+  yield takeEvery(DELETE_MESSAGE, deleteMessageSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -182,5 +214,6 @@ export default function* threadSaga() {
     fork(watchUpdateThreadSaga),
     fork(watchSetCurrentThreadSaga),
     fork(watchCreateMessageSaga),
+    fork(watchDeleteMessageSaga),
   ])
 }
