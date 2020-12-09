@@ -50,6 +50,7 @@ const CLEAR_CURRENT_THREAD = `thread/CLEAR_CURRENT_THREAD` as const
 export const CREATE_MESSAGE = `thread/CREATE_MESSAGE` as const
 export const RECEIVE_CREATE_MESSAGE = `thread/RECEIVE_CREATE_MESSAGE` as const
 export const DELETE_MESSAGE = 'thread/DELETE_MESSAGE' as const
+export const RECEIVE_DELETE_MESSAGE = 'thread/RECEIVE_DELETE_MESSAGE' as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -87,6 +88,8 @@ export const receiveCreateMessage = createAction(RECEIVE_CREATE_MESSAGE)<
 export const deleteMessage = createAction(DELETE_MESSAGE)<{
   messageId: number
 }>()
+export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<
+  MessageSocketResponseDataType
 >()
 
 const actions = {
@@ -105,6 +108,8 @@ const actions = {
   clearCurrentThread,
   createMessage,
   receiveCreateMessage,
+  deleteMessage,
+  receiveDeleteMessage,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -186,6 +191,17 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     }
   },
   [RECEIVE_CREATE_MESSAGE]: (state, action) => {
+    const { thread, message } = action.payload
+    if (thread.id !== state.currentThread.thread?.id) return { ...state }
+    return {
+      ...state,
+      currentThread: {
+        thread,
+        messageList: [...state.currentThread.messageList, message],
+      },
+    }
+  },
+  [RECEIVE_DELETE_MESSAGE]: (state, action) => {
     const { thread, message } = action.payload
     if (thread.id !== state.currentThread.thread?.id) return { ...state }
     return {
