@@ -53,6 +53,8 @@ export const RECEIVE_CREATE_MESSAGE = `thread/RECEIVE_CREATE_MESSAGE` as const
 export const DELETE_MESSAGE = 'thread/DELETE_MESSAGE' as const
 export const RECEIVE_DELETE_MESSAGE = 'thread/RECEIVE_DELETE_MESSAGE' as const
 
+const INIT_THREAD_LIST = 'thread/INIT_THREAD_LIST' as const
+
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
@@ -93,6 +95,8 @@ export const receiveDeleteMessage = createAction(RECEIVE_DELETE_MESSAGE)<{
   messageId: number
 }>()
 
+export const initThreadList = createAction(INIT_THREAD_LIST)<undefined>()
+
 const actions = {
   getThreadsRequest: getThreads.request,
   getThreadsSuccess: getThreads.success,
@@ -111,6 +115,7 @@ const actions = {
   receiveCreateMessage,
   deleteMessage,
   receiveDeleteMessage,
+  initThreadList,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -229,6 +234,11 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
       },
     }
   },
+  [INIT_THREAD_LIST]: (state, _) => ({
+    ...state,
+    loading: false,
+    threadList: [],
+  }),
 })
 
 export default reducer
