@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
@@ -19,6 +21,9 @@ const MemberListModal = ({
   onClose,
 }: MemberListModalProps) => {
   const { id, type, name } = channel
+  const {
+    currentUser: { id: loginUserId },
+  } = useSelector((state: RootState) => state.userStore)
 
   const [inputKeyword, setInputKeyword] = useState('')
   const [memberSearchResult, setMemberSearchResult] = useState<UserType[]>([])
@@ -57,6 +62,10 @@ const MemberListModal = ({
 
   const handleClearSearchButtonClick = (): void => {
     setInputKeyword('')
+  }
+
+  const handleRemoveButtonClick = () => {
+    alert('remove')
   }
 
   return (
@@ -113,8 +122,22 @@ const MemberListModal = ({
           ) : (
             memberSearchResult.map((member) => (
               <Styled.MemberWrapper key={member.id}>
-                <O.Avatar user={member} size="BIG" clickable />
-                <A.Text customStyle={memberNameTextStyle}>{member.name}</A.Text>
+                <Styled.MemberLeftWrapper>
+                  <O.Avatar user={member} size="BIG" clickable />
+                  <A.Text customStyle={memberNameTextStyle}>
+                    {member.name + (loginUserId === member.id ? ' (you)' : '')}
+                  </A.Text>
+                </Styled.MemberLeftWrapper>
+
+                {type === 'PRIVATE' && loginUserId !== member.id && (
+                  <M.ButtonDiv
+                    onClick={handleRemoveButtonClick}
+                    buttonStyle={removeButtonStyle}
+                    textStyle={removeButtonTextStyle}
+                  >
+                    Remove
+                  </M.ButtonDiv>
+                )}
               </Styled.MemberWrapper>
             ))
           )}
@@ -165,8 +188,8 @@ const inputKeywordTextStyle: TextType.StyleAttributes = {
 }
 
 const memberNameTextStyle: TextType.StyleAttributes = {
-  fontWeight: '600',
-  fontSize: '1.4rem',
+  fontWeight: '700',
+  fontSize: '1.5rem',
   margin: '0 0 0 10px',
 }
 
@@ -181,6 +204,21 @@ const clearSearchButtonStyle: ButtonType.StyleAttributes = {
 const clearSearchButtonTextStyle: TextType.StyleAttributes = {
   fontSize: '1.4rem',
   fontWeight: '600',
+}
+
+const removeButtonStyle: ButtonType.StyleAttributes = {
+  cursor: 'pointer',
+  padding: '10px',
+  width: '80px',
+  height: '36px',
+  borderRadius: '4px',
+  border: `1px solid ${color.get('grey')}`,
+  backgroundColor: 'white',
+  hoverBackgroundColor: 'greyHover',
+}
+const removeButtonTextStyle: TextType.StyleAttributes = {
+  fontWeight: '600',
+  fontSize: '1.4rem',
 }
 
 export default MemberListModal

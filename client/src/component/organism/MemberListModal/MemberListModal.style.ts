@@ -22,11 +22,16 @@ const MemberListWrapper = styled.div`
 
 const MemberWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 10px 35px;
   &:hover {
     background-color: ${color.get('whiteHover')};
   }
+`
+const MemberLeftWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const EmptyListWrapper = styled.div`
@@ -41,5 +46,6 @@ export default {
   UpperWrapper,
   MemberListWrapper,
   MemberWrapper,
+  MemberLeftWrapper,
   EmptyListWrapper,
 }
