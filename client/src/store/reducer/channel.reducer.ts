@@ -12,6 +12,7 @@ import {
   CreateChannelRequestType,
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
+  DeleteMemberRequestType,
 } from '@type/channel.type'
 
 export interface ChannelState {
@@ -48,6 +49,9 @@ export const JOIN_MEMBERS_TO_CHANNEL_REQUEST = 'channel/JOIN_MEMBERS_TO_CHANNEL_
 const JOIN_MEMBERS_TO_CHANNEL_SUCCESS = 'channel/JOIN_MEMBERS_TO_CHANNEL_SUCCESS' as const
 const JOIN_MEMBERS_TO_CHANNEL_ERROR = 'channel/JOIN_MEMBERS_TO_CHANNEL_ERROR' as const
 
+export const DELETE_MEMBER = 'channel/DELETE_MEMBER' as const
+export const RECEIVE_DELETE_MEMBER = 'channel/RECEIVE_DELETE_MEMBER' as const
+
 export const CREATE_CHANNEL_REQUEST = 'channel/CREATE_CHANNEL_REQUEST' as const
 const CREATE_CHANNEL_SUCCESS = 'channel/CREATE_CHANNEL_SUCCESS' as const
 const CREATE_CHANNEL_ERROR = 'channel/CREATE_CHANNEL_ERROR' as const
@@ -78,6 +82,14 @@ export const joinMembersToChannel = createAsyncAction(
   AxiosError
 >()
 
+export const deleteMember = createAction(DELETE_MEMBER)<
+  DeleteMemberRequestType
+>()
+export const receiveDeleteMember = createAction(RECEIVE_DELETE_MEMBER)<{
+  channelInfo: CurrentChannelType
+  userId: number
+}>()
+
 export const createChannel = createAsyncAction(
   CREATE_CHANNEL_REQUEST,
   CREATE_CHANNEL_SUCCESS,
@@ -100,6 +112,8 @@ const actions = {
   joinMembersToChannelRequest: joinMembersToChannel.request,
   joinMembersToChannelSuccess: joinMembersToChannel.success,
   joinMembersToChannelError: joinMembersToChannel.failure,
+  deleteMember,
+  receiveDeleteMember,
   createChannelRequest: createChannel.request,
   createChannelSuccess: createChannel.success,
   createChannelError: createChannel.failure,
@@ -174,6 +188,20 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
+
+  [RECEIVE_DELETE_MEMBER]: (state, action) => {
+    const { channelInfo } = action.payload
+    if (state.currentChannel.id === channelInfo.id) {
+      return {
+        ...state,
+        currentChannel: { ...channelInfo },
+      }
+    }
+    return {
+      ...state,
+    }
+  },
+
   [GET_CURRENT_CHANNEL_REQUEST]: (state, _) => ({
     ...state,
     loading: true,

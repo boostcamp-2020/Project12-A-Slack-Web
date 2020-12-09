@@ -3,6 +3,7 @@ import { createServer } from 'http'
 import { Server, Socket } from 'socket.io'
 import threadService from '@service/thread.service'
 import messageService from '@service/message.service'
+import channelService from '@service/channel.service'
 
 const server = createServer(express())
 
@@ -29,6 +30,20 @@ namespace.on('connection', (socket: Socket) => {
     socket.join(channelIdList.map((id) => id.toString()))
     console.log(socket.rooms)
   })
+  socket.on(
+    'DELETE_MEMBER',
+    async (data: { channelId: number; userId: number }) => {
+      const { channelId, userId } = data
+      const { json } = await channelService.readChannelInfo({
+        channelId,
+      })
+      const payload = {
+        channelInfo: json.data,
+        userId,
+      }
+      namespace.to(channelId.toString()).emit('DELETE_MEMBER', payload)
+    },
+  )
   socket.on(
     'CREATE_THREAD',
     async (data: { channelId: number; threadId: number }) => {

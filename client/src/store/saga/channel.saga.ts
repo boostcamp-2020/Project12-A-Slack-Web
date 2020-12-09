@@ -1,20 +1,35 @@
-import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
+import {
+  call,
+  put,
+  takeEvery,
+  takeLatest,
+  fork,
+  all,
+  select,
+} from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import { ChannelType } from '@type/channel.type'
+import {
+  sendSocketDeleteMember,
+  sendSocketJoinRoom,
+} from '@store/reducer/socket.reducer'
 import {
   GET_CHANNELS_REQUEST,
   GET_CURRENT_CHANNEL_REQUEST,
   JOIN_CHANNEL_REQUEST,
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
+  DELETE_MEMBER,
+  RECEIVE_DELETE_MEMBER,
   CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
   joinChannel,
   joinMembersToChannel,
+  deleteMember,
+  receiveDeleteMember,
 } from '../reducer/channel.reducer'
-import { sendSocketJoinRoom } from '../reducer/socket.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
   try {
@@ -70,6 +85,52 @@ function* joinMembersToChannelSaga(
   }
 }
 
+function* deleteMemberSaga(action: ReturnType<typeof deleteMember>) {
+  try {
+    const { success } = yield call(channelAPI.deleteMember, action.payload)
+    if (success) {
+      action.payload.onSuccess!()
+      yield put(
+        sendSocketDeleteMember({
+          channelId: +action.payload.channelId,
+          userId: +action.payload.userId,
+        }),
+      )
+    }
+  } catch (error) {
+    toast.error('Failed to delete member from channel')
+  }
+}
+
+function* receiveDeleteMemberSaga(
+  action: ReturnType<typeof receiveDeleteMember>,
+) {
+  try {
+    const { loginUserId, workspaceId, currentChannelId } = yield select(
+      (state) => {
+        return {
+          loginUserId: state.userStore.currentUser.id,
+          currentChannelId: state.channelStore.currentChannel.id,
+          workspaceId: state.workspaceStore.currentWorkspace.id,
+        }
+      },
+    )
+    // TODO: channel list update 필요
+
+    if (
+      loginUserId === action.payload.userId &&
+      currentChannelId === action.payload.channelInfo.id
+    ) {
+      toast.success(
+        `You have been removed from the private channel ${action.payload.channelInfo.name}`,
+      )
+      window.location.href = `/workspace/${workspaceId}/channel-browser`
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
   try {
     const { success, data } = yield call(
@@ -102,6 +163,14 @@ function* watchJoinChannelSaga() {
   yield takeLatest(JOIN_CHANNEL_REQUEST, joinChannelSaga)
 }
 
+function* watchDeleteMemberSaga() {
+  yield takeLatest(DELETE_MEMBER, deleteMemberSaga)
+}
+
+function* watchRecieveDeleteMemberSaga() {
+  yield takeLatest(RECEIVE_DELETE_MEMBER, receiveDeleteMemberSaga)
+}
+
 function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
@@ -112,6 +181,8 @@ export default function* channelSaga() {
     fork(watchGetCurrentChannelSaga),
     fork(watchJoinChannelSaga),
     fork(watchJoinMembersToChannelSaga),
+    fork(watchDeleteMemberSaga),
+    fork(watchRecieveDeleteMemberSaga),
     fork(watchCreateChannelSaga),
   ])
 }
