@@ -13,6 +13,7 @@ import {
   CreateChannelRequestType,
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
+  DeleteMemberRequestType,
 } from '@type/channel.type'
 
 export interface ChannelState {
@@ -52,6 +53,10 @@ export const JOIN_MEMBERS_TO_CHANNEL_REQUEST = 'channel/JOIN_MEMBERS_TO_CHANNEL_
 const JOIN_MEMBERS_TO_CHANNEL_SUCCESS = 'channel/JOIN_MEMBERS_TO_CHANNEL_SUCCESS' as const
 const JOIN_MEMBERS_TO_CHANNEL_ERROR = 'channel/JOIN_MEMBERS_TO_CHANNEL_ERROR' as const
 
+export const DELETE_MEMBER_REQUEST = 'channel/DELETE_MEMBER_REQUEST' as const
+const DELETE_MEMBER_SUCCESS = 'channel/DELETE_MEMBER_SUCCESS' as const
+const DELETE_MEMBER_ERROR = 'channel/DELETE_MEMBER_ERROR' as const
+
 export const CREATE_CHANNEL_REQUEST = 'channel/CREATE_CHANNEL_REQUEST' as const
 const CREATE_CHANNEL_SUCCESS = 'channel/CREATE_CHANNEL_SUCCESS' as const
 const CREATE_CHANNEL_ERROR = 'channel/CREATE_CHANNEL_ERROR' as const
@@ -82,6 +87,12 @@ export const joinMembersToChannel = createAsyncAction(
   AxiosError
 >()
 
+export const deleteMember = createAsyncAction(
+  DELETE_MEMBER_REQUEST,
+  DELETE_MEMBER_SUCCESS,
+  DELETE_MEMBER_ERROR,
+)<DeleteMemberRequestType, CurrentChannelType, AxiosError>()
+
 export const createChannel = createAsyncAction(
   CREATE_CHANNEL_REQUEST,
   CREATE_CHANNEL_SUCCESS,
@@ -104,6 +115,9 @@ const actions = {
   joinMembersToChannelRequest: joinMembersToChannel.request,
   joinMembersToChannelSuccess: joinMembersToChannel.success,
   joinMembersToChannelError: joinMembersToChannel.failure,
+  deleteMemberRequest: deleteMember.request,
+  deleteMemberSuccess: deleteMember.success,
+  deleteMemberError: deleteMember.failure,
   createChannelRequest: createChannel.request,
   createChannelSuccess: createChannel.success,
   createChannelError: createChannel.failure,
@@ -178,6 +192,31 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
+
+  [DELETE_MEMBER_REQUEST]: (state, _) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  [DELETE_MEMBER_SUCCESS]: (state, action) => {
+    const { id } = action.payload
+    const sameChannel = id === state.currentChannel.id
+    const newCurrentChannel = sameChannel
+      ? action.payload
+      : state.currentChannel
+    return {
+      ...state,
+      loading: false,
+      currentChannel: { ...newCurrentChannel },
+      error: null,
+    }
+  },
+  [DELETE_MEMBER_ERROR]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.payload,
+  }),
+
   [GET_CURRENT_CHANNEL_REQUEST]: (state, _) => ({
     ...state,
     loading: true,

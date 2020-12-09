@@ -7,12 +7,14 @@ import {
   GET_CURRENT_CHANNEL_REQUEST,
   JOIN_CHANNEL_REQUEST,
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
+  DELETE_MEMBER_REQUEST,
   CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
   joinChannel,
   joinMembersToChannel,
+  deleteMember,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -69,6 +71,22 @@ function* joinMembersToChannelSaga(
   }
 }
 
+function* deleteMemberSaga(action: ReturnType<typeof deleteMember.request>) {
+  try {
+    const deleteResult = yield call(channelAPI.deleteMember, action.payload)
+    if (deleteResult.success) {
+      const { success, data } = yield call(
+        channelAPI.getChannelInfo,
+        action.payload.channelId,
+      )
+      if (success) yield put(deleteMember.success(data))
+    }
+  } catch (error) {
+    toast.error('Failed to delete member from channel')
+    yield put(deleteMember.failure(error))
+  }
+}
+
 function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
   try {
     const { success, data } = yield call(
@@ -98,6 +116,10 @@ function* watchJoinChannelSaga() {
   yield takeLatest(JOIN_CHANNEL_REQUEST, joinChannelSaga)
 }
 
+function* watchDeleteMemberSaga() {
+  yield takeLatest(DELETE_MEMBER_REQUEST, deleteMemberSaga)
+}
+
 function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
@@ -108,6 +130,7 @@ export default function* channelSaga() {
     fork(watchGetCurrentChannelSaga),
     fork(watchJoinChannelSaga),
     fork(watchJoinMembersToChannelSaga),
+    fork(watchDeleteMemberSaga),
     fork(watchCreateChannelSaga),
   ])
 }
