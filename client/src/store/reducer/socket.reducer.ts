@@ -68,7 +68,6 @@ export const sendSocketUpdateMessage = createAction(
   SEND_SOCKET_UPDATE_MESSAGE,
 )<{
   channelId: number
-  threadId: number
   messageId: number
 }>()
 

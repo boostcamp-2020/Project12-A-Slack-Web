@@ -40,6 +40,7 @@ import {
   sendSocketUpdateThread,
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
+  sendSocketUpdateMessage,
 } from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -182,17 +183,17 @@ function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
 function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
   try {
     const { success } = yield call(messageAPI.updateMessage, action.payload)
-    console.log(success)
-    const { id: threadId, channelId } = yield select(
+
+    const { channelId } = yield select(
       (state: RootState) => state.threadStore.currentThread.thread,
     )
     if (success) {
-      // yield put(
-      //   sendSocketUpdateThread({
-      //     channelId: +channelId,
-      //     threadId: +threadId,
-      //   }),
-      // )
+      yield put(
+        sendSocketUpdateMessage({
+          channelId: +channelId,
+          messageId: +action.payload.messageId,
+        }),
+      )
     }
   } catch (e) {
     toast.error('Failed to update thread')
