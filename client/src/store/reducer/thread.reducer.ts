@@ -99,7 +99,7 @@ export const updateMessage = createAction(UPDATE_MESSAGE)<
   UpdateMessageRequestType
 >()
 export const receiveUpdateMessage = createAction(RECEIVE_UPDATE_MESSAGE)<{
-  // messageId: number
+  messageId: number
 }>()
 
 const actions = {

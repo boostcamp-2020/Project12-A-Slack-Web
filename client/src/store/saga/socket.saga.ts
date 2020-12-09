@@ -11,7 +11,7 @@ import {
 } from '@store/reducer/thread.reducer'
 import { receiveDeleteMember } from '@store/reducer/channel.reducer'
 import { ChannelType } from '@type/channel.type'
-import { RootState } from '../index'
+import { RootState } from '@store'
 import { DeleteMessageSocketResponseType } from '@type/message.type'
 import {
   connectSocket,
@@ -22,6 +22,7 @@ import {
   sendSocketUpdateThread,
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
+  sendSocketUpdateMessage,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
@@ -33,6 +34,7 @@ const DELETE_THREAD = 'DELETE_THREAD'
 const UPDATE_THREAD = 'UPDATE_THREAD'
 const CREATE_MESSAGE = 'CREATE_MESSAGE'
 const DELETE_MESSAGE = 'DELETE_MESSAGE'
+const UPDATE_MESSAGE = 'UPDATE_MESSAGE'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -159,6 +161,13 @@ function* sendDeleteMessage(socket: Socket) {
   }
 }
 
+function* sendUpdateMessage(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketUpdateMessage)
+    socket.emit(UPDATE_MESSAGE, payload)
+  }
+}
+
 function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
@@ -175,6 +184,7 @@ function* handleIO(socket: Socket) {
   yield fork(socketJoinRoomNew, socket)
   yield fork(sendCreateMessage, socket)
   yield fork(sendDeleteMessage, socket)
+  yield fork(sendUpdateMessage, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {
