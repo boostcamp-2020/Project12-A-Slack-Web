@@ -46,6 +46,7 @@ export interface GetThreadResponseType {
   id: number
   createdAt: string
   updatedAt: string
+  channelId: number
   User: UserType
   headMessage: MessageType
   replyCount: number

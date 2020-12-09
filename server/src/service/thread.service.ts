@@ -82,6 +82,7 @@ interface MessageInstance extends MessageModel {
 interface ThreadInstance extends ThreadModel {
   Messages: MessageInstance[]
   User: UserModel
+  channelId: number
   // eslint-disable-next-line no-unused-vars
 }
 
@@ -113,12 +114,13 @@ const getFilteredThread = (thread: ThreadInstance) => {
   const userProfileMax5 =
     userProfileSet.length >= 5 ? userProfileSet.slice(0, 5) : userProfileSet
 
-  const { id, createdAt, updatedAt, User } = thread
+  const { id, createdAt, updatedAt, channelId, User } = thread
 
   return {
     id,
     createdAt,
     updatedAt,
+    channelId,
     User,
     headMessage,
     replyCount,
@@ -168,7 +170,7 @@ const readThreadById = async ({ id }: readThreadType) => {
           attributes: ['id', 'email', 'name', 'profileImageUrl'],
         },
       ],
-      attributes: ['id', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'createdAt', 'updatedAt', 'channelId'],
       where: { id },
     })) as ThreadInstance
 
@@ -238,7 +240,7 @@ const readThreadsByChannel = async ({
         },
       ],
       order: [['id', 'DESC']],
-      attributes: ['id', 'createdAt', 'updatedAt'],
+      attributes: ['id', 'createdAt', 'updatedAt', 'channelId'],
       where: {
         channelId,
         id: lastThreadId ? { [Op.lt]: lastThreadId } : { [Op.ne]: null },
