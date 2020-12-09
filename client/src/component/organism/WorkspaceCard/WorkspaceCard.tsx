@@ -12,6 +12,7 @@ const WorkspaceCard = ({ workspace }: WorkspaceProps) => {
   const handleHoverWorkspace = () => {
     setHover(!hover)
   }
+
   return (
     <ContentWrapper
       onMouseEnter={handleHoverWorkspace}

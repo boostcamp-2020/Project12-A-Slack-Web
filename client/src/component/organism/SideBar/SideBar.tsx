@@ -4,19 +4,20 @@ import M from '@molecule'
 import myIcon from '@constant/icon'
 import { useHistory } from 'react-router-dom'
 import { ChannelType } from '@type/channel.type'
-import { WorkspaceResponseType } from '@type/workspace.type'
+import { CurrentWorkSpaceInfoResponseType } from '@type/workspace.type'
+
 import Styled from './SideBar.style'
 
 interface SideBarProps {
-  workspaceInfo: WorkspaceResponseType | null
+  workspaceInfo: CurrentWorkSpaceInfoResponseType
   channelList: ChannelType[]
 }
 
 const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   const history = useHistory()
-  const workspaceId = localStorage.getItem('workspaceId')
+
   const handlebrowserChannelClick = () => {
-    history.push(`/workspace/${workspaceId}/channel-browser`)
+    history.push(`/workspace/${workspaceInfo.id}/channel-browser`)
   }
   return (
     <Styled.SideBarContainer>
@@ -25,10 +26,20 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           buttonStyle={WorkSpaceButtonStyle}
           textStyle={WorkSpaceTextStyle}
         >
-          <>
-            부스트캠프 2020 멤버쉽
+          <Styled.WorkspaceTitleWrapper>
+            <A.Image
+              url={workspaceInfo.imageUrl}
+              customStyle={{
+                height: '4.5rem',
+                width: '4.5rem',
+                radius: '4px',
+              }}
+            />
+            <A.Text customStyle={WorkSpaceTextStyle}>
+              {workspaceInfo.name}
+            </A.Text>
             <A.Icon icon={myIcon.edit} customStyle={WorkSpaceIconStyle} />
-          </>
+          </Styled.WorkspaceTitleWrapper>
         </M.ButtonDiv>
       </Styled.WorkSpacePart>
       <Styled.ScrollContainer>
