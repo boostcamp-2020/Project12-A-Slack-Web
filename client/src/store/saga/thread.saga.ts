@@ -9,6 +9,7 @@ import {
 } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
+import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   GetMessagesResponseType,
@@ -58,8 +59,6 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
       threadAPI.createThread,
       action.payload,
     )
-
-    console.log('createThreadSaga: ', data)
     if (success)
       yield put(
         sendSocketCreateThread({
@@ -68,7 +67,7 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
         }),
       )
   } catch (e) {
-    console.log('Failed to create thread')
+    toast.error('Failed to create thread')
   }
 }
 
@@ -89,7 +88,7 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
         }),
       )
   } catch (e) {
-    console.log('Failed to create thread')
+    toast.error('Failed to delete thread')
   }
 }
 
@@ -108,7 +107,7 @@ function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
       )
     }
   } catch (e) {
-    console.log('Failed to create thread')
+    toast.error('Failed to update thread')
   }
 }
 
@@ -137,7 +136,6 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
       messageAPI.createMessage,
       action.payload,
     )
-
     if (success) {
       yield put(
         sendSocketCreateMessage({
@@ -148,7 +146,7 @@ function* createMessageSaga(action: ReturnType<typeof createMessage>) {
       )
     }
   } catch (e) {
-    console.log('Failed to create thread')
+    toast.error('Failed to create message')
   }
 }
 
