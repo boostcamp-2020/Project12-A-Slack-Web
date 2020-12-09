@@ -7,10 +7,6 @@ import { InputType } from '@atom/Input'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
 import { createThread } from '@store/reducer/thread.reducer'
-import {
-  CreateMessageRequestType,
-  UpdateMessageRequestType,
-} from '@type/message.type'
 import Styled from './MessageEditor.style'
 
 interface MessageEditorProps {

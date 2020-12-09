@@ -6,13 +6,13 @@ import {
 } from 'typesafe-actions'
 import { AxiosError } from 'axios'
 import {
+  UpdateThreadRequestType,
   GetThreadsRequestType,
   GetThreadResponseType,
   CreateThreadRequestType,
   CurrentThreadType,
 } from '@type/thread.type'
 import {
-  UpdateMessageRequestType,
   CreateMessageRequestType,
   MessageSocketResponseDataType,
   DeleteMessageRequestType,
@@ -69,7 +69,7 @@ export const receiveDeleteThread = createAction(RECEIVE_DELETE_THREAD)<
   GetThreadResponseType | number
 >()
 export const updateThread = createAction(UPDATE_THREAD)<
-  UpdateMessageRequestType
+  UpdateThreadRequestType
 >()
 export const receiveUpdateThread = createAction(RECEIVE_UPDATE_THREAD)<
   GetThreadResponseType

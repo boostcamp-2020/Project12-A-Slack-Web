@@ -9,8 +9,11 @@ import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import ActionBar from '@organism/ActionBar'
 import { getDateAndTime } from '@util/date'
-import { GetThreadResponseType } from '@type/thread.type'
-import { UpdateMessageRequestType, MessageType } from '@type/message.type'
+import {
+  GetThreadResponseType,
+  UpdateThreadRequestType,
+} from '@type/thread.type'
+import { MessageType } from '@type/message.type'
 import { RootState } from '@store'
 import {
   deleteThread,
@@ -56,9 +59,7 @@ const MessageCard = ({
   }
   const handleEditCancelButtonClick = () => setEditMode(false)
   const handleEditButtonClick = () => setEditMode(true)
-  const handleEditSubmitButtonClick = (
-    updateData: UpdateMessageRequestType,
-  ) => {
+  const handleEditSubmitButtonClick = (updateData: UpdateThreadRequestType) => {
     if (thread) dispatch(updateThread({ ...updateData, threadId: thread.id }))
     // TODO: else -> message 일때
     setEditMode(false)

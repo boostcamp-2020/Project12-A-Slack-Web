@@ -11,7 +11,6 @@ import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
-import { OnlySuccessResponseType } from '@type/response.type'
 import { RootState } from '@store'
 import {
   GetMessagesResponseType,
