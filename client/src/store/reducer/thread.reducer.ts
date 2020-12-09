@@ -11,7 +11,10 @@ import {
   CreateThreadRequestType,
   CurrentThreadType,
 } from '@type/thread.type'
-import { UpdateMessageRequestType } from '@type/message.type'
+import {
+  UpdateMessageRequestType,
+  CreateMessageRequestType,
+} from '@type/message.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
@@ -43,6 +46,7 @@ export const SET_CURRENT_THREAD_REQUEST = `thread/SET_CURRENT_THREAD_REQUEST` as
 const SET_CURRENT_THREAD_SUCCESS = `thread/SET_CURRENT_THREAD_SUCCESS` as const
 const SET_CURRENT_THREAD_ERROR = `thread/SET_CURRENT_THREAD_ERROR` as const
 const CLEAR_CURRENT_THREAD = `thread/CLEAR_CURRENT_THREAD` as const
+export const CREATE_MESSAGE = `thread/CREATE_MESSAGE` as const
 
 export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
@@ -71,6 +75,9 @@ export const setCurrentThread = createAsyncAction(
   SET_CURRENT_THREAD_ERROR,
 )<GetThreadResponseType, CurrentThreadType, AxiosError>()
 export const clearCurrentThread = createAction(CLEAR_CURRENT_THREAD)()
+export const createMessage = createAction(CREATE_MESSAGE)<
+  CreateMessageRequestType
+>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -86,6 +93,7 @@ const actions = {
   setCurrentThreadSuccess: setCurrentThread.success,
   setCurrentThreadFailure: setCurrentThread.failure,
   clearCurrentThread,
+  createMessage,
 }
 
 export type ThreadAction = ActionType<typeof actions>

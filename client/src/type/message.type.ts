@@ -9,3 +9,7 @@ export interface UpdateMessageRequestType extends CreateThreadRequestType {
 export interface GetMessagesResponseType extends ResponseType {
   data: MessageType[]
 }
+
+export interface CreateMessageRequestType extends CreateThreadRequestType {
+  threadId: number
+}
