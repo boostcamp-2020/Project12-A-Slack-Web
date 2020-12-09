@@ -2,12 +2,13 @@ import { call, put, takeEvery, takeLatest, fork, all } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import { ChannelType } from '@type/channel.type'
+import { sendSocketDeleteMember } from '@store/reducer/socket.reducer'
 import {
   GET_CHANNELS_REQUEST,
   GET_CURRENT_CHANNEL_REQUEST,
   JOIN_CHANNEL_REQUEST,
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
-  DELETE_MEMBER_REQUEST,
+  DELETE_MEMBER,
   CREATE_CHANNEL_REQUEST,
   getChannels,
   getCurrentChannel,
@@ -71,19 +72,19 @@ function* joinMembersToChannelSaga(
   }
 }
 
-function* deleteMemberSaga(action: ReturnType<typeof deleteMember.request>) {
+function* deleteMemberSaga(action: ReturnType<typeof deleteMember>) {
   try {
-    const deleteResult = yield call(channelAPI.deleteMember, action.payload)
-    if (deleteResult.success) {
-      const { success, data } = yield call(
-        channelAPI.getChannelInfo,
-        action.payload.channelId,
+    const { success } = yield call(channelAPI.deleteMember, action.payload)
+    if (success) {
+      yield put(
+        sendSocketDeleteMember({
+          channelId: +action.payload.channelId,
+          userId: +action.payload.userId,
+        }),
       )
-      if (success) yield put(deleteMember.success(data))
     }
   } catch (error) {
     toast.error('Failed to delete member from channel')
-    yield put(deleteMember.failure(error))
   }
 }
 
@@ -117,7 +118,7 @@ function* watchJoinChannelSaga() {
 }
 
 function* watchDeleteMemberSaga() {
-  yield takeLatest(DELETE_MEMBER_REQUEST, deleteMemberSaga)
+  yield takeLatest(DELETE_MEMBER, deleteMemberSaga)
 }
 
 function* watchJoinMembersToChannelSaga() {
