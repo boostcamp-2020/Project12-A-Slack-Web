@@ -116,17 +116,10 @@ function* setCurrentThreadSaga(
     )
 
     if (success) {
-      console.log(data)
-      // yield put(
-      //   sendSocketCreateThread({
-      //     channelId: +action.payload.channelId,
-      //     threadId: +data.threadId,
-      //   }),
-      // )
+      yield put(
+        setCurrentThread.success({ thread: action.payload, messageList: data }),
+      )
     }
-    yield put(
-      setCurrentThread.success({ thread: action.payload, messageList: data }),
-    )
   } catch (error) {
     yield put(setCurrentThread.failure(error))
   }
