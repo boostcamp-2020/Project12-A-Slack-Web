@@ -196,7 +196,7 @@ function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
       )
     }
   } catch (e) {
-    toast.error('Failed to update thread')
+    toast.error('Failed to update message')
   }
 }
 
