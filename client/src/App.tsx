@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hoc/Auth'
 
 const App = () => {
+  if (Notification.permission !== 'granted') Notification.requestPermission()
   return (
     <>
       <ToastContainer />
