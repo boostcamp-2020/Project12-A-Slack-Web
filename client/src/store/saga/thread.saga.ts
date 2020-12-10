@@ -238,16 +238,17 @@ function* receiveCreateMessageSaga(
   const { currentChannel } = yield select(
     (state: RootState) => state.channelStore,
   )
-  const { currentThread } = yield select(
-    (state: RootState) => state.threadStore,
+  const { thread: currentThread } = yield select(
+    (state: RootState) => state.threadStore.currentThread,
   )
-  const { thread, message } = action.payload
+  const { thread, message, userIdList } = action.payload
 
-  const isNeedNotification =
-    currentChannel.id !== thread.channelId &&
-    currentThread.id !== thread.id &&
-    thread.User.id === userId
-  if (isNeedNotification) {
+  const isNotWatching =
+    currentChannel?.id !== thread.channelId && currentThread?.id !== thread.id
+  const isMyThread = thread.User.id === userId
+  const isHaveMyReply = userIdList.some((id) => id === userId)
+
+  if (isNotWatching && (isMyThread || isHaveMyReply)) {
     try {
       if (Notification.permission === 'granted') {
         sendNotification(name, message.content)
