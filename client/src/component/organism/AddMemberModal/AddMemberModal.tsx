@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
 import { TextType } from '@atom/Text'
@@ -16,10 +17,12 @@ import { AddMemberModalProps } from '.'
 import Styled from './AddMemberModal.style'
 
 const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
+  const { id: workspaceId } = useSelector(
+    (state: RootState) => state.workspaceStore.currentWorkspace,
+  )
   const dispatch = useDispatch()
   const { id, type, name } = channel
 
-  //   let members: UserType[] = []
   const [members, setMembers] = useState<UserType[]>([])
 
   useEffect(() => {
@@ -27,7 +30,6 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
       const { success, data } = await userAPI.getUsersByChannel({
         channelId: id,
       })
-      // TODO: 응답 잘 오는지 확인
       if (success) setMembers(data)
     }
     getUsersByChannel()
@@ -46,7 +48,7 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
 
     const searchTeammates = async (searchKeyword: string) => {
       const { success, data } = await workspaceAPI.getTeammates({
-        workspaceId: 1, // TODO: workspace id 교체
+        workspaceId,
         searchKeyword,
       })
       if (success) {
@@ -213,9 +215,9 @@ const channelNameTextStyle: TextType.StyleAttributes = {
 const inputStyle: InputType.StyleAttributes = {
   border: 'none',
   borderRadius: '5px',
-  padding: '0 5px',
+  padding: '0 6px',
   margin: '0',
-  fontSize: '1.8rem',
+  fontSize: '1.6rem',
 }
 
 const inputKeywordTextStyle: TextType.StyleAttributes = {
