@@ -178,10 +178,15 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     error: null,
   }),
-  [RECEIVE_CREATE_THREAD]: (state, action) => ({
-    ...state,
-    threadList: [...state.threadList, action.payload],
-  }),
+  [RECEIVE_CREATE_THREAD]: (state, action) => {
+    if (action.payload.channelId !== state.threadList[0].channelId) {
+      return state
+    }
+    return {
+      ...state,
+      threadList: [...state.threadList, action.payload],
+    }
+  },
   [RECEIVE_DELETE_THREAD]: (state, action) => {
     const { thread: currentThread, messageList } = state.currentThread
     console.log(currentThread, currentThread?.id, messageList.length)
