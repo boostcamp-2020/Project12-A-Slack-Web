@@ -9,6 +9,7 @@ import {
   clearCurrentThread,
   receiveDeleteMessage,
   receiveUpdateMessage,
+  receiveCreateReaction,
 } from '@store/reducer/thread.reducer'
 import { receiveDeleteMember } from '@store/reducer/channel.reducer'
 import { ChannelType } from '@type/channel.type'
@@ -17,6 +18,7 @@ import {
   MessageType,
   DeleteMessageSocketResponseType,
 } from '@type/message.type'
+import { CreateReactionSocketResponseType } from '@type/reaction.type'
 import {
   connectSocket,
   sendSocketJoinRoom,
@@ -27,6 +29,7 @@ import {
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
+  sendSocketCreateReaction,
 } from '../reducer/socket.reducer'
 
 const CONNECT = 'connect'
@@ -39,6 +42,7 @@ const UPDATE_THREAD = 'UPDATE_THREAD'
 const CREATE_MESSAGE = 'CREATE_MESSAGE'
 const DELETE_MESSAGE = 'DELETE_MESSAGE'
 const UPDATE_MESSAGE = 'UPDATE_MESSAGE'
+const CREATE_REACTION = 'CREATE_REACTION'
 
 const baseURL =
   process.env.NODE_ENV === 'development'
@@ -106,6 +110,11 @@ function subscribeSocket(socket: Socket) {
       emit(receiveUpdateMessage(data))
     }
 
+    const handleCreateReaction = (data: CreateReactionSocketResponseType) => {
+      console.log('create reaction: ', data)
+      emit(receiveCreateReaction(data))
+    }
+
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
@@ -114,6 +123,8 @@ function subscribeSocket(socket: Socket) {
     socket.on(CREATE_MESSAGE, handleCreateMessage)
     socket.on(DELETE_MESSAGE, handleDeleteMessage)
     socket.on(UPDATE_MESSAGE, handleUpdateMessage)
+    socket.on(CREATE_REACTION, handleCreateReaction)
+
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
@@ -178,6 +189,13 @@ function* sendUpdateMessage(socket: Socket) {
   }
 }
 
+function* sendCreateReaction(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketCreateReaction)
+    socket.emit(CREATE_REACTION, payload)
+  }
+}
+
 function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
@@ -195,6 +213,7 @@ function* handleIO(socket: Socket) {
   yield fork(sendCreateMessage, socket)
   yield fork(sendDeleteMessage, socket)
   yield fork(sendUpdateMessage, socket)
+  yield fork(sendCreateReaction, socket)
 }
 
 function* socketJoinRoom(socket: Socket) {
