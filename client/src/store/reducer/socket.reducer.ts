@@ -29,6 +29,7 @@ const SEND_SOCKET_UPDATE_THREAD = 'socket/SEND_SOCKET_UPDATE_THREAD' as const
 const SEND_SOCKET_CREATE_MESSAGE = 'socket/SEND_SOCKET_CREATE_MESSAGE' as const
 const SEND_SOCKET_DELETE_MESSAGE = 'socket/SEND_SOCKET_DELETE_MESSAGE' as const
 const SEND_SOCKET_UPDATE_MESSAGE = 'socket/SEND_SOCKET_UPDATE_MESSAGE' as const
+const SEND_SOCKET_ACTIVE_USER_ID = 'socket/SEND_SOCKET_ACTIVE_USER_ID'
 
 export const connectSocket = createAsyncAction(
   CONNECT_SOCKET_REQUEST,
@@ -74,6 +75,9 @@ export const sendSocketUpdateMessage = createAction(
   channelId: number
   messageId: number
 }>()
+export const sendSocketActiveUserId = createAction(SEND_SOCKET_ACTIVE_USER_ID)<{
+  userId: number
+}>()
 
 const actions = {
   connectSocketRequest: connectSocket.request,
@@ -87,6 +91,7 @@ const actions = {
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
+  sendSocketActiveUserId,
 }
 
 type SocketAction = ActionType<typeof actions>

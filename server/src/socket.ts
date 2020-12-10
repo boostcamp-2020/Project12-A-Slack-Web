@@ -26,6 +26,11 @@ namespace.use((socket, next) => {
 
 namespace.on('connection', (socket: Socket) => {
   console.log(socket)
+
+  socket.on('connect', ({ userId }: { userId: number }) => {
+    console.log(userId)
+  })
+
   socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {
     console.log('JOIN_ROOM: ', channelIdList)
     socket.join(channelIdList.map((id) => id.toString()))
@@ -113,16 +118,6 @@ namespace.on('connection', (socket: Socket) => {
         ? { thread: threadRes.data, messageId }
         : { threadId }
       namespace.to(channelId.toString()).emit('DELETE_MESSAGE', response)
-    },
-  )
-  socket.on(
-    'UPDATE_MESSAGE',
-    async (data: { channelId: number; messageId: number }) => {
-      const { channelId, messageId } = data
-      const { json } = await messageService.readMessageById({
-        id: messageId,
-      })
-      namespace.to(channelId.toString()).emit('UPDATE_MESSAGE', json.data)
     },
   )
 })

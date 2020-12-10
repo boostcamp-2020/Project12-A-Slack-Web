@@ -70,6 +70,10 @@ function createSocket(workspaceId: NamespaceType): Promise<Socket> {
 function subscribeSocket(socket: Socket) {
   console.log('useSocket: ', socket.id)
   return eventChannel((emit: any) => {
+    const handleConnect = () => {
+      emit()
+    }
+
     const handleDisconnect = () => {
       console.log('disconnected')
     }
@@ -193,6 +197,12 @@ function* socketJoinRoomNew(socket: Socket) {
   while (true) {
     const { payload } = yield take(sendSocketJoinRoom)
     socket.emit(JOIN_ROOM, payload)
+  }
+}
+
+function* socketActiveUser(socket: Socket) {
+  while (true) {
+    const
   }
 }
 
