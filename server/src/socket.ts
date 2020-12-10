@@ -91,9 +91,16 @@ namespace.on('connection', (socket: Socket) => {
       const { json: messageRes } = await messageService.readMessageById({
         id: messageId,
       })
+      const {
+        json: userIdListRes,
+      } = await messageService.readMessageAuthorsByThread({
+        threadId,
+      })
+
       namespace.to(channelId.toString()).emit('CREATE_MESSAGE', {
         thread: threadRes.data,
         message: messageRes.data,
+        userIdList: userIdListRes.data,
       })
     },
   )

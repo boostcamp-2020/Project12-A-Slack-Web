@@ -11,6 +11,7 @@ import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import reactionAPI from '@api/reaction'
 import { toast } from 'react-toastify'
+import { GRANTED } from '@constant/index'
 import { GetThreadResponseType } from '@type/thread.type'
 import { CreateReactionResponseType } from '@type/reaction.type'
 import { RootState } from '@store'
@@ -27,6 +28,7 @@ import {
   CREATE_MESSAGE,
   DELETE_MESSAGE,
   UPDATE_MESSAGE,
+  RECEIVE_CREATE_THREAD,
   CREATE_REACTION,
   DELETE_REACTION,
   getThreads,
@@ -37,6 +39,9 @@ import {
   createMessage,
   deleteMessage,
   updateMessage,
+  receiveCreateThread,
+  receiveCreateMessage,
+  RECEIVE_CREATE_MESSAGE,
   createReaction,
   deleteReaction,
 } from '@store/reducer/thread.reducer'
@@ -208,6 +213,59 @@ function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
   }
 }
 
+const sendNotification = (name: string, body: string) => {
+  return new Notification(`${name}님의 새 메시지`, { body })
+}
+
+function* receiveCreateThreadSaga(
+  action: ReturnType<typeof receiveCreateThread>,
+) {
+  const { name } = yield select(
+    (state: RootState) => state.userStore.currentUser,
+  )
+  const { id: channelId } = yield select(
+    (state: RootState) => state.channelStore.currentChannel,
+  )
+  const { content } = action.payload.headMessage
+  if (channelId !== action.payload.channelId) {
+    try {
+      if (Notification.permission === GRANTED) {
+        sendNotification(name, content)
+      }
+    } catch (e) {
+      console.log('Browser does not support notification.')
+    }
+  }
+}
+
+function* receiveCreateMessageSaga(
+  action: ReturnType<typeof receiveCreateMessage>,
+) {
+  const { name, id: userId } = yield select(
+    (state: RootState) => state.userStore.currentUser,
+  )
+  const { currentChannel } = yield select(
+    (state: RootState) => state.channelStore,
+  )
+  const { thread: currentThread } = yield select(
+    (state: RootState) => state.threadStore.currentThread,
+  )
+  const { thread, message, userIdList } = action.payload
+
+  const isNotWatching =
+    currentChannel?.id !== thread.channelId && currentThread?.id !== thread.id
+  const isMyThread = thread.User.id === userId
+  const isHaveMyReply = userIdList.some((id) => id === userId)
+
+  if (isNotWatching && (isMyThread || isHaveMyReply)) {
+    try {
+      if (Notification.permission === 'granted') {
+        sendNotification(name, message.content)
+      }
+    } catch (e) {
+      console.log('Browser does not support notification.')
+    }
+
 function* createReactionSaga(action: ReturnType<typeof createReaction>) {
   try {
     const { success, data }: CreateReactionResponseType = yield call(
@@ -243,6 +301,7 @@ function* deleteReactionSaga(action: ReturnType<typeof deleteReaction>) {
     }
   } catch (e) {
     toast.error('Failed to delete reaction')
+
   }
 }
 
@@ -278,6 +337,13 @@ function* watchUpdateMessageSaga() {
   yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
 }
 
+function* watchReceiveCreateThreadSaga() {
+  yield takeEvery(RECEIVE_CREATE_THREAD, receiveCreateThreadSaga)
+}
+
+function* watchReceiveCreateMessageSaga() {
+  yield takeEvery(RECEIVE_CREATE_MESSAGE, receiveCreateMessageSaga)
+
 function* watchCreateReactionSaga() {
   yield takeEvery(CREATE_REACTION, createReactionSaga)
 }
@@ -296,6 +362,8 @@ export default function* threadSaga() {
     fork(watchCreateMessageSaga),
     fork(watchDeleteMessageSaga),
     fork(watchUpdateMessageSaga),
+    fork(watchReceiveCreateThreadSaga),
+    fork(watchReceiveCreateMessageSaga),
     fork(watchCreateReactionSaga),
     fork(watchDeleteReactionSaga),
   ])

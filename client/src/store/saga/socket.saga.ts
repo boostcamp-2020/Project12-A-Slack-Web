@@ -18,6 +18,7 @@ import { RootState } from '@store'
 import {
   MessageType,
   DeleteMessageSocketResponseType,
+  MessageSocketResponseDataType,
 } from '@type/message.type'
 import {
   CreateReactionSocketResponseType,
@@ -93,7 +94,7 @@ function subscribeSocket(socket: Socket) {
       emit(receiveUpdateThread(data))
     }
 
-    const handleCreateMessage = (data: any) => {
+    const handleCreateMessage = (data: MessageSocketResponseDataType) => {
       console.log('create message: ', data)
       emit(receiveCreateMessage(data))
       emit(receiveUpdateThread(data.thread))
