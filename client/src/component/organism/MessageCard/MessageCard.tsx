@@ -20,6 +20,7 @@ import {
   deleteMessage,
   updateMessage,
   createReaction,
+  deleteReaction,
 } from '@store/reducer/thread.reducer'
 import Styled from './MessageCard.style'
 
@@ -74,16 +75,20 @@ const MessageCard = ({
 
   const handleReactionClick = (content: string) => {
     const targetMessage = type === 'THREAD' ? thread.headMessage : message
-    const reacted = !!targetMessage.Reactions.find(
+    const reactionFound = targetMessage.Reactions.find(
       (reaction) =>
         reaction.User.id === currentUser.id && reaction.content === content,
     )
-    if (reacted) {
-      // TODO: delete reaction
-      console.log('delete reaction')
+    if (reactionFound) {
+      dispatch(
+        deleteReaction({
+          channelId,
+          messageId: targetMessage.id,
+          reactionId: reactionFound.id,
+        }),
+      )
       return
     }
-    // TODO: create reaction
     dispatch(
       createReaction({
         channelId,
