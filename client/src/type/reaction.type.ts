@@ -26,12 +26,15 @@ export interface CreateReactionSocketResponseType {
   channelId: number
   messageId: number
 }
+
 export interface DeleteReactionRequestType {
+  channelId: number
   messageId: number
   reactionId: number
 }
 
 export interface DeleteReactionSocketResponseType {
-  messageId?: number
-  reactionId?: number
+  channelId: number
+  messageId: number
+  reactionId: number
 }
