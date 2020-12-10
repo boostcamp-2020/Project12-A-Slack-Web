@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io'
 import threadService from '@service/thread.service'
 import messageService from '@service/message.service'
 import channelService from '@service/channel.service'
+import reactionService from '@service/reaction.service'
 
 const server = createServer(express())
 
@@ -121,6 +122,24 @@ namespace.on('connection', (socket: Socket) => {
         id: messageId,
       })
       namespace.to(channelId.toString()).emit('UPDATE_MESSAGE', json.data)
+    },
+  )
+  socket.on(
+    'CREATE_REACTION',
+    async (data: {
+      channelId: number
+      messageId: number
+      reactionId: number
+    }) => {
+      const { channelId, messageId } = data
+      const { json: reactionRes } = await reactionService.readReactionById({
+        id: +data.reactionId,
+      })
+      namespace.to(channelId.toString()).emit('CREATE_REACTION', {
+        reaction: reactionRes.data,
+        channelId,
+        messageId,
+      })
     },
   )
 })
