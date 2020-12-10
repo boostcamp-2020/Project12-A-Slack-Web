@@ -54,14 +54,14 @@ const createReaction = async ({ userId, content, messageId }: ReactionType) => {
 }
 
 const deleteReaction = async ({ reactionId }: ReactionType) => {
-  if (!reactionId || typeof reactionId === 'number') {
+  if (typeof reactionId !== 'number' || reactionId < 0) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
   try {
-    await ReactionModel.destroy({ where: { id: reactionId } })
+    await ReactionModel.destroy({ where: { id: reactionId }, force: true })
     return {
       code: statusCode.OK,
       json: { success: true },
