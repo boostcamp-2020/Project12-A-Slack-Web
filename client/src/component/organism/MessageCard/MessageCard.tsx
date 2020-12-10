@@ -19,6 +19,7 @@ import {
   updateThread,
   deleteMessage,
   updateMessage,
+  createReaction,
 } from '@store/reducer/thread.reducer'
 import Styled from './MessageCard.style'
 
@@ -36,6 +37,9 @@ const MessageCard = ({
   onReplyButtonClick,
 }: MessageCardProps) => {
   const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { id: channelId } = useSelector(
+    (state: RootState) => state.channelStore.currentChannel,
+  )
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
@@ -67,6 +71,27 @@ const MessageCard = ({
   }
 
   const handleReplyButtonClick = () => onReplyButtonClick(thread)
+
+  const handleReactionClick = (content: string) => {
+    const targetMessage = type === 'THREAD' ? thread.headMessage : message
+    const reacted = !!targetMessage.Reactions.find(
+      (reaction) =>
+        reaction.User.id === currentUser.id && reaction.content === content,
+    )
+    if (reacted) {
+      // TODO: delete reaction
+      console.log('delete reaction')
+      return
+    }
+    // TODO: create reaction
+    dispatch(
+      createReaction({
+        channelId,
+        messageId: targetMessage.id,
+        content,
+      }),
+    )
+  }
 
   if (editMode) {
     return (
@@ -134,6 +159,7 @@ const MessageCard = ({
               loginUserId={currentUser.id}
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
+              onReactionClick={handleReactionClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -179,6 +205,7 @@ const MessageCard = ({
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
               onReplyButtonClick={handleReplyButtonClick}
+              onReactionClick={handleReactionClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -238,6 +265,7 @@ const MessageCard = ({
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
             onReplyButtonClick={handleReplyButtonClick}
+            onReactionClick={handleReactionClick}
           />
         )}
       </Styled.ActionBarWrapper>
