@@ -115,6 +115,16 @@ namespace.on('connection', (socket: Socket) => {
       namespace.to(channelId.toString()).emit('DELETE_MESSAGE', response)
     },
   )
+  socket.on(
+    'UPDATE_MESSAGE',
+    async (data: { channelId: number; messageId: number }) => {
+      const { channelId, messageId } = data
+      const { json } = await messageService.readMessageById({
+        id: messageId,
+      })
+      namespace.to(channelId.toString()).emit('UPDATE_MESSAGE', json.data)
+    },
+  )
 })
 
 server.listen(process.env.SOCKET_PORT, () => {
