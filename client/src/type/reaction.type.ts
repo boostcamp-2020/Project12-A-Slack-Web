@@ -12,6 +12,7 @@ interface ReactionType {
 }
 
 export interface CreateReactionRequestType {
+  channelId: number
   messageId: number
   content: string
 }
@@ -20,6 +21,11 @@ export interface CreateReactionResponseType extends ResponseType {
   data: { reactionId: number }
 }
 
+export interface CreateReactionSocketResponseType {
+  reaction: ReactionType
+  channelId: number
+  messageId: number
+}
 export interface DeleteReactionRequestType {
   messageId: number
   reactionId: number
