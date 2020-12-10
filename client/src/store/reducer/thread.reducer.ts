@@ -19,6 +19,10 @@ import {
   DeleteMessageRequestType,
   UpdateMessageRequestType,
 } from '@type/message.type'
+import {
+  CreateReactionRequestType,
+  CreateReactionSocketResponseType,
+} from '@type/reaction.type'
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
@@ -56,6 +60,8 @@ export const DELETE_MESSAGE = 'thread/DELETE_MESSAGE' as const
 export const RECEIVE_DELETE_MESSAGE = 'thread/RECEIVE_DELETE_MESSAGE' as const
 export const UPDATE_MESSAGE = 'thread/UPDATE_MESSAGE' as const
 export const RECEIVE_UPDATE_MESSAGE = 'thread/RECEIVE_UPDATE_MESSAGE' as const
+export const CREATE_REACTION = `thread/CREATE_REACTION` as const
+export const RECEIVE_CREATE_REACTION = `thread/RECEIVE_CREATE_REACTION` as const
 
 const INIT_THREAD_LIST = 'thread/INIT_THREAD_LIST' as const
 
@@ -104,6 +110,12 @@ export const updateMessage = createAction(UPDATE_MESSAGE)<
 export const receiveUpdateMessage = createAction(RECEIVE_UPDATE_MESSAGE)<
   MessageType
 >()
+export const createReaction = createAction(CREATE_REACTION)<
+  CreateReactionRequestType
+>()
+export const receiveCreateReaction = createAction(RECEIVE_CREATE_REACTION)<
+  CreateReactionSocketResponseType
+>()
 
 export const initThreadList = createAction(INIT_THREAD_LIST)<undefined>()
 
@@ -128,6 +140,8 @@ const actions = {
   initThreadList,
   updateMessage,
   receiveUpdateMessage,
+  createReaction,
+  receiveCreateReaction,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -261,6 +275,37 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
           return message
         }),
       },
+    }
+  },
+  [RECEIVE_CREATE_REACTION]: (state, action) => {
+    const { reaction, messageId } = action.payload
+
+    const targetExists = !!state.threadList.find(
+      (thread) => thread.headMessage?.id === messageId,
+    )
+
+    const newThreadList = state.threadList.map((thread) => {
+      if (thread.headMessage?.id === messageId) {
+        const newReactions = [...thread.headMessage.Reactions, reaction]
+        return {
+          ...thread,
+          headMessage: {
+            ...thread.headMessage,
+            Reactions: [...newReactions],
+          },
+        }
+      }
+      return thread
+    })
+
+    if (!targetExists) return { ...state }
+    return {
+      ...state,
+      threadList: [...newThreadList],
+      // currentThread: {
+      //   thread,
+      //   messageList: [...state.currentThread.messageList, message],
+      // },
     }
   },
 })
