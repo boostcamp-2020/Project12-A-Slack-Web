@@ -3,8 +3,7 @@ export { default } from './ReactionButton'
 export interface ReactionButtonProps {
   reactionBundle: ReactionType[]
   loginUserId: number
-  onDeleteClick?: () => void
-  onAddClick?: () => void
+  onReactionClick: (emoji: string) => void
 }
 
 interface ReactionType {

@@ -8,19 +8,20 @@ import { ReactionButtonProps } from '.'
 const ReactionButton = ({
   reactionBundle,
   loginUserId,
-  onDeleteClick,
-  onAddClick,
+  onReactionClick,
 }: ReactionButtonProps) => {
   const emoji = reactionBundle[0]?.content
-  const reacted =
-    reactionBundle.filter((reaction) => reaction.User.id === loginUserId)
-      .length === 1
+  const reacted = !!reactionBundle.find(
+    (reaction) => reaction.User.id === loginUserId,
+  )
 
   const switchButtonStyle: ButtonType.StyleAttributes = reacted
     ? reactedButtonStyle
     : unreactedButtonStyle
 
-  const handleReactionClick = reacted ? onDeleteClick : onAddClick
+  const handleReactionClick = () => {
+    onReactionClick(emoji)
+  }
 
   return (
     <A.Button
