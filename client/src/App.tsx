@@ -8,12 +8,13 @@ import {
   WorkspacePage,
   LoginPage,
 } from '@page'
+import { GRANTED } from '@constant/index'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hoc/Auth'
 
 const App = () => {
-  if (Notification.permission !== 'granted') Notification.requestPermission()
+  if (Notification.permission !== GRANTED) Notification.requestPermission()
   return (
     <>
       <ToastContainer />

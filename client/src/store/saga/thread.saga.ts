@@ -10,6 +10,7 @@ import {
 import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { toast } from 'react-toastify'
+import { GRANTED } from '@constant/index'
 import { GetThreadResponseType } from '@type/thread.type'
 import { RootState } from '@store'
 import {
@@ -220,7 +221,7 @@ function* receiveCreateThreadSaga(
   const { content } = action.payload.headMessage
   if (channelId !== action.payload.channelId) {
     try {
-      if (Notification.permission === 'granted') {
+      if (Notification.permission === GRANTED) {
         sendNotification(name, content)
       }
     } catch (e) {
