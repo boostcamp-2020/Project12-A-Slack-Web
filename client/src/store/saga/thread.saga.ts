@@ -25,6 +25,7 @@ import {
   CREATE_MESSAGE,
   DELETE_MESSAGE,
   UPDATE_MESSAGE,
+  RECEIVE_CREATE_THREAD,
   getThreads,
   createThread,
   deleteThread,
@@ -33,6 +34,7 @@ import {
   createMessage,
   deleteMessage,
   updateMessage,
+  receiveCreateThread,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -200,6 +202,31 @@ function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
   }
 }
 
+function* receiveCreateThreadSaga(
+  action: ReturnType<typeof receiveCreateThread>,
+) {
+  const { name } = yield select(
+    (state: RootState) => state.userStore.currentUser,
+  )
+  const { id: channelId } = yield select(
+    (state: RootState) => state.channelStore.currentChannel,
+  )
+  const { content } = action.payload.headMessage
+  if (channelId !== action.payload.channelId) {
+    try {
+      if (Notification.permission === 'granted') {
+        ;(() => {
+          return new Notification(`${name}님의 새 메시지`, {
+            body: content,
+          })
+        })()
+      }
+    } catch (e) {
+      console.log('Browser does not support notification.')
+    }
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -232,6 +259,10 @@ function* watchUpdateMessageSaga() {
   yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
 }
 
+function* watchReceiveCreateThreadSaga() {
+  yield takeEvery(RECEIVE_CREATE_THREAD, receiveCreateThreadSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -242,5 +273,6 @@ export default function* threadSaga() {
     fork(watchCreateMessageSaga),
     fork(watchDeleteMessageSaga),
     fork(watchUpdateMessageSaga),
+    fork(watchReceiveCreateThreadSaga),
   ])
 }
