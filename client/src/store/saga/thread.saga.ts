@@ -11,7 +11,6 @@ import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
 import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
-import { OnlySuccessResponseType } from '@type/response.type'
 import { RootState } from '@store'
 import {
   GetMessagesResponseType,
@@ -22,9 +21,10 @@ import {
   CREATE_THREAD,
   DELETE_THREAD,
   UPDATE_THREAD,
-  DELETE_MESSAGE,
   SET_CURRENT_THREAD_REQUEST,
   CREATE_MESSAGE,
+  DELETE_MESSAGE,
+  UPDATE_MESSAGE,
   getThreads,
   createThread,
   deleteThread,
@@ -32,6 +32,7 @@ import {
   setCurrentThread,
   createMessage,
   deleteMessage,
+  updateMessage,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -39,6 +40,7 @@ import {
   sendSocketUpdateThread,
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
+  sendSocketUpdateMessage,
 } from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -178,6 +180,26 @@ function* deleteMessageSaga(action: ReturnType<typeof deleteMessage>) {
   }
 }
 
+function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
+  try {
+    const { success } = yield call(messageAPI.updateMessage, action.payload)
+
+    const { channelId } = yield select(
+      (state: RootState) => state.threadStore.currentThread.thread,
+    )
+    if (success) {
+      yield put(
+        sendSocketUpdateMessage({
+          channelId: +channelId,
+          messageId: +action.payload.messageId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to update message')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -206,6 +228,10 @@ function* watchDeleteMessageSaga() {
   yield takeEvery(DELETE_MESSAGE, deleteMessageSaga)
 }
 
+function* watchUpdateMessageSaga() {
+  yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -215,5 +241,6 @@ export default function* threadSaga() {
     fork(watchSetCurrentThreadSaga),
     fork(watchCreateMessageSaga),
     fork(watchDeleteMessageSaga),
+    fork(watchUpdateMessageSaga),
   ])
 }

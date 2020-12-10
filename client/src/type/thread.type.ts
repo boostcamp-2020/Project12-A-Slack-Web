@@ -38,3 +38,10 @@ export interface CurrentThreadType {
   thread: GetThreadResponseType | null
   messageList: MessageType[]
 }
+
+export interface UpdateThreadRequestType {
+  content: string
+  fileInfoList: { filePath: string; type: string }[] | null
+  messageId: number
+  threadId: number
+}
