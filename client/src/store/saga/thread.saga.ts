@@ -265,6 +265,8 @@ function* receiveCreateMessageSaga(
     } catch (e) {
       console.log('Browser does not support notification.')
     }
+  }
+}
 
 function* createReactionSaga(action: ReturnType<typeof createReaction>) {
   try {
@@ -301,7 +303,6 @@ function* deleteReactionSaga(action: ReturnType<typeof deleteReaction>) {
     }
   } catch (e) {
     toast.error('Failed to delete reaction')
-
   }
 }
 
@@ -343,6 +344,7 @@ function* watchReceiveCreateThreadSaga() {
 
 function* watchReceiveCreateMessageSaga() {
   yield takeEvery(RECEIVE_CREATE_MESSAGE, receiveCreateMessageSaga)
+}
 
 function* watchCreateReactionSaga() {
   yield takeEvery(CREATE_REACTION, createReactionSaga)
