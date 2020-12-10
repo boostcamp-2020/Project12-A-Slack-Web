@@ -204,6 +204,10 @@ function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
   }
 }
 
+const sendNotification = (name: string, body: string) => {
+  return new Notification(`${name}님의 새 메시지`, { body })
+}
+
 function* receiveCreateThreadSaga(
   action: ReturnType<typeof receiveCreateThread>,
 ) {
@@ -217,20 +221,12 @@ function* receiveCreateThreadSaga(
   if (channelId !== action.payload.channelId) {
     try {
       if (Notification.permission === 'granted') {
-        ;(() => {
-          return new Notification(`${name}님의 새 메시지`, {
-            body: content,
-          })
-        })()
+        sendNotification(name, content)
       }
     } catch (e) {
       console.log('Browser does not support notification.')
     }
   }
-}
-
-const sendNotification = (name: string, body: string) => {
-  return new Notification(`${name}님의 새 메시지`, { body })
 }
 
 function* receiveCreateMessageSaga(
@@ -254,7 +250,7 @@ function* receiveCreateMessageSaga(
   if (isNeedNotification) {
     try {
       if (Notification.permission === 'granted') {
-        sendNotification(name + userId.toString(), message.content)
+        sendNotification(name, message.content)
       }
     } catch (e) {
       console.log('Browser does not support notification.')
