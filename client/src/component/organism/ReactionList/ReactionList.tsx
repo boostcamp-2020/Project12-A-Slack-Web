@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState, MouseEvent } from 'react'
 import A from '@atom'
 import M from '@molecule'
+import O from '@organism'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
+import calcModalPosition from '@util/calcModalPosition'
 import { ReactionListProps } from '.'
 
 import Styled from './ReactionList.style'
@@ -23,10 +25,22 @@ interface UserType {
 const ReactionList = ({
   reactionArr,
   loginUserId,
-  onDeleteClick,
-  onAddClick,
-  onAddReactionButtonClick,
+  onReactionClick,
 }: ReactionListProps) => {
+  const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
+
+  /** reaction picker */
+  const handleAddReactionButtonClick = (
+    event: MouseEvent<HTMLButtonElement>,
+  ) => {
+    // TODO: useRerf로 modalWidth, modalHeight magic number 제거
+    const [left, top] = calcModalPosition(380, 480, event, window)
+    modalWrapperStyle.left = String(`${left}px`)
+    modalWrapperStyle.top = String(`${top}px`)
+    setReactionPickerVisible(true)
+  }
+  const handleReactionPickerClose = () => setReactionPickerVisible(false)
+
   const reactionMap: Map<string, ReactionType[]> = reactionArr.reduce(
     (prev, cur) => {
       const reContent = cur.content
@@ -47,17 +61,23 @@ const ReactionList = ({
         <M.ReactionButton
           reactionBundle={reactionBundle}
           loginUserId={loginUserId}
-          onDeleteClick={onDeleteClick}
-          onAddClick={onAddClick}
-          key={reactionBundle[0].id}
+          onReactionClick={onReactionClick}
+          key={reactionBundle[0].content}
         />
       ))}
       <A.Button
         customStyle={addReactionButtonStyle}
-        onClick={onAddReactionButtonClick}
+        onClick={handleAddReactionButtonClick}
       >
         <A.Icon icon={myIcon.laughEmoji} />
       </A.Button>
+      {reactionPickerVisible && (
+        <O.ReactionPicker
+          modalAttributes={modalWrapperStyle}
+          onReactionClick={onReactionClick}
+          onClose={handleReactionPickerClose}
+        />
+      )}
     </Styled.Wrapper>
   )
 }
@@ -70,6 +90,13 @@ const addReactionButtonStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'reactionGrey',
   hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
+}
+
+let modalWrapperStyle = {
+  zIndex: '999',
+  position: 'fixed',
+  left: '0',
+  top: '50%',
 }
 
 export default ReactionList

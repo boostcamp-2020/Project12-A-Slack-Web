@@ -120,7 +120,6 @@ const MessageEditor = ({
       </Styled.ButtonWrapper>
       {reactionPickerVisible && (
         <O.ReactionPicker
-          targetId={0}
           modalAttributes={{
             position: 'absolute',
             bottom: '210px',

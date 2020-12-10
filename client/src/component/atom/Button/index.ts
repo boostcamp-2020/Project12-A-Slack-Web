@@ -1,4 +1,4 @@
-import { ReactChild } from 'react'
+import { ReactChild, MouseEvent } from 'react'
 
 export { default } from './Button'
 export namespace ButtonType {
@@ -31,7 +31,7 @@ export namespace ButtonType {
   export interface Props {
     customStyle?: StyleAttributes
     children?: ReactChild
-    onClick?: () => void
+    onClick?: (() => void) | ((event: MouseEvent<HTMLButtonElement>) => void)
     onMouseEnter?: () => void
     onMouseOut?: () => void
   }

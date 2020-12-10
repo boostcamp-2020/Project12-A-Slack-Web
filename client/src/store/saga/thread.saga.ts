@@ -9,9 +9,11 @@ import {
 } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
+import reactionAPI from '@api/reaction'
 import { toast } from 'react-toastify'
 import { GRANTED } from '@constant/index'
 import { GetThreadResponseType } from '@type/thread.type'
+import { CreateReactionResponseType } from '@type/reaction.type'
 import { RootState } from '@store'
 import {
   GetMessagesResponseType,
@@ -27,6 +29,8 @@ import {
   DELETE_MESSAGE,
   UPDATE_MESSAGE,
   RECEIVE_CREATE_THREAD,
+  CREATE_REACTION,
+  DELETE_REACTION,
   getThreads,
   createThread,
   deleteThread,
@@ -38,6 +42,8 @@ import {
   receiveCreateThread,
   receiveCreateMessage,
   RECEIVE_CREATE_MESSAGE,
+  createReaction,
+  deleteReaction,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -46,6 +52,8 @@ import {
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
+  sendSocketCreateReaction,
+  sendSocketDeleteReaction,
 } from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -257,6 +265,43 @@ function* receiveCreateMessageSaga(
     } catch (e) {
       console.log('Browser does not support notification.')
     }
+
+function* createReactionSaga(action: ReturnType<typeof createReaction>) {
+  try {
+    const { success, data }: CreateReactionResponseType = yield call(
+      reactionAPI.createReaction,
+      action.payload,
+    )
+    if (success) {
+      yield put(
+        sendSocketCreateReaction({
+          channelId: action.payload.channelId,
+          messageId: action.payload.messageId,
+          reactionId: +data.reactionId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to create reaction')
+  }
+}
+
+function* deleteReactionSaga(action: ReturnType<typeof deleteReaction>) {
+  try {
+    const { success } = yield call(reactionAPI.deleteReaction, action.payload)
+    if (success) {
+      const { channelId, messageId, reactionId } = action.payload
+      yield put(
+        sendSocketDeleteReaction({
+          channelId,
+          messageId,
+          reactionId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to delete reaction')
+
   }
 }
 
@@ -298,6 +343,13 @@ function* watchReceiveCreateThreadSaga() {
 
 function* watchReceiveCreateMessageSaga() {
   yield takeEvery(RECEIVE_CREATE_MESSAGE, receiveCreateMessageSaga)
+
+function* watchCreateReactionSaga() {
+  yield takeEvery(CREATE_REACTION, createReactionSaga)
+}
+
+function* watchDeleteReactionSaga() {
+  yield takeEvery(DELETE_REACTION, deleteReactionSaga)
 }
 
 export default function* threadSaga() {
@@ -312,5 +364,7 @@ export default function* threadSaga() {
     fork(watchUpdateMessageSaga),
     fork(watchReceiveCreateThreadSaga),
     fork(watchReceiveCreateMessageSaga),
+    fork(watchCreateReactionSaga),
+    fork(watchDeleteReactionSaga),
   ])
 }
