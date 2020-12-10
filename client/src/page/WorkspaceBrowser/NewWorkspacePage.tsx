@@ -228,6 +228,7 @@ const NewWorkspacePage = () => {
         <StageButtonWrapper>
           <M.ButtonDiv
             buttonStyle={StageBackButtonStyle}
+            textStyle={{ fontSize: '1.4rem' }}
             onClick={stageBackButton.onClick}
           >
             {stageBackButton.text}
@@ -298,7 +299,7 @@ const NewWorkspaceContainer = styled.div`
 `
 
 const ContentWrapper = styled.div`
-  width: 40rem;
+  // width: 40rem;
   height: 30rem;
   display: flex;
   justify-content: center;
@@ -376,7 +377,7 @@ const StageSecondTextStyle: TextType.StyleAttributes = {
 }
 
 const StageBackButtonStyle: ButtonType.StyleAttributes = {
-  width: '6rem',
+  width: '7rem',
   height: '3.8rem',
   border: '1px solid lightGrey',
   backgroundColor: 'lightGrey',
@@ -390,12 +391,14 @@ const StageNextButtonStyle: ButtonType.StyleAttributes = {
 
 const StageNextButtonTextStyle: TextType.StyleAttributes = {
   color: 'white',
+  fontSize: '1.4rem',
 }
 
 const StageInputStyle: InputType.StyleAttributes = {
   width: '100%',
   height: '90%',
   borderRadius: '4px',
+  padding: '0 10px',
   border: '1px solid lightGrey',
 }
 

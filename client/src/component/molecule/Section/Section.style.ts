@@ -101,8 +101,9 @@ const SectionClickModalContent = styled.div`
 `
 
 const SectionHeader = styled.div`
-  width: 200px;
-  padding: 5px;
+  width: 100%;
+  padding: 7px 5px;
+  cursor: pointer;
 `
 
 const SectionChannelContainer = styled.div`

@@ -128,7 +128,7 @@ const ThreadList = ({
             />
           )
         })}
-        <div ref={threadEndRef} />
+        <Styled.ThreadListBottom ref={threadEndRef} />
       </Styled.ThreadListContainer>
 
       <Styled.EditorContainer>

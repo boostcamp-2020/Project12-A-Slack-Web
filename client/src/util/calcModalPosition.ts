@@ -3,7 +3,7 @@ import React from 'react'
 const calcModalPosition = (
   modalWidth: number,
   modalHeight: number,
-  event: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
+  event: React.MouseEvent<HTMLElement, globalThis.MouseEvent>,
   window: Window & typeof globalThis,
 ) => {
   const { clientX: cX, clientY: cY } = event

@@ -88,7 +88,7 @@ const addReactionButtonStyle: ButtonType.StyleAttributes = {
   margin: '0 0 3px 0',
   cursor: 'pointer',
   backgroundColor: 'reactionGrey',
-  hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
+  hoverBoxShadow: '#585858 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
 }
 
