@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getThreads } from '@store/reducer/thread.reducer'
+import { getThreads, initThreadList } from '@store/reducer/thread.reducer'
 import { getCurrentChannel } from '@store/reducer/channel.reducer'
 
 interface MatchParamsType {
@@ -30,9 +30,10 @@ const Channel = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(initThreadList())
     dispatch(getCurrentChannel.request({ channelId: +channelId }))
     dispatch(getThreads.request({ channelId: +channelId }))
-  }, [])
+  }, [window.location.pathname])
 
   return (
     <>
