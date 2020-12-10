@@ -3,7 +3,7 @@ const color = new Map()
 // white
 color.set('white', '#fff')
 color.set('middleWhite', '#fafbfc')
-color.set('whiteHover', '#f6f8fa')
+color.set('whiteHover', '#FAFAFA')
 
 // orange
 color.set('darkOrange', '#FF8C00')
