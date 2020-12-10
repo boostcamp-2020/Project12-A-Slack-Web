@@ -25,11 +25,13 @@ namespace.use((socket, next) => {
 })
 
 namespace.on('connection', (socket: Socket) => {
+  console.log(socket)
   socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {
     console.log('JOIN_ROOM: ', channelIdList)
     socket.join(channelIdList.map((id) => id.toString()))
     console.log(socket.rooms)
   })
+
   socket.on(
     'DELETE_MEMBER',
     async (data: { channelId: number; userId: number }) => {

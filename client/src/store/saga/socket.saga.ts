@@ -53,7 +53,7 @@ const baseURL =
 function createSocket(workspaceId: NamespaceType): Promise<Socket> {
   const socket = io(`${baseURL}/socket/${+workspaceId}`)
   return new Promise((resolve) => {
-    socket.connect()
+    // socket.connect()
     socket.on(CONNECT, () => {
       console.log('connect')
       resolve(socket)
@@ -192,6 +192,7 @@ function* socketJoinRoom(socket: Socket) {
   const channelList: ChannelType[] = yield select(
     (state: RootState) => state.channelStore.channelList,
   )
+
   socket.emit(JOIN_ROOM, {
     channelIdList: channelList.map((channel: any) => +channel.id),
   })
