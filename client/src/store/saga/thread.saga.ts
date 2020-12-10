@@ -35,6 +35,8 @@ import {
   deleteMessage,
   updateMessage,
   receiveCreateThread,
+  receiveCreateMessage,
+  RECEIVE_CREATE_MESSAGE,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -227,6 +229,39 @@ function* receiveCreateThreadSaga(
   }
 }
 
+const sendNotification = (name: string, body: string) => {
+  return new Notification(`${name}님의 새 메시지`, { body })
+}
+
+function* receiveCreateMessageSaga(
+  action: ReturnType<typeof receiveCreateMessage>,
+) {
+  const { name, id: userId } = yield select(
+    (state: RootState) => state.userStore.currentUser,
+  )
+  const { currentChannel } = yield select(
+    (state: RootState) => state.channelStore,
+  )
+  const { currentThread } = yield select(
+    (state: RootState) => state.threadStore,
+  )
+  const { thread, message } = action.payload
+
+  const isNeedNotification =
+    currentChannel.id !== thread.channelId &&
+    currentThread.id !== thread.id &&
+    thread.User.id === userId
+  if (isNeedNotification) {
+    try {
+      if (Notification.permission === 'granted') {
+        sendNotification(name + userId.toString(), message.content)
+      }
+    } catch (e) {
+      console.log('Browser does not support notification.')
+    }
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -263,6 +298,10 @@ function* watchReceiveCreateThreadSaga() {
   yield takeEvery(RECEIVE_CREATE_THREAD, receiveCreateThreadSaga)
 }
 
+function* watchReceiveCreateMessageSaga() {
+  yield takeEvery(RECEIVE_CREATE_MESSAGE, receiveCreateMessageSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -274,5 +313,6 @@ export default function* threadSaga() {
     fork(watchDeleteMessageSaga),
     fork(watchUpdateMessageSaga),
     fork(watchReceiveCreateThreadSaga),
+    fork(watchReceiveCreateMessageSaga),
   ])
 }
