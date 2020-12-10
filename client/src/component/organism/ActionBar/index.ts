@@ -8,4 +8,5 @@ export interface ActionBarProps {
   onDeleteButtonClick: () => void
   onEditButtonClick: () => void
   onReplyButtonClick?: () => void
+  onReactionClick: (emoji: string) => void
 }

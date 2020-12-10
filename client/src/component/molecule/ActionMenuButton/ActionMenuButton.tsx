@@ -40,6 +40,7 @@ const menuButtonStyle: ButtonType.StyleAttributes = {
 
 const buttonTextStyle: TextType.StyleAttributes = {
   margin: '0',
+  fontSize: '1.4rem',
 }
 
 export default ActionMenuButton

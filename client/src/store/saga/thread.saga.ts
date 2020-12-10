@@ -9,8 +9,10 @@ import {
 } from 'redux-saga/effects'
 import threadAPI from '@api/thread'
 import messageAPI from '@api/message'
+import reactionAPI from '@api/reaction'
 import { toast } from 'react-toastify'
 import { GetThreadResponseType } from '@type/thread.type'
+import { CreateReactionResponseType } from '@type/reaction.type'
 import { RootState } from '@store'
 import {
   GetMessagesResponseType,
@@ -25,6 +27,8 @@ import {
   CREATE_MESSAGE,
   DELETE_MESSAGE,
   UPDATE_MESSAGE,
+  CREATE_REACTION,
+  DELETE_REACTION,
   getThreads,
   createThread,
   deleteThread,
@@ -33,6 +37,8 @@ import {
   createMessage,
   deleteMessage,
   updateMessage,
+  createReaction,
+  deleteReaction,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -41,6 +47,8 @@ import {
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
+  sendSocketCreateReaction,
+  sendSocketDeleteReaction,
 } from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -200,6 +208,44 @@ function* updateMessageSaga(action: ReturnType<typeof updateMessage>) {
   }
 }
 
+function* createReactionSaga(action: ReturnType<typeof createReaction>) {
+  try {
+    const { success, data }: CreateReactionResponseType = yield call(
+      reactionAPI.createReaction,
+      action.payload,
+    )
+    if (success) {
+      yield put(
+        sendSocketCreateReaction({
+          channelId: action.payload.channelId,
+          messageId: action.payload.messageId,
+          reactionId: +data.reactionId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to create reaction')
+  }
+}
+
+function* deleteReactionSaga(action: ReturnType<typeof deleteReaction>) {
+  try {
+    const { success } = yield call(reactionAPI.deleteReaction, action.payload)
+    if (success) {
+      const { channelId, messageId, reactionId } = action.payload
+      yield put(
+        sendSocketDeleteReaction({
+          channelId,
+          messageId,
+          reactionId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to delete reaction')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -232,6 +278,14 @@ function* watchUpdateMessageSaga() {
   yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
 }
 
+function* watchCreateReactionSaga() {
+  yield takeEvery(CREATE_REACTION, createReactionSaga)
+}
+
+function* watchDeleteReactionSaga() {
+  yield takeEvery(DELETE_REACTION, deleteReactionSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -242,5 +296,7 @@ export default function* threadSaga() {
     fork(watchCreateMessageSaga),
     fork(watchDeleteMessageSaga),
     fork(watchUpdateMessageSaga),
+    fork(watchCreateReactionSaga),
+    fork(watchDeleteReactionSaga),
   ])
 }
