@@ -80,6 +80,7 @@ const WorkspaceContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 5rem 0;
 `
 
 const WorkspaceListWrapper = styled.div`

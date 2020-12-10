@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import A from '@atom'
 import O from '@organism'
 import myIcon from '@constant/icon'
+import color from '@constant/color'
 import { WorkspaceProps } from '.'
 
 const WorkspaceCard = ({ workspace }: WorkspaceProps) => {
@@ -72,7 +73,7 @@ const ContentWrapper = styled.div`
   align-items: center;
   border-top: 1px solid rgb(230, 230, 230);
   &:hover {
-    background-color: #d1d5da;
+    background-color: ${color.get('whiteHover')};
   }
 `
 const WorkspaceInfoLeftWrapper = styled.div`
