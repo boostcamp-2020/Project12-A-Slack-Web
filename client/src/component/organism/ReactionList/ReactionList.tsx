@@ -23,9 +23,8 @@ interface UserType {
 const ReactionList = ({
   reactionArr,
   loginUserId,
-  onDeleteClick,
-  onAddClick,
   onAddReactionButtonClick,
+  onReactionClick,
 }: ReactionListProps) => {
   const reactionMap: Map<string, ReactionType[]> = reactionArr.reduce(
     (prev, cur) => {
@@ -47,9 +46,8 @@ const ReactionList = ({
         <M.ReactionButton
           reactionBundle={reactionBundle}
           loginUserId={loginUserId}
-          onDeleteClick={onDeleteClick}
-          onAddClick={onAddClick}
-          key={reactionBundle[0].id}
+          onReactionClick={onReactionClick}
+          key={reactionBundle[0].content}
         />
       ))}
       <A.Button
