@@ -120,7 +120,6 @@ const MessageEditor = ({
       </Styled.ButtonWrapper>
       {reactionPickerVisible && (
         <O.ReactionPicker
-          targetId={0}
           modalAttributes={{
             position: 'absolute',
             bottom: '210px',
@@ -144,8 +143,8 @@ MessageEditor.defaultProps = {
 
 const InputStyle: InputType.StyleAttributes = {
   width: '100%',
-  margin: '4px 0px 0px 0px',
-  padding: '5px 9px 4px 5px',
+  margin: '3px 0px 0px 0px',
+  padding: '3px 11px',
 }
 
 const ButtonStyle: ButtonType.StyleAttributes = {

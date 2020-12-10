@@ -11,7 +11,6 @@ const SideBarContainer = styled.div`
   z-index: 1;
   background-color: #ffffff;
   border-top: 1px solid rgb(230, 230, 230);
-  border-left: 1px solid rgb(230, 230, 230);
   border-right: 1px solid rgb(230, 230, 230);
 `
 
@@ -22,17 +21,15 @@ const WorkSpacePart = styled.div`
 
 const OtherPagePart = styled.div`
   width: 100%;
-  height: 130px;
   display: flex;
   flex-direction: column;
+  padding: 10px 0;
 `
 
 // TODO : height
 const SectionChannelPart = styled.div`
-  margin-top: 10px;
   width: 100%;
-  height: 100%;
-  // height: 550px;
+  // height: 100%;
   display: flex;
   flex-direction: column;
   // overflow-y: scroll;

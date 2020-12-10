@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import myAxios from '@util/myAxios'
+import { ButtonType } from '@atom/Button'
 import styled from 'styled-components'
 import O from '@organism'
+import { joinMembersToChannel } from '@store/reducer/channel.reducer'
 import A from '@atom'
-import M from '@molecule'
 import { RootState } from '@store'
-import { joinChannel } from '@store/reducer/channel.reducer'
-
-const userTestData = {
-  id: 1,
-  email: 'test@example.com',
-  name: 'test',
-  profileImageUrl:
-    'https://lh4.googleusercontent.com/-XPLMI-MjyOM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnEOcdrYoQRh5rGUF0nl1EVbMDwHA/s96-c/photo.jpg',
-}
+import M from '@molecule'
+import color from '@constant/color'
+import { ChannelCardType } from '@type/channel.type'
+import { UserType } from '@type/user.type'
+import workspaceAPI from '@api/workspace'
+import Styled from '../../../component/organism/AddMemberModal/AddMemberModal.style'
 
 interface AllDmsPropTypes {
   workspaceId: number
@@ -22,20 +20,85 @@ interface AllDmsPropTypes {
 
 const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
   const dispatch = useDispatch()
-  const [searchPerson, setSearhPerson] = useState<string>('')
+  const { currentUser } = useSelector((state: RootState) => {
+    return {
+      currentUser: state.userStore.currentUser,
+    }
+  })
+  const [inputName, setInputName] = useState('')
+  const [selectedUserList, setSelectedUserList] = useState<UserType[]>([])
+  const [teammateSearchResult, setTeammateSearchResult] = useState<UserType[]>(
+    [],
+  )
+  const [searchResultVisible, setSearchResultVisible] = useState(false)
+  const [channels, setChannels] = useState<any[]>([])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearhPerson(e.target.value)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const inputValue = e.target.value
+    setInputName(inputValue)
+
+    const searchTeammates = async (searchKeyword: string) => {
+      const { success, data } = await workspaceAPI.getTeammates({
+        workspaceId,
+        searchKeyword,
+      })
+      if (success) {
+        setTeammateSearchResult(data)
+        return
+      }
+      setTeammateSearchResult([])
+    }
+    searchTeammates(inputName)
   }
 
   useEffect(() => {
-    // const getWorkspaceChannels = async () => {
-    //   const {
-    //     data: { data },
-    //   } = await myAxios.get({
-    //     path: `/channel/all?workspaceId=${workspaceId}`,
-    //   })
+    const getFilterDm = async () => {
+      const {
+        data: { data },
+      } = await myAxios.get({
+        path: `/channel?workspaceId=${workspaceId}`,
+      })
+      const dmChannels = data.filter((channel: ChannelCardType) => {
+        return channel.type === 'DM'
+      })
+      setChannels(dmChannels)
+    }
+    getFilterDm()
   }, [])
+
+  useEffect(() => {
+    if (inputName.length === 0) setSearchResultVisible(false)
+    else if (!searchResultVisible) setSearchResultVisible(true)
+  }, [inputName])
+
+  const handleAddButtonClick = () => {
+    let name = `${currentUser.name}, `
+    for (let i = 0; i < selectedUserList.length; i++) {
+      if (i === selectedUserList.length - 1)
+        name += String(selectedUserList[i].name)
+      else {
+        name += String(selectedUserList[i].name)
+        name += ', '
+      }
+    }
+
+    const createAndJoinUserList = async () => {
+      const {
+        data: { data },
+      } = await myAxios.post({
+        path: `/channel`,
+        data: { name, type: 'DM', workspaceId },
+      })
+      dispatch(
+        joinMembersToChannel.request({
+          channelId: data.id,
+          userList: selectedUserList,
+        }),
+      )
+    }
+    createAndJoinUserList()
+    setSelectedUserList([])
+  }
 
   const channelBrowserMainViewHeader = (
     <A.Text customStyle={alldmHeaderTextStyle}>All direct messages</A.Text>
@@ -44,69 +107,112 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
   return (
     <>
       <ViewHeader>{channelBrowserMainViewHeader}</ViewHeader>
+      <SelectedMemberContainer>
+        {selectedUserList.map((user) => {
+          const handleDeleteButtonClick = () => {
+            setSelectedUserList(
+              selectedUserList.filter((selUser) => selUser.id !== user.id),
+            )
+          }
+          return (
+            <M.SelectedTeammate
+              user={user}
+              key={user.id}
+              onDeleteClick={handleDeleteButtonClick}
+            />
+          )
+        })}
+      </SelectedMemberContainer>
       <A.Input
-        value={searchPerson}
+        value={inputName}
         placeholder="To: Type the name of a person"
         customStyle={inputStyle}
         onChange={handleInputChange}
       />
-      <ViewBody>
-        <DmCard>
-          <A.Text customStyle={dmDateTextStyle}>Monday, December 7th</A.Text>
-          <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
-            <DmCardMain>
-              <DmCardContent>
-                <A.Image url={userTestData.profileImageUrl} />
-                <A.Text customStyle={dmPeopleName}>
-                  J039_김서영, J062_김혜지, J165_이한주
+      <Styled.RelativeDiv>
+        {searchResultVisible && (
+          <Styled.SearchResultWrapper>
+            {teammateSearchResult.length === 0 ? (
+              <Styled.NotFoundWrapper>
+                <A.Text customStyle={{ fontSize: '1.5rem' }}>
+                  <>
+                    {'No one found matching '}
+                    <A.Text customStyle={inputNameTextStyle}>
+                      {inputName}
+                    </A.Text>
+                  </>
                 </A.Text>
-              </DmCardContent>
-              <A.Text customStyle={dmDateTimeStyle}>4:16 PM</A.Text>
-            </DmCardMain>
-          </M.ButtonDiv>
-        </DmCard>
-      </ViewBody>
+              </Styled.NotFoundWrapper>
+            ) : (
+              teammateSearchResult.map((user) => {
+                const selected = selectedUserList.some(
+                  (selUser) => selUser.id === user.id,
+                )
+                const handleTeammateClick = !selected
+                  ? () => {
+                      setSelectedUserList([...selectedUserList, user])
+                      setInputName('')
+                    }
+                  : () => {}
+
+                return (
+                  <M.SelectableTeammate
+                    key={user.id}
+                    user={user}
+                    alreadyInChannel
+                    selected={selected}
+                    onTeammateClick={handleTeammateClick}
+                  />
+                )
+              })
+            )}
+          </Styled.SearchResultWrapper>
+        )}
+      </Styled.RelativeDiv>
+      {selectedUserList.length > 0 ? (
+        <M.ButtonDiv
+          buttonStyle={{
+            ...addButtonStyle,
+          }}
+          textStyle={addButtonTextStyle}
+          onClick={handleAddButtonClick}
+        >
+          Create Direct Message
+        </M.ButtonDiv>
+      ) : (
+        <ViewBody>
+          {channels.map((dm) => (
+            <O.DmCard dmChannel={dm} key={dm.id} />
+          ))}
+        </ViewBody>
+      )}
     </>
   )
 }
 
-const DmCardMain = styled.div`
-  width: 80vw;
-  display: flex;
-  justify-content: space-between;
-`
-
-const DmCardContent = styled.div`
-  display: flex;
-  height: 100%;
-  //   align-items: center;
-`
-
-const dmCardButtonStyle = {
+const addButtonStyle: ButtonType.StyleAttributes = {
+  backgroundColor: 'deepGreen',
   padding: '10px',
-  display: 'flex',
-  borderRadius: '10px',
-  border: '1px solid rgb(230, 230, 230)',
-  backgroundColor: 'white',
-  hoverBackgroundColor: 'whiteGrey',
+  borderRadius: '4px',
+  width: '120px',
+  cursor: 'pointer',
+  hoverBackgroundColor: color.get('greenHover'),
 }
 
-const dmDateTimeStyle = {
-  fontSize: '12px',
-  color: 'grey',
-  fontWeight: 'bold',
+const addButtonTextStyle = {
+  color: 'white',
+  fontWeight: '600',
+  fontSize: '1.4rem',
 }
 
-const dmPeopleName = {
-  fontSize: '14px',
-  fontWeight: 'bold',
-  margin: '0px 0px 0px 5px',
-}
+const SelectedMemberContainer = styled.div`
+  display: flex;
+  padding: 5px;
+`
 
-const dmDateTextStyle = {
-  fontSize: '12px',
-  fontWeight: 'bold',
-  margin: '0px 0px 8px 5px',
+const inputNameTextStyle = {
+  fontSize: '1.5rem',
+  fontWeight: '600',
 }
 
 const inputStyle = {
@@ -119,12 +225,6 @@ const alldmHeaderTextStyle = {
   fontSize: '16px',
   fontWeight: 'bold',
 }
-
-const DmCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-`
 
 const ViewHeader = styled.div`
   display: flex;

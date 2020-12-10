@@ -62,10 +62,20 @@ export const reactionButton = () => {
     },
   ]
 
+  const handleReactionClick = () => alert('reaction click')
+
   return (
     <>
-      <ReactionButton reactionBundle={reactions1} loginUserId={loginUserId} />
-      <ReactionButton reactionBundle={reactions2} loginUserId={loginUserId} />
+      <ReactionButton
+        reactionBundle={reactions1}
+        loginUserId={loginUserId}
+        onReactionClick={handleReactionClick}
+      />
+      <ReactionButton
+        reactionBundle={reactions2}
+        loginUserId={loginUserId}
+        onReactionClick={handleReactionClick}
+      />
     </>
   )
 }

@@ -446,16 +446,18 @@ let moreOverWrapperStyle = {
 }
 
 const HeaderTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
 }
 
 const toggleIconStyle = {
-  margin: '0px 15px 0px 10px',
+  margin: '0px 10px 0px 15px',
 }
 
 const plusIconStyle = {
   margin: '0px 10px 0px 20px',
-  backgroundColor: 'lightgrey',
+  padding: '2px 4px',
+  borderRadius: '3px',
+  backgroundColor: 'lightGrey',
 }
 
 const ChannelButtonStyle = {
@@ -463,23 +465,27 @@ const ChannelButtonStyle = {
   width: '100%',
   hoverBackgroundColor: 'slackBlue',
   hoverColor: 'white',
-  padding: '5px',
+  padding: '7px 5px',
   display: 'flex',
   justifyContent: 'flex-start',
 }
 
 const ChannelTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
 }
 
 const ChannelIconStyle = {
-  margin: '0px 10px 0px 20px',
+  margin: '0px 10px 0px 25px',
 }
 
 const sectionHoverIconStyle = {
-  margin: '0px 10px 0px 0px',
-  fontSize: '13px',
+  margin: '0px 5px 0 0',
+  padding: '2px',
+  width: '22px',
+  fontSize: '1.4rem',
   color: '#616061',
+  hover: true,
+  hoverColor: 'whiteGrey',
 }
 
 export default Section

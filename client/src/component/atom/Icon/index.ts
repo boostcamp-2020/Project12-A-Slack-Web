@@ -24,6 +24,7 @@ export namespace IconType {
     bottom?: string
     left?: string
     right?: string
+    borderRadius?: string
   }
 
   export interface Props {

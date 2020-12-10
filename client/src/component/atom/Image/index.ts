@@ -1,3 +1,5 @@
+import { MouseEvent } from 'react'
+
 export { default } from './Image'
 
 export namespace ImageType {
@@ -15,6 +17,6 @@ export namespace ImageType {
   export interface Props {
     customStyle?: StyleAttributes
     url?: string
-    onClick?: () => void
+    onClick?: (() => void) | ((event: MouseEvent<HTMLElement>) => void)
   }
 }

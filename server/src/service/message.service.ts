@@ -78,7 +78,6 @@ const isValidMessageData = ({ id, userId, content }: MessageType) => {
 }
 
 const readMessageById = async ({ id }: { id: number }) => {
-  console.log(id, validator.isNumber(id))
   if (!validator.isNumber(id)) {
     return {
       code: statusCode.BAD_REQUEST,
@@ -253,10 +252,42 @@ const deleteMessage = async ({ id, userId, threadId }: MessageType) => {
   }
 }
 
+const readMessageAuthorsByThread = async ({
+  threadId,
+}: {
+  threadId: number
+}) => {
+  if (!validator.isNumber(threadId))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+  try {
+    const messageList: MessageType[] = await MessageModel.findAll({
+      where: { threadId, isHead: false },
+      attributes: ['userId'],
+    })
+    const userIdList = [
+      ...new Set(messageList.map((message) => message.userId)),
+    ]
+    return {
+      code: statusCode.OK,
+      json: { success: true, data: userIdList },
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createMessage,
   readMessageById,
   readMessagesByThread,
   updateMessage,
   deleteMessage,
+  readMessageAuthorsByThread,
 }

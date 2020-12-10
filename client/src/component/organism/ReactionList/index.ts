@@ -3,9 +3,7 @@ export { default } from './ReactionList'
 export interface ReactionListProps {
   reactionArr: ReactionType[]
   loginUserId: number
-  onDeleteClick?: () => void
-  onAddClick?: () => void
-  onAddReactionButtonClick?: () => void
+  onReactionClick: (emoji: string) => void
 }
 
 interface ReactionType {

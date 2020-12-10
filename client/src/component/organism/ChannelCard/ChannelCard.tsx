@@ -6,21 +6,31 @@ import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
+import { useHistory, useParams } from 'react-router-dom'
 import { ChannelCardProps } from '.'
 
 import Styled from './ChannelCard.style'
+
+interface MatchParamsType {
+  workspaceId: string
+}
 
 const ChannelCard = ({
   channel,
   onJoinButtonClick,
   onLeaveButtonClick,
 }: ChannelCardProps) => {
+  const history = useHistory()
+  const { workspaceId } = useParams<MatchParamsType>()
   const { id, name, type, memberCount, joined } = channel
 
   const [hover, setHover] = useState<boolean>(false)
 
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
+  const handleChannelCardClick = () => {
+    history.push(`/workspace/${workspaceId}/channel/${id}`)
+  }
 
   const handleButtonClick = joined
     ? onLeaveButtonClick(channel)
@@ -33,6 +43,7 @@ const ChannelCard = ({
     <Styled.Wrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleChannelCardClick}
     >
       <Styled.ChannelInfoWrapper>
         <Styled.ChannelSubTextWrapper>

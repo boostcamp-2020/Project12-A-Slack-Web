@@ -29,6 +29,7 @@ const Icon = ({
       hoverColor={customStyle.hoverColor || 'trans'}
       cursor={customStyle.cursor || 'pointer'}
       align={customStyle.align || 'center'}
+      borderRadius={customStyle.borderRadius}
       onClick={onClick}
     >
       <FontAwesomeIcon
@@ -65,12 +66,14 @@ const StyledIcon = styled.span<IconType.StyleAttributes>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   z-index: ${({ zIndex }) => zIndex};
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ backgroundColor }) => color.get(backgroundColor)};
   position: ${({ position }) => position};
   top: ${({ top }) => top};
   bottom: ${({ bottom }) => bottom};
   right: ${({ right }) => right};
   left: ${({ left }) => left};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  text-align: center;
 `
 
 export default Icon

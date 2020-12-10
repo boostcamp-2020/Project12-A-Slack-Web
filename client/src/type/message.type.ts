@@ -49,6 +49,7 @@ export interface CreateMessageResponseType extends ResponseType {
 export interface MessageSocketResponseDataType {
   thread: GetThreadResponseType
   message: MessageType
+  userIdList: number[]
 }
 
 export interface MessageSocketResponseType extends ResponseType {

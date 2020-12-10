@@ -19,10 +19,14 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
   const handleMemeberListButtonClick = () => setMemberListModalVisible(true)
   const handleMemberListModalClose = () => setMemberListModalVisible(false)
 
+  const handleAddPeopleButtonOnMemberListClick = () => {
+    setMemberListModalVisible(false)
+    setAddPeopleModalVisible(true)
+  }
   const handleAddPeopleButtonClick = () => setAddPeopleModalVisible(true)
   const handleAddPeopleModalClose = () => setAddPeopleModalVisible(false)
 
-  const handleStarButtonClick = () => alert('channel - section')
+  // const handleStarButtonClick = () => alert('channel - section')
   const handleInfoButtonClick = () => alert('show detailed info')
 
   return (
@@ -72,6 +76,7 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
       {memberListModalVisible && (
         <O.MemberListModal
           channel={channelInfo}
+          onAddPeopleClick={handleAddPeopleButtonOnMemberListClick}
           onClose={handleMemberListModalClose}
         />
       )}

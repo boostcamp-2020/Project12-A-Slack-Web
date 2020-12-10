@@ -4,6 +4,7 @@ import { Server, Socket } from 'socket.io'
 import threadService from '@service/thread.service'
 import messageService from '@service/message.service'
 import channelService from '@service/channel.service'
+import reactionService from '@service/reaction.service'
 
 const server = createServer(express())
 
@@ -97,9 +98,16 @@ namespace.on('connection', (socket: Socket) => {
       const { json: messageRes } = await messageService.readMessageById({
         id: messageId,
       })
+      const {
+        json: userIdListRes,
+      } = await messageService.readMessageAuthorsByThread({
+        threadId,
+      })
+
       namespace.to(channelId.toString()).emit('CREATE_MESSAGE', {
         thread: threadRes.data,
         message: messageRes.data,
+        userIdList: userIdListRes.data,
       })
     },
   )
@@ -118,6 +126,45 @@ namespace.on('connection', (socket: Socket) => {
         ? { thread: threadRes.data, messageId }
         : { threadId }
       namespace.to(channelId.toString()).emit('DELETE_MESSAGE', response)
+    },
+  )
+  socket.on(
+    'UPDATE_MESSAGE',
+    async (data: { channelId: number; messageId: number }) => {
+      const { channelId, messageId } = data
+      const { json } = await messageService.readMessageById({
+        id: messageId,
+      })
+      namespace.to(channelId.toString()).emit('UPDATE_MESSAGE', json.data)
+    },
+  )
+  socket.on(
+    'CREATE_REACTION',
+    async (data: {
+      channelId: number
+      messageId: number
+      reactionId: number
+    }) => {
+      const { channelId, messageId } = data
+      const { json: reactionRes } = await reactionService.readReactionById({
+        id: +data.reactionId,
+      })
+      namespace.to(channelId.toString()).emit('CREATE_REACTION', {
+        reaction: reactionRes.data,
+        channelId,
+        messageId,
+      })
+    },
+  )
+  socket.on(
+    'DELETE_REACTION',
+    async (data: {
+      channelId: number
+      messageId: number
+      reactionId: number
+    }) => {
+      const { channelId } = data
+      namespace.to(channelId.toString()).emit('DELETE_REACTION', data)
     },
   )
 })

@@ -52,6 +52,11 @@ const ColumnFlexContainer = styled.div`
   flex-direction: column;
 `
 
+const ThreadListBottom = styled.div`
+  width: 100%;
+  height: 15px;
+`
+
 export default {
   ChannelMainContainer,
   ThreadListContainer,
@@ -61,4 +66,5 @@ export default {
   ThreadListTop,
   ThreadTypeIconWrapper,
   ColumnFlexContainer,
+  ThreadListBottom,
 }

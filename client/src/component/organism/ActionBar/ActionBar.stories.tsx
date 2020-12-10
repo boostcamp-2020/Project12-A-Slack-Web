@@ -19,6 +19,9 @@ export const actionBar = () => {
   const handleEditButtonClick = () => {
     alert(`Edit message [messageId: ${targetId}]`)
   }
+  const handleReactionClick = (emoji: string) => {
+    alert(`reaction click: ${emoji}`)
+  }
 
   return (
     <>
@@ -30,6 +33,7 @@ export const actionBar = () => {
         loginUserId={loginUserId}
         onDeleteButtonClick={handleDeleteButtonClick}
         onEditButtonClick={handleEditButtonClick}
+        onReactionClick={handleReactionClick}
       />
       <hr />
       <div>targetAuthorId === loginUserId & targetType is MESSAGE </div>
@@ -40,6 +44,7 @@ export const actionBar = () => {
         loginUserId={loginUserId}
         onDeleteButtonClick={handleDeleteButtonClick}
         onEditButtonClick={handleEditButtonClick}
+        onReactionClick={handleReactionClick}
       />
       <hr />
       <div>targetAuthorId !== loginUserId</div>
@@ -50,6 +55,7 @@ export const actionBar = () => {
         loginUserId={loginUserId}
         onDeleteButtonClick={handleDeleteButtonClick}
         onEditButtonClick={handleEditButtonClick}
+        onReactionClick={handleReactionClick}
       />
       <hr />
       <div>targetAuthorId !== loginUserId & targetType is MESSAGE </div>
@@ -60,6 +66,7 @@ export const actionBar = () => {
         loginUserId={loginUserId}
         onDeleteButtonClick={handleDeleteButtonClick}
         onEditButtonClick={handleEditButtonClick}
+        onReactionClick={handleReactionClick}
       />
     </>
   )

@@ -7,14 +7,12 @@ import { Picker, EmojiData } from 'emoji-mart'
 import { ReactionPickerProps } from '.'
 
 const ReactionPicker = ({
-  targetId,
   modalAttributes,
   onReactionClick,
   onClose,
 }: ReactionPickerProps) => {
   const handleEmojiSelect = (emoji: EmojiData) => {
     const { colons } = emoji
-    console.log(colons)
     if (colons) onReactionClick(colons)
   }
 

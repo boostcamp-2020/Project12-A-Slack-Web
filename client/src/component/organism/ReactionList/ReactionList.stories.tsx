@@ -69,9 +69,7 @@ export const reactionList = () => {
     <ReactionList
       reactionArr={reactions}
       loginUserId={loginUserId}
-      onAddClick={() => alert('add reaction')}
-      onDeleteClick={() => alert('delete reaction')}
-      onAddReactionButtonClick={() => alert('open reaction picker')}
+      onReactionClick={() => alert('reaction click')}
     />
   )
 }
