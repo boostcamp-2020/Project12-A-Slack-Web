@@ -41,7 +41,7 @@ const defaultStyle: ModalWrapperType.StyleAttributes = {
   width: 'auto',
   border: 'none',
   borderRadius: '10px',
-  boxShadow: '0px 6px 20px 0px #EBEBEB',
+  boxShadow: '', // '0px 6px 20px 0px #EBEBEB',
 }
 
 const StyledModalWrapper = styled.div<ModalWrapperType.StyleAttributes>`
