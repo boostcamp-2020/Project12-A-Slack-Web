@@ -22,6 +22,8 @@ import {
 import {
   CreateReactionRequestType,
   CreateReactionSocketResponseType,
+  DeleteReactionRequestType,
+  DeleteReactionSocketResponseType,
 } from '@type/reaction.type'
 
 interface ThreadState {
@@ -62,6 +64,8 @@ export const UPDATE_MESSAGE = 'thread/UPDATE_MESSAGE' as const
 export const RECEIVE_UPDATE_MESSAGE = 'thread/RECEIVE_UPDATE_MESSAGE' as const
 export const CREATE_REACTION = `thread/CREATE_REACTION` as const
 export const RECEIVE_CREATE_REACTION = `thread/RECEIVE_CREATE_REACTION` as const
+export const DELETE_REACTION = `thread/DELETE_REACTION` as const
+export const RECEIVE_DELETE_REACTION = `thread/RECEIVE_DELETE_REACTION` as const
 
 const INIT_THREAD_LIST = 'thread/INIT_THREAD_LIST' as const
 
@@ -116,6 +120,12 @@ export const createReaction = createAction(CREATE_REACTION)<
 export const receiveCreateReaction = createAction(RECEIVE_CREATE_REACTION)<
   CreateReactionSocketResponseType
 >()
+export const deleteReaction = createAction(DELETE_REACTION)<
+  DeleteReactionRequestType
+>()
+export const receiveDeleteReaction = createAction(RECEIVE_DELETE_REACTION)<
+  DeleteReactionSocketResponseType
+>()
 
 export const initThreadList = createAction(INIT_THREAD_LIST)<undefined>()
 
@@ -142,6 +152,8 @@ const actions = {
   receiveUpdateMessage,
   createReaction,
   receiveCreateReaction,
+  deleteReaction,
+  receiveDeleteReaction,
 }
 
 export type ThreadAction = ActionType<typeof actions>
@@ -297,16 +309,44 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
       }
       return thread
     })
-
+    // TODO: sub view message도 컨트롤
     if (!targetExists) return { ...state }
     return {
       ...state,
       threadList: [...newThreadList],
-      // currentThread: {
-      //   thread,
-      //   messageList: [...state.currentThread.messageList, message],
-      // },
     }
+  },
+  [RECEIVE_DELETE_REACTION]: (state, action) => {
+    const { reactionId, messageId } = action.payload
+
+    const targetExistsInThreadList = !!state.threadList.find(
+      (thread) => thread.headMessage?.id === messageId,
+    )
+    const newThreadList = state.threadList.map((thread) => {
+      if (thread.headMessage?.id === messageId) {
+        const newReactions = [
+          ...thread.headMessage.Reactions.filter(
+            (reaction) => reaction.id !== reactionId,
+          ),
+        ]
+        return {
+          ...thread,
+          headMessage: {
+            ...thread.headMessage,
+            Reactions: [...newReactions],
+          },
+        }
+      }
+      return thread
+    })
+    // TODO: sub view message도 컨트롤
+    if (targetExistsInThreadList) {
+      return {
+        ...state,
+        threadList: [...newThreadList],
+      }
+    }
+    return { ...state }
   },
 })
 

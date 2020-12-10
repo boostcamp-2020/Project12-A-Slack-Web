@@ -28,6 +28,7 @@ import {
   DELETE_MESSAGE,
   UPDATE_MESSAGE,
   CREATE_REACTION,
+  DELETE_REACTION,
   getThreads,
   createThread,
   deleteThread,
@@ -37,6 +38,7 @@ import {
   deleteMessage,
   updateMessage,
   createReaction,
+  deleteReaction,
 } from '@store/reducer/thread.reducer'
 import {
   sendSocketCreateThread,
@@ -46,6 +48,7 @@ import {
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
   sendSocketCreateReaction,
+  sendSocketDeleteReaction,
 } from '@store/reducer/socket.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
@@ -225,6 +228,24 @@ function* createReactionSaga(action: ReturnType<typeof createReaction>) {
   }
 }
 
+function* deleteReactionSaga(action: ReturnType<typeof deleteReaction>) {
+  try {
+    const { success } = yield call(reactionAPI.deleteReaction, action.payload)
+    if (success) {
+      const { channelId, messageId, reactionId } = action.payload
+      yield put(
+        sendSocketDeleteReaction({
+          channelId,
+          messageId,
+          reactionId,
+        }),
+      )
+    }
+  } catch (e) {
+    toast.error('Failed to delete reaction')
+  }
+}
+
 function* watchGetThreadsSaga() {
   yield takeLatest(GET_THREADS_REQUEST, getThreadsSaga)
 }
@@ -261,6 +282,10 @@ function* watchCreateReactionSaga() {
   yield takeEvery(CREATE_REACTION, createReactionSaga)
 }
 
+function* watchDeleteReactionSaga() {
+  yield takeEvery(DELETE_REACTION, deleteReactionSaga)
+}
+
 export default function* threadSaga() {
   yield all([
     fork(watchGetThreadsSaga),
@@ -272,5 +297,6 @@ export default function* threadSaga() {
     fork(watchDeleteMessageSaga),
     fork(watchUpdateMessageSaga),
     fork(watchCreateReactionSaga),
+    fork(watchDeleteReactionSaga),
   ])
 }
