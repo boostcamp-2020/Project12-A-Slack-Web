@@ -1,8 +1,9 @@
 import React, { useState, MouseEvent } from 'react'
 import A from '@atom'
 import O from '@organism'
-import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
+import myIcon from '@constant/icon'
+import calcModalPosition from '@util/calcModalPosition'
 import { ActionBarProps } from '.'
 
 import Styled from './ActionBar.style'
@@ -19,19 +20,6 @@ const ActionBar = ({
 }: ActionBarProps) => {
   const [actionsMenuVisible, setActionsMenuVisible] = useState(false)
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
-
-  const calcModalPosition = (
-    modalWidth: number,
-    modalHeight: number,
-    event: React.MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
-    window: Window & typeof globalThis,
-  ) => {
-    const { clientX: cX, clientY: cY } = event
-    const { innerWidth: wWidth, innerHeight: wHeight } = window
-    const left = cX + modalWidth < wWidth ? cX : wWidth - modalWidth + 20
-    const top = cY + modalHeight < wHeight ? cY : wHeight - modalHeight + 20
-    return [left, top]
-  }
 
   /** reaction picker */
   const handleAddReactionButtonClick = (
@@ -91,8 +79,6 @@ const ActionBar = ({
       </Styled.Container>
       {reactionPickerVisible && (
         <O.ReactionPicker
-          // ref={modalRef}
-          targetId={targetId}
           modalAttributes={modalWrapperStyle}
           onReactionClick={onReactionClick}
           onClose={handleReactionPickerClose}
