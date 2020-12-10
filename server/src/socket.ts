@@ -142,6 +142,17 @@ namespace.on('connection', (socket: Socket) => {
       })
     },
   )
+  socket.on(
+    'DELETE_REACTION',
+    async (data: {
+      channelId: number
+      messageId: number
+      reactionId: number
+    }) => {
+      const { channelId } = data
+      namespace.to(channelId.toString()).emit('DELETE_REACTION', data)
+    },
+  )
 })
 
 server.listen(process.env.SOCKET_PORT, () => {
