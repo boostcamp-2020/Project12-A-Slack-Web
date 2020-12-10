@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import O from '@organism'
 import A from '@atom'
 import M from '@molecule'
-import { RootState } from '@store'
-import { joinChannel } from '@store/reducer/channel.reducer'
+import { ChannelCardType } from '@type/channel.type'
+import { UserType } from '@type/user.type'
 
 const userTestData = {
   id: 1,
@@ -20,21 +20,52 @@ interface AllDmsPropTypes {
   workspaceId: number
 }
 
+interface DmChannelType {
+  id: number
+  name: string
+  type: 'PRIVATE' | 'PUBLIC' | 'DM'
+  createdAt?: string
+  updatedAt?: string
+  deletedAt?: string
+  workspaceId: number
+  memberCount: number
+  memberMax3: UserType[]
+}
+
 const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
-  const dispatch = useDispatch()
   const [searchPerson, setSearhPerson] = useState<string>('')
+  const [channels, setChannels] = useState<any[]>([])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearhPerson(e.target.value)
   }
 
   useEffect(() => {
-    // const getWorkspaceChannels = async () => {
-    //   const {
-    //     data: { data },
-    //   } = await myAxios.get({
-    //     path: `/channel/all?workspaceId=${workspaceId}`,
-    //   })
+    const getChannelInfo = async (id: number) => {
+      const {
+        data: { data },
+      } = await myAxios.get({
+        path: `/channel/${id}`,
+      })
+      return data
+    }
+    const getFilterDm = async () => {
+      const {
+        data: { data },
+      } = await myAxios.get({
+        path: `/channel?workspaceId=${workspaceId}`,
+      })
+      const dmChannels = await data
+        .filter((channel: ChannelCardType) => {
+          return channel.type === 'DM'
+        })
+        .map(async (ch: ChannelCardType) => {
+          const info = await getChannelInfo(ch.id)
+          return { ...ch, ...info }
+        })
+      setChannels(dmChannels)
+    }
+    getFilterDm()
   }, [])
 
   const channelBrowserMainViewHeader = (
@@ -51,20 +82,22 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
         onChange={handleInputChange}
       />
       <ViewBody>
-        <DmCard>
-          <A.Text customStyle={dmDateTextStyle}>Monday, December 7th</A.Text>
-          <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
-            <DmCardMain>
-              <DmCardContent>
-                <A.Image url={userTestData.profileImageUrl} />
-                <A.Text customStyle={dmPeopleName}>
-                  J039_김서영, J062_김혜지, J165_이한주
-                </A.Text>
-              </DmCardContent>
-              <A.Text customStyle={dmDateTimeStyle}>4:16 PM</A.Text>
-            </DmCardMain>
-          </M.ButtonDiv>
-        </DmCard>
+        {channels.map((dm) => (
+          <DmCard key={dm.id}>
+            <A.Text customStyle={dmDateTextStyle}>{dm.updatedAt}</A.Text>
+            <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
+              <DmCardMain>
+                <DmCardContent>
+                  <A.Image url={userTestData.profileImageUrl} />
+                  <A.Text customStyle={dmPeopleName}>
+                    J039_김서영, J062_김혜지, J165_이한주
+                  </A.Text>
+                </DmCardContent>
+                <A.Text customStyle={dmDateTimeStyle}>4:16 PM</A.Text>
+              </DmCardMain>
+            </M.ButtonDiv>
+          </DmCard>
+        ))}
       </ViewBody>
     </>
   )
