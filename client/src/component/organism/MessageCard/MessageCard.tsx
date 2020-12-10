@@ -7,7 +7,6 @@ import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
-import ActionBar from '@organism/ActionBar'
 import { getDateAndTime } from '@util/date'
 import { GetThreadResponseType } from '@type/thread.type'
 import { UpdateMessageRequestType, MessageType } from '@type/message.type'
@@ -17,9 +16,7 @@ import {
   updateThread,
   deleteMessage,
 } from '@store/reducer/thread.reducer'
-
 import Styled from './MessageCard.style'
-import ThreadDetailStyle from '@organism/ThreadDetail/ThreadDetail.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
@@ -116,13 +113,16 @@ const MessageCard = ({
           </Styled.MessageWrapper>
 
           {message.Reactions.length !== 0 && (
-            <O.ReactionList reactionArr={message.Reactions} loginUserId={1} />
+            <O.ReactionList
+              reactionArr={message.Reactions}
+              loginUserId={currentUser.id}
+            />
           )}
         </Styled.ContentWrapper>
 
         <Styled.ActionBarWrapper>
           {hover && (
-            <ActionBar
+            <O.ActionBar
               targetType={type}
               targetId={message.id}
               targetAuthorId={message.User.id}
@@ -166,7 +166,7 @@ const MessageCard = ({
 
         <Styled.ActionBarWrapper>
           {hover && (
-            <ActionBar
+            <O.ActionBar
               targetType={type}
               targetId={thread.id}
               targetAuthorId={thread.User.id}
@@ -208,7 +208,10 @@ const MessageCard = ({
         </Styled.MessageWrapper>
 
         {headMessage.Reactions.length !== 0 && (
-          <O.ReactionList reactionArr={headMessage.Reactions} loginUserId={1} />
+          <O.ReactionList
+            reactionArr={headMessage.Reactions}
+            loginUserId={currentUser.id}
+          />
         )}
 
         {thread.replyCount > 0 && (
@@ -222,7 +225,7 @@ const MessageCard = ({
 
       <Styled.ActionBarWrapper>
         {hover && (
-          <ActionBar
+          <O.ActionBar
             targetType={type}
             targetId={thread.id}
             targetAuthorId={thread.User.id}

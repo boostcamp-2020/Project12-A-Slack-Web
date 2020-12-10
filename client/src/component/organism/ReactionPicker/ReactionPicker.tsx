@@ -14,7 +14,6 @@ const ReactionPicker = ({
 }: ReactionPickerProps) => {
   const handleEmojiSelect = (emoji: EmojiData) => {
     const { colons } = emoji
-    console.log(colons)
     if (colons) onReactionClick(colons)
   }
 
