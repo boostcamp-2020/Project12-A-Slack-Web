@@ -23,17 +23,20 @@ const ChannelList = ({
 
   return (
     <Styled.Wrapper>
-      <A.Input
-        placeholder="Search by channel name or description"
-        value={searchKeyword}
-        onChange={handleInputChange}
-        customStyle={inputStyle}
-      />
-      <Styled.ResultListHeaderWrapper>
-        <A.Text customStyle={resultHeaderTextStyle}>
-          {channelCount + (channelCount > 1 ? ' channels' : ' channel')}
-        </A.Text>
-      </Styled.ResultListHeaderWrapper>
+      <Styled.HeaderWrapper>
+        <A.Input
+          placeholder="Search by channel name or description"
+          value={searchKeyword}
+          onChange={handleInputChange}
+          customStyle={inputStyle}
+        />
+
+        <Styled.ResultListHeaderWrapper>
+          <A.Text customStyle={resultHeaderTextStyle}>
+            {channelCount + (channelCount > 1 ? ' channels' : ' channel')}
+          </A.Text>
+        </Styled.ResultListHeaderWrapper>
+      </Styled.HeaderWrapper>
 
       <Styled.ResultListWrapper>
         {channelList.map((channel) => (
@@ -55,6 +58,7 @@ const inputStyle: InputType.StyleAttributes = {
   padding: '0 10px',
   margin: '20px 0',
   fontSize: '1.4rem',
+  width: '100%',
 }
 
 const resultHeaderTextStyle: TextType.StyleAttributes = {
