@@ -53,7 +53,7 @@ const reactedButtonStyle: ButtonType.StyleAttributes = {
 
 const unreactedButtonStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'reactionGrey',
-  hoverBoxShadow: '#000000 0px 0px 0px 1px inset',
+  hoverBoxShadow: '#717171 0px 0px 0px 1px inset',
   hoverBackgroundColor: 'white',
 }
 

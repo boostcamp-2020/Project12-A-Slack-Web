@@ -135,10 +135,11 @@ const OtherChannelButtonStyle = {
   display: 'flex',
   justifyContent: 'flex-start',
   borderRadius: '0',
+  padding: '7px 0',
 }
 
 const OtherChannelTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
 }
 
 const OtherChannelIconStyle = {

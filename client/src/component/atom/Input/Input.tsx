@@ -62,6 +62,10 @@ const StyledInput = styled.input<InputType.StyleAttributes>`
   overflow: ${({ overflow }) => overflow || defaultStyle.overflow};
   cursor: ${({ cursor }) => cursor || defaultStyle.cursor};
   outline: ${({ outline }) => outline || defaultStyle.outline};
+  ::placeholder {
+    color: #b1b1b1;
+    font-weight: lighter;
+  }
 `
 
 export default Input
