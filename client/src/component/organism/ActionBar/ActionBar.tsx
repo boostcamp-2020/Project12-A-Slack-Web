@@ -15,6 +15,7 @@ const ActionBar = ({
   onDeleteButtonClick,
   onEditButtonClick,
   onReplyButtonClick,
+  onReactionClick,
 }: ActionBarProps) => {
   const [actionsMenuVisible, setActionsMenuVisible] = useState(false)
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
@@ -43,9 +44,6 @@ const ActionBar = ({
     setReactionPickerVisible(true)
   }
   const handleReactionPickerClose = () => setReactionPickerVisible(false)
-  const handleReactionClick = (emoji: string) => {
-    console.log(emoji)
-  }
 
   /** reply subview control */
   const handleReplyButtonClick = (): void => {
@@ -96,7 +94,7 @@ const ActionBar = ({
           // ref={modalRef}
           targetId={targetId}
           modalAttributes={modalWrapperStyle}
-          onReactionClick={handleReactionClick}
+          onReactionClick={onReactionClick}
           onClose={handleReactionPickerClose}
         />
       )}
