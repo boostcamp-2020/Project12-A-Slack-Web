@@ -8,13 +8,17 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import { getDateAndTime } from '@util/date'
-import { GetThreadResponseType } from '@type/thread.type'
-import { UpdateMessageRequestType, MessageType } from '@type/message.type'
+import {
+  GetThreadResponseType,
+  UpdateThreadRequestType,
+} from '@type/thread.type'
+import { MessageType, UpdateMessageRequestType } from '@type/message.type'
 import { RootState } from '@store'
 import {
   deleteThread,
   updateThread,
   deleteMessage,
+  updateMessage,
 } from '@store/reducer/thread.reducer'
 import Styled from './MessageCard.style'
 
@@ -54,10 +58,11 @@ const MessageCard = ({
   const handleEditCancelButtonClick = () => setEditMode(false)
   const handleEditButtonClick = () => setEditMode(true)
   const handleEditSubmitButtonClick = (
-    updateData: UpdateMessageRequestType,
+    updateData: UpdateThreadRequestType | UpdateMessageRequestType,
   ) => {
-    if (thread) dispatch(updateThread({ ...updateData, threadId: thread.id }))
-    // TODO: else -> message 일때
+    if (type === 'THREAD')
+      dispatch(updateThread({ ...updateData, threadId: thread.id }))
+    else dispatch(updateMessage(updateData))
     setEditMode(false)
   }
 
