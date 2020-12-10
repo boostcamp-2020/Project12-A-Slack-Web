@@ -151,6 +151,7 @@ const MessageCard = ({
             <O.ReactionList
               reactionArr={message.Reactions}
               loginUserId={currentUser.id}
+              onReactionClick={handleReactionClick}
             />
           )}
         </Styled.ContentWrapper>
@@ -248,6 +249,7 @@ const MessageCard = ({
           <O.ReactionList
             reactionArr={headMessage.Reactions}
             loginUserId={currentUser.id}
+            onReactionClick={handleReactionClick}
           />
         )}
 
