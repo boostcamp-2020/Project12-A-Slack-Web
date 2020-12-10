@@ -76,7 +76,7 @@ function* joinMembersToChannelSaga(
       action.payload,
     )
     if (success) {
-      // action.payload.onSuccess!()
+      action.payload.onSuccess!()
       yield put(joinMembersToChannel.success(action.payload))
     }
   } catch (error) {
