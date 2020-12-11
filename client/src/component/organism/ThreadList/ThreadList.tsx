@@ -9,6 +9,7 @@ import O from '@organism'
 import myIcon from '@constant/icon'
 import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
+import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
 
@@ -55,6 +56,11 @@ const ThreadList = ({
       : channelInfo.type === 'PUBLIC'
       ? myIcon.hashtag
       : myIcon.lock
+
+  const messageEditorPlaceHolder =
+    channelInfo.type === 'DM'
+      ? getDMChannelTitle(channelInfo.memberMax3, channelInfo.memberCount)
+      : `#${channelInfo.name}`
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -147,7 +153,7 @@ const ThreadList = ({
 
       <Styled.EditorContainer>
         <O.MessageEditor
-          placeHolder={`Send a message to #${channelInfo.name}`}
+          placeHolder={`Send a message to ${messageEditorPlaceHolder}`}
         />
       </Styled.EditorContainer>
     </Styled.ChannelMainContainer>

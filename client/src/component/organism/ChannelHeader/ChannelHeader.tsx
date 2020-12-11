@@ -5,21 +5,9 @@ import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
 import { ImageType } from '@atom/Image'
 import { TextType } from '@atom/Text'
-import { UserType } from '@type/user.type'
+import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ChannelHeaderProps } from '.'
-
 import Styled from './ChannelHeader.style'
-
-const getDMChannelTitle = (members: UserType[], memberCount: number) => {
-  const memberNameString = members.reduce((prev, cur, curIdx, arr) => {
-    const suffix = curIdx < arr.length - 1 ? ', ' : ''
-    return prev + cur.name + suffix
-  }, '')
-  const moreMembers = memberCount - members.length
-  return moreMembers > 0
-    ? `${memberNameString}... and ${moreMembers} more`
-    : memberNameString
-}
 
 const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
   const { name, type, memberCount, memberMax3 } = channelInfo
