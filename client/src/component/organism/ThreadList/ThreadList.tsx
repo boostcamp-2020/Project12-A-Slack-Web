@@ -49,7 +49,12 @@ const ThreadList = ({
   }
 
   const channelIcon =
-    channelInfo.type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock
+    // eslint-disable-next-line no-nested-ternary
+    channelInfo.type === 'DM'
+      ? myIcon.message
+      : channelInfo.type === 'PUBLIC'
+      ? myIcon.hashtag
+      : myIcon.lock
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -58,7 +63,9 @@ const ThreadList = ({
       <Styled.ChannelNameWrapper>
         <A.Icon icon={channelIcon} customStyle={iconStyle} />
         <A.Text customStyle={subViewChannelNameTextStyle}>
-          {channelInfo.name}
+          {channelInfo.type === 'DM'
+            ? `Direct message with ${channelInfo.memberCount} others`
+            : channelInfo.name}
         </A.Text>
       </Styled.ChannelNameWrapper>
     </Styled.ThreadSubViewHeaderWrapper>
@@ -80,23 +87,30 @@ const ThreadList = ({
           <Styled.ThreadTypeIconWrapper>
             <A.Icon icon={channelIcon} />
           </Styled.ThreadTypeIconWrapper>
+
           <Styled.ColumnFlexContainer>
             <A.Text customStyle={threadListTopTextStyle}>
-              <>
-                {'This is the very beginning of the '}
-                <A.Icon
-                  icon={channelIcon}
-                  customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
-                />
-                <A.Text customStyle={channelNameTextStyle}>
-                  {channelInfo.name}
-                </A.Text>
-                channel
-              </>
+              {channelInfo.type === 'DM' ? (
+                'This is the very beginning of your group conversation'
+              ) : (
+                <>
+                  {'This is the very beginning of the '}
+                  <A.Icon
+                    icon={channelIcon}
+                    customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
+                  />
+                  <A.Text customStyle={channelNameTextStyle}>
+                    {channelInfo.name}
+                  </A.Text>
+                  channel
+                </>
+              )}
             </A.Text>
             <A.Text customStyle={channelDescTextStyle}>
               {channelInfo.createdAt &&
-                `This channel was created on ${new Date(
+                `This ${
+                  channelInfo.type === 'DM' ? 'room' : 'channel'
+                } was created on ${new Date(
                   channelInfo.createdAt,
                 ).toLocaleDateString('en-US', {
                   year: 'numeric',
