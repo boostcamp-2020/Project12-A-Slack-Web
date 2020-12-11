@@ -12,6 +12,7 @@ import color from '@constant/color'
 import { ChannelCardType } from '@type/channel.type'
 import { UserType } from '@type/user.type'
 import workspaceAPI from '@api/workspace'
+import { useHistory } from 'react-router-dom'
 import Styled from '../../../component/organism/AddMemberModal/AddMemberModal.style'
 
 interface AllDmsPropTypes {
@@ -20,6 +21,7 @@ interface AllDmsPropTypes {
 
 const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const { currentUser } = useSelector((state: RootState) => {
     return {
       currentUser: state.userStore.currentUser,
@@ -95,6 +97,7 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
           userList: selectedUserList,
         }),
       )
+      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
     }
     createAndJoinUserList()
     setSelectedUserList([])

@@ -50,18 +50,6 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           <M.ButtonDiv
             buttonStyle={OtherChannelButtonStyle}
             textStyle={OtherChannelTextStyle}
-          >
-            <>
-              <A.Icon
-                icon={myIcon.thread}
-                customStyle={OtherChannelIconStyle}
-              />
-              Threads
-            </>
-          </M.ButtonDiv>
-          <M.ButtonDiv
-            buttonStyle={OtherChannelButtonStyle}
-            textStyle={OtherChannelTextStyle}
             onClick={handleAllDmChannelClick}
           >
             <>
