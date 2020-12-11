@@ -5,14 +5,16 @@ import { ImageType } from '@atom/Image'
 import { TeammateCardProps } from '.'
 import Styled from './TeammateCard.style'
 
-const TeammateCard = ({ user }: TeammateCardProps) => {
-  const { name, profileImageUrl } = user
+const TeammateCard = ({ user, loginUserId }: TeammateCardProps) => {
+  const { id, name, profileImageUrl } = user
 
   return (
     <Styled.Wrapper>
       <A.Image customStyle={profileImageStyle} url={profileImageUrl} />
       <Styled.BottomWrapper>
-        <A.Text customStyle={nameTextStyle}>{name}</A.Text>
+        <A.Text customStyle={nameTextStyle}>
+          {name + (loginUserId === id ? ' (you)' : '')}
+        </A.Text>
       </Styled.BottomWrapper>
     </Styled.Wrapper>
   )
