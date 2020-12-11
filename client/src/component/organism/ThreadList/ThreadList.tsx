@@ -20,6 +20,8 @@ const ThreadList = ({
   handleSubViewHeader,
   handleSubViewBody,
 }: ThreadListProps) => {
+  const { id, name, type, memberCount, memberMax3, createdAt } = channelInfo
+
   const threadEndRef = useRef<HTMLDivElement>(null)
   const threadListEl = useRef<HTMLDivElement>(null)
 
@@ -34,7 +36,6 @@ const ThreadList = ({
       threadEndRef.current!.scrollIntoView()
     }
   }
-
   useEffect(scrollToBottom, [threads[threads.length - 1]])
 
   const handleScrollTop = () => {
@@ -42,7 +43,7 @@ const ThreadList = ({
     if (scrollTop <= 150) {
       dispatch(
         getThreads.request({
-          channelId: +channelInfo.id,
+          channelId: +id,
           lastThreadId: threadList[0].id,
         }),
       )
@@ -51,16 +52,24 @@ const ThreadList = ({
 
   const channelIcon =
     // eslint-disable-next-line no-nested-ternary
-    channelInfo.type === 'DM'
+    type === 'DM'
       ? myIcon.message
-      : channelInfo.type === 'PUBLIC'
+      : type === 'PUBLIC'
       ? myIcon.hashtag
       : myIcon.lock
 
+  const channelDescription = createdAt
+    ? `This ${type === 'DM' ? 'room' : 'channel'} was created on ${new Date(
+        createdAt,
+      ).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}.`
+    : ''
+
   const messageEditorPlaceHolder =
-    channelInfo.type === 'DM'
-      ? getDMChannelTitle(channelInfo.memberMax3, channelInfo.memberCount)
-      : `#${channelInfo.name}`
+    type === 'DM' ? getDMChannelTitle(memberMax3, memberCount) : `#${name}`
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -69,9 +78,7 @@ const ThreadList = ({
       <Styled.ChannelNameWrapper>
         <A.Icon icon={channelIcon} customStyle={iconStyle} />
         <A.Text customStyle={subViewChannelNameTextStyle}>
-          {channelInfo.type === 'DM'
-            ? `Direct message with ${channelInfo.memberCount} others`
-            : channelInfo.name}
+          {type === 'DM' ? `Direct message with ${memberCount} others` : name}
         </A.Text>
       </Styled.ChannelNameWrapper>
     </Styled.ThreadSubViewHeaderWrapper>
@@ -96,7 +103,7 @@ const ThreadList = ({
 
           <Styled.ColumnFlexContainer>
             <A.Text customStyle={threadListTopTextStyle}>
-              {channelInfo.type === 'DM' ? (
+              {type === 'DM' ? (
                 'This is the very beginning of your group conversation'
               ) : (
                 <>
@@ -105,38 +112,24 @@ const ThreadList = ({
                     icon={channelIcon}
                     customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
                   />
-                  <A.Text customStyle={channelNameTextStyle}>
-                    {channelInfo.name}
-                  </A.Text>
+                  <A.Text customStyle={channelNameTextStyle}>{name}</A.Text>
                   channel
                 </>
               )}
             </A.Text>
             <A.Text customStyle={channelDescTextStyle}>
-              {channelInfo.createdAt &&
-                `This ${
-                  channelInfo.type === 'DM' ? 'room' : 'channel'
-                } was created on ${new Date(
-                  channelInfo.createdAt,
-                ).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}.`}
+              {channelDescription}
             </A.Text>
           </Styled.ColumnFlexContainer>
         </Styled.ThreadListTop>
 
         {threads.map((thread, index, arr) => {
           const prevThread = index > 0 ? arr[index - 1] : undefined
-
           const sameUser = !!(
             prevThread && prevThread.User.id === thread.User.id
           )
           const hasReply = thread.replyCount !== 0
-
           const prevHasReply = prevThread && prevThread.replyCount !== 0
-
           const continuous = sameUser && !hasReply && !prevHasReply
           return (
             <O.MessageCard
