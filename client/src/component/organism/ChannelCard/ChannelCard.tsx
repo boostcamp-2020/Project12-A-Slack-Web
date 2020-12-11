@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
 import color from '@constant/color'
@@ -6,14 +8,10 @@ import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { ChannelCardProps } from '.'
 
 import Styled from './ChannelCard.style'
-
-interface MatchParamsType {
-  workspaceId: string
-}
 
 const ChannelCard = ({
   channel,
@@ -21,7 +19,9 @@ const ChannelCard = ({
   onLeaveButtonClick,
 }: ChannelCardProps) => {
   const history = useHistory()
-  const { workspaceId } = useParams<MatchParamsType>()
+  const { id: workspaceId } = useSelector(
+    (state: RootState) => state.workspaceStore.currentWorkspace,
+  )
   const { id, name, type, memberCount, joined } = channel
 
   const [hover, setHover] = useState<boolean>(false)
