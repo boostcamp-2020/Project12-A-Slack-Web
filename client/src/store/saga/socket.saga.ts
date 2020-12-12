@@ -1,4 +1,13 @@
-import { fork, call, take, put, select } from 'redux-saga/effects'
+import {
+  fork,
+  call,
+  take,
+  put,
+  select,
+  takeEvery,
+  all,
+  takeLatest,
+} from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
 import {
@@ -24,7 +33,10 @@ import {
   CreateReactionSocketResponseType,
   DeleteReactionSocketResponseType,
 } from '@type/reaction.type'
+
 import {
+  NamespaceType,
+  CONNECT_SOCKET_REQUEST,
   connectSocket,
   sendSocketJoinRoom,
   sendSocketDeleteMember,
@@ -55,11 +67,11 @@ const baseURL =
   process.env.NODE_ENV === 'development'
     ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
     : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
-const workspaceId = 1
 
-function createSocket(): Promise<Socket> {
-  const socket = io(`${baseURL}/socket/${workspaceId}`)
+function createSocket(workspaceId: NamespaceType): Promise<Socket> {
+  const socket = io(`${baseURL}/socket/${+workspaceId}`)
   return new Promise((resolve) => {
+    socket.connect()
     socket.on(CONNECT, () => {
       console.log('connect')
       resolve(socket)
@@ -246,21 +258,21 @@ function* socketJoinRoom(socket: Socket) {
   })
 }
 
-function* socketFlow() {
-  while (true) {
-    yield take(connectSocket.request)
-    try {
-      const socket = yield call(createSocket)
-      yield put(connectSocket.success(socket))
-      yield call(socketJoinRoom, socket)
-
-      yield fork(handleIO, socket)
-    } catch (error) {
-      yield put(connectSocket.failure(error))
-    }
+function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
+  try {
+    const socket = yield call(createSocket, action.payload)
+    yield put(connectSocket.success(socket))
+    yield call(socketJoinRoom, socket)
+    yield fork(handleIO, socket)
+  } catch (error) {
+    yield put(connectSocket.failure(error))
   }
 }
 
+function* watchSocketFlow() {
+  yield takeLatest(CONNECT_SOCKET_REQUEST, socketFlow)
+}
+
 export default function* socketSaga() {
-  yield fork(socketFlow)
+  yield all([fork(watchSocketFlow)])
 }

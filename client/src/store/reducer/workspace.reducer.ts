@@ -15,6 +15,7 @@ import {
 
 interface WorkspaceState {
   workspaceList: WorkspaceResponseType[]
+  activeUserList: number[]
   currentWorkspace: CurrentWorkSpaceInfoResponseType
   loading: boolean
   error: AxiosError | null
@@ -22,6 +23,7 @@ interface WorkspaceState {
 
 const initialState: WorkspaceState = {
   workspaceList: [],
+  activeUserList: [],
   currentWorkspace: {
     id: -1,
     name: '',
