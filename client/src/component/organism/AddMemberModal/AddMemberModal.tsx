@@ -21,7 +21,7 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
     (state: RootState) => state.workspaceStore.currentWorkspace,
   )
   const dispatch = useDispatch()
-  const { id, type, name } = channel
+  const { id, type, name, memberCount } = channel
 
   const [members, setMembers] = useState<UserType[]>([])
 
@@ -88,13 +88,17 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
         <Styled.UpperWrapper>
           <A.Text customStyle={modalTitleTextStyle}>Add people</A.Text>
           <A.Text customStyle={channelNameTextStyle}>
-            <>
-              <A.Icon
-                icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
-                customStyle={{ margin: '0 3px 0 0' }}
-              />
-              {name}
-            </>
+            {type === 'DM' ? (
+              `${memberCount} members in this direct message room`
+            ) : (
+              <>
+                <A.Icon
+                  icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
+                  customStyle={{ margin: '0 3px 0 0' }}
+                />
+                {name}
+              </>
+            )}
           </A.Text>
         </Styled.UpperWrapper>
 
