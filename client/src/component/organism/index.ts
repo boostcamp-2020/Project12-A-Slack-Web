@@ -22,6 +22,7 @@ import DmCard from './DmCard'
 import PeopleHeader from './PeopleHeader'
 import TeammateCard from './TeammateCard'
 import TeammateList from './TeammateList'
+import UserDetail from './UserDetail'
 
 export default {
   Header,
@@ -48,4 +49,5 @@ export default {
   PeopleHeader,
   TeammateCard,
   TeammateList,
+  UserDetail,
 }

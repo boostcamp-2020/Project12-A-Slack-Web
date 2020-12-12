@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams } from 'react-router-dom'
-import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
@@ -69,7 +68,12 @@ const WorkspacePage = () => {
                 <ChannelBrowser workspaceId={+workspaceId} />
               </Route>
               <Route path={`/workspace/${workspaceId}/people-browser`}>
-                <People workspaceId={+workspaceId} />
+                <People
+                  workspaceId={+workspaceId}
+                  handleSubViewOpen={handleSubViewOpen}
+                  handleSubViewHeader={handleSubViewHeader}
+                  handleSubViewBody={handleSubViewBody}
+                />
               </Route>
             </MainView>
           </Switch>
@@ -97,9 +101,6 @@ const WorkspaceContainer = styled.div`
 `
 
 const WorkspaceLayout = styled.div`
-  // grid-row: 1 / 2;
-  // grid-column: 2 / 3;
-  // height: 100%;
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 230px auto;
