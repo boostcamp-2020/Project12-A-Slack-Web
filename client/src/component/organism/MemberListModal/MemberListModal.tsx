@@ -80,11 +80,17 @@ const MemberListModal = ({
           <A.Text customStyle={modalTitleTextStyle}>
             <>
               {`${memberTotalCount} members in`}
-              <A.Icon
-                icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
-                customStyle={{ margin: '0 3px 0 6px' }}
-              />
-              {name}
+              {type === 'DM' ? (
+                ' this room'
+              ) : (
+                <>
+                  <A.Icon
+                    icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock}
+                    customStyle={{ margin: '0 3px 0 6px' }}
+                  />
+                  {name}
+                </>
+              )}
             </>
           </A.Text>
 
@@ -191,7 +197,7 @@ const inputStyle: InputType.StyleAttributes = {
   borderRadius: '5px',
   padding: '0 10px',
   margin: '12px 0',
-  fontSize: '1.4rem',
+  fontSize: '1.5rem',
 }
 
 const inputKeywordTextStyle: TextType.StyleAttributes = {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams } from 'react-router-dom'
-import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
@@ -10,7 +9,7 @@ import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
 import { getChannels } from '@store/reducer/channel.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
-import { Channel, ChannelBrowser, AllDms } from './template'
+import { Channel, ChannelBrowser, AllDms, People } from './template'
 
 interface MatchParamsType {
   workspaceId: string
@@ -62,11 +61,19 @@ const WorkspacePage = () => {
                   handleSubViewBody={handleSubViewBody}
                 />
               </Route>
+              <Route path={`/workspace/${workspaceId}/all-dm`}>
+                <AllDms workspaceId={+workspaceId} />
+              </Route>
               <Route path={`/workspace/${workspaceId}/channel-browser`}>
                 <ChannelBrowser workspaceId={+workspaceId} />
               </Route>
-              <Route path={`/workspace/${workspaceId}/all-dm`}>
-                <AllDms workspaceId={+workspaceId} />
+              <Route path={`/workspace/${workspaceId}/people-browser`}>
+                <People
+                  workspaceId={+workspaceId}
+                  handleSubViewOpen={handleSubViewOpen}
+                  handleSubViewHeader={handleSubViewHeader}
+                  handleSubViewBody={handleSubViewBody}
+                />
               </Route>
             </MainView>
           </Switch>
@@ -94,9 +101,6 @@ const WorkspaceContainer = styled.div`
 `
 
 const WorkspaceLayout = styled.div`
-  // grid-row: 1 / 2;
-  // grid-column: 2 / 3;
-  // height: 100%;
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 230px auto;

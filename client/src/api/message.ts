@@ -1,12 +1,12 @@
 import myAxios from '@util/myAxios'
 import { OnlySuccessResponseType } from '@type/response.type'
+import { UpdateThreadRequestType } from '@type/thread.type'
 import {
-  UpdateMessageRequestType,
   GetMessagesResponseType,
   CreateMessageRequestType,
   CreateMessageResponseType,
-  MessageSocketResponseType,
   DeleteMessageRequestType,
+  UpdateMessageRequestType,
 } from '@type/message.type'
 
 const createMessage = async (
@@ -25,7 +25,9 @@ const getMessages = async (
   return response.data
 }
 
-const updateMessage = async (originalData: UpdateMessageRequestType) => {
+const updateMessage = async (
+  originalData: UpdateThreadRequestType | UpdateMessageRequestType,
+): Promise<OnlySuccessResponseType> => {
   const data: object = {
     content: originalData.content,
     fileInfoList: originalData.fileInfoList,

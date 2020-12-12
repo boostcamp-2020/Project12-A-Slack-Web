@@ -5,7 +5,7 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch } from 'react-redux'
-import { createChannel } from '@store/reducer/channel.reducer'
+import { createChannel, setChannelRead } from '@store/reducer/channel.reducer'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
@@ -95,8 +95,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
   }
-
-  const handleChannelClick = () => {}
 
   // TODO: Add teammates 클릭 시 액션
   const handleAddTeammatesClick = () => {}
@@ -212,8 +210,12 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               >
                 <M.ButtonDiv
                   buttonStyle={ChannelButtonStyle}
-                  textStyle={ChannelTextStyle}
-                  onClick={handleChannelClick}
+                  textStyle={
+                    channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
+                  }
+                  onClick={() =>
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -446,16 +448,18 @@ let moreOverWrapperStyle = {
 }
 
 const HeaderTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
 }
 
 const toggleIconStyle = {
-  margin: '0px 15px 0px 10px',
+  margin: '0px 10px 0px 15px',
 }
 
 const plusIconStyle = {
   margin: '0px 10px 0px 20px',
-  backgroundColor: 'lightgrey',
+  padding: '2px 4px',
+  borderRadius: '3px',
+  backgroundColor: 'lightGrey',
 }
 
 const ChannelButtonStyle = {
@@ -463,23 +467,32 @@ const ChannelButtonStyle = {
   width: '100%',
   hoverBackgroundColor: 'slackBlue',
   hoverColor: 'white',
-  padding: '5px',
+  padding: '7px 5px',
   display: 'flex',
   justifyContent: 'flex-start',
 }
 
 const ChannelTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
+}
+
+const ChannelTextBoldStyle = {
+  fontSize: '1.4rem',
+  fontWeight: '700',
 }
 
 const ChannelIconStyle = {
-  margin: '0px 10px 0px 20px',
+  margin: '0px 10px 0px 25px',
 }
 
 const sectionHoverIconStyle = {
-  margin: '0px 10px 0px 0px',
-  fontSize: '13px',
+  margin: '0px 5px 0 0',
+  padding: '2px',
+  width: '22px',
+  fontSize: '1.4rem',
   color: '#616061',
+  hover: true,
+  hoverColor: 'whiteGrey',
 }
 
 export default Section

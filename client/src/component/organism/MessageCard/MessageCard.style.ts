@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import color from '@constant/color'
 
 const Container = styled.div<{ editMode?: boolean }>`
   width: 100%;
@@ -8,7 +9,8 @@ const Container = styled.div<{ editMode?: boolean }>`
   align-items: flex-start;
   position: relative;
   &:hover {
-    ${({ editMode }) => (editMode ? '' : 'background-color: #f8f8f8;')};
+    ${({ editMode }) =>
+      editMode ? '' : `background-color: ${color.get('whiteHover')};`};
   }
 `
 const AvatarWrapper = styled.div`

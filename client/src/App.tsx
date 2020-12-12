@@ -8,11 +8,13 @@ import {
   WorkspacePage,
   LoginPage,
 } from '@page'
+import { GRANTED } from '@constant/index'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hoc/Auth'
 
 const App = () => {
+  if (Notification.permission !== GRANTED) Notification.requestPermission()
   return (
     <>
       <ToastContainer />
@@ -45,7 +47,6 @@ const GlobalStyle = createGlobalStyle`
   body {
     height: 100vh;
     width: 100vw;
-    overflow: hidden;
   }
   * {
     padding: 0px;

@@ -14,7 +14,7 @@ const UserProfileModal = ({
   onMessageButtonClick,
   onClose,
 }: UserProfileModalProps) => {
-  const { id, email, name, profileImageUrl } = user
+  const { email, name, profileImageUrl } = user
 
   return (
     <M.Modal
@@ -29,6 +29,7 @@ const UserProfileModal = ({
           <A.Text customStyle={emailTextStyle}>{email}</A.Text>
           <M.ButtonDiv
             buttonStyle={messageButtonStyle}
+            textStyle={messageButtonTextStyle}
             onClick={onMessageButtonClick}
           >
             Message
@@ -49,14 +50,20 @@ const modalWrapperStyle: ModalWrapperType.StyleAttributes = {
 }
 
 const profileImageStyle: ImageType.StyleAttributes = {
-  width: '300px',
-  height: '300px',
+  width: '290px',
+  height: '290px',
   radius: '0',
 }
 
 const messageButtonStyle: ButtonType.StyleAttributes = {
   border: '1px solid lightgrey',
   hoverBackgroundColor: 'whiteGrey',
+  padding: '8px',
+  margin: '5px 0 0 0',
+}
+const messageButtonTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.5rem',
+  fontWeight: '500',
 }
 
 const nameTextStyle: TextType.StyleAttributes = {

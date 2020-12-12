@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import myAxios from '@util/myAxios'
+import { RootState } from '@store'
 import styled from 'styled-components'
 import O from '@organism'
-import { RootState } from '@store'
-import { joinChannel, deleteMember } from '@store/reducer/channel.reducer'
 import { ChannelCardType } from '@type/channel.type'
+import channelAPI from '@api/channel'
+import { joinChannel, deleteMember } from '@store/reducer/channel.reducer'
 
 interface ChannelBrowserPropsType {
   workspaceId: number
 }
 
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
+  const dispatch = useDispatch()
   const { channelList, loginUserId } = useSelector((state: RootState) => {
     return {
       channelList: state.channelStore.channelList,
@@ -19,16 +20,13 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
     }
   })
   const [channels, setChannels] = useState<ChannelCardType[]>([])
-  const dispatch = useDispatch()
 
   useEffect(() => {
     const getWorkspaceChannels = async () => {
-      const {
-        data: { data },
-      } = await myAxios.get({
-        path: `/channel/all?workspaceId=${workspaceId}`,
+      const { success, data } = await channelAPI.getAllChannels({
+        workspaceId,
       })
-
+      // TODO: success 여부에 따른 처리
       const filterdChannels = data
         .map((channel: ChannelCardType) => {
           return {

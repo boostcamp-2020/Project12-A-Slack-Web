@@ -15,6 +15,7 @@ export interface ChannelType {
   createdAt?: string
   updatedAt?: string
   deletedAt?: string
+  unRead?: boolean
 }
 
 export interface CurrentChannelType extends ChannelType {

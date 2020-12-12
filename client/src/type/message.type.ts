@@ -49,13 +49,7 @@ export interface CreateMessageResponseType extends ResponseType {
 export interface MessageSocketResponseDataType {
   thread: GetThreadResponseType
   message: MessageType
-}
-
-export interface UpdateMessageRequestType {
-  content: string
-  fileInfoList: { filePath: string; type: string }[] | null
-  messageId: number
-  threadId?: number
+  userIdList: number[]
 }
 
 export interface MessageSocketResponseType extends ResponseType {
@@ -71,4 +65,10 @@ export interface DeleteMessageSocketResponseType {
   threadId?: number
   thread?: GetThreadResponseType
   messageId?: number
+}
+
+export interface UpdateMessageRequestType {
+  content: string
+  fileInfoList: { filePath: string; type: string }[] | null
+  messageId: number
 }

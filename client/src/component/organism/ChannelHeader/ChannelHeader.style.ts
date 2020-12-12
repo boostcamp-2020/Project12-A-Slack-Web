@@ -4,7 +4,6 @@ import color from '@constant/color'
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  // padding: 10px 20px;
   width: 100%;
   height: 100%;
 `
@@ -28,9 +27,22 @@ const MemberCountWrapper = styled.div`
   }
 `
 
+const DMMemberCountBox = styled.div`
+  border-radius: 4px;
+  background-color: ${color.get('darkGrey')};
+  color: white;
+  width: 14px;
+  height: 14px;
+  padding: 2px;
+  margin-right: 2px;
+  text-align: center;
+  font-weight: 600;
+`
+
 export default {
   Wrapper,
   LeftWrapper,
   RightWrapper,
   MemberCountWrapper,
+  DMMemberCountBox,
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import A from '@atom'
 import { ImageType } from '@atom/Image'
 import { TextType } from '@atom/Text'
+import { getTimePassedFromNow } from '@util/date'
 import { ReplyButtonProps } from '.'
 import Styled from './ReplyButton.style'
 
@@ -29,7 +30,7 @@ const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
         </Styled.CountTextWrapper>
         <Styled.TimeTextWrapper>
           <A.Text customStyle={timeTextStyle}>
-            {hover ? 'View thread' : `Last reply ${time}`}
+            {hover ? 'View thread' : `Last reply ${getTimePassedFromNow(time)}`}
           </A.Text>
         </Styled.TimeTextWrapper>
         {hover && <Styled.Arrow>&gt;</Styled.Arrow>}

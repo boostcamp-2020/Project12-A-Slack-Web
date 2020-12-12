@@ -7,19 +7,22 @@ import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
-import ActionBar from '@organism/ActionBar'
-import { getDateAndTime } from '@util/date'
-import { GetThreadResponseType } from '@type/thread.type'
-import { UpdateMessageRequestType, MessageType } from '@type/message.type'
+import { getTimePassedFromNow } from '@util/date'
+import {
+  GetThreadResponseType,
+  UpdateThreadRequestType,
+} from '@type/thread.type'
+import { MessageType, UpdateMessageRequestType } from '@type/message.type'
 import { RootState } from '@store'
 import {
   deleteThread,
   updateThread,
   deleteMessage,
+  updateMessage,
+  createReaction,
+  deleteReaction,
 } from '@store/reducer/thread.reducer'
-
 import Styled from './MessageCard.style'
-import ThreadDetailStyle from '@organism/ThreadDetail/ThreadDetail.style'
 
 interface MessageCardProps {
   data: GetThreadResponseType | MessageType
@@ -35,6 +38,9 @@ const MessageCard = ({
   onReplyButtonClick,
 }: MessageCardProps) => {
   const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { id: channelId } = useSelector(
+    (state: RootState) => state.channelStore.currentChannel,
+  )
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
@@ -57,14 +63,40 @@ const MessageCard = ({
   const handleEditCancelButtonClick = () => setEditMode(false)
   const handleEditButtonClick = () => setEditMode(true)
   const handleEditSubmitButtonClick = (
-    updateData: UpdateMessageRequestType,
+    updateData: UpdateThreadRequestType | UpdateMessageRequestType,
   ) => {
-    if (thread) dispatch(updateThread({ ...updateData, threadId: thread.id }))
-    // TODO: else -> message 일때
+    if (type === 'THREAD')
+      dispatch(updateThread({ ...updateData, threadId: thread.id }))
+    else dispatch(updateMessage(updateData))
     setEditMode(false)
   }
 
   const handleReplyButtonClick = () => onReplyButtonClick(thread)
+
+  const handleReactionClick = (content: string) => {
+    const targetMessage = type === 'THREAD' ? thread.headMessage : message
+    const reactionFound = targetMessage.Reactions.find(
+      (reaction) =>
+        reaction.User.id === currentUser.id && reaction.content === content,
+    )
+    if (reactionFound) {
+      dispatch(
+        deleteReaction({
+          channelId,
+          messageId: targetMessage.id,
+          reactionId: reactionFound.id,
+        }),
+      )
+      return
+    }
+    dispatch(
+      createReaction({
+        channelId,
+        messageId: targetMessage.id,
+        content,
+      }),
+    )
+  }
 
   if (editMode) {
     return (
@@ -105,7 +137,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{message.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getDateAndTime(message.createdAt)}
+              {getTimePassedFromNow(message.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
 
@@ -116,19 +148,24 @@ const MessageCard = ({
           </Styled.MessageWrapper>
 
           {message.Reactions.length !== 0 && (
-            <O.ReactionList reactionArr={message.Reactions} loginUserId={1} />
+            <O.ReactionList
+              reactionArr={message.Reactions}
+              loginUserId={currentUser.id}
+              onReactionClick={handleReactionClick}
+            />
           )}
         </Styled.ContentWrapper>
 
         <Styled.ActionBarWrapper>
           {hover && (
-            <ActionBar
+            <O.ActionBar
               targetType={type}
               targetId={message.id}
               targetAuthorId={message.User.id}
               loginUserId={currentUser.id}
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
+              onReactionClick={handleReactionClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -166,7 +203,7 @@ const MessageCard = ({
 
         <Styled.ActionBarWrapper>
           {hover && (
-            <ActionBar
+            <O.ActionBar
               targetType={type}
               targetId={thread.id}
               targetAuthorId={thread.User.id}
@@ -174,6 +211,7 @@ const MessageCard = ({
               onDeleteButtonClick={handleDeleteButtonClick}
               onEditButtonClick={handleEditButtonClick}
               onReplyButtonClick={handleReplyButtonClick}
+              onReactionClick={handleReactionClick}
             />
           )}
         </Styled.ActionBarWrapper>
@@ -196,7 +234,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{thread.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getDateAndTime(thread.createdAt)}
+              {getTimePassedFromNow(thread.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
         )}
@@ -208,7 +246,11 @@ const MessageCard = ({
         </Styled.MessageWrapper>
 
         {headMessage.Reactions.length !== 0 && (
-          <O.ReactionList reactionArr={headMessage.Reactions} loginUserId={1} />
+          <O.ReactionList
+            reactionArr={headMessage.Reactions}
+            loginUserId={currentUser.id}
+            onReactionClick={handleReactionClick}
+          />
         )}
 
         {thread.replyCount > 0 && (
@@ -222,7 +264,7 @@ const MessageCard = ({
 
       <Styled.ActionBarWrapper>
         {hover && (
-          <ActionBar
+          <O.ActionBar
             targetType={type}
             targetId={thread.id}
             targetAuthorId={thread.User.id}
@@ -230,6 +272,7 @@ const MessageCard = ({
             onDeleteButtonClick={handleDeleteButtonClick}
             onEditButtonClick={handleEditButtonClick}
             onReplyButtonClick={handleReplyButtonClick}
+            onReactionClick={handleReactionClick}
           />
         )}
       </Styled.ActionBarWrapper>

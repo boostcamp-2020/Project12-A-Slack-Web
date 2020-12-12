@@ -9,6 +9,7 @@ import O from '@organism'
 import myIcon from '@constant/icon'
 import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
+import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
 
@@ -19,6 +20,8 @@ const ThreadList = ({
   handleSubViewHeader,
   handleSubViewBody,
 }: ThreadListProps) => {
+  const { id, name, type, memberCount, memberMax3, createdAt } = channelInfo
+
   const threadEndRef = useRef<HTMLDivElement>(null)
   const threadListEl = useRef<HTMLDivElement>(null)
 
@@ -33,7 +36,6 @@ const ThreadList = ({
       threadEndRef.current!.scrollIntoView()
     }
   }
-
   useEffect(scrollToBottom, [threads[threads.length - 1]])
 
   const handleScrollTop = () => {
@@ -41,7 +43,7 @@ const ThreadList = ({
     if (scrollTop <= 150) {
       dispatch(
         getThreads.request({
-          channelId: +channelInfo.id,
+          channelId: +id,
           lastThreadId: threadList[0].id,
         }),
       )
@@ -49,7 +51,25 @@ const ThreadList = ({
   }
 
   const channelIcon =
-    channelInfo.type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock
+    // eslint-disable-next-line no-nested-ternary
+    type === 'DM'
+      ? myIcon.message
+      : type === 'PUBLIC'
+      ? myIcon.hashtag
+      : myIcon.lock
+
+  const channelDescription = createdAt
+    ? `This ${type === 'DM' ? 'room' : 'channel'} was created on ${new Date(
+        createdAt,
+      ).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}.`
+    : ''
+
+  const messageEditorPlaceHolder =
+    type === 'DM' ? getDMChannelTitle(memberMax3, memberCount) : `#${name}`
 
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
@@ -58,7 +78,7 @@ const ThreadList = ({
       <Styled.ChannelNameWrapper>
         <A.Icon icon={channelIcon} customStyle={iconStyle} />
         <A.Text customStyle={subViewChannelNameTextStyle}>
-          {channelInfo.name}
+          {type === 'DM' ? `Direct message with ${memberCount} others` : name}
         </A.Text>
       </Styled.ChannelNameWrapper>
     </Styled.ThreadSubViewHeaderWrapper>
@@ -80,43 +100,36 @@ const ThreadList = ({
           <Styled.ThreadTypeIconWrapper>
             <A.Icon icon={channelIcon} />
           </Styled.ThreadTypeIconWrapper>
+
           <Styled.ColumnFlexContainer>
             <A.Text customStyle={threadListTopTextStyle}>
-              <>
-                {'This is the very beginning of the '}
-                <A.Icon
-                  icon={channelIcon}
-                  customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
-                />
-                <A.Text customStyle={channelNameTextStyle}>
-                  {channelInfo.name}
-                </A.Text>
-                channel
-              </>
+              {type === 'DM' ? (
+                'This is the very beginning of your group conversation'
+              ) : (
+                <>
+                  {'This is the very beginning of the '}
+                  <A.Icon
+                    icon={channelIcon}
+                    customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
+                  />
+                  <A.Text customStyle={channelNameTextStyle}>{name}</A.Text>
+                  channel
+                </>
+              )}
             </A.Text>
             <A.Text customStyle={channelDescTextStyle}>
-              {channelInfo.createdAt &&
-                `This channel was created on ${new Date(
-                  channelInfo.createdAt,
-                ).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}.`}
+              {channelDescription}
             </A.Text>
           </Styled.ColumnFlexContainer>
         </Styled.ThreadListTop>
 
         {threads.map((thread, index, arr) => {
           const prevThread = index > 0 ? arr[index - 1] : undefined
-
           const sameUser = !!(
             prevThread && prevThread.User.id === thread.User.id
           )
           const hasReply = thread.replyCount !== 0
-
           const prevHasReply = prevThread && prevThread.replyCount !== 0
-
           const continuous = sameUser && !hasReply && !prevHasReply
           return (
             <O.MessageCard
@@ -128,12 +141,12 @@ const ThreadList = ({
             />
           )
         })}
-        <div ref={threadEndRef} />
+        <Styled.ThreadListBottom ref={threadEndRef} />
       </Styled.ThreadListContainer>
 
       <Styled.EditorContainer>
         <O.MessageEditor
-          placeHolder={`Send a message to #${channelInfo.name}`}
+          placeHolder={`Send a message to ${messageEditorPlaceHolder}`}
         />
       </Styled.EditorContainer>
     </Styled.ChannelMainContainer>

@@ -141,7 +141,7 @@ const readChannelsByWorkspace = async ({ workspaceId }: ChannelType) => {
     // })
 
     const query =
-      "SELECT `Channel`.`id`, `Channel`.`name`, `Channel`.`type`, `Channel`.`createdAt`, COUNT(`user`.`id`) AS `memberCount` FROM `channel` AS `Channel` LEFT OUTER JOIN ( `userChannelSection` INNER JOIN `user` ON `user`.`id` = `userChannelSection`.`UserId` AND (`userChannelSection`.`deletedAt` IS NULL)) ON `Channel`.`id` = `userChannelSection`.`channelId` AND (`user`.`deletedAt` IS NULL) WHERE (`Channel`.`deletedAt` IS NULL AND (`Channel`.`workspaceId` = 1 AND (`Channel`.`type` = 'PRIVATE' OR `Channel`.`type` = 'PUBLIC'))) GROUP BY `Channel`.`id`;"
+      "SELECT `Channel`.`id`, `Channel`.`name`, `Channel`.`type`, `Channel`.`createdAt`, COUNT(`user`.`id`) AS `memberCount` FROM `channel` AS `Channel` LEFT OUTER JOIN ( `userChannelSection` INNER JOIN `user` ON `user`.`id` = `userChannelSection`.`UserId` AND (`userChannelSection`.`deletedAt` IS NULL)) ON `Channel`.`id` = `userChannelSection`.`channelId` AND (`user`.`deletedAt` IS NULL) WHERE (`Channel`.`deletedAt` IS NULL AND (`Channel`.`workspaceId` = :workspaceId AND (`Channel`.`type` = 'PRIVATE' OR `Channel`.`type` = 'PUBLIC'))) GROUP BY `Channel`.`id`;"
     const channels = await sequelizeDB.query(query, {
       replacements: { workspaceId },
       type: sequelize.QueryTypes.SELECT,

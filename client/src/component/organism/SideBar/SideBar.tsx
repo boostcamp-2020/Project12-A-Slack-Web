@@ -22,6 +22,10 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   const handleAllDmChannelClick = () => {
     history.push(`/workspace/${workspaceInfo.id}/all-dm`)
   }
+  const handlePeopleClick = () => {
+    history.push(`/workspace/${workspaceInfo.id}/people-browser`)
+  }
+
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
@@ -88,6 +92,7 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
           <M.ButtonDiv
             buttonStyle={OtherChannelButtonStyle}
             textStyle={OtherChannelTextStyle}
+            onClick={handlePeopleClick}
           >
             <>
               <A.Icon
@@ -135,10 +140,11 @@ const OtherChannelButtonStyle = {
   display: 'flex',
   justifyContent: 'flex-start',
   borderRadius: '0',
+  padding: '7px 0',
 }
 
 const OtherChannelTextStyle = {
-  fontSize: '12px',
+  fontSize: '1.4rem',
 }
 
 const OtherChannelIconStyle = {
