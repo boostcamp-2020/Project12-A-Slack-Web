@@ -5,12 +5,14 @@ import myIcon from '@constant/icon'
 import { ButtonType } from '@atom/Button'
 import { ImageType } from '@atom/Image'
 import { TextType } from '@atom/Text'
+import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ChannelHeaderProps } from '.'
-
 import Styled from './ChannelHeader.style'
 
 const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
   const { name, type, memberCount, memberMax3 } = channelInfo
+  const headerTitle =
+    type !== 'DM' ? name : getDMChannelTitle(memberMax3, memberCount)
 
   const [memberListModalVisible, setMemberListModalVisible] = useState(false)
   const [addPeopleModalVisible, setAddPeopleModalVisible] = useState(false)
@@ -26,22 +28,15 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
   const handleAddPeopleButtonClick = () => setAddPeopleModalVisible(true)
   const handleAddPeopleModalClose = () => setAddPeopleModalVisible(false)
 
-  // const handleStarButtonClick = () => alert('channel - section')
-  const handleInfoButtonClick = () => alert('show detailed info')
-
   return (
     <Styled.Wrapper>
       <Styled.LeftWrapper>
-        <A.Icon icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock} />
-        <A.Text
-          customStyle={channelNameTextStyle}
-          onClick={handleInfoButtonClick}
-        >
-          {name}
-        </A.Text>
-        {/* <A.Button onClick={handleStarButtonClick} customStyle={buttonStyle}>
-          <A.Icon icon={myIcon.star} />
-        </A.Button> */}
+        {type === 'DM' ? (
+          <Styled.DMMemberCountBox>{memberCount}</Styled.DMMemberCountBox>
+        ) : (
+          <A.Icon icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock} />
+        )}
+        <A.Text customStyle={channelNameTextStyle}>{headerTitle}</A.Text>
       </Styled.LeftWrapper>
 
       <Styled.RightWrapper>
@@ -68,9 +63,9 @@ const ChannelHeader = ({ channelInfo }: ChannelHeaderProps) => {
         >
           <A.Icon icon={myIcon.addUser} />
         </A.Button>
-        <A.Button onClick={handleInfoButtonClick} customStyle={buttonStyle}>
+        {/* <A.Button onClick={handleInfoButtonClick} customStyle={buttonStyle}>
           <A.Icon icon={myIcon.info} />
-        </A.Button>
+        </A.Button> */}
       </Styled.RightWrapper>
 
       {memberListModalVisible && (
@@ -114,7 +109,7 @@ const channelNameTextStyle: TextType.StyleAttributes = {
   fontWeight: '800',
   fontSize: '1.6rem',
   cursor: 'pointer',
-  margin: '0 5px 0 3px',
+  margin: '0 5px 0 5px',
 }
 
 export default ChannelHeader
