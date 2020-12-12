@@ -19,6 +19,9 @@ import WorkspaceList from './WorkspaceList'
 import WorkspaceCard from './WorkspaceCard'
 import AddMemberModal from './AddMemberModal'
 import DmCard from './DmCard'
+import PeopleHeader from './PeopleHeader'
+import TeammateCard from './TeammateCard'
+import TeammateList from './TeammateList'
 
 export default {
   Header,
@@ -42,4 +45,7 @@ export default {
   WorkspaceCard,
   AddMemberModal,
   DmCard,
+  PeopleHeader,
+  TeammateCard,
+  TeammateList,
 }
