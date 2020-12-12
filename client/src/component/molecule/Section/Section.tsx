@@ -5,7 +5,7 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch } from 'react-redux'
-import { createChannel } from '@store/reducer/channel.reducer'
+import { createChannel, setChannelRead } from '@store/reducer/channel.reducer'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
@@ -95,8 +95,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
   }
-
-  const handleChannelClick = () => {}
 
   // TODO: Add teammates 클릭 시 액션
   const handleAddTeammatesClick = () => {}
@@ -215,7 +213,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                   textStyle={
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
-                  onClick={handleChannelClick}
+                  onClick={() =>
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
