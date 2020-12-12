@@ -8,7 +8,19 @@ import { InputType } from '@atom/Input'
 import { TextType } from '@atom/Text'
 import workspaceAPI from '@api/workspace'
 
-const People = ({ workspaceId }: { workspaceId: number }) => {
+interface PeopleProps {
+  handleSubViewHeader: (node: React.ReactNode) => void
+  handleSubViewBody: (node: React.ReactNode) => void
+  handleSubViewOpen: () => void
+  workspaceId: number
+}
+
+const People = ({
+  handleSubViewOpen,
+  handleSubViewHeader,
+  handleSubViewBody,
+  workspaceId,
+}: PeopleProps) => {
   const { id: loginUserId } = useSelector(
     (state: RootState) => state.userStore.currentUser,
   )
@@ -38,11 +50,6 @@ const People = ({ workspaceId }: { workspaceId: number }) => {
     if (e.key === 'Enter') searchTeammates(inputKeyword)
   }
 
-  const handleTeammateCardClick = () => {
-    alert('click')
-    // TODO: subview rendering
-  }
-
   const peopleMainViewHeader = <O.PeopleHeader workspaceId={workspaceId} />
   const peopleMainViewBody = (
     <Wrapper>
@@ -67,8 +74,10 @@ const People = ({ workspaceId }: { workspaceId: number }) => {
 
       <O.TeammateList
         teammateList={teammates}
-        onTeammateClick={handleTeammateCardClick}
         loginUserId={loginUserId}
+        handleSubViewOpen={handleSubViewOpen}
+        handleSubViewHeader={handleSubViewHeader}
+        handleSubViewBody={handleSubViewBody}
       />
     </Wrapper>
   )
