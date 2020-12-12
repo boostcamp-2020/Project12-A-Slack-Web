@@ -6,7 +6,7 @@ import { getTimePassedFromNow } from '@util/date'
 import { ReplyButtonProps } from '.'
 import Styled from './ReplyButton.style'
 
-const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
+const ReplyButton = ({ count, time, images, onClick }: ReplyButtonProps) => {
   const [hover, setHover] = useState(false)
 
   const handleMouseOver = () => setHover(true)
@@ -21,7 +21,9 @@ const ReplyButton = ({ count, time, onClick }: ReplyButtonProps) => {
         onClick={handleClick}
       >
         <Styled.ImageWrapper>
-          <A.Image customStyle={imageStyle} />
+          {images.map((image) => (
+            <A.Image url={image} customStyle={imageStyle} />
+          ))}
         </Styled.ImageWrapper>
         <Styled.CountTextWrapper>
           <A.Text customStyle={countTextStyle}>
@@ -44,6 +46,7 @@ ReplyButton.defaultProps = {}
 const imageStyle: ImageType.StyleAttributes = {
   height: '24px',
   width: '24px',
+  margin: '0px 2px 0px 0px',
 }
 
 const countTextStyle: TextType.StyleAttributes = {
