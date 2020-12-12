@@ -109,7 +109,9 @@ const getFilteredThread = (thread: ThreadInstance) => {
     ...new Set(replies.map((rep) => rep.User.profileImageUrl)),
   ]
 
-  const lastReplyTime = replies[0] ? replies[0].createdAt : null
+  const lastReplyTime = replies[replies.length - 1]
+    ? replies[replies.length - 1].createdAt
+    : null
   const commenterCount = userProfileSet.length
   const userProfileMax5 =
     userProfileSet.length >= 5 ? userProfileSet.slice(0, 5) : userProfileSet

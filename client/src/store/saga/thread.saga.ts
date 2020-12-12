@@ -55,6 +55,10 @@ import {
   sendSocketCreateReaction,
   sendSocketDeleteReaction,
 } from '@store/reducer/socket.reducer'
+import {
+  setChannelUnRead,
+  setChannelRead,
+} from '@store/reducer/channel.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -229,6 +233,7 @@ function* receiveCreateThreadSaga(
   const { content } = action.payload.headMessage
   if (channelId !== action.payload.channelId) {
     try {
+      yield put(setChannelUnRead({ channelId: action.payload.channelId }))
       if (Notification.permission === GRANTED) {
         sendNotification(name, content)
       }
@@ -259,6 +264,7 @@ function* receiveCreateMessageSaga(
 
   if (isNotWatching && (isMyThread || isHaveMyReply)) {
     try {
+      yield put(setChannelUnRead({ channelId: thread.channelId }))
       if (Notification.permission === 'granted') {
         sendNotification(name, message.content)
       }
