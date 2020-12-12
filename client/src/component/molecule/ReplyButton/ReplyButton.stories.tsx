@@ -10,6 +10,7 @@ export const replyButton = () => {
   return (
     <ReplyButton
       count={3}
+      images={[]}
       time="2020-11-24 18:29:37"
       onClick={() => console.log('test')}
     />
