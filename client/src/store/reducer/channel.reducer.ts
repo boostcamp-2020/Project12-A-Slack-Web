@@ -56,9 +56,12 @@ export const CREATE_CHANNEL_REQUEST = 'channel/CREATE_CHANNEL_REQUEST' as const
 const CREATE_CHANNEL_SUCCESS = 'channel/CREATE_CHANNEL_SUCCESS' as const
 const CREATE_CHANNEL_ERROR = 'channel/CREATE_CHANNEL_ERROR' as const
 
-export const GET_CURRENT_CHANNEL_REQUEST = 'thread/GET_CURRENT_CHANNEL_REQUEST' as const
-const GET_CURRENT_CHANNEL_SUCCESS = 'thread/GET_CURRENT_CHANNEL_SUCCESS' as const
-const GET_CURRENT_CHANNEL_ERROR = 'thread/GET_CURRENT_CHANNEL_ERROR' as const
+export const GET_CURRENT_CHANNEL_REQUEST = 'channel/GET_CURRENT_CHANNEL_REQUEST' as const
+const GET_CURRENT_CHANNEL_SUCCESS = 'channel/GET_CURRENT_CHANNEL_SUCCESS' as const
+const GET_CURRENT_CHANNEL_ERROR = 'channel/GET_CURRENT_CHANNEL_ERROR' as const
+
+export const SET_CHANNEL_UNREAD = 'channel/SET_CHANNEL_UNREAD' as const
+export const SET_CHANNEL_READ = 'channel/SET_CHANNEL_READ' as const
 
 export const getChannels = createAsyncAction(
   GET_CHANNELS_REQUEST,
@@ -102,6 +105,13 @@ export const getCurrentChannel = createAsyncAction(
   GET_CURRENT_CHANNEL_ERROR,
 )<{ channelId: number }, CurrentChannelType, AxiosError>()
 
+export const setChannelUnRead = createAction(SET_CHANNEL_UNREAD)<{
+  channelId: number
+}>()
+export const setChannelRead = createAction(SET_CHANNEL_READ)<{
+  channelId: number
+}>()
+
 const actions = {
   getChannelsRequest: getChannels.request,
   getChannelsSuccess: getChannels.success,
@@ -120,6 +130,8 @@ const actions = {
   getCurrentChannelRequest: getCurrentChannel.request,
   getCurrentChannelSuccess: getCurrentChannel.success,
   getCurrentChannelError: getCurrentChannel.failure,
+  setChannelUnRead,
+  setChannelRead,
 }
 
 export type ChannelAction = ActionType<typeof actions>
@@ -234,6 +246,22 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     ...state,
     loading: false,
     error: action.payload,
+  }),
+  [SET_CHANNEL_UNREAD]: (state, action) => ({
+    ...state,
+    channelList: state.channelList.map((channel) => {
+      if (channel.id === action.payload.channelId)
+        return { ...channel, unRead: true }
+      return channel
+    }),
+  }),
+  [SET_CHANNEL_READ]: (state, action) => ({
+    ...state,
+    channelList: state.channelList.map((channel) => {
+      if (channel.id === action.payload.channelId)
+        return { ...channel, unRead: false }
+      return channel
+    }),
   }),
 })
 
