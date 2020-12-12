@@ -7,7 +7,7 @@ import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
-import { getDateAndTime } from '@util/date'
+import { getTimePassedFromNow } from '@util/date'
 import {
   GetThreadResponseType,
   UpdateThreadRequestType,
@@ -137,7 +137,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{message.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getDateAndTime(message.createdAt)}
+              {getTimePassedFromNow(message.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
 
@@ -234,7 +234,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{thread.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getDateAndTime(thread.createdAt)}
+              {getTimePassedFromNow(thread.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
         )}
