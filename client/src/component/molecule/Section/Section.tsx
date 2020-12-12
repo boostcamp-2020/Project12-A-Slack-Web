@@ -212,7 +212,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               >
                 <M.ButtonDiv
                   buttonStyle={ChannelButtonStyle}
-                  textStyle={ChannelTextStyle}
+                  textStyle={
+                    channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
+                  }
                   onClick={handleChannelClick}
                 >
                   {channel.type === 'DM' ? (
@@ -472,6 +474,11 @@ const ChannelButtonStyle = {
 
 const ChannelTextStyle = {
   fontSize: '1.4rem',
+}
+
+const ChannelTextBoldStyle = {
+  fontSize: '1.4rem',
+  fontWeight: '700',
 }
 
 const ChannelIconStyle = {
