@@ -12,7 +12,13 @@ const getChannels = async ({ workspaceId }: ChannelRequestType) => {
   const response = await myAxios.get({
     path: `/channel?workspaceId=${workspaceId}`,
   })
+  return response.data
+}
 
+const getAllChannels = async ({ workspaceId }: ChannelRequestType) => {
+  const response = await myAxios.get({
+    path: `/channel/all?workspaceId=${workspaceId}`,
+  })
   return response.data
 }
 
@@ -60,6 +66,7 @@ const createNewChannel = async (data: CreateChannelRequestType) => {
 
 export default {
   getChannels,
+  getAllChannels,
   joinChannel,
   joinMembersToChannel,
   getChannelInfo,
