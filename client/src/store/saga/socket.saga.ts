@@ -75,9 +75,9 @@ function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
   })
 
   return new Promise((resolve) => {
-    // socket.connect()
+    socket.connect()
     socket.on(CONNECT, () => {
-      console.log('connect')
+      console.log('socket client connected')
       resolve(socket)
     })
   })
@@ -273,7 +273,7 @@ function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   try {
     const socket = yield call(createSocket, action.payload)
     yield put(connectSocket.success(socket))
-    yield call(socketJoinRoom, socket)
+    // yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
   } catch (error) {
     yield put(connectSocket.failure(error))

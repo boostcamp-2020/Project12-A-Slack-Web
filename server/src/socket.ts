@@ -42,6 +42,7 @@ namespace.on('connection', (socket: Socket) => {
 
   socket.on('connect', ({ userId }: { userId: number }) => {
     console.log(userId)
+    socket.emit('connect', userId)
   })
 
   socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {

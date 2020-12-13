@@ -40,9 +40,9 @@ function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
     if (success) {
       yield put(getChannels.success(data))
       console.log(data.map((item) => item.id))
-      // yield put(
-      //   sendSocketJoinRoom({ channelIdList: data.map((item) => item.id) }),
-      // )
+      yield put(
+        sendSocketJoinRoom({ channelIdList: data.map((item) => item.id) }),
+      )
     }
   } catch (error) {
     yield put(getChannels.failure(error))
