@@ -21,6 +21,7 @@ const Container = styled.div`
 const ImageWrapper = styled.div`
   margin-right: 4px;
   flex-shrink: 0;
+  display: flex;
 `
 const CountTextWrapper = styled.div`
   margin-left: 3px;
