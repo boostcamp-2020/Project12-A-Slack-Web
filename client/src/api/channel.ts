@@ -1,5 +1,6 @@
 import myAxios from '@util/myAxios'
 import {
+  GetChannelResponseType,
   CreateChannelRequestType,
   ChannelRequestType,
   JoinChannelRequestType,
@@ -8,7 +9,9 @@ import {
 } from '@type/channel.type'
 
 // TODO: workspace 전체의 채널을 어떻게 읽을 것인가
-const getChannels = async ({ workspaceId }: ChannelRequestType) => {
+const getChannels = async ({
+  workspaceId,
+}: ChannelRequestType): Promise<GetChannelResponseType> => {
   const response = await myAxios.get({
     path: `/channel?workspaceId=${workspaceId}`,
   })

@@ -9,7 +9,7 @@ import {
 } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
-import { ChannelType } from '@type/channel.type'
+import { ChannelType, GetChannelResponseType } from '@type/channel.type'
 import {
   sendSocketDeleteMember,
   sendSocketJoinRoom,
@@ -33,9 +33,17 @@ import {
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
   try {
-    const { success, data } = yield call(channelAPI.getChannels, action.payload)
-    if (success) console.log(data)
-    yield put(getChannels.success(data))
+    const { success, data }: GetChannelResponseType = yield call(
+      channelAPI.getChannels,
+      action.payload,
+    )
+    if (success) {
+      yield put(getChannels.success(data))
+      console.log(data.map((item) => item.id))
+      // yield put(
+      //   sendSocketJoinRoom({ channelIdList: data.map((item) => item.id) }),
+      // )
+    }
   } catch (error) {
     yield put(getChannels.failure(error))
   }

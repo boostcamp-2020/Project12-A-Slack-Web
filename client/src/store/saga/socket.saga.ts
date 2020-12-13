@@ -72,10 +72,10 @@ function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
   const namespaceUrl = `${baseURL}/socket.io/`
   const strWorkspaceId = workspaceId
   const token = localStorage.getItem('token')
-  const socket = io(`${namespaceUrl + strWorkspaceId}/`, { query: { token } })
+  const socket = io(`${namespaceUrl + strWorkspaceId}`, { query: { token } })
   return new Promise((resolve) => {
-    socket.connect()
-    socket.on(CONNECT, () => {
+    // socket.connect()
+    socket.on('connect', () => {
       console.log('connect')
       resolve(socket)
     })
@@ -273,14 +273,12 @@ function* socketJoinRoom(socket: Socket) {
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   const socket = yield call(createSocket, action.payload)
   console.log('socket 만듬')
-  while (true) {
-    try {
-      yield put(connectSocket.success(socket))
-      yield call(socketJoinRoom, socket)
-      yield fork(handleIO, socket)
-    } catch (error) {
-      yield put(connectSocket.failure(error))
-    }
+  try {
+    yield put(connectSocket.success(socket))
+    yield call(socketJoinRoom, socket)
+    yield fork(handleIO, socket)
+  } catch (error) {
+    yield put(connectSocket.failure(error))
   }
 }
 
