@@ -18,8 +18,6 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
   const handleCreateChannelModalClose = () =>
     setCreateChannelModalVisible(false)
 
-  // TODO: import 'Creat a channel modal'
-
   return (
     <Styled.Wrapper>
       <A.Text customStyle={headerTextStyle}>Channel browser</A.Text>
