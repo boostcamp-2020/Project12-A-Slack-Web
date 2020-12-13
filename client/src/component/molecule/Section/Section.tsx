@@ -100,9 +100,16 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     const temp = name.split(',')
     let parsedName = ``
     if (temp.length > 3) {
-      parsedName = `${(temp[0], temp[1])}, ${temp[2]}...`
+      parsedName = `${temp[0]}, ${temp[1]}, ${temp[2]}...`
     } else {
-      parsedName = `${(temp[0], temp[1])}, ${temp[2]}`
+      for (let i = 0; i < temp.length; i++) {
+        if (i !== temp.length - 1) {
+          parsedName += temp[i]
+          parsedName += ', '
+        } else {
+          parsedName += temp[i]
+        }
+      }
     }
     return parsedName
   }
