@@ -25,3 +25,11 @@ export interface CreateWorkspaceRequestType {
 export interface JoinWorkspaceRequestType {
   workspaceId: number
 }
+
+export interface SendActiveUserIdType {
+  userId: number
+}
+
+export interface ReceiveActiveUserListType {
+  activeUserList: number[]
+}
