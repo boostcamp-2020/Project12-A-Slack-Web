@@ -197,6 +197,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
+            images={thread.userProfileMax5}
             onClick={handleReplyButtonClick}
           />
         </Styled.ContentWrapper>
@@ -257,6 +258,7 @@ const MessageCard = ({
           <M.ReplyButton
             count={thread.replyCount}
             time={thread.lastReplyTime}
+            images={thread.userProfileMax5}
             onClick={handleReplyButtonClick}
           />
         )}

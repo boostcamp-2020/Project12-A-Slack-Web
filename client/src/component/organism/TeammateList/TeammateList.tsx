@@ -2,15 +2,30 @@ import React from 'react'
 import A from '@atom'
 import O from '@organism'
 import { TextType } from '@atom/Text'
+import { UserType } from '@type/user.type'
 import { TeammateListProps } from '.'
 
 import Styled from './TeammateList.style'
 
 const TeammateList = ({
   teammateList,
-  onTeammateClick,
   loginUserId,
+  handleSubViewOpen,
+  handleSubViewHeader,
+  handleSubViewBody,
 }: TeammateListProps) => {
+  const handleTeammateClick = (teammate: UserType) => () => {
+    const subViewHeader = (
+      <Styled.SubViewHeaderWrapper>
+        <A.Text customStyle={subViewHeaderTextStyle}>People</A.Text>
+      </Styled.SubViewHeaderWrapper>
+    )
+    const userDetail = <O.UserDetail user={teammate} />
+    handleSubViewHeader(subViewHeader)
+    handleSubViewBody(userDetail)
+    handleSubViewOpen()
+  }
+
   return (
     <Styled.ResultListWrapper>
       {teammateList.length === 0 ? (
@@ -25,7 +40,7 @@ const TeammateList = ({
         </Styled.NoResultsWrapper>
       ) : (
         teammateList.map((teammate) => (
-          <Styled.CardWrapper onClick={onTeammateClick}>
+          <Styled.CardWrapper onClick={handleTeammateClick(teammate)}>
             <O.TeammateCard
               user={teammate}
               key={teammate.id}
@@ -46,6 +61,12 @@ const noResultsTextStyle: TextType.StyleAttributes = {
 
 const descTextStyle: TextType.StyleAttributes = {
   fontSize: '1.5rem',
+}
+
+const subViewHeaderTextStyle: TextType.StyleAttributes = {
+  fontWeight: '800',
+  fontSize: '1.6rem',
+  margin: '2px 0',
 }
 
 export default TeammateList
