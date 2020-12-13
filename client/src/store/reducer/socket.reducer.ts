@@ -31,6 +31,7 @@ const SEND_SOCKET_DELETE_MESSAGE = 'socket/SEND_SOCKET_DELETE_MESSAGE' as const
 const SEND_SOCKET_UPDATE_MESSAGE = 'socket/SEND_SOCKET_UPDATE_MESSAGE' as const
 const SEND_SOCKET_CREATE_REACTION = 'socket/SEND_SOCKET_CREATE_REACTION' as const
 const SEND_SOCKET_DELETE_REACTION = 'socket/SEND_SOCKET_DELETE_REACTION' as const
+const SEND_SOCKET_ACTIVE_USER_ID = 'socket/SEND_SOCKET_ACTIVE_USER_ID' as const
 
 export const connectSocket = createAsyncAction(
   CONNECT_SOCKET_REQUEST,
@@ -76,6 +77,10 @@ export const sendSocketUpdateMessage = createAction(
   channelId: number
   messageId: number
 }>()
+
+export const sendSocketActiveUserId = createAction(SEND_SOCKET_ACTIVE_USER_ID)<{
+  userId: number
+}>()
 export const sendSocketCreateReaction = createAction(
   SEND_SOCKET_CREATE_REACTION,
 )<{
@@ -103,6 +108,7 @@ const actions = {
   sendSocketCreateMessage,
   sendSocketDeleteMessage,
   sendSocketUpdateMessage,
+  sendSocketActiveUserId,
   sendSocketCreateReaction,
   sendSocketDeleteReaction,
 }

@@ -11,6 +11,8 @@ import {
   WorkspaceResponseType,
   CreateWorkspaceRequestType,
   JoinWorkspaceRequestType,
+  SendActiveUserIdType,
+  ReceiveActiveUserListType,
 } from '@type/workspace.type'
 
 interface WorkspaceState {
@@ -41,6 +43,8 @@ export const JOIN_WORKSPACE = 'workspace/JOIN_WORKSPACE' as const
 export const GET_CURRENT_WORKSPACE_INFO_REQUEST = 'workspace/GET_CURRENT_WORKSPACE_INFO_REQUEST' as const
 const GET_CURRENT_WORKSPACE_INFO_SUCCESS = 'workspace/GET_CURRENT_WORKSPACE_INFO_SUCCESS' as const
 const GET_CURRENT_WORKSPACE_INFO_ERROR = 'workspace/GET_CURRENT_WORKSPACE_INFO_ERROR' as const
+export const CONNECT_ACTIVE_USER_CURRENT_WORKSPACE = 'workspace/CONNECT_ACTIVE_USER_CURRENT_WORKSPACE' as const
+const RECEIVE_ACTIVE_USER_CURRENT_WORKSPACE = 'workspace/RECEIVE_ACTIVE_USER_CURRENT_WORKSPACE' as const
 
 export const getWorkspace = createAsyncAction(
   GET_WORKSPACES_REQUEST,
@@ -66,6 +70,14 @@ export const joinWorkspace = createAction(JOIN_WORKSPACE)<
   JoinWorkspaceRequestType
 >()
 
+export const connectActiveUserCurrentWorkspace = createAction(
+  CONNECT_ACTIVE_USER_CURRENT_WORKSPACE,
+)<SendActiveUserIdType>()
+
+export const receiveActiveUserCurrentWorkspace = createAction(
+  RECEIVE_ACTIVE_USER_CURRENT_WORKSPACE,
+)<ReceiveActiveUserListType>()
+
 const actions = {
   getWorkspacesRequest: getWorkspace.request,
   getWorkspacesSuccess: getWorkspace.success,
@@ -76,6 +88,8 @@ const actions = {
   createWorkspace,
   joinWorkspace,
   getCurrentWorkspaceInfo,
+  connectActiveUserCurrentWorkspace,
+  receiveActiveUserCurrentWorkspace,
 }
 
 export type WorkspaceAction = ActionType<typeof actions>
@@ -118,6 +132,10 @@ const reducer = createReducer<WorkspaceState, WorkspaceAction>(initialState, {
     },
     loading: false,
     error: action.payload,
+  }),
+  [RECEIVE_ACTIVE_USER_CURRENT_WORKSPACE]: (state, action) => ({
+    ...state,
+    activeUserList: action.payload.activeUserList,
   }),
 })
 

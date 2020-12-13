@@ -31,13 +31,15 @@ const MessageEditor = ({
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
   const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
+  const [sendButtonActive, setSendButtonActive] = useState<boolean>(true)
   const fileInput = createRef<HTMLInputElement>()
 
   const { channelId } = useParams<MatchParamsType>()
 
   const handleInputValueChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) setSendButtonActive(false)
+    if (e.target.value.length === 0) setSendButtonActive(true)
     setContent(e.target.value)
-    console.log('CHANGEd CONTENT !')
   }
   const handleSubmitButtonClick = () => {
     const data = {
@@ -55,7 +57,9 @@ const MessageEditor = ({
   }
 
   const handleEnterKeyPress = (e: any) => {
-    if (e.key === 'Enter') handleSubmitButtonClick()
+    if (e.key === 'Enter' && content.length > 0) {
+      handleSubmitButtonClick()
+    }
   }
 
   const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
@@ -111,7 +115,7 @@ const MessageEditor = ({
             </>
           </A.Button>
           <A.Button
-            customStyle={SubmitButtonStyle}
+            customStyle={{ ...SubmitButtonStyle, disabled: sendButtonActive }}
             onClick={handleSubmitButtonClick}
           >
             <A.Icon icon={myIcon.paperPlane} customStyle={{ color: 'white' }} />

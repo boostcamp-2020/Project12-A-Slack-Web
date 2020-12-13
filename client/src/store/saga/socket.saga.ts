@@ -33,7 +33,6 @@ import {
   CreateReactionSocketResponseType,
   DeleteReactionSocketResponseType,
 } from '@type/reaction.type'
-
 import {
   NamespaceType,
   CONNECT_SOCKET_REQUEST,
@@ -50,8 +49,8 @@ import {
   sendSocketDeleteReaction,
 } from '../reducer/socket.reducer'
 
-const CONNECT = 'connect'
-const DISCONNECT = 'disconnect'
+const CONNECT = 'CONNECT'
+const DISCONNECT = 'DISCONNECT'
 const JOIN_ROOM = 'JOIN_ROOM'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
@@ -68,8 +67,12 @@ const baseURL =
     ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
     : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
 
-function createSocket(workspaceId: NamespaceType): Promise<Socket> {
-  const socket = io(`${baseURL}/socket/${+workspaceId}`)
+function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
+  console.log('workspace socket 연결중')
+  const namespaceUrl = `${baseURL}/socket.io/`
+  const strWorkspaceId = workspaceId
+  const token = localStorage.getItem('token')
+  const socket = io(`${namespaceUrl + strWorkspaceId}/`, { query: { token } })
   return new Promise((resolve) => {
     socket.connect()
     socket.on(CONNECT, () => {
@@ -82,6 +85,11 @@ function createSocket(workspaceId: NamespaceType): Promise<Socket> {
 function subscribeSocket(socket: Socket) {
   console.log('useSocket: ', socket.id)
   return eventChannel((emit: any) => {
+    const handleConnect = () => {
+      // emit()
+      console.log('socket connected')
+    }
+
     const handleDisconnect = () => {
       console.log('disconnected')
     }
@@ -139,6 +147,7 @@ function subscribeSocket(socket: Socket) {
       emit(receiveDeleteReaction(data))
     }
 
+    socket.on(CONNECT, handleConnect)
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
@@ -235,6 +244,8 @@ function* socketJoinRoomNew(socket: Socket) {
   }
 }
 
+function* socketActiveUser(socket: Socket) {}
+
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
   yield fork(sendDeleteMember, socket)
@@ -253,19 +264,23 @@ function* socketJoinRoom(socket: Socket) {
   const channelList: ChannelType[] = yield select(
     (state: RootState) => state.channelStore.channelList,
   )
+
   socket.emit(JOIN_ROOM, {
     channelIdList: channelList.map((channel: any) => +channel.id),
   })
 }
 
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
-  try {
-    const socket = yield call(createSocket, action.payload)
-    yield put(connectSocket.success(socket))
-    yield call(socketJoinRoom, socket)
-    yield fork(handleIO, socket)
-  } catch (error) {
-    yield put(connectSocket.failure(error))
+  const socket = yield call(createSocket, action.payload)
+  console.log('socket 만듬')
+  while (true) {
+    try {
+      yield put(connectSocket.success(socket))
+      yield call(socketJoinRoom, socket)
+      yield fork(handleIO, socket)
+    } catch (error) {
+      yield put(connectSocket.failure(error))
+    }
   }
 }
 
