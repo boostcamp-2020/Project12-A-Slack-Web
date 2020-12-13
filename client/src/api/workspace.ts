@@ -22,10 +22,10 @@ const createWorkspace = async (data: CreateWorkspaceRequestType) => {
   return response.data
 }
 
-const joinWorkspace = async (data: JoinWorkspaceRequestType) => {
+const joinWorkspace = async ({ workspaceId }: JoinWorkspaceRequestType) => {
   const response = await myAxios.post({
     path: '/workspace/join',
-    data: { workspaceId: data.workspaceId },
+    data: { workspaceId },
   })
   return response.data
 }

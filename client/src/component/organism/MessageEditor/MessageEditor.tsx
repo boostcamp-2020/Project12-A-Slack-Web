@@ -53,6 +53,7 @@ const MessageEditor = ({
     } else {
       dispatch(createThread(data))
     }
+    setSendButtonActive(true)
     setContent('')
   }
 

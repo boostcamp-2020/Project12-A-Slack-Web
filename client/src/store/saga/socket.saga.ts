@@ -49,8 +49,8 @@ import {
   sendSocketDeleteReaction,
 } from '../reducer/socket.reducer'
 
-const CONNECT = 'CONNECT'
-const DISCONNECT = 'DISCONNECT'
+const CONNECT = 'connect'
+const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
@@ -69,13 +69,14 @@ const baseURL =
 
 function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
   console.log('workspace socket 연결중')
-  const namespaceUrl = `${baseURL}/socket.io/`
-  const strWorkspaceId = workspaceId
   const token = localStorage.getItem('token')
-  const socket = io(`${namespaceUrl + strWorkspaceId}`, { query: { token } })
+  const socket = io(`${baseURL}/namespace/${workspaceId}`, {
+    query: { token },
+  })
+
   return new Promise((resolve) => {
     // socket.connect()
-    socket.on('connect', () => {
+    socket.on(CONNECT, () => {
       console.log('connect')
       resolve(socket)
     })
@@ -86,7 +87,6 @@ function subscribeSocket(socket: Socket) {
   console.log('useSocket: ', socket.id)
   return eventChannel((emit: any) => {
     const handleConnect = () => {
-      // emit()
       console.log('socket connected')
     }
 
@@ -146,7 +146,6 @@ function subscribeSocket(socket: Socket) {
       console.log('delete reaction: ', data)
       emit(receiveDeleteReaction(data))
     }
-
     socket.on(CONNECT, handleConnect)
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
@@ -271,9 +270,8 @@ function* socketJoinRoom(socket: Socket) {
 }
 
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
-  const socket = yield call(createSocket, action.payload)
-  console.log('socket 만듬')
   try {
+    const socket = yield call(createSocket, action.payload)
     yield put(connectSocket.success(socket))
     yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)

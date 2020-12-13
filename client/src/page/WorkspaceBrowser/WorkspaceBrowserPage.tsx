@@ -58,6 +58,26 @@ const WorkspaceBrowserPage = () => {
               </M.ButtonDiv>
             </Link>
           </NewWorkspaceWrapper>
+          <OurWorkspaceWrapper>
+            <A.Image
+              customStyle={InviteImageStyle}
+              url="https://avatars.slack-edge.com/2020-09-01/1331718819861_36ba0eceb067392fae51_88.png"
+            />
+            <A.Text customStyle={OurInviteWorkspaceTextStyle}>
+              I'm slack team의 slack이 궁금하신가요?
+            </A.Text>
+            <Link
+              to="/workspace/join?workspace_id=1"
+              style={{ textDecoration: 'none' }}
+            >
+              <M.ButtonDiv
+                buttonStyle={OurWorkspaceButtonStyle}
+                textStyle={NewWorkspaceTextStyle}
+              >
+                I'm slack team의 slack 참가하기
+              </M.ButtonDiv>
+            </Link>
+          </OurWorkspaceWrapper>
         </WorkspaceListWrapper>
       </WorkspaceContentWrapper>
     </WorkspaceContainer>
@@ -104,6 +124,18 @@ const NewWorkspaceWrapper = styled.div`
   margin: 3rem 0;
 `
 
+const OurWorkspaceWrapper = styled.div`
+  width: 100%;
+  height: 8rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 1rem;
+  margin: 0 0;
+  border: '1px solid #b6b6b6';
+`
+
 const InviteImageStyle = {
   height: '50%',
 }
@@ -132,6 +164,14 @@ const slackWelcomeBelowTextStyle = {
   margin: '1rem',
 }
 
+const OurInviteWorkspaceTextStyle = {
+  height: 'auto',
+  width: 'auto',
+  fontSize: '1.5rem',
+  display: 'block',
+  fontWeight: 'bold',
+}
+
 const InviteWorkspaceTextStyle = {
   height: 'auto',
   width: 'auto',
@@ -141,6 +181,13 @@ const InviteWorkspaceTextStyle = {
 
 const NewWorkspaceButtonStyle = {
   width: '20rem',
+  height: '3.8rem',
+  backgroundColor: 'white',
+  border: '1px solid lightGrey',
+}
+
+const OurWorkspaceButtonStyle = {
+  width: '24rem',
   height: '3.8rem',
   backgroundColor: 'white',
   border: '1px solid lightGrey',

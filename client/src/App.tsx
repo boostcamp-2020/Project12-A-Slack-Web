@@ -23,11 +23,7 @@ const App = () => {
         <Switch>
           <Route exact path="/" component={Auth(WorkspaceBrowserPage, false)} />
           <Route exact path="/login" component={Auth(LoginPage, true)} />
-          <Route
-            exact
-            path="/workspace/join"
-            component={Auth(WorkspaceJoinPage, false)}
-          />
+          <Route exact path="/workspace/join" component={WorkspaceJoinPage} />
           <Route
             exact
             path="/workspace/new"
