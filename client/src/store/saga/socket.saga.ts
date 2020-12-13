@@ -62,26 +62,6 @@ const UPDATE_MESSAGE = 'UPDATE_MESSAGE'
 const CREATE_REACTION = 'CREATE_REACTION'
 const DELETE_REACTION = 'DELETE_REACTION'
 
-const baseURL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
-    : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
-
-function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
-  console.log('workspace socket 연결중')
-  const namespaceUrl = `${baseURL}/socket.io/`
-  const strWorkspaceId = workspaceId
-  const token = localStorage.getItem('token')
-  const socket = io(`${namespaceUrl + strWorkspaceId}`, { query: { token } })
-  return new Promise((resolve) => {
-    // socket.connect()
-    socket.on('connect', () => {
-      console.log('connect')
-      resolve(socket)
-    })
-  })
-}
-
 function subscribeSocket(socket: Socket) {
   console.log('useSocket: ', socket.id)
   return eventChannel((emit: any) => {
@@ -260,6 +240,24 @@ function* handleIO(socket: Socket) {
   yield fork(sendDeleteReaction, socket)
 }
 
+const baseURL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
+    : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
+
+function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
+  const namespaceUrl = `${baseURL}/socket.io/`
+  const strWorkspaceId = workspaceId
+  const token = localStorage.getItem('token')
+  const socket = io(`${namespaceUrl + strWorkspaceId}`, { query: { token } })
+  return new Promise((resolve) => {
+    socket.on('connect', () => {
+      console.log('connect')
+      resolve(socket)
+    })
+  })
+}
+
 function* socketJoinRoom(socket: Socket) {
   const channelList: ChannelType[] = yield select(
     (state: RootState) => state.channelStore.channelList,
@@ -272,7 +270,6 @@ function* socketJoinRoom(socket: Socket) {
 
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   const socket = yield call(createSocket, action.payload)
-  console.log('socket 만듬')
   try {
     yield put(connectSocket.success(socket))
     yield call(socketJoinRoom, socket)

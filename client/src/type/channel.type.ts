@@ -48,7 +48,7 @@ export interface DeleteMemberRequestType {
 }
 
 export interface ChannelRequestType {
-  workspaceId?: number
+  workspaceId: number
 }
 
 export interface GetChannelResponseType extends ResponseType {
