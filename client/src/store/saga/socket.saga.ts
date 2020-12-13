@@ -11,6 +11,7 @@ import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
 import { RootState } from '@store'
 import { ChannelType } from '@type/channel.type'
+import { GetThreadResponseType } from '@type/thread.type'
 import {
   MessageType,
   DeleteMessageSocketResponseType,
@@ -71,7 +72,7 @@ function subscribeSocket(socket: Socket) {
       emit(receiveDeleteMember(data))
     }
 
-    const handleCreateThread = (data: any) => {
+    const handleCreateThread = (data: GetThreadResponseType) => {
       emit(receiveCreateThread(data))
     }
 
