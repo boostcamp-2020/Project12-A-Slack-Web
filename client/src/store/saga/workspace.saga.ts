@@ -10,7 +10,11 @@ import {
   getCurrentWorkspaceInfo,
   createWorkspace,
   joinWorkspace,
-} from '../reducer/workspace.reducer'
+  connectActiveUserCurrentWorkspace,
+  CONNECT_ACTIVE_USER_CURRENT_WORKSPACE,
+  receiveActiveUserCurrentWorkspace,
+} from '@store/reducer/workspace.reducer'
+import { sendSocketActiveUserId } from '@store/reducer/socket.reducer'
 
 function* getWorkspacesSaga() {
   try {
@@ -68,6 +72,16 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
   }
 }
 
+function* sendActiveUserId(
+  action: ReturnType<typeof connectActiveUserCurrentWorkspace>,
+) {
+  try {
+    yield put(sendSocketActiveUserId(action.payload))
+  } catch (error) {
+    toast.error('Failed to send active user id workspace')
+  }
+}
+
 function* watchGetWorkspacesSaga() {
   yield takeLatest(GET_WORKSPACES_REQUEST, getWorkspacesSaga)
 }
@@ -87,11 +101,16 @@ function* watchGetCurrentWorkspaceInfoSaga() {
   )
 }
 
+function* watchSendActiveUserId() {
+  yield takeLatest(CONNECT_ACTIVE_USER_CURRENT_WORKSPACE, sendActiveUserId)
+}
+
 export default function* workspaceSaga() {
   yield all([
     fork(watchGetWorkspacesSaga),
     fork(watchCreateWorkspaceSaga),
     fork(watchJoinWorkspaceSaga),
     fork(watchGetCurrentWorkspaceInfoSaga),
+    fork(watchSendActiveUserId),
   ])
 }
