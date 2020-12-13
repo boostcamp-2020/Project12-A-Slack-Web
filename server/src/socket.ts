@@ -5,6 +5,15 @@ import threadService from '@service/thread.service'
 import messageService from '@service/message.service'
 import channelService from '@service/channel.service'
 import reactionService from '@service/reaction.service'
+import { checkUser } from '@service/user.service'
+import jwt from '@util/jwt'
+
+type UserInfo = {
+  id: number
+  email: string
+  name: string
+  profileImageUrl: string
+}
 
 const server = createServer(express())
 
@@ -18,11 +27,14 @@ const io = new Server(server, {
   },
 })
 
-const namespace = io.of(/^\/socket\/\w+$/)
+const namespace = io.of(/^\/socket.io\/\w+/)
 
 namespace.use((socket, next) => {
-  // TODO Token 으로 유저 확인
-  next()
+  const { token } = socket.handshake.query as any
+  const { id, email, name } = jwt.checkToken(token) as UserInfo
+  const isUser = checkUser({ id, email, name })
+  if (!isUser) return next(new Error('authorization error'))
+  return next()
 })
 
 namespace.on('connection', (socket: Socket) => {
