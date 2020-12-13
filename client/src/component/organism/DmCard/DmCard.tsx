@@ -16,9 +16,9 @@ interface dmChannelInfoProps {
   createdAt: string
   updatedAt: string
   deletedAt?: string
-  workspaceId?: number
-  memberCount?: number
-  memberMax3?: UserType[]
+  workspaceId: number
+  memberCount: number
+  memberMax3: UserType[]
 }
 
 const DmCard = ({ dmChannel }: DmCardProps) => {
@@ -26,10 +26,12 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
   // TODO: useState 기본값?
   const [dmChannelInfo, setDmChannelInfo] = useState<dmChannelInfoProps>({
     id: 0,
-    name: 'test',
+    name: '',
     type: 'DM',
-    createdAt: 'test',
-    updatedAt: 'test',
+    createdAt: '',
+    updatedAt: '',
+    workspaceId: 0,
+    memberCount: 0,
     memberMax3: [],
   })
   useEffect(() => {
@@ -73,7 +75,18 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
       <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
         <Styled.DmCardMain>
           <Styled.DmCardContent>
-            <A.Image />
+            <Styled.DmCardImageContainer>
+              {dmChannelInfo.memberMax3.map((member) => {
+                return (
+                  <A.Image
+                    key={member.id}
+                    url={member.profileImageUrl}
+                    customStyle={dmImageStyle}
+                  />
+                )
+              })}
+              {dmChannelInfo.memberCount > 3 ? <A.Text>...</A.Text> : null}
+            </Styled.DmCardImageContainer>
             <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
           </Styled.DmCardContent>
           <A.Text customStyle={dmDateTimeStyle}>
@@ -83,6 +96,15 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
       </M.ButtonDiv>
     </Styled.Container>
   )
+}
+
+const dmImageStyle = {
+  height: '3rem',
+  width: '3rem',
+  margin: '0px 0px 0px -5px',
+  padding: '0px',
+  radius: '4px',
+  cursor: 'auto',
 }
 
 const dmCardButtonStyle = {
