@@ -21,8 +21,8 @@ const ReplyButton = ({ count, time, images, onClick }: ReplyButtonProps) => {
         onClick={handleClick}
       >
         <Styled.ImageWrapper>
-          {images.map((image) => (
-            <A.Image url={image} customStyle={imageStyle} />
+          {images.map((image, idx) => (
+            <A.Image url={image} customStyle={imageStyle} key={idx} />
           ))}
         </Styled.ImageWrapper>
         <Styled.CountTextWrapper>
