@@ -4,12 +4,22 @@ import {
   take,
   put,
   select,
-  takeEvery,
   all,
   takeLatest,
 } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
+import { RootState } from '@store'
+import { ChannelType } from '@type/channel.type'
+import {
+  MessageType,
+  DeleteMessageSocketResponseType,
+  MessageSocketResponseDataType,
+} from '@type/message.type'
+import {
+  CreateReactionSocketResponseType,
+  DeleteReactionSocketResponseType,
+} from '@type/reaction.type'
 import {
   receiveCreateThread,
   receiveDeleteThread,
@@ -22,17 +32,6 @@ import {
   receiveDeleteReaction,
 } from '@store/reducer/thread.reducer'
 import { receiveDeleteMember } from '@store/reducer/channel.reducer'
-import { ChannelType } from '@type/channel.type'
-import { RootState } from '@store'
-import {
-  MessageType,
-  DeleteMessageSocketResponseType,
-  MessageSocketResponseDataType,
-} from '@type/message.type'
-import {
-  CreateReactionSocketResponseType,
-  DeleteReactionSocketResponseType,
-} from '@type/reaction.type'
 import {
   NamespaceType,
   CONNECT_SOCKET_REQUEST,
@@ -47,10 +46,10 @@ import {
   sendSocketUpdateMessage,
   sendSocketCreateReaction,
   sendSocketDeleteReaction,
-} from '../reducer/socket.reducer'
+} from '@store/reducer/socket.reducer'
 
-const CONNECT = 'CONNECT'
-const DISCONNECT = 'DISCONNECT'
+const CONNECT = 'connect'
+const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
@@ -63,45 +62,33 @@ const CREATE_REACTION = 'CREATE_REACTION'
 const DELETE_REACTION = 'DELETE_REACTION'
 
 function subscribeSocket(socket: Socket) {
-  console.log('useSocket: ', socket.id)
   return eventChannel((emit: any) => {
-    const handleConnect = () => {
-      // emit()
-      console.log('socket connected')
-    }
-
     const handleDisconnect = () => {
       console.log('disconnected')
     }
 
     const handleDeleteMember = (data: any) => {
-      console.log('delete member: ', data)
       emit(receiveDeleteMember(data))
     }
 
     const handleCreateThread = (data: any) => {
-      console.log('new thread: ', data)
       emit(receiveCreateThread(data))
     }
 
     const handleDeleteThread = (data: any) => {
-      console.log('delete thread: ', data)
       emit(receiveDeleteThread(data))
     }
 
     const handleUpdateThread = (data: any) => {
-      console.log('update thread: ', data)
       emit(receiveUpdateThread(data))
     }
 
     const handleCreateMessage = (data: MessageSocketResponseDataType) => {
-      console.log('create message: ', data)
       emit(receiveCreateMessage(data))
       emit(receiveUpdateThread(data.thread))
     }
 
     const handleDeleteMessage = (data: DeleteMessageSocketResponseType) => {
-      console.log('delete message: ', data)
       if (data.threadId) {
         emit(clearCurrentThread())
         emit(receiveDeleteThread(data.threadId))
@@ -113,21 +100,17 @@ function subscribeSocket(socket: Socket) {
     }
 
     const handleUpdateMessage = (data: MessageType) => {
-      console.log('update message: ', data)
       emit(receiveUpdateMessage(data))
     }
 
     const handleCreateReaction = (data: CreateReactionSocketResponseType) => {
-      console.log('create reaction: ', data)
       emit(receiveCreateReaction(data))
     }
 
     const handleDeleteReaction = (data: DeleteReactionSocketResponseType) => {
-      console.log('delete reaction: ', data)
       emit(receiveDeleteReaction(data))
     }
 
-    socket.on(CONNECT, handleConnect)
     socket.on(DISCONNECT, handleDisconnect)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
@@ -142,6 +125,15 @@ function subscribeSocket(socket: Socket) {
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
       socket.off(CREATE_THREAD, handleCreateThread)
+      socket.off(DELETE_MEMBER, handleDeleteMember)
+      socket.off(CREATE_THREAD, handleCreateThread)
+      socket.off(DELETE_THREAD, handleDeleteThread)
+      socket.off(UPDATE_THREAD, handleUpdateThread)
+      socket.off(CREATE_MESSAGE, handleCreateMessage)
+      socket.off(DELETE_MESSAGE, handleDeleteMessage)
+      socket.off(UPDATE_MESSAGE, handleUpdateMessage)
+      socket.off(CREATE_REACTION, handleCreateReaction)
+      socket.off(DELETE_REACTION, handleDeleteReaction)
     }
   })
 }
@@ -246,12 +238,10 @@ const baseURL =
     : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
 
 function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
-  const namespaceUrl = `${baseURL}/socket.io/`
-  const strWorkspaceId = workspaceId
   const token = localStorage.getItem('token')
-  const socket = io(`${namespaceUrl + strWorkspaceId}`, { query: { token } })
+  const socket = io(`${baseURL}/socket.io/${workspaceId}`, { query: { token } })
   return new Promise((resolve) => {
-    socket.on('connect', () => {
+    socket.on(CONNECT, () => {
       console.log('connect')
       resolve(socket)
     })
