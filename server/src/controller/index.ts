@@ -7,6 +7,7 @@ import threadRouter from './thread'
 import messageRouter from './message'
 import reactionRouter from './reaction'
 import fileRouter from './file'
+import mailRouter from './mail'
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use('/thread', threadRouter)
 router.use('/message', messageRouter)
 router.use('/reaction', reactionRouter)
 router.use('/file', fileRouter)
+router.use('/sendmail', mailRouter)
 
 export default router
