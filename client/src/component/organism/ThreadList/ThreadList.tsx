@@ -5,10 +5,13 @@ import { RootState } from '@store'
 import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
 import { GetThreadResponseType } from '@type/thread.type'
 import A from '@atom'
+import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
+import color from '@constant/color'
 import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
+import { ButtonType } from '@atom/Button'
 import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
@@ -27,9 +30,11 @@ const ThreadList = ({
 
   const dispatch = useDispatch()
   const { threadList } = useSelector((state: RootState) => state.threadStore)
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
   const { channelId } = useParams<{
     channelId: string
   }>()
+  const joined = channelList.find((channel) => channel.id === +channelId)
 
   const scrollToBottom = () => {
     if (threadEndRef) {
@@ -145,9 +150,25 @@ const ThreadList = ({
       </Styled.ThreadListContainer>
 
       <Styled.EditorContainer>
-        <O.MessageEditor
-          placeHolder={`Send a message to ${messageEditorPlaceHolder}`}
-        />
+        {joined ? (
+          <O.MessageEditor
+            placeHolder={`Send a message to ${messageEditorPlaceHolder}`}
+          />
+        ) : (
+          <Styled.GuideWrapper>
+            <div>
+              <A.Text customStyle={guideTextStyle}>You are viewing</A.Text>
+              <A.Text customStyle={guideChannelTextStyle}>{` #${name}`}</A.Text>
+            </div>
+
+            <M.ButtonDiv
+              buttonStyle={joinButtonStyle}
+              textStyle={joinButtonTextStyle}
+            >
+              Join channel
+            </M.ButtonDiv>
+          </Styled.GuideWrapper>
+        )}
       </Styled.EditorContainer>
     </Styled.ChannelMainContainer>
   )
@@ -184,6 +205,27 @@ const channelNameTextStyle: TextType.StyleAttributes = {
 const channelDescTextStyle: TextType.StyleAttributes = {
   fontSize: '1.5rem',
   color: 'darkGrey',
+}
+
+const guideTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.8rem',
+}
+const guideChannelTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.8rem',
+  fontWeight: '700',
+}
+const joinButtonStyle: ButtonType.StyleAttributes = {
+  border: `1px solid ${color.get('green')}`,
+  backgroundColor: 'green',
+  hoverBackgroundColor: 'greenHover',
+  width: '125px',
+  padding: '10px',
+  margin: '10px 0 0 0',
+}
+const joinButtonTextStyle: TextType.StyleAttributes = {
+  color: 'white',
+  fontWeight: '600',
+  fontSize: '1.5rem',
 }
 
 export default ThreadList

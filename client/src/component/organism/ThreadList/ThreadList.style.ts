@@ -20,6 +20,14 @@ const EditorContainer = styled.div`
   padding: 0 16px;
   background-color: white;
 `
+const GuideWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid lightgrey;
+`
 
 const ThreadSubViewHeaderWrapper = styled.div`
   display: flex;
@@ -61,6 +69,7 @@ export default {
   ChannelMainContainer,
   ThreadListContainer,
   EditorContainer,
+  GuideWrapper,
   ThreadSubViewHeaderWrapper,
   ChannelNameWrapper,
   ThreadListTop,
