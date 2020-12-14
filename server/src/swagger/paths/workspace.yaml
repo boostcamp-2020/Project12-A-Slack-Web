@@ -1,0 +1,59 @@
+post:
+  summary: workspace 생성
+  tags:
+    - workspace
+  security:
+    - BearerAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            imageUrl:
+              type: string
+  responses:
+    '201':
+      description: workspace 생성 성공
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
+get:
+  summary: 로그인한 User가 속한 workspace를 가지고온다.
+  tags:
+    - workspace
+  security:
+    - BearerAuth: []
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: array
+                items:
+                  $ref: '../openapi.yaml#/components/schemas/Workspace'
+
+    '400':
+      description: BadRequest
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

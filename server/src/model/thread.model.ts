@@ -1,6 +1,5 @@
 import { Model, DataTypes } from 'sequelize'
-import sequelize from './sequelize'
-import { dbType } from './index'
+import { sequelize } from './sequelize'
 
 class Thread extends Model {
   public readonly id: number
@@ -30,18 +29,5 @@ Thread.init(
     collate: 'utf8_general_ci',
   },
 )
-
-export const associate = (db: dbType) => {
-  db.Thread.belongsTo(db.Channel, { foreignKey: 'channelId' })
-
-  db.Thread.belongsTo(db.User, { foreignKey: 'userId' })
-
-  db.Thread.hasMany(db.Message, {
-    foreignKey: 'threadId',
-    sourceKey: 'id',
-    onUpdate: 'SET NULL',
-    onDelete: 'SET NULL',
-  })
-}
 
 export default Thread

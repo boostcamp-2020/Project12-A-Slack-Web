@@ -1,23 +1,24 @@
 import { Request, Response, NextFunction } from 'express'
-import { checkUser } from '../service/user.service'
-import jwt from '../util/jwt'
+import { checkUser } from '@service/user.service'
+import jwt from '@util/jwt'
 
 type UserInfo = {
   id: number
   email: string
   name: string
+  profileImageUrl: string
 }
-
+// TODO: Message 처리
 const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   const {
     headers: { authorization },
   } = req
-  if (!authorization) return res.send('unauthorized user')
-  const token = authorization.replace('bearer ', '')
-  const { id, email, name } = jwt.checkToken(token) as UserInfo
+  if (!authorization) return res.status(403).json({ success: false })
+  const token = authorization.replace(/bearer /i, '')
+  const { id, email, name, profileImageUrl } = jwt.checkToken(token) as UserInfo
   const isUser = checkUser({ id, email, name })
-  if (!isUser) return res.send('unauthorized user')
-  req.user = { id, email, name }
+  if (!isUser) return res.status(204).json({ success: false })
+  req.user = { id, email, name, profileImageUrl }
   return next()
 }
 

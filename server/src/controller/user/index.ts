@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import passport from 'passport'
+import verifyUser from '@middleware/user.middleware'
 import userController from './user.controller'
 
 const router = Router()
@@ -17,4 +18,6 @@ router.get(
   userController.handleGoogleLoginCallback,
 )
 
+router.get('/status', verifyUser, userController.statusController)
+router.get('/channel/:channelId', verifyUser, userController.readUsersByChannel)
 export default router

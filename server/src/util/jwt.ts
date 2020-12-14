@@ -4,18 +4,25 @@ type UserInfo = {
   id: number
   email: string
   name: string
+  profileImageUrl: string
 }
 
-const createToken = ({ id, email, name }: UserInfo): string => {
+const createToken = ({
+  id,
+  email,
+  name,
+  profileImageUrl,
+}: UserInfo): string => {
   return jsonWebToken.sign(
     {
       id,
       email,
       name,
+      profileImageUrl,
     },
     process.env.JWT_SECRET_KEY,
     {
-      expiresIn: '1h',
+      expiresIn: '1d',
     },
   )
 }

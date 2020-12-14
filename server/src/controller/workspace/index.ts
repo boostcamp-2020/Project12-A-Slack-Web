@@ -1,9 +1,12 @@
 import { Router } from 'express'
+import workspaceController from './workspace.controller'
 
 const router = Router()
 
-router.get('/', (req, res) => {
-  res.send('certified user')
-})
+router.get('/', workspaceController.readWorkspaceByUser)
+router.post('/', workspaceController.createWorkspace)
+router.post('/join', workspaceController.joinWorkspace)
+router.get('/:workspaceId', workspaceController.readCurrentWorkspaceInfo)
+router.get('/:workspaceId/teammate', workspaceController.readWorkspaceUsers)
 
 export default router

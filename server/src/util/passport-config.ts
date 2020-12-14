@@ -3,10 +3,12 @@ import {
   Strategy as GoogleStrategy,
   VerifyCallback,
 } from 'passport-google-oauth2'
-import { findOrCreateUser } from '../service/user.service'
+import { findOrCreateUser } from '@service/user.service'
 
 const serverURL =
-  process.env.NODE_ENV === 'development' ? process.env.BACK_DOMAIN_DEVELOP : ''
+  process.env.NODE_ENV === 'development'
+    ? process.env.BACK_DOMAIN_DEVELOP
+    : process.env.BACK_DOMAIN_PRODUCTION
 
 const googleConfig = {
   clientID: process.env.GOOGLE_CLIENT_ID,
@@ -22,7 +24,6 @@ const googleLoginVerify = async (
 ) => {
   try {
     const { _json: userData } = profile
-    console.log(userData)
     const currentUser = await findOrCreateUser(userData)
     done(null, currentUser)
   } catch (error) {

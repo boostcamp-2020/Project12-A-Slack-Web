@@ -1,0 +1,165 @@
+patch:
+  summary: update message
+  tags:
+    - message
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: message id
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            content:
+              type: string
+            fileInfoList:
+              type: array
+              items:
+                type: object
+                properties:
+                  filePath:
+                    type: string
+                  type:
+                    type: string
+                    enum:
+                      - FILE
+                      - VIDEO
+                      - IMAGE
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
+delete:
+  summary: delete message
+  tags:
+    - message
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: message id
+      type: integer
+    - in: query
+      name: threadId
+      description: thread id
+      type: integer
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
+get:
+  summary: get message by id
+  tags:
+    - message
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: id
+      description: message id
+      type: integer
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: object
+                properties:
+                  id:
+                    type: number
+                  content:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  userId:
+                    type: number
+                  Files:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        url:
+                          type: string
+                        type:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                  Reactions:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        content:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        User:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            name:
+                              type: string
+                            profileImageUrl:
+                              type: string
+                  User:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      email:
+                        type: string
+                      name:
+                        type: string
+                      profileImageUrl:
+                        type: string
+
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

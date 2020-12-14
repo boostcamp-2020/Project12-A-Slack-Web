@@ -1,4 +1,6 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable import/first */
+import 'module-alias/register'
 import express, { Request, Response, NextFunction } from 'express'
 import logger from 'morgan'
 import createError from 'http-errors'
@@ -8,14 +10,15 @@ import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import YAML from 'yamljs'
 import passport from 'passport'
-import { statusCode, resMessage } from './util/constant'
+import { statusCode, resMessage } from '@util/constant'
 
 dotenv.config()
 
-import passportConfig from './util/passport-config'
+import './socket'
+import passportConfig from '@util/passport-config'
 
-import apiRouter from './controller'
-import initDB from './model'
+import apiRouter from '@controller/index'
+import initDB from '@model/index'
 
 const app: express.Application = express()
 const port = process.env.PORT
@@ -33,7 +36,7 @@ app.use(
     origin:
       process.env.NODE_ENV === 'development'
         ? [process.env.FRONT_DOMAIN_DEVELOP, process.env.FRONT_DOMAIN_DEVELOP_2]
-        : '',
+        : process.env.FRONT_DOMAIN_PRODUCTION,
     credentials: true,
   }),
 )
@@ -46,7 +49,12 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.listen(port, (): void => console.log('server listening 3000 port'))
 
 app.use(
-  (err: { code: number; message: string }, req: Request, res: Response, _) => {
+  (
+    err: { code: number; message: string },
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     if (err.code)
       return res.status(err.code).json({ success: false, message: err.message })
     return res

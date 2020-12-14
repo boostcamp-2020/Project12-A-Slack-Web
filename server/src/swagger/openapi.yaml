@@ -5,25 +5,241 @@ info:
   description: Slack Web TEAM A의 API 문서입니다
   license:
     name: MIT
-host: http://localhost:3000
-basePath: /
+servers:
+  - description: dev server
+    url: http://127.0.0.1:3000
+  - description: hyex production server
+    url: http://101.101.219.79:3000
+tags:
+  - user
+  - workspace
+  - channel
+  - thread
+  - message
+  - file
+  - reaction
 paths:
   $ref: './paths/_index.yaml'
 components:
-  parameters:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
       required:
-        - _id
+        - id
+        - email
         - name
+        - createdAt
+        - updatedAt
       properties:
-        _id:
-          type: number
-          description: id
+        id:
+          type: integer
+        email:
+          type: string
         name:
           type: string
-          description: 유저 이름
+        googleId:
+          type: string
+        profileImageUrl:
+          type: string
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    Workspace:
+      type: object
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        imageUrl:
+          type: string
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    UserWorkspace:
+      type: object
+      required:
+        - createdAt
+        - updatedAt
+      properties:
+        userId:
+          type: integer
+        workspaceId:
+          type: integer
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+    Channel:
+      type: object
+      required:
+        - name
+        - type
+        - createdAt
+        - updatedAt
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    Section:
+      type: object
+      required:
+        - id
+        - name
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        userId:
+          type: number
+        workspaceId:
+          type: number
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    userChannelSection:
+      type: object
+      required:
+        - id
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: number
+        userId:
+          type: number
+        channelId:
+          type: number
+        sectionId:
+          type: number
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    Thread:
+      type: object
+      required:
+        - id
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        channelId:
+          type: integer
+        createdAt:
+          type: datetime
+        updatedAt:
+          type: datetime
+        deletedAt:
+          type: datetime
+    Message:
+      type: object
+      required:
+        - id
+        - content
+        - isHead
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        isHead:
+          type: string
+        userId:
+          type: integer
+        threadId:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deletedAt:
+          type: string
+    Reaction:
+      type: object
+      required:
+        - id
+        - content
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        messageId:
+          type: integer
+        userId:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deletedAt:
+          type: string
+    File:
+      type: object
+      required:
+        - id
+        - url
+        - type
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+        type:
+          type: string
+          enum:
+            - FILE
+            - VIDEO
+            - IMAGE
+        messageId:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        deletedAt:
+          type: string
     Error:
       type: object
       properties:

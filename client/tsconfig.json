@@ -13,7 +13,27 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "outDir": "./build",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "paths": {
+      "@atom": ["src/component/atom/index"],
+      "@molecule": ["src/component/molecule/index"],
+      "@organism": ["src/component/organism/index"],
+      "@store": ["src/store/index"],
+      "@page": ["src/page/index"],
+      "@hook": ["src/hoc/index"],
+
+      "@atom/*": ["src/component/atom/*"],
+      "@molecule/*": ["src/component/molecule/*"],
+      "@organism/*": ["src/component/organism/*"],
+
+      "@constant/*": ["src/constant/*"],
+      "@page/*": ["src/page/*"],
+      "@store/*": ["src/store/*"],
+      "@util/*": ["src/util/*"],
+      "@api/*": ["src/api/*"],
+      "@hoc/*": ["src/hoc/*"],
+      "@type/*": ["src/type/*"]
+    }
   },
   "exclude": ["node_modules"],
   "include": ["**/*.ts", "**/*.tsx"]
