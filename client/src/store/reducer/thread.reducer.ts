@@ -308,6 +308,8 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     const targetExistsInSubview = state.currentThread.messageList.find(
       (message) => message.id === messageId,
     )
+    const targetIsCurrentThreadHeader =
+      state.currentThread.thread?.headMessage?.id === messageId
 
     const getNewThreadList = (
       threadList: GetThreadResponseType[],
@@ -327,7 +329,6 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         return thread
       })
     }
-
     const getNewMessageList = (
       messageList: MessageType[],
       newReaction: ReactionType,
@@ -343,6 +344,19 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         return message
       })
     }
+    const getNewThreadHead = (
+      threadHead: GetThreadResponseType | null,
+      newReaction: ReactionType,
+    ) => {
+      if (threadHead === null) return null
+      return {
+        ...threadHead,
+        headMessage: {
+          ...threadHead.headMessage,
+          Reactions: [...threadHead.headMessage.Reactions, newReaction],
+        },
+      }
+    }
 
     return {
       ...state,
@@ -351,6 +365,9 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         : state.threadList,
       currentThread: {
         ...state.currentThread,
+        thread: targetIsCurrentThreadHeader
+          ? getNewThreadHead(state.currentThread.thread, reaction)
+          : state.currentThread.thread,
         messageList: targetExistsInSubview
           ? [
               ...getNewMessageList(
@@ -372,6 +389,8 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     const targetExistsInSubview = state.currentThread.messageList.find(
       (message) => message.id === messageId,
     )
+    const targetIsCurrentThreadHeader =
+      state.currentThread.thread?.headMessage?.id === messageId
 
     const getNewThreadList = (
       threadList: GetThreadResponseType[],
@@ -395,7 +414,6 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         return thread
       })
     }
-
     const getNewMessageList = (
       messageList: MessageType[],
       deletedReactionId: number,
@@ -415,6 +433,23 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         return message
       })
     }
+    const getNewThreadHead = (
+      threadHead: GetThreadResponseType | null,
+      deletedReactionId: number,
+    ) => {
+      if (threadHead === null) return null
+      return {
+        ...threadHead,
+        headMessage: {
+          ...threadHead.headMessage,
+          Reactions: [
+            ...threadHead.headMessage.Reactions.filter(
+              (reaction) => reaction.id !== deletedReactionId,
+            ),
+          ],
+        },
+      }
+    }
 
     return {
       ...state,
@@ -423,6 +458,9 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         : state.threadList,
       currentThread: {
         ...state.currentThread,
+        thread: targetIsCurrentThreadHeader
+          ? getNewThreadHead(state.currentThread.thread, reactionId)
+          : state.currentThread.thread,
         messageList: targetExistsInSubview
           ? [
               ...getNewMessageList(
