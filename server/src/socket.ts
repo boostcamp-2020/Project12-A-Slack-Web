@@ -27,9 +27,9 @@ const io = new Server(server, {
   },
 })
 
-const namespace = io.of(/^\/namespace\/\w+/)
+const namespaces = io.of(/^\/namespace\/\w+/)
 
-namespace.use((socket, next) => {
+namespaces.use((socket, next) => {
   const { token } = socket.handshake.query as any
   const { id, email, name } = jwt.checkToken(token) as UserInfo
   const isUser = checkUser({ id, email, name })
@@ -37,7 +37,8 @@ namespace.use((socket, next) => {
   return next()
 })
 
-namespace.on('connection', (socket: Socket) => {
+namespaces.on('connection', (socket: Socket) => {
+  const namespace = socket.nsp
   console.log(socket)
 
   socket.on('connect', ({ userId }: { userId: number }) => {
@@ -46,7 +47,6 @@ namespace.on('connection', (socket: Socket) => {
   })
 
   socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {
-    console.log('JOIN_ROOM: ', channelIdList)
     socket.join(channelIdList.map((id) => id.toString()))
     console.log(socket.rooms)
   })
