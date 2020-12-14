@@ -29,6 +29,7 @@ const readChannelsByWorkspace = async (
   try {
     const { code, json } = await channelService.readChannelsByWorkspace({
       workspaceId: +req.query.workspaceId,
+      searchKeyword: (req.query.searchKeyword as string) || '',
     })
     return res.status(code).json(json)
   } catch (error) {
