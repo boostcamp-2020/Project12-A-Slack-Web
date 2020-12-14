@@ -21,6 +21,7 @@ import {
   UpdateMessageRequestType,
 } from '@type/message.type'
 import {
+  ReactionType,
   CreateReactionRequestType,
   CreateReactionSocketResponseType,
   DeleteReactionRequestType,
@@ -301,61 +302,176 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
   [RECEIVE_CREATE_REACTION]: (state, action) => {
     const { reaction, messageId } = action.payload
 
-    const targetExists = !!state.threadList.find(
+    const targetExistsInMainview = !!state.threadList.find(
       (thread) => thread.headMessage?.id === messageId,
     )
+    const targetExistsInSubview = state.currentThread.messageList.find(
+      (message) => message.id === messageId,
+    )
+    const targetIsCurrentThreadHeader =
+      state.currentThread.thread?.headMessage?.id === messageId
 
-    const newThreadList = state.threadList.map((thread) => {
-      if (thread.headMessage?.id === messageId) {
-        const newReactions = [...thread.headMessage.Reactions, reaction]
-        return {
-          ...thread,
-          headMessage: {
-            ...thread.headMessage,
-            Reactions: [...newReactions],
-          },
+    const getNewThreadList = (
+      threadList: GetThreadResponseType[],
+      newReaction: ReactionType,
+      targetMessageId: number,
+    ) => {
+      return threadList.map((thread) => {
+        if (thread.headMessage?.id === targetMessageId) {
+          return {
+            ...thread,
+            headMessage: {
+              ...thread.headMessage,
+              Reactions: [...thread.headMessage.Reactions, newReaction],
+            },
+          }
         }
+        return thread
+      })
+    }
+    const getNewMessageList = (
+      messageList: MessageType[],
+      newReaction: ReactionType,
+      targetMessageId: number,
+    ) => {
+      return messageList.map((message) => {
+        if (message.id === targetMessageId) {
+          return {
+            ...message,
+            Reactions: [...message.Reactions, newReaction],
+          }
+        }
+        return message
+      })
+    }
+    const getNewThreadHead = (
+      threadHead: GetThreadResponseType | null,
+      newReaction: ReactionType,
+    ) => {
+      if (threadHead === null) return null
+      return {
+        ...threadHead,
+        headMessage: {
+          ...threadHead.headMessage,
+          Reactions: [...threadHead.headMessage.Reactions, newReaction],
+        },
       }
-      return thread
-    })
-    // TODO: sub view message도 컨트롤
-    if (!targetExists) return { ...state }
+    }
+
     return {
       ...state,
-      threadList: [...newThreadList],
+      threadList: targetExistsInMainview
+        ? [...getNewThreadList(state.threadList, reaction, messageId)]
+        : state.threadList,
+      currentThread: {
+        ...state.currentThread,
+        thread: targetIsCurrentThreadHeader
+          ? getNewThreadHead(state.currentThread.thread, reaction)
+          : state.currentThread.thread,
+        messageList: targetExistsInSubview
+          ? [
+              ...getNewMessageList(
+                state.currentThread.messageList,
+                reaction,
+                messageId,
+              ),
+            ]
+          : state.currentThread.messageList,
+      },
     }
   },
   [RECEIVE_DELETE_REACTION]: (state, action) => {
     const { reactionId, messageId } = action.payload
 
-    const targetExistsInThreadList = !!state.threadList.find(
+    const targetExistsInMainview = !!state.threadList.find(
       (thread) => thread.headMessage?.id === messageId,
     )
-    const newThreadList = state.threadList.map((thread) => {
-      if (thread.headMessage?.id === messageId) {
-        const newReactions = [
-          ...thread.headMessage.Reactions.filter(
-            (reaction) => reaction.id !== reactionId,
-          ),
-        ]
-        return {
-          ...thread,
-          headMessage: {
-            ...thread.headMessage,
-            Reactions: [...newReactions],
-          },
+    const targetExistsInSubview = state.currentThread.messageList.find(
+      (message) => message.id === messageId,
+    )
+    const targetIsCurrentThreadHeader =
+      state.currentThread.thread?.headMessage?.id === messageId
+
+    const getNewThreadList = (
+      threadList: GetThreadResponseType[],
+      deletedReactionId: number,
+      targetMessageId: number,
+    ) => {
+      return threadList.map((thread) => {
+        if (thread.headMessage?.id === targetMessageId) {
+          return {
+            ...thread,
+            headMessage: {
+              ...thread.headMessage,
+              Reactions: [
+                ...thread.headMessage.Reactions.filter(
+                  (reaction) => reaction.id !== deletedReactionId,
+                ),
+              ],
+            },
+          }
         }
-      }
-      return thread
-    })
-    // TODO: sub view message도 컨트롤
-    if (targetExistsInThreadList) {
+        return thread
+      })
+    }
+    const getNewMessageList = (
+      messageList: MessageType[],
+      deletedReactionId: number,
+      targetMessageId: number,
+    ) => {
+      return messageList.map((message) => {
+        if (message.id === targetMessageId) {
+          return {
+            ...message,
+            Reactions: [
+              ...message.Reactions.filter(
+                (reaction) => reaction.id !== deletedReactionId,
+              ),
+            ],
+          }
+        }
+        return message
+      })
+    }
+    const getNewThreadHead = (
+      threadHead: GetThreadResponseType | null,
+      deletedReactionId: number,
+    ) => {
+      if (threadHead === null) return null
       return {
-        ...state,
-        threadList: [...newThreadList],
+        ...threadHead,
+        headMessage: {
+          ...threadHead.headMessage,
+          Reactions: [
+            ...threadHead.headMessage.Reactions.filter(
+              (reaction) => reaction.id !== deletedReactionId,
+            ),
+          ],
+        },
       }
     }
-    return { ...state }
+
+    return {
+      ...state,
+      threadList: targetExistsInMainview
+        ? [...getNewThreadList(state.threadList, reactionId, messageId)]
+        : state.threadList,
+      currentThread: {
+        ...state.currentThread,
+        thread: targetIsCurrentThreadHeader
+          ? getNewThreadHead(state.currentThread.thread, reactionId)
+          : state.currentThread.thread,
+        messageList: targetExistsInSubview
+          ? [
+              ...getNewMessageList(
+                state.currentThread.messageList,
+                reactionId,
+                messageId,
+              ),
+            ]
+          : state.currentThread.messageList,
+      },
+    }
   },
 })
 
