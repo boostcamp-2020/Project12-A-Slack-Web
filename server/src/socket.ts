@@ -41,6 +41,7 @@ namespace.on('connection', (socket: Socket) => {
   console.log(socket)
 
   socket.on('connect', ({ userId }: { userId: number }) => {
+    socket.emit('connect', userId)
     console.log(userId)
   })
 
