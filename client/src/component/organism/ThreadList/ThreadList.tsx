@@ -219,6 +219,7 @@ const joinButtonStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'green',
   hoverBackgroundColor: 'greenHover',
   width: '125px',
+  height: '38px',
   padding: '10px',
   margin: '10px 0 0 0',
 }

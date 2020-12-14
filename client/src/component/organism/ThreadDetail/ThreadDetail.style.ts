@@ -28,6 +28,8 @@ const EditorContainer = styled.div`
   width: 100%;
   padding: 0 16px 20px 16px;
   background-color: white;
+  display: flex;
+  justify-content: center;
 `
 
 const NoContentWrapper = styled.div`
