@@ -32,7 +32,10 @@ import {
   receiveCreateReaction,
   receiveDeleteReaction,
 } from '@store/reducer/thread.reducer'
-import { receiveDeleteMember } from '@store/reducer/channel.reducer'
+import {
+  getChannels,
+  receiveDeleteMember,
+} from '@store/reducer/channel.reducer'
 import {
   NamespaceType,
   CONNECT_SOCKET_REQUEST,
@@ -268,6 +271,11 @@ function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   try {
     const socket = yield call(createSocket, action.payload)
     yield put(connectSocket.success(socket))
+    yield put(
+      getChannels.request({
+        workspaceId: action.payload.workspaceId,
+      }),
+    )
     // yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
   } catch (error) {
