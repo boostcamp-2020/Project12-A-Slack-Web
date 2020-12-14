@@ -5,6 +5,6 @@ export { default } from './SelectableTeammate'
 export interface SelectableTeammateProps {
   user: UserType
   onTeammateClick: () => void
-  alreadyInChannel: boolean
+  alreadyInChannel?: boolean
   selected: boolean
 }

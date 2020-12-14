@@ -162,7 +162,6 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
                   <M.SelectableTeammate
                     key={user.id}
                     user={user}
-                    alreadyInChannel
                     selected={selected}
                     onTeammateClick={handleTeammateClick}
                   />
