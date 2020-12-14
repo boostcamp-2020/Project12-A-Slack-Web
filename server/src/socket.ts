@@ -27,7 +27,7 @@ const io = new Server(server, {
   },
 })
 
-const namespace = io.of(/^\/socket.io\/\w+/)
+const namespace = io.of(/^\/namespace\/\w+/)
 
 namespace.use((socket, next) => {
   const { token } = socket.handshake.query as any

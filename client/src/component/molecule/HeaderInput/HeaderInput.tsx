@@ -8,19 +8,12 @@ import myIcon from '@constant/icon'
 import { HeaderInputProps } from '.'
 import Styled from './HeaderInput.style'
 
-const HeaderInput = ({ onClick }: HeaderInputProps) => {
+const HeaderInput = ({ workspaceName }: HeaderInputProps) => {
   return (
     <Styled.Container>
       <A.Icon icon={myIcon.clock} customStyle={IconFirstStyle} />
-      <M.ButtonDiv
-        buttonStyle={buttonStyle}
-        textStyle={textStyle}
-        onClick={onClick}
-      >
-        <>
-          <A.Icon icon={myIcon.search} customStyle={IconSecondStyle} />
-          Search 부스트캠프 멤버쉽 2020
-        </>
+      <M.ButtonDiv buttonStyle={buttonStyle} textStyle={textStyle}>
+        {workspaceName}
       </M.ButtonDiv>
       <A.Icon icon={myIcon.question} customStyle={IconThirdStyle} />
     </Styled.Container>
@@ -35,12 +28,6 @@ const IconFirstStyle: IconType.StyleAttributes = {
   margin: '3px 15px 0px 0px;',
 }
 
-const IconSecondStyle: IconType.StyleAttributes = {
-  color: 'white',
-  fontSize: '12px;',
-  margin: '0px 10px 0px 0px;',
-}
-
 const IconThirdStyle: IconType.StyleAttributes = {
   color: 'white',
   fontSize: '15px;',
@@ -51,13 +38,12 @@ const buttonStyle: ButtonType.StyleAttributes = {
   width: '500px',
   padding: '2px 0px 2px 0px',
   backgroundColor: 'lightBlue',
-  border: '1px solid white',
   hoverBackgroundColor: 'lightGrey',
 }
 
 const textStyle: TextType.StyleAttributes = {
   color: 'white',
-  fontSize: '1.2rem',
+  fontSize: '1.3rem',
 }
 
 export default HeaderInput

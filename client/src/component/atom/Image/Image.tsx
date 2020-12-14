@@ -18,6 +18,7 @@ const Image = ({
       cursor={customStyle.cursor}
       border={customStyle.border}
       zIndex={customStyle.zIndex}
+      position={customStyle.position}
       onClick={onClick}
       src={url}
     />
@@ -45,6 +46,7 @@ const StyledImage = styled.img<ImageType.StyleAttributes>`
   border-radius: ${({ radius }) => radius || '4px'};
   border: ${({ border }) => border};
   z-index: ${({ zIndex }) => zIndex};
+  position: ${({ position }) => position};
   cursor: ${({ cursor }) => cursor || 'pointer'};
 `
 

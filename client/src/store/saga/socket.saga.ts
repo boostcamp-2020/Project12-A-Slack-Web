@@ -261,8 +261,8 @@ function* socketJoinRoom(socket: Socket) {
 }
 
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
-  const socket = yield call(createSocket, action.payload)
   try {
+    const socket = yield call(createSocket, action.payload)
     yield put(connectSocket.success(socket))
     yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
