@@ -4,8 +4,7 @@ import A from '@atom'
 import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
-import { object } from '@storybook/addon-knobs'
-import type from '@store/type'
+import { getThreads, initThreadList } from '@store/reducer/thread.reducer'
 import Styled from './DmCard.style'
 import { DmCardProps } from './index'
 
@@ -23,7 +22,6 @@ interface dmChannelInfoProps {
 
 const DmCard = ({ dmChannel }: DmCardProps) => {
   const history = useHistory()
-  // TODO: useState 기본값?
   const [dmChannelInfo, setDmChannelInfo] = useState<dmChannelInfoProps>({
     id: 0,
     name: '',
@@ -35,6 +33,8 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     memberMax3: [],
   })
   useEffect(() => {
+    // dispatch(initThreadList())
+    // dispatch(getCurrentChannel.request({ channelId: +channelId }))
     const getChannelInfo = async () => {
       const {
         data: { data },
@@ -70,7 +70,7 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
   return (
     <Styled.Container onClick={handleDmClick}>
       <A.Text customStyle={dmDateTextStyle}>
-        {getDateInfoFirst(dmChannelInfo.updatedAt)}
+        {getDateInfoFirst(dmChannelInfo.createdAt)}
       </A.Text>
       <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
         <Styled.DmCardMain>

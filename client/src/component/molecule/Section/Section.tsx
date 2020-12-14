@@ -5,8 +5,9 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { createChannel, setChannelRead } from '@store/reducer/channel.reducer'
+import { setChannelRead } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
+import channelApi from '@api/channel'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
@@ -34,15 +35,16 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setNewChannelName(value)
   }
 
-  const handleCreateNewChannelClick = () => {
-    dispatch(
-      createChannel.request({
-        name: newChannelName,
-        type: channelType,
-        workspaceId,
-      }),
-    )
-    setCreateModal(false)
+  const handleCreateNewChannelClick = async () => {
+    const { success, data } = await channelApi.createNewChannel({
+      name: newChannelName,
+      type: channelType,
+      workspaceId,
+    })
+    if (success) {
+      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
+      setCreateModal(false)
+    }
   }
 
   const handleCreateDmClick = () => {
@@ -65,6 +67,18 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     } else {
       setChannelType(isPrivate ? 'PUBLIC' : 'PRIVATE')
     }
+  }
+
+  const handleBrowseDmClick = () => {
+    history.push(`/workspace/${workspaceId}/all-dm`)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
+  }
+
+  const handleBrowseChannelClick = () => {
+    history.push(`/workspace/${workspaceId}/channel-browser`)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
   }
 
   const handleToggleList = () => {
@@ -152,34 +166,40 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           disableCloseButton
         >
           <Styled.SectionClickModalContent>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Create new Section
-            </M.ButtonDiv>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Browse Channels
-            </M.ButtonDiv>
             {type === 'CHANNEL' ? (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateModalClick}
-              >
-                Create a Channel
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseChannelClick}
+                >
+                  Browse Channels
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateModalClick}
+                >
+                  Create a Channel
+                </M.ButtonDiv>
+              </>
             ) : (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDmClick}
-              >
-                Create a DM
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseDmClick}
+                >
+                  Browse DMs
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateDmClick}
+                >
+                  Create a DM
+                </M.ButtonDiv>
+              </>
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
@@ -191,28 +211,40 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           disableCloseButton
         >
           <Styled.SectionClickModalContent>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Browse Channels
-            </M.ButtonDiv>
             {type === 'CHANNEL' ? (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateModalClick}
-              >
-                Create a Channel
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseChannelClick}
+                >
+                  Browse Channels
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateModalClick}
+                >
+                  Create a Channel
+                </M.ButtonDiv>
+              </>
             ) : (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDmClick}
-              >
-                Create a DM
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseDmClick}
+                >
+                  Browse DMs
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateDmClick}
+                >
+                  Create a DM
+                </M.ButtonDiv>
+              </>
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
