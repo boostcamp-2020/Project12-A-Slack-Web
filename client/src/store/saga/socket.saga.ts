@@ -242,6 +242,7 @@ function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
   const token = localStorage.getItem('token')
   const socket = io(`${baseURL}/socket.io/${workspaceId}`, { query: { token } })
   return new Promise((resolve) => {
+    socket.connect()
     socket.on(CONNECT, () => {
       console.log('connect')
       resolve(socket)
