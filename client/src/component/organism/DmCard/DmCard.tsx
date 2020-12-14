@@ -5,6 +5,8 @@ import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
 import { getThreads, initThreadList } from '@store/reducer/thread.reducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@store'
 import Styled from './DmCard.style'
 import { DmCardProps } from './index'
 
@@ -33,15 +35,16 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     memberMax3: [],
   })
   useEffect(() => {
-    // dispatch(initThreadList())
-    // dispatch(getCurrentChannel.request({ channelId: +channelId }))
     const getChannelInfo = async () => {
       const {
         data: { data },
       } = await myAxios.get({
         path: `/channel/${dmChannel.id}`,
       })
-      const dmInfo = { ...dmChannel, ...data }
+      const dmInfo = {
+        ...dmChannel,
+        ...data,
+      }
       setDmChannelInfo(dmInfo)
     }
     getChannelInfo()
@@ -66,7 +69,6 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     return parsedDate
   }
 
-  // TODO: 이미지 보여주기, 날짜 변환
   return (
     <Styled.Container onClick={handleDmClick}>
       <A.Text customStyle={dmDateTextStyle}>
