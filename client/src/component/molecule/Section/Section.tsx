@@ -91,6 +91,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setCreateModal(!createModal)
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
+    setNewChannelName('')
+    setIsPrivate(false)
   }
 
   const makeDmChannelName = (name: string) => {
