@@ -35,6 +35,15 @@ const createReaction = async ({ userId, content, messageId }: ReactionType) => {
     }
   }
   try {
+    const reaction = await ReactionModel.findOne({
+      where: { userId, content, messageId },
+    })
+    if (reaction) {
+      return {
+        code: statusCode.DB_ERROR,
+        json: { success: false, message: resMessage.DB_ERROR },
+      }
+    }
     const newReaction = await ReactionModel.create({
       userId,
       content,
