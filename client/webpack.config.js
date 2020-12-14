@@ -62,9 +62,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       path: path.resolve(__dirname, './dist'),
+      favicon: './public/favicon.ico',
       filename: 'index.html',
     }),
-    new FaviconsWebpackPlugin('./public/favicon.ico'),
     new Dotenv(),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],

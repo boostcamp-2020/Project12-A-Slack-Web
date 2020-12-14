@@ -50,11 +50,19 @@ function* createWorkspaceSaga(action: ReturnType<typeof createWorkspace>) {
     const { success } = yield call(workspaceAPI.createWorkspace, action.payload)
     if (success) {
       toast.success('workspace를 생성했습니다.')
-      // TODO: 필요한 경우 redux-middleware에서 사용하는 custom history를 사용하자
       window.location.href = '/'
     }
   } catch (error) {
-    toast.error('Failed to create workspace')
+    switch (error.response.status) {
+      case 600:
+        toast.error('Failed to create workspace')
+        break
+      case 400:
+        toast.error('해당 이름의 워크스페이스가 이미 존재합니다.')
+        break
+      default:
+        break
+    }
   }
 }
 
@@ -65,7 +73,7 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
       toast.success('workspace에 참가했습니다.')
     }
   } catch (error) {
-    toast.error('이미 workspace에 참여하고 있습니다.')
+    toast.warn('이미 workspace에 참여하고 있습니다.')
   }
 }
 
