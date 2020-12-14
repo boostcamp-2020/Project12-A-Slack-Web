@@ -70,7 +70,12 @@ function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
       threadAPI.getThreads,
       action.payload,
     )
-    yield put(getThreads.success(threads))
+    yield put(
+      getThreads.success({
+        threadList: threads,
+        channelId: action.payload.channelId,
+      }),
+    )
   } catch (e) {
     yield put(getThreads.failure(e))
   }
@@ -264,7 +269,7 @@ function* receiveCreateMessageSaga(
   if (isNotWatching && (isMyThread || isHaveMyReply)) {
     try {
       yield put(setChannelUnRead({ channelId: thread.channelId }))
-      if (Notification.permission === 'granted') {
+      if (Notification.permission === GRANTED) {
         sendNotification(name, message.content)
       }
     } catch (e) {

@@ -29,6 +29,11 @@ export interface GetThreadResponseType {
   lastReplyTime: string
 }
 
+export interface GetThreadsWithChannelIdType {
+  threadList: GetThreadResponseType[]
+  channelId: number
+}
+
 export interface CreateThreadRequestType {
   content: string
   channelId: number

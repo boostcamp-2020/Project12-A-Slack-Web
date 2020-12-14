@@ -9,6 +9,7 @@ import {
   UpdateThreadRequestType,
   GetThreadsRequestType,
   GetThreadResponseType,
+  GetThreadsWithChannelIdType,
   CreateThreadRequestType,
   CurrentThreadType,
 } from '@type/thread.type'
@@ -28,6 +29,7 @@ import {
 
 interface ThreadState {
   threadList: GetThreadResponseType[]
+  currentChannelId: number
   currentThread: CurrentThreadType
   loading: boolean
   error: AxiosError | null
@@ -35,6 +37,7 @@ interface ThreadState {
 
 const initialState: ThreadState = {
   threadList: [],
+  currentChannelId: -1,
   currentThread: {
     thread: null,
     messageList: [],
@@ -73,7 +76,7 @@ export const getThreads = createAsyncAction(
   GET_THREADS_REQUEST,
   GET_THREADS_SUCCESS,
   GET_THREADS_ERROR,
-)<GetThreadsRequestType, GetThreadResponseType[], AxiosError>()
+)<GetThreadsRequestType, GetThreadsWithChannelIdType, AxiosError>()
 export const createThread = createAction(CREATE_THREAD)<
   CreateThreadRequestType
 >()
@@ -168,7 +171,8 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     loading: false,
     error: null,
-    threadList: [...action.payload, ...state.threadList],
+    threadList: [...action.payload.threadList, ...state.threadList],
+    currentChannelId: action.payload.channelId,
   }),
   [GET_THREADS_ERROR]: (state, action) => ({
     ...state,
@@ -205,7 +209,7 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     error: null,
   }),
   [RECEIVE_CREATE_THREAD]: (state, action) => {
-    if (action.payload.channelId !== state.threadList[0].channelId) {
+    if (action.payload.channelId !== state.currentChannelId) {
       return state
     }
     return {
@@ -280,6 +284,7 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     ...state,
     loading: false,
     threadList: [],
+    currentChannelId: -1,
   }),
   [RECEIVE_UPDATE_MESSAGE]: (state, action) => {
     return {
