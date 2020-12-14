@@ -15,6 +15,10 @@ type UserInfo = {
   profileImageUrl: string
 }
 
+interface ThreadSocketRequestType {
+  channelId: number
+  threadId: number
+}
 const server = createServer(express())
 
 const io = new Server(server, {
@@ -27,9 +31,9 @@ const io = new Server(server, {
   },
 })
 
-const namespace = io.of(/^\/namespace\/\w+/)
+const namespaces = io.of(/^\/namespace\/\w+/)
 
-namespace.use((socket, next) => {
+namespaces.use((socket, next) => {
   const { token } = socket.handshake.query as any
   const { id, email, name } = jwt.checkToken(token) as UserInfo
   const isUser = checkUser({ id, email, name })
@@ -37,7 +41,8 @@ namespace.use((socket, next) => {
   return next()
 })
 
-namespace.on('connection', (socket: Socket) => {
+namespaces.on('connection', (socket: Socket) => {
+  const namespace = socket.nsp
   console.log(socket)
 
   socket.on('connect', ({ userId }: { userId: number }) => {
@@ -46,7 +51,6 @@ namespace.on('connection', (socket: Socket) => {
   })
 
   socket.on('JOIN_ROOM', ({ channelIdList }: { channelIdList: number[] }) => {
-    console.log('JOIN_ROOM: ', channelIdList)
     socket.join(channelIdList.map((id) => id.toString()))
     console.log(socket.rooms)
   })
@@ -65,38 +69,26 @@ namespace.on('connection', (socket: Socket) => {
       namespace.to(channelId.toString()).emit('DELETE_MEMBER', payload)
     },
   )
-  socket.on(
-    'CREATE_THREAD',
-    async (data: { channelId: number; threadId: number }) => {
-      const { channelId, threadId } = data
-      const { json } = await threadService.readThreadById({
-        id: threadId,
-      })
-      namespace.to(channelId.toString()).emit('CREATE_THREAD', json.data)
-    },
-  )
-  socket.on(
-    'DELETE_THREAD',
-    async (data: { channelId: number; threadId: number }) => {
-      const { channelId, threadId } = data
-      const { json } = await threadService.readThreadById({
-        id: threadId,
-      })
-      namespace
-        .to(channelId.toString())
-        .emit('DELETE_THREAD', json.data || threadId)
-    },
-  )
-  socket.on(
-    'UPDATE_THREAD',
-    async (data: { channelId: number; threadId: number }) => {
-      const { channelId, threadId } = data
-      const { json } = await threadService.readThreadById({
-        id: threadId,
-      })
-      namespace.to(channelId.toString()).emit('UPDATE_THREAD', json.data)
-    },
-  )
+  socket.on('CREATE_THREAD', async (data: ThreadSocketRequestType) => {
+    const { json } = await threadService.readThreadById({
+      id: data.threadId,
+    })
+    namespace.to(data.channelId.toString()).emit('CREATE_THREAD', json.data)
+  })
+  socket.on('DELETE_THREAD', async (data: ThreadSocketRequestType) => {
+    const { json } = await threadService.readThreadById({
+      id: data.threadId,
+    })
+    namespace
+      .to(data.channelId.toString())
+      .emit('DELETE_THREAD', json.data || data.threadId)
+  })
+  socket.on('UPDATE_THREAD', async (data: ThreadSocketRequestType) => {
+    const { json } = await threadService.readThreadById({
+      id: data.threadId,
+    })
+    namespace.to(data.channelId.toString()).emit('UPDATE_THREAD', json.data)
+  })
   socket.on(
     'CREATE_MESSAGE',
     async (data: {
