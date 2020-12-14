@@ -8,13 +8,12 @@ import Styled from './Header.style'
 
 const Header = () => {
   const { currentUser } = useSelector((state: RootState) => state.userStore)
-  const [modal, setModal] = useState<boolean>(false)
+  const { currentWorkspace } = useSelector(
+    (state: RootState) => state.workspaceStore,
+  )
   const [profile, setProfile] = useState<boolean>(false)
   const [toggle, setToggle] = useState<boolean>(false)
 
-  const handleSearchBarClick = () => {
-    setModal(!modal)
-  }
   const handleProfileClick = () => {
     setProfile(!profile)
   }
@@ -30,7 +29,7 @@ const Header = () => {
   return (
     <>
       <Styled.StyledHeaderContainer>
-        <M.HeaderInput onClick={handleSearchBarClick} />
+        <M.HeaderInput workspaceName={currentWorkspace.name} />
         <Styled.HeaderProfileRightContainer>
           <A.Image
             url={currentUser.profileImageUrl}
@@ -42,80 +41,6 @@ const Header = () => {
             customStyle={profileStatusIconLoginStatusStyle}
           />
         </Styled.HeaderProfileRightContainer>
-        {modal ? (
-          <M.Modal
-            overlayStyle={HeaderInputOverlay}
-            modalWrapperStyle={HeaderInputModal}
-            disableCloseButton
-            onClose={handleSearchBarClick}
-          >
-            <>
-              <Styled.ModalInputContainer>
-                <A.Icon
-                  icon={myIcon.search}
-                  customStyle={ModalInputIconStyle}
-                />
-                <Styled.StyledInput placeholder="Search for comments, asides, eurekas and more" />
-                <A.Icon
-                  icon={myIcon.close}
-                  customStyle={ModalInputIconStyle}
-                  onClick={handleSearchBarClick}
-                />
-              </Styled.ModalInputContainer>
-              <Styled.LookingForDiv>I'm looking for...</Styled.LookingForDiv>
-              <Styled.ButtonContainer>
-                <M.ButtonDiv
-                  buttonStyle={modalButtonStyle}
-                  textStyle={modalTextStyle}
-                >
-                  <>
-                    <A.Icon
-                      icon={myIcon.message}
-                      customStyle={InModalInputIconStyle}
-                    />
-                    Message
-                  </>
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={modalButtonStyle}
-                  textStyle={modalTextStyle}
-                >
-                  <>
-                    <A.Icon
-                      icon={myIcon.file}
-                      customStyle={InModalInputIconStyle}
-                    />
-                    Files
-                  </>
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={modalButtonStyle}
-                  textStyle={modalTextStyle}
-                >
-                  <>
-                    <A.Icon
-                      icon={myIcon.channels}
-                      customStyle={InModalInputIconStyle}
-                    />
-                    Channels
-                  </>
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={modalButtonStyle}
-                  textStyle={modalTextStyle}
-                >
-                  <>
-                    <A.Icon
-                      icon={myIcon.people}
-                      customStyle={InModalInputIconStyle}
-                    />
-                    People
-                  </>
-                </M.ButtonDiv>
-              </Styled.ButtonContainer>
-            </>
-          </M.Modal>
-        ) : null}
         {profile ? (
           <M.Modal
             overlayStyle={HeaderInputOverlay}
@@ -251,33 +176,6 @@ const profileActiveText = {
   fontSize: '1.4rem',
 }
 
-const ModalInputIconStyle = {
-  color: 'grey',
-  fontSize: '20px;',
-  margin: '0px 0px 0px 0px',
-}
-
-const InModalInputIconStyle = {
-  color: 'black',
-  fontSize: '15px;',
-  margin: '5px 5px 0px 0px',
-}
-
-const modalButtonStyle = {
-  width: '110px',
-  padding: '10px',
-  height: '40px',
-  margin: '0px 4px 0px 4px',
-  backgroundColor: 'lightSkyBlue',
-  border: '1px solid white',
-  hoverBackgroundColor: 'lightGrey',
-}
-
-const modalTextStyle = {
-  color: 'black',
-  fontSize: '1.4rem',
-}
-
 const headerImageStyle = {
   margin: '0px 10px 0px 0px',
   height: '2.5rem',
@@ -296,19 +194,6 @@ const profileHeaderImageStyle = {
 const HeaderInputOverlay = {
   zIndex: '1',
   opacity: '0',
-}
-
-const HeaderInputModal = {
-  backgroundColor: 'white',
-  zIndex: '3',
-  position: 'absolute',
-  top: '5px',
-  left: '30%',
-  height: '400px',
-  width: '600px',
-  border: '1px solid lightgrey',
-  borderRadius: '10px',
-  boxShadow: '0px 7px 18px 0px #EBEBEB',
 }
 
 const ProfileModal = {

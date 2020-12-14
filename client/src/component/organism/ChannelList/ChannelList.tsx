@@ -13,7 +13,6 @@ const ChannelList = ({
   onLeaveButtonClick,
 }: ChannelListProps) => {
   const channelCount = channelList.length
-
   const [searchKeyword, setSearchKeyword] = useState('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {

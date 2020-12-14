@@ -41,7 +41,6 @@ const WorkspacePage = () => {
   useEffect(() => {
     dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
     dispatch(getChannels.request({ workspaceId: +workspaceId }))
-    dispatch(connectSocket.request({ workspaceId: +workspaceId }))
   }, [])
 
   return (

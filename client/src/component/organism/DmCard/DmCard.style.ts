@@ -1,5 +1,11 @@
 import styled from 'styled-components'
 
+const DmCardImageContainer = styled.div`
+  position: relative;
+  height: 3rem;
+  display: flex;
+`
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -53,4 +59,5 @@ export default {
   DmCardContent,
   DmCardMain,
   Container,
+  DmCardImageContainer,
 }

@@ -13,6 +13,7 @@ import { ChannelType, GetChannelResponseType } from '@type/channel.type'
 import {
   sendSocketDeleteMember,
   sendSocketJoinRoom,
+  connectSocket,
 } from '@store/reducer/socket.reducer'
 import {
   GET_CHANNELS_REQUEST,
@@ -39,7 +40,6 @@ function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
     )
     if (success) {
       yield put(getChannels.success(data))
-      console.log(data.map((item) => item.id))
       yield put(
         sendSocketJoinRoom({ channelIdList: data.map((item) => item.id) }),
       )
@@ -84,7 +84,7 @@ function* joinMembersToChannelSaga(
       action.payload,
     )
     if (success) {
-      action.payload.onSuccess!()
+      if (action.payload.onSuccess) action.payload.onSuccess!()
       yield put(joinMembersToChannel.success(action.payload))
     }
   } catch (error) {
