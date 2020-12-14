@@ -18,9 +18,14 @@ const getChannels = async ({
   return response.data
 }
 
-const getAllChannels = async ({ workspaceId }: ChannelRequestType) => {
+const searchChannels = async ({
+  workspaceId,
+  searchKeyword,
+}: ChannelRequestType) => {
   const response = await myAxios.get({
-    path: `/channel/all?workspaceId=${workspaceId}`,
+    path: `/channel/all?workspaceId=${workspaceId}${
+      searchKeyword ? `&searchKeyword=${searchKeyword}` : ''
+    }`,
   })
   return response.data
 }
@@ -69,7 +74,7 @@ const createNewChannel = async (data: CreateChannelRequestType) => {
 
 export default {
   getChannels,
-  getAllChannels,
+  searchChannels,
   joinChannel,
   joinMembersToChannel,
   getChannelInfo,

@@ -49,6 +49,7 @@ export interface DeleteMemberRequestType {
 
 export interface ChannelRequestType {
   workspaceId: number
+  searchKeyword?: string
 }
 
 export interface GetChannelResponseType extends ResponseType {
