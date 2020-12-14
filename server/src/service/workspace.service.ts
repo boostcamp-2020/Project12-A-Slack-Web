@@ -44,16 +44,23 @@ const createWorkspace = async ({
   imageUrl,
   channelName,
 }: WorkspaceType) => {
-  console.log(userId, name, imageUrl, channelName)
   if (!isValidNewWorkspaceData({ name, imageUrl })) {
     return {
       code: statusCode.BAD_REQUEST,
       json: { success: false, message: resMessage.OUT_OF_VALUE },
     }
   }
-  // TODO: addUser에 transaction 거는 법을 알아야할듯..
-  // const t = await sequelize.transaction()
+
   try {
+    const isWorkspace = await WorkspaceModel.findOne({ where: { name } })
+
+    if (isWorkspace) {
+      return {
+        code: statusCode.BAD_REQUEST,
+        json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+      }
+    }
+
     const workspace = (await WorkspaceModel.create(
       {
         name,

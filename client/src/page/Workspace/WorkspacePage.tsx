@@ -6,7 +6,6 @@ import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
 import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
-import { getChannels } from '@store/reducer/channel.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
@@ -16,9 +15,7 @@ interface MatchParamsType {
 }
 
 const WorkspacePage = () => {
-  const { channelList, loading, error } = useSelector(
-    (state: RootState) => state.channelStore,
-  )
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
   const { currentWorkspace } = useSelector(
     (state: RootState) => state.workspaceStore,
   )
@@ -41,7 +38,6 @@ const WorkspacePage = () => {
   useEffect(() => {
     dispatch(connectSocket.request({ workspaceId: +workspaceId }))
     dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
-    // dispatch(getChannels.request({ workspaceId: +workspaceId }))
   }, [])
 
   return (
