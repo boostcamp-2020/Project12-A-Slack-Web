@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import styled from 'styled-components'
-import M from '@molecule'
+import A from '@atom'
+import { RootState } from '@store'
 import userAPI from '@api/user'
 import { joinWorkspace } from '@store/reducer/workspace.reducer'
 
 const WorkspaceJoinPage = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const { workspaceList } = useSelector(
+    (state: RootState) => state.workspaceStore,
+  )
+
   const checkUser = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -34,11 +39,18 @@ const WorkspaceJoinPage = () => {
     }
   }
   useEffect(() => {
-    checkUser()
+    const workspaceIdList = workspaceList.map((workspace) => workspace.id)
+    if (!workspaceIdList.includes(1)) {
+      checkUser()
+    } else {
+      history.push('/workspace/1/channel-browser')
+    }
   }, [])
   return (
     <WorkspaceContainer>
-      해당 workspace에 참여하고 있습니다...
+      <A.Text customStyle={{ fontSize: '4rem', fontWeight: 'bold' }}>
+        해당 workspace에 참여하고 있습니다...
+      </A.Text>
     </WorkspaceContainer>
   )
 }

@@ -32,7 +32,10 @@ import {
   receiveCreateReaction,
   receiveDeleteReaction,
 } from '@store/reducer/thread.reducer'
-import { receiveDeleteMember } from '@store/reducer/channel.reducer'
+import {
+  getChannels,
+  receiveDeleteMember,
+} from '@store/reducer/channel.reducer'
 import {
   NamespaceType,
   CONNECT_SOCKET_REQUEST,
@@ -61,6 +64,27 @@ const DELETE_MESSAGE = 'DELETE_MESSAGE'
 const UPDATE_MESSAGE = 'UPDATE_MESSAGE'
 const CREATE_REACTION = 'CREATE_REACTION'
 const DELETE_REACTION = 'DELETE_REACTION'
+
+const baseURL =
+  process.env.NODE_ENV === 'development'
+    ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
+    : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
+
+function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
+  console.log('workspace socket 연결중')
+  const token = localStorage.getItem('token')
+  const socket = io(`${baseURL}/namespace/${workspaceId}`, {
+    query: { token },
+  })
+
+  return new Promise((resolve) => {
+    socket.connect()
+    socket.on(CONNECT, () => {
+      console.log('socket client connected')
+      resolve(socket)
+    })
+  })
+}
 
 function subscribeSocket(socket: Socket) {
   return eventChannel((emit: any) => {
@@ -233,23 +257,6 @@ function* handleIO(socket: Socket) {
   yield fork(sendDeleteReaction, socket)
 }
 
-const baseURL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.SOCKET_SERVER_DOMAIN_DEVELOP
-    : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
-
-function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
-  const token = localStorage.getItem('token')
-  const socket = io(`${baseURL}/socket.io/${workspaceId}`, { query: { token } })
-  return new Promise((resolve) => {
-    socket.connect()
-    socket.on(CONNECT, () => {
-      console.log('connect')
-      resolve(socket)
-    })
-  })
-}
-
 function* socketJoinRoom(socket: Socket) {
   const channelList: ChannelType[] = yield select(
     (state: RootState) => state.channelStore.channelList,
@@ -264,7 +271,12 @@ function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   try {
     const socket = yield call(createSocket, action.payload)
     yield put(connectSocket.success(socket))
-    yield call(socketJoinRoom, socket)
+    yield put(
+      getChannels.request({
+        workspaceId: action.payload.workspaceId,
+      }),
+    )
+    // yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
   } catch (error) {
     yield put(connectSocket.failure(error))

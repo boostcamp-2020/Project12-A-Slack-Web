@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { ChannelCardType } from '@type/channel.type'
 
 export { default } from './ChannelList'

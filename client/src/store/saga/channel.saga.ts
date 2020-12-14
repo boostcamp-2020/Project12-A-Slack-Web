@@ -41,7 +41,7 @@ function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
     if (success) {
       yield put(getChannels.success(data))
       yield put(
-        connectSocket.request({ workspaceId: action.payload.workspaceId }),
+        sendSocketJoinRoom({ channelIdList: data.map((item) => item.id) }),
       )
     }
   } catch (error) {

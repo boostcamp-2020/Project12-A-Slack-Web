@@ -184,6 +184,7 @@ const NewWorkspaceButtonStyle = {
   height: '3.8rem',
   backgroundColor: 'white',
   border: '1px solid lightGrey',
+  cursor: 'pointer',
 }
 
 const OurWorkspaceButtonStyle = {
@@ -191,6 +192,7 @@ const OurWorkspaceButtonStyle = {
   height: '3.8rem',
   backgroundColor: 'white',
   border: '1px solid lightGrey',
+  cursor: 'pointer',
 }
 
 const NewWorkspaceTextStyle = {
