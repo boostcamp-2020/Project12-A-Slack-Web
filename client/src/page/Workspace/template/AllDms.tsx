@@ -44,8 +44,11 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
         workspaceId,
         searchKeyword,
       })
+      const currentUserFiltered = data.filter((user: UserType) => {
+        return user.name !== currentUser.name
+      })
       if (success) {
-        setTeammateSearchResult(data)
+        setTeammateSearchResult(currentUserFiltered)
         return
       }
       setTeammateSearchResult([])
