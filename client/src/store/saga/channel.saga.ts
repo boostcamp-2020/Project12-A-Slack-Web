@@ -67,9 +67,10 @@ function* joinChannelSaga(action: ReturnType<typeof joinChannel.request>) {
   try {
     const { success } = yield call(channelAPI.joinChannel, action.payload)
     if (success) {
-      const joinedChannel = action.payload.channel
+      const { channel: joinedChannel, onSuccess } = action.payload
       yield put(joinChannel.success(joinedChannel as ChannelType))
       yield put(sendSocketJoinRoom({ channelIdList: [joinedChannel.id] }))
+      if (onSuccess) onSuccess()
     }
   } catch (error) {
     toast.error('Failed to join channel')
