@@ -8,6 +8,7 @@ import CloseButton from './CloseButton'
 import ReactionButton from './ReactionButton'
 import SelectedTeammate from './SelectedTeammate'
 import SelectableTeammate from './SelectableTeammate'
+import SendEmailModal from './SendEmailModal'
 
 export default {
   ButtonDiv,
@@ -20,4 +21,5 @@ export default {
   ReactionButton,
   SelectedTeammate,
   SelectableTeammate,
+  SendEmailModal,
 }

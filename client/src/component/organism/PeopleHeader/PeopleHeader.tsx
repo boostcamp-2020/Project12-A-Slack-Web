@@ -9,14 +9,9 @@ import { PeopleHeaderProps } from '.'
 import Styled from './PeopleHeader.style'
 
 const PeopleHeader = ({ workspaceId }: PeopleHeaderProps) => {
-  const [invitePeopleModalVisible, setInvitePeopleModalVisible] = useState(
-    false,
-  )
+  const [emailModal, setEmailModal] = useState<boolean>(false)
 
-  const handleInvitePeopleButtonClick = () => setInvitePeopleModalVisible(true)
-  const handleInvitePeopleModalClose = () => setInvitePeopleModalVisible(false)
-
-  // TODO: import 'Invite people to workspace modal'
+  const handleInvitePeopleButtonClick = () => setEmailModal(!emailModal)
 
   return (
     <Styled.Wrapper>
@@ -29,6 +24,9 @@ const PeopleHeader = ({ workspaceId }: PeopleHeaderProps) => {
       >
         Invite people
       </M.ButtonDiv>
+      {emailModal && (
+        <M.SendEmailModal modal={emailModal} setModal={setEmailModal} />
+      )}
     </Styled.Wrapper>
   )
 }

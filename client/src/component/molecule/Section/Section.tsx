@@ -13,11 +13,10 @@ import Styled from './Section.style'
 import { SectionProps } from '.'
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
-  const { currentUser } = useSelector((state: RootState) => {
-    return {
-      currentUser: state.userStore.currentUser,
-    }
-  })
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { currentWorkspace } = useSelector(
+    (state: RootState) => state.workspaceStore,
+  )
   const dispatch = useDispatch()
   const history = useHistory()
   const [toggle, setToggle] = useState<boolean>(false)
@@ -31,6 +30,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
   const [isChannelNameDup, setIsChannelNameDup] = useState<boolean>(false)
+  const [invitePeopleModal, setInvitePeopleModal] = useState<boolean>(false)
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -147,6 +147,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     return parsedName
   }
 
+  const handleInvitePeopleModalClick = () => {
+    setInvitePeopleModal(!invitePeopleModal)
+  }
+
   return (
     <>
       <Styled.SectionContainer
@@ -161,7 +165,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           )}
           <A.Text customStyle={HeaderTextStyle}>{title}</A.Text>
         </Styled.SectionHeader>
-        {sectionHover ? (
+        {sectionHover && (
           <Styled.SectionHoverContainer>
             <A.Icon
               icon={myIcon.ellipsis}
@@ -174,9 +178,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               onClick={handlePlusOptionsClick}
             />
           </Styled.SectionHoverContainer>
-        ) : null}
+        )}
       </Styled.SectionContainer>
-      {moreOptions ? (
+      {moreOptions && (
         <M.Modal
           overlayStyle={moreOverlayStyle}
           modalWrapperStyle={moreOverWrapperStyle}
@@ -220,8 +224,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
-      ) : null}
-      {plusOptions ? (
+      )}
+      {plusOptions && (
         <M.Modal
           overlayStyle={moreOverlayStyle}
           modalWrapperStyle={plusOverWrapperStyle}
@@ -265,9 +269,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
-      ) : null}
+      )}
       <Styled.SectionChannelContainer>
-        {toggle ? (
+        {toggle && (
           <>
             {channelList.map((channel) => (
               <Link
@@ -280,7 +284,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))}
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -324,6 +329,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
+                onClick={handleInvitePeopleModalClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
@@ -332,9 +338,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               </M.ButtonDiv>
             )}
           </>
-        ) : null}
+        )}
       </Styled.SectionChannelContainer>
-      {createModal ? (
+      {createModal && (
         <M.Modal
           overlayStyle={createModalOverlayStyle}
           modalWrapperStyle={createModalWrapperStyle}
@@ -361,7 +367,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               onChange={handleNewChannelInput}
               value={newChannelName}
             />
-            {isChannelNameDup ? <h1>채널 이름 중복</h1> : null}
+            {isChannelNameDup && <h1>채널 이름 중복</h1>}
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
@@ -375,7 +381,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               </Styled.CheckBoxWrapper>
             </Styled.CreateBottom>
             <Styled.CreateFooter>
-              <A.Text>부스트캠프 2020 멤버쉽</A.Text>
+              <A.Text customStyle={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+                {currentWorkspace.name}
+              </A.Text>
               <M.ButtonDiv
                 onClick={handleCreateNewChannelClick}
                 textStyle={createTextStyle}
@@ -385,7 +393,13 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
             </Styled.CreateFooter>
           </Styled.CreateModalContainer>
         </M.Modal>
-      ) : null}
+      )}
+      {invitePeopleModal && (
+        <M.SendEmailModal
+          modal={invitePeopleModal}
+          setModal={setInvitePeopleModal}
+        />
+      )}
     </>
   )
 }
