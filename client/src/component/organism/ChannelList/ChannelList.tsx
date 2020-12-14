@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import A from '@atom'
 import O from '@organism'
-import { InputType } from '@atom/Input'
 import { TextType } from '@atom/Text'
 import { ChannelListProps } from '.'
 
@@ -12,58 +11,40 @@ const ChannelList = ({
   onJoinButtonClick,
   onLeaveButtonClick,
 }: ChannelListProps) => {
-  const channelCount = channelList.length
-  const [searchKeyword, setSearchKeyword] = useState('')
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const input = e.target.value
-    setSearchKeyword(input)
-  }
-
   return (
-    <Styled.Wrapper>
-      <Styled.HeaderWrapper>
-        <A.Input
-          placeholder="Search by channel name or description"
-          value={searchKeyword}
-          onChange={handleInputChange}
-          customStyle={inputStyle}
-        />
-
-        <Styled.ResultListHeaderWrapper>
-          <A.Text customStyle={resultHeaderTextStyle}>
-            {channelCount + (channelCount > 1 ? ' channels' : ' channel')}
+    <Styled.ResultListWrapper>
+      {channelList.length === 0 ? (
+        <Styled.NoResultsWrapper>
+          <A.Text customStyle={noResultsTextStyle}>No results</A.Text>
+          <A.Text customStyle={descTextStyle}>
+            You might want to try using different keywords,
           </A.Text>
-        </Styled.ResultListHeaderWrapper>
-      </Styled.HeaderWrapper>
-
-      <Styled.ResultListWrapper>
-        {channelList.map((channel) => (
+          <A.Text customStyle={descTextStyle}>
+            checking for typos or adjusting your filters.
+          </A.Text>
+        </Styled.NoResultsWrapper>
+      ) : (
+        channelList.map((channel) => (
           <O.ChannelCard
             channel={channel}
             key={channel.id}
             onJoinButtonClick={onJoinButtonClick}
             onLeaveButtonClick={onLeaveButtonClick}
           />
-        ))}
-      </Styled.ResultListWrapper>
-    </Styled.Wrapper>
+        ))
+      )}
+    </Styled.ResultListWrapper>
   )
 }
 
-const inputStyle: InputType.StyleAttributes = {
-  border: '1px solid grey',
-  borderRadius: '5px',
-  padding: '0 10px',
-  margin: '20px 0',
-  fontSize: '1.4rem',
-  width: '100%',
+// TODO: 중복되는 스타일 합치기 - TeammateList와 중복
+const noResultsTextStyle: TextType.StyleAttributes = {
+  fontSize: '2rem',
+  fontWeight: '800',
+  margin: '3px 0',
 }
-
-const resultHeaderTextStyle: TextType.StyleAttributes = {
-  color: 'darkGrey',
-  fontSize: '1.4rem',
-  fontWeight: '500',
+const descTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.5rem',
 }
 
 export default ChannelList

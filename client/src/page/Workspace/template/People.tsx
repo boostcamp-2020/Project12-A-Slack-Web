@@ -9,21 +9,24 @@ import { TextType } from '@atom/Text'
 import workspaceAPI from '@api/workspace'
 
 interface PeopleProps {
+  workspaceId: number
   handleSubViewHeader: (node: React.ReactNode) => void
   handleSubViewBody: (node: React.ReactNode) => void
   handleSubViewOpen: () => void
-  workspaceId: number
 }
 
 const People = ({
+  workspaceId,
   handleSubViewOpen,
   handleSubViewHeader,
   handleSubViewBody,
-  workspaceId,
 }: PeopleProps) => {
   const { id: loginUserId } = useSelector(
     (state: RootState) => state.userStore.currentUser,
   )
+
+  const [teammates, setTeammates] = useState([])
+  const [inputKeyword, setInputKeyword] = useState('')
 
   const searchTeammates = async (searchKeyword: string) => {
     const { success, data } = await workspaceAPI.getTeammates({
@@ -36,9 +39,6 @@ const People = ({
   useEffect(() => {
     searchTeammates('')
   }, [])
-
-  const [teammates, setTeammates] = useState([])
-  const [inputKeyword, setInputKeyword] = useState('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const inputValue = e.target.value
