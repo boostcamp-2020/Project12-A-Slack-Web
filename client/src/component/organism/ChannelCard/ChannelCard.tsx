@@ -28,7 +28,7 @@ const ChannelCard = ({
 
   const handleMouseEnter = () => setHover(true)
   const handleMouseLeave = () => setHover(false)
-  const handleChannelCardClick = () => {
+  const handleChannelClick = () => {
     history.push(`/workspace/${workspaceId}/channel/${id}`)
   }
 
@@ -43,12 +43,16 @@ const ChannelCard = ({
     <Styled.Wrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={handleChannelCardClick}
     >
       <Styled.ChannelInfoWrapper>
         <Styled.ChannelSubTextWrapper>
           <A.Icon icon={type === 'PUBLIC' ? myIcon.hashtag : myIcon.lock} />
-          <A.Text customStyle={channelNameTextStyle}>{name}</A.Text>
+          <A.Text
+            customStyle={channelNameTextStyle}
+            onClick={handleChannelClick}
+          >
+            {name}
+          </A.Text>
         </Styled.ChannelSubTextWrapper>
 
         <Styled.ChannelSubTextWrapper>
