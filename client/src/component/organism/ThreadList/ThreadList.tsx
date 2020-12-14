@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { RootState } from '@store'
 import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
 import { GetThreadResponseType } from '@type/thread.type'
@@ -12,6 +12,7 @@ import color from '@constant/color'
 import { IconType } from '@atom/Icon'
 import { TextType } from '@atom/Text'
 import { ButtonType } from '@atom/Button'
+import { joinChannel } from '@store/reducer/channel.reducer'
 import getDMChannelTitle from '@util/getDMChannelTitle'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
@@ -31,7 +32,8 @@ const ThreadList = ({
   const dispatch = useDispatch()
   const { threadList } = useSelector((state: RootState) => state.threadStore)
   const { channelList } = useSelector((state: RootState) => state.channelStore)
-  const { channelId } = useParams<{
+  const { workspaceId, channelId } = useParams<{
+    workspaceId: string
     channelId: string
   }>()
   const joined = channelList.find((channel) => channel.id === +channelId)
@@ -76,6 +78,15 @@ const ThreadList = ({
   const messageEditorPlaceHolder =
     type === 'DM' ? getDMChannelTitle(memberMax3, memberCount) : `#${name}`
 
+  const handleJoinChannelButtonClick = () => {
+    dispatch(
+      joinChannel.request({
+        channel: channelInfo,
+        workspaceId: +workspaceId,
+      }),
+    )
+  }
+
   const subViewHeader = (
     <Styled.ThreadSubViewHeaderWrapper>
       <A.Text customStyle={threadTextStyle}>Thread</A.Text>
@@ -89,7 +100,12 @@ const ThreadList = ({
     </Styled.ThreadSubViewHeaderWrapper>
   )
 
-  const threadDetail = <O.ThreadDetail channelId={+channelId} />
+  const threadDetail = (
+    <O.ThreadDetail
+      channelId={+channelId}
+      onJoinChannelButtonClick={handleJoinChannelButtonClick}
+    />
+  )
 
   const handleReplyButtonClick = (thread: GetThreadResponseType) => {
     dispatch(setCurrentThread.request(thread))
@@ -164,6 +180,7 @@ const ThreadList = ({
             <M.ButtonDiv
               buttonStyle={joinButtonStyle}
               textStyle={joinButtonTextStyle}
+              onClick={handleJoinChannelButtonClick}
             >
               Join channel
             </M.ButtonDiv>

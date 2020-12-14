@@ -31,7 +31,7 @@ export interface CreateChannelRequestType {
 }
 
 export interface JoinChannelRequestType {
-  channel: ChannelCardType
+  channel: ChannelCardType | ChannelType
   userId?: number
   workspaceId: number
   onSuccess?: () => void

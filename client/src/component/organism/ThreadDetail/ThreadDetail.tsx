@@ -12,7 +12,10 @@ import { createMessage } from '@store/reducer/thread.reducer'
 import { ThreadDetailProps } from '.'
 import Styled from './ThreadDetail.style'
 
-const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
+const ThreadDetail = ({
+  channelId,
+  onJoinChannelButtonClick,
+}: ThreadDetailProps) => {
   const { thread, messageList } = useSelector(
     (state: RootState) => state.threadStore.currentThread,
   )
@@ -79,12 +82,15 @@ const ThreadDetail = ({ channelId }: ThreadDetailProps) => {
             onSubmitButtonClick={handleSubmitButtonClick}
           />
         ) : (
-          <M.ButtonDiv
-            buttonStyle={joinButtonStyle}
-            textStyle={joinButtonTextStyle}
-          >
-            Join channel
-          </M.ButtonDiv>
+          <Styled.JoinButtonContainer>
+            <M.ButtonDiv
+              buttonStyle={joinButtonStyle}
+              textStyle={joinButtonTextStyle}
+              onClick={onJoinChannelButtonClick}
+            >
+              Join channel
+            </M.ButtonDiv>
+          </Styled.JoinButtonContainer>
         )}
       </Styled.EditorContainer>
     </Styled.ThreadContainer>

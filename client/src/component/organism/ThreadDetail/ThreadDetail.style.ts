@@ -28,6 +28,8 @@ const EditorContainer = styled.div`
   width: 100%;
   padding: 0 16px 20px 16px;
   background-color: white;
+`
+const JoinButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `
@@ -51,4 +53,5 @@ export default {
   ReplyListContainer,
   EditorContainer,
   NoContentWrapper,
+  JoinButtonContainer,
 }
