@@ -67,14 +67,10 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
   }
 
   const handleLeaveButtonClick = (channel: ChannelCardType) => () => {
-    // TODO: redirection 말고 channel browser의 data와 store의 channel list를 update 하는 방식 고려
     dispatch(
       deleteMember({
         channelId: channel.id,
         userId: loginUserId,
-        onSuccess: () => {
-          window.location.href = `/workspace/${workspaceId}/channel-browser`
-        },
       }),
     )
   }
