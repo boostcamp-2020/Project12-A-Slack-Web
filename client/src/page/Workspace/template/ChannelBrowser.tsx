@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { RootState } from '@store'
 import styled from 'styled-components'
 import A from '@atom'
@@ -15,6 +16,7 @@ interface ChannelBrowserPropsType {
 }
 
 const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
+  const history = useHistory()
   const dispatch = useDispatch()
   const { channelList, loginUserId } = useSelector((state: RootState) => {
     return {
@@ -46,7 +48,7 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
 
   useEffect(() => {
     searchChannels('')
-  }, [])
+  }, [channelList])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const inputValue = e.target.value
@@ -59,19 +61,16 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
   }
 
   const handleJoinButtonClick = (channel: ChannelCardType) => () => {
-    dispatch(joinChannel.request({ channel }))
-    // TODO: ChannelBrowser 페이지 - channels의 해당 channel에 memberCount++
+    const onSuccess = () =>
+      history.push(`/workspace/${workspaceId}/channel/${channel.id}`)
+    dispatch(joinChannel.request({ channel, workspaceId, onSuccess }))
   }
 
   const handleLeaveButtonClick = (channel: ChannelCardType) => () => {
-    // TODO: redirection 말고 channel browser의 data와 store의 channel list를 update 하는 방식 고려
     dispatch(
       deleteMember({
         channelId: channel.id,
         userId: loginUserId,
-        onSuccess: () => {
-          window.location.href = `/workspace/${workspaceId}/channel-browser`
-        },
       }),
     )
   }

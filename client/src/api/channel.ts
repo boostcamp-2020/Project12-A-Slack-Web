@@ -30,9 +30,12 @@ const searchChannels = async ({
   return response.data
 }
 
-const joinChannel = async ({ channel, userId }: JoinChannelRequestType) => {
+const joinChannel = async ({
+  channel: { id: channelId },
+  userId,
+}: JoinChannelRequestType) => {
   const response = await myAxios.post({
-    path: `/channel/${channel.id}/join`,
+    path: `/channel/${channelId}/join`,
     data: { userId },
   })
   return response.data

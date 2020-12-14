@@ -55,6 +55,10 @@ namespaces.on('connection', (socket: Socket) => {
     console.log(socket.rooms)
   })
 
+  socket.on('LEAVE_ROOM', ({ channelId }: { channelId: number }) => {
+    socket.leave(channelId.toString())
+  })
+
   socket.on(
     'DELETE_MEMBER',
     async (data: { channelId: number; userId: number }) => {
