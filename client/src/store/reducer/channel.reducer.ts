@@ -63,6 +63,8 @@ const GET_CURRENT_CHANNEL_ERROR = 'channel/GET_CURRENT_CHANNEL_ERROR' as const
 export const SET_CHANNEL_UNREAD = 'channel/SET_CHANNEL_UNREAD' as const
 export const SET_CHANNEL_READ = 'channel/SET_CHANNEL_READ' as const
 
+export const SET_CHANNEL_LIST = 'channel/SET_CHANNEL_LIST' as const
+
 export const getChannels = createAsyncAction(
   GET_CHANNELS_REQUEST,
   GET_CHANNELS_SUCCESS,
@@ -89,6 +91,7 @@ export const deleteMember = createAction(DELETE_MEMBER)<
   DeleteMemberRequestType
 >()
 export const receiveDeleteMember = createAction(RECEIVE_DELETE_MEMBER)<{
+  channelList: ChannelType[]
   channelInfo: CurrentChannelType
   userId: number
 }>()
@@ -112,6 +115,10 @@ export const setChannelRead = createAction(SET_CHANNEL_READ)<{
   channelId: number
 }>()
 
+export const setChannelList = createAction(SET_CHANNEL_LIST)<{
+  channelList: ChannelType[]
+}>()
+
 const actions = {
   getChannelsRequest: getChannels.request,
   getChannelsSuccess: getChannels.success,
@@ -132,6 +139,7 @@ const actions = {
   getCurrentChannelError: getCurrentChannel.failure,
   setChannelUnRead,
   setChannelRead,
+  setChannelList,
 }
 
 export type ChannelAction = ActionType<typeof actions>
@@ -262,6 +270,10 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
         return { ...channel, unRead: false }
       return channel
     }),
+  }),
+  [SET_CHANNEL_LIST]: (state, action) => ({
+    ...state,
+    channelList: [...action.payload.channelList],
   }),
 })
 

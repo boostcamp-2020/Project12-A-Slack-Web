@@ -1,5 +1,6 @@
 import { UserType } from './user.type'
 import { MessageType } from './message.type'
+import { ResponseType } from './response.type'
 
 export interface ThreadType {
   id: number
@@ -28,10 +29,19 @@ export interface GetThreadResponseType {
   lastReplyTime: string
 }
 
+export interface GetThreadsWithChannelIdType {
+  threadList: GetThreadResponseType[]
+  channelId: number
+}
+
 export interface CreateThreadRequestType {
   content: string
   channelId: number
   fileInfoList: { filePath: string; type: string }[] | null
+}
+
+export interface CreateThreadResponseType extends ResponseType {
+  data: { threadId: string }
 }
 
 export interface CurrentThreadType {

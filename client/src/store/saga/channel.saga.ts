@@ -13,6 +13,7 @@ import { ChannelType, GetChannelResponseType } from '@type/channel.type'
 import {
   sendSocketDeleteMember,
   sendSocketJoinRoom,
+  sendSocketLeaveRoom,
   connectSocket,
 } from '@store/reducer/socket.reducer'
 import {
@@ -30,6 +31,7 @@ import {
   joinMembersToChannel,
   deleteMember,
   receiveDeleteMember,
+  setChannelList,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -67,7 +69,10 @@ function* joinChannelSaga(action: ReturnType<typeof joinChannel.request>) {
   try {
     const { success } = yield call(channelAPI.joinChannel, action.payload)
     if (success) {
-      yield put(joinChannel.success(action.payload.channel as ChannelType))
+      const { channel: joinedChannel, onSuccess } = action.payload
+      yield put(joinChannel.success(joinedChannel as ChannelType))
+      yield put(sendSocketJoinRoom({ channelIdList: [joinedChannel.id] }))
+      if (onSuccess) onSuccess()
     }
   } catch (error) {
     toast.error('Failed to join channel')
@@ -97,7 +102,6 @@ function* deleteMemberSaga(action: ReturnType<typeof deleteMember>) {
   try {
     const { success } = yield call(channelAPI.deleteMember, action.payload)
     if (success) {
-      action.payload.onSuccess!()
       yield put(
         sendSocketDeleteMember({
           channelId: +action.payload.channelId,
@@ -114,25 +118,36 @@ function* receiveDeleteMemberSaga(
   action: ReturnType<typeof receiveDeleteMember>,
 ) {
   try {
-    const { loginUserId, workspaceId, currentChannelId } = yield select(
-      (state) => {
-        return {
-          loginUserId: state.userStore.currentUser.id,
-          currentChannelId: state.channelStore.currentChannel.id,
-          workspaceId: state.workspaceStore.currentWorkspace.id,
-        }
-      },
-    )
-    // TODO: channel list update 필요
+    const {
+      loginUserId,
+      workspaceId,
+      channelList,
+      currentChannelId,
+    } = yield select((state) => {
+      return {
+        loginUserId: state.userStore.currentUser.id,
+        workspaceId: state.workspaceStore.currentWorkspace.id,
+        channelList: state.channelStore.channelList,
+        currentChannelId: state.channelStore.currentChannel.id,
+      }
+    })
+    const {
+      userId,
+      channelInfo: { id: channelId },
+    } = action.payload
 
-    if (
-      loginUserId === action.payload.userId &&
-      currentChannelId === action.payload.channelInfo.id
-    ) {
+    if (loginUserId === userId) {
+      const newChannelList = channelList.filter(
+        (channel: ChannelType) => channel.id !== channelId,
+      )
+      yield put(setChannelList({ channelList: newChannelList }))
+      yield put(sendSocketLeaveRoom({ channelId }))
       toast.success(
         `You have been removed from the private channel ${action.payload.channelInfo.name}`,
       )
-      window.location.href = `/workspace/${workspaceId}/channel-browser`
+      if (currentChannelId === channelId) {
+        window.location.href = `/workspace/${workspaceId}/channel-browser`
+      }
     }
   } catch (error) {
     console.log(error)

@@ -45,7 +45,7 @@ module.exports = {
   },
 
   output: {
-    filename: 'main.js',
+    filename: 'main.[hash].js',
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
   },
@@ -62,9 +62,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       path: path.resolve(__dirname, './dist'),
+      favicon: 'favicon.png',
       filename: 'index.html',
     }),
-    new FaviconsWebpackPlugin('./public/favicon.ico'),
     new Dotenv(),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
