@@ -26,7 +26,7 @@ const ReplyListContainer = styled.div`
 const EditorContainer = styled.div`
   height: 110px;
   width: 100%;
-  padding: 0 16px 20px 16px;
+  padding: 0 16px 25px 16px;
   background-color: white;
 `
 const JoinButtonContainer = styled.div`
