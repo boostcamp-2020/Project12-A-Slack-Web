@@ -29,7 +29,10 @@ const Header = () => {
   return (
     <>
       <Styled.StyledHeaderContainer>
-        <M.HeaderInput workspaceName={currentWorkspace.name} />
+        <M.HeaderInput
+          workspaceName={currentWorkspace.name}
+          workspaceId={currentWorkspace.id}
+        />
         <Styled.HeaderProfileRightContainer>
           <A.Image
             url={currentUser.profileImageUrl}
@@ -71,41 +74,7 @@ const Header = () => {
                   </div>
                 </Styled.ProfileInContainer>
               </Styled.ProfileModalContainerFirst>
-              <Styled.ProfileModalContainerSecond>
-                <M.ButtonDiv
-                  buttonStyle={profileStatusButtonStyle}
-                  textStyle={profileStatusTextSttyle}
-                  onMouseEnter={handleProfileStatusHover}
-                >
-                  <>
-                    {toggle ? (
-                      <A.Icon
-                        icon={myIcon.toggleSmile}
-                        customStyle={profileStatusToggleIconStyle}
-                      />
-                    ) : (
-                      <A.Icon
-                        icon={myIcon.smile}
-                        customStyle={profileStatusIconStyle}
-                      />
-                    )}
-                    Update your status
-                  </>
-                </M.ButtonDiv>
-              </Styled.ProfileModalContainerSecond>
               <Styled.ProfileModalContainerThird>
-                <M.ButtonDiv
-                  buttonStyle={profileMenuButtonStyle}
-                  textStyle={profileMenuTextStyle}
-                >
-                  View Profile
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={profileMenuButtonStyle}
-                  textStyle={profileMenuTextStyle}
-                >
-                  Set Profile
-                </M.ButtonDiv>
                 <M.ButtonDiv
                   buttonStyle={profileMenuButtonStyle}
                   textStyle={profileMenuTextStyle}

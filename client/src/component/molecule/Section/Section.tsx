@@ -5,8 +5,10 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { createChannel, setChannelRead } from '@store/reducer/channel.reducer'
+import { setChannelRead } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
+import channelApi from '@api/channel'
+
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
@@ -28,21 +30,38 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
+  const [isChannelNameDup, setIsChannelNameDup] = useState<boolean>(false)
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setNewChannelName(value)
   }
 
-  const handleCreateNewChannelClick = () => {
-    dispatch(
-      createChannel.request({
+  const checkDupName = () => {
+    for (let i = 0; i < channelList.length; i++) {
+      if (newChannelName === channelList[i].name) {
+        return false
+      }
+    }
+    return true
+  }
+
+  const handleCreateNewChannelClick = async () => {
+    const checkDup = checkDupName()
+    if (checkDup) {
+      const { success, data } = await channelApi.createNewChannel({
         name: newChannelName,
         type: channelType,
         workspaceId,
-      }),
-    )
-    setCreateModal(false)
+      })
+      if (success) {
+        setIsChannelNameDup(false)
+        history.push(`/workspace/${workspaceId}/channel/${data.id}`)
+        setCreateModal(false)
+      }
+    } else {
+      setIsChannelNameDup(true)
+    }
   }
 
   const handleCreateDmClick = () => {
@@ -65,6 +84,18 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     } else {
       setChannelType(isPrivate ? 'PUBLIC' : 'PRIVATE')
     }
+  }
+
+  const handleBrowseDmClick = () => {
+    history.push(`/workspace/${workspaceId}/all-dm`)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
+  }
+
+  const handleBrowseChannelClick = () => {
+    history.push(`/workspace/${workspaceId}/channel-browser`)
+    if (moreOptions === true) setMoreOptions(false)
+    if (plusOptions === true) setPlusOptions(false)
   }
 
   const handleToggleList = () => {
@@ -91,6 +122,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setCreateModal(!createModal)
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
+    setNewChannelName('')
+    setIsPrivate(false)
   }
 
   const makeDmChannelName = (name: string) => {
@@ -150,34 +183,40 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           disableCloseButton
         >
           <Styled.SectionClickModalContent>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Create new Section
-            </M.ButtonDiv>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Browse Channels
-            </M.ButtonDiv>
             {type === 'CHANNEL' ? (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateModalClick}
-              >
-                Create a Channel
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseChannelClick}
+                >
+                  Browse Channels
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateModalClick}
+                >
+                  Create a Channel
+                </M.ButtonDiv>
+              </>
             ) : (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDmClick}
-              >
-                Create a DM
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseDmClick}
+                >
+                  Browse DMs
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateDmClick}
+                >
+                  Create a DM
+                </M.ButtonDiv>
+              </>
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
@@ -189,28 +228,40 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           disableCloseButton
         >
           <Styled.SectionClickModalContent>
-            <M.ButtonDiv
-              buttonStyle={SectionModalContentStyle}
-              textStyle={SectionModalCententTextStyle}
-            >
-              Browse Channels
-            </M.ButtonDiv>
             {type === 'CHANNEL' ? (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateModalClick}
-              >
-                Create a Channel
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseChannelClick}
+                >
+                  Browse Channels
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateModalClick}
+                >
+                  Create a Channel
+                </M.ButtonDiv>
+              </>
             ) : (
-              <M.ButtonDiv
-                buttonStyle={SectionModalContentStyle}
-                textStyle={SectionModalCententTextStyle}
-                onClick={handleCreateDmClick}
-              >
-                Create a DM
-              </M.ButtonDiv>
+              <>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleBrowseDmClick}
+                >
+                  Browse DMs
+                </M.ButtonDiv>
+                <M.ButtonDiv
+                  buttonStyle={SectionModalContentStyle}
+                  textStyle={SectionModalCententTextStyle}
+                  onClick={handleCreateDmClick}
+                >
+                  Create a DM
+                </M.ButtonDiv>
+              </>
             )}
           </Styled.SectionClickModalContent>
         </M.Modal>
@@ -310,6 +361,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               onChange={handleNewChannelInput}
               value={newChannelName}
             />
+            {isChannelNameDup ? <h1>채널 이름 중복</h1> : null}
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
@@ -454,7 +506,7 @@ let moreOverWrapperStyle = {
   bottom: '0px',
   left: '192px',
   right: '0px',
-  height: '90px',
+  height: '60px',
   width: '140px',
   borderRadius: '10px',
   boxShadow: '0px 7px 18px 0px #EBEBEB',

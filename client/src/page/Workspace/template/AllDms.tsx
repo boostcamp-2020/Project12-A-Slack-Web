@@ -44,8 +44,11 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
         workspaceId,
         searchKeyword,
       })
+      const currentUserFiltered = data.filter((user: UserType) => {
+        return user.name !== currentUser.name
+      })
       if (success) {
-        setTeammateSearchResult(data)
+        setTeammateSearchResult(currentUserFiltered)
         return
       }
       setTeammateSearchResult([])
@@ -162,7 +165,6 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
                   <M.SelectableTeammate
                     key={user.id}
                     user={user}
-                    alreadyInChannel
                     selected={selected}
                     onTeammateClick={handleTeammateClick}
                   />
@@ -173,15 +175,17 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
         )}
       </Styled.RelativeDiv>
       {selectedUserList.length > 0 ? (
-        <M.ButtonDiv
-          buttonStyle={{
-            ...addButtonStyle,
-          }}
-          textStyle={addButtonTextStyle}
-          onClick={handleAddButtonClick}
-        >
-          Create Direct Message
-        </M.ButtonDiv>
+        <CreateMessageWrapper>
+          <M.ButtonDiv
+            buttonStyle={{
+              ...addButtonStyle,
+            }}
+            textStyle={addButtonTextStyle}
+            onClick={handleAddButtonClick}
+          >
+            Create Direct Message
+          </M.ButtonDiv>
+        </CreateMessageWrapper>
       ) : (
         <ViewBody>
           {channels.map((dm) => (
@@ -197,7 +201,8 @@ const addButtonStyle: ButtonType.StyleAttributes = {
   backgroundColor: 'deepGreen',
   padding: '10px',
   borderRadius: '4px',
-  width: '120px',
+  width: '200px',
+  height: '50px',
   cursor: 'pointer',
   hoverBackgroundColor: color.get('greenHover'),
 }
@@ -248,6 +253,11 @@ const ViewBody = styled.div`
   flex-direction: column;
   overflow: auto;
   padding: 10px;
+`
+
+const CreateMessageWrapper = styled.div`
+  margin: 0 auto;
+  margin-top: 20px;
 `
 
 export default AllDms

@@ -45,7 +45,6 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
             <A.Text customStyle={WorkSpaceTextStyle}>
               {workspaceInfo.name}
             </A.Text>
-            <A.Icon icon={myIcon.edit} customStyle={WorkSpaceIconStyle} />
           </Styled.WorkspaceTitleWrapper>
         </M.ButtonDiv>
       </Styled.WorkSpacePart>
@@ -116,8 +115,6 @@ const WorkSpaceButtonStyle = {
   height: '100%',
   display: 'flex',
   justifyContent: 'center',
-  hoverBackgroundColor: 'slackBlue',
-  hoverColor: 'white',
 }
 
 const OtherChannelButtonStyle = {

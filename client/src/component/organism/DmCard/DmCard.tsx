@@ -4,8 +4,9 @@ import A from '@atom'
 import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
-import { object } from '@storybook/addon-knobs'
-import type from '@store/type'
+import { getThreads, initThreadList } from '@store/reducer/thread.reducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@store'
 import Styled from './DmCard.style'
 import { DmCardProps } from './index'
 
@@ -23,7 +24,6 @@ interface dmChannelInfoProps {
 
 const DmCard = ({ dmChannel }: DmCardProps) => {
   const history = useHistory()
-  // TODO: useState 기본값?
   const [dmChannelInfo, setDmChannelInfo] = useState<dmChannelInfoProps>({
     id: 0,
     name: '',
@@ -41,7 +41,10 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
       } = await myAxios.get({
         path: `/channel/${dmChannel.id}`,
       })
-      const dmInfo = { ...dmChannel, ...data }
+      const dmInfo = {
+        ...dmChannel,
+        ...data,
+      }
       setDmChannelInfo(dmInfo)
     }
     getChannelInfo()
@@ -66,11 +69,10 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     return parsedDate
   }
 
-  // TODO: 이미지 보여주기, 날짜 변환
   return (
     <Styled.Container onClick={handleDmClick}>
       <A.Text customStyle={dmDateTextStyle}>
-        {getDateInfoFirst(dmChannelInfo.updatedAt)}
+        {getDateInfoFirst(dmChannelInfo.createdAt)}
       </A.Text>
       <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
         <Styled.DmCardMain>
