@@ -12,9 +12,13 @@ import messageAPI from '@api/message'
 import reactionAPI from '@api/reaction'
 import { toast } from 'react-toastify'
 import { GRANTED } from '@constant/index'
-import { GetThreadResponseType } from '@type/thread.type'
-import { CreateReactionResponseType } from '@type/reaction.type'
 import { RootState } from '@store'
+import { OnlySuccessResponseType } from '@type/response.type'
+import {
+  GetThreadResponseType,
+  CreateThreadResponseType,
+} from '@type/thread.type'
+import { CreateReactionResponseType } from '@type/reaction.type'
 import {
   GetMessagesResponseType,
   CreateMessageResponseType,
@@ -72,14 +76,9 @@ function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   }
 }
 
-interface ResponseType {
-  success: boolean
-  data: { threadId: string }
-}
-
 function* createThreadSaga(action: ReturnType<typeof createThread>) {
   try {
-    const { success, data }: ResponseType = yield call(
+    const { success, data }: CreateThreadResponseType = yield call(
       threadAPI.createThread,
       action.payload,
     )
@@ -97,7 +96,7 @@ function* createThreadSaga(action: ReturnType<typeof createThread>) {
 
 function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
   try {
-    const { success }: ResponseType = yield call(
+    const { success }: OnlySuccessResponseType = yield call(
       threadAPI.deleteThread,
       action.payload,
     )
@@ -118,7 +117,7 @@ function* deleteThreadSaga(action: ReturnType<typeof deleteThread>) {
 
 function* updateThreadSaga(action: ReturnType<typeof updateThread>) {
   try {
-    const { success }: ResponseType = yield call(
+    const { success }: OnlySuccessResponseType = yield call(
       messageAPI.updateMessage,
       action.payload,
     )
