@@ -14,7 +14,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hoc/Auth'
 
 const App = () => {
-  if (Notification.permission !== GRANTED) Notification.requestPermission()
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent,
+    )
+  }
+  if (!isMobile()) {
+    if (Notification.permission !== GRANTED) Notification.requestPermission()
+  }
   return (
     <>
       <ToastContainer />
