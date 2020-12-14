@@ -280,7 +280,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))}
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -361,7 +362,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               onChange={handleNewChannelInput}
               value={newChannelName}
             />
-            {isChannelNameDup ? <h1>채널 이름 중복</h1> : null}
+            {isChannelNameDup && <h1>채널 이름 중복</h1>}
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
