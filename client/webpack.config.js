@@ -4,6 +4,7 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 const isDevelopment = process.env.NODE_ENV === 'production'
 
@@ -63,6 +64,7 @@ module.exports = {
       path: path.resolve(__dirname, './dist'),
       filename: 'index.html',
     }),
+    new FaviconsWebpackPlugin('./public/favicon.ico'),
     new Dotenv(),
     new CleanWebpackPlugin({
       cleanAfterEveryBuildPatterns: ['dist'],
