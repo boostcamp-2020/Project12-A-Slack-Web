@@ -22,6 +22,7 @@ export const CONNECT_SOCKET_REQUEST = 'socket/CONNECT_SOCKET_REQUEST' as const
 const CONNECT_SOCKET_SUCCESS = 'socket/CONNECT_SOCKET_SUCCESS' as const
 const CONNECT_SOCKET_ERROR = 'socket/CONNECT_SOCKET_ERROR' as const
 const SEND_SOCKET_JOIN_ROOM = 'socket/SEND_SOCKET_JOIN_ROOM' as const
+const SEND_SOCKET_LEAVE_ROOM = 'socket/SEND_SOCKET_LEAVE_ROOM' as const
 const SEND_SOCKET_DELETE_MEMBER = 'socket/SEND_SOCKET_DELETE_MEMBER' as const
 const SEND_SOCKET_CREATE_THREAD = 'socket/SEND_SOCKET_CREATE_THREAD' as const
 const SEND_SOCKET_DELETE_THREAD = 'socket/SEND_SOCKET_DELETE_THREAD' as const
@@ -40,6 +41,9 @@ export const connectSocket = createAsyncAction(
 )<NamespaceType, Socket, Error>()
 export const sendSocketJoinRoom = createAction(SEND_SOCKET_JOIN_ROOM)<{
   channelIdList: number[]
+}>()
+export const sendSocketLeaveRoom = createAction(SEND_SOCKET_LEAVE_ROOM)<{
+  channelId: number
 }>()
 export const sendSocketDeleteMember = createAction(SEND_SOCKET_DELETE_MEMBER)<{
   channelId: number
@@ -101,6 +105,7 @@ const actions = {
   connectSocketSuccess: connectSocket.success,
   connectSocketFailure: connectSocket.failure,
   sendSocketJoinRoom,
+  sendSocketLeaveRoom,
   sendSocketDeleteMember,
   sendSocketCreateThread,
   sendSocketDeleteThread,

@@ -41,6 +41,7 @@ import {
   CONNECT_SOCKET_REQUEST,
   connectSocket,
   sendSocketJoinRoom,
+  sendSocketLeaveRoom,
   sendSocketDeleteMember,
   sendSocketCreateThread,
   sendSocketDeleteThread,
@@ -55,6 +56,7 @@ import {
 const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
+const LEAVE_ROOM = 'LEAVE_ROOM'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
@@ -241,6 +243,13 @@ function* socketJoinRoomNew(socket: Socket) {
   }
 }
 
+function* sendLeaveRoom(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketLeaveRoom)
+    socket.emit(LEAVE_ROOM, payload)
+  }
+}
+
 function* socketActiveUser(socket: Socket) {}
 
 function* handleIO(socket: Socket) {
@@ -250,6 +259,7 @@ function* handleIO(socket: Socket) {
   yield fork(sendDeleteThread, socket)
   yield fork(sendUpdateThread, socket)
   yield fork(socketJoinRoomNew, socket)
+  yield fork(sendLeaveRoom, socket)
   yield fork(sendCreateMessage, socket)
   yield fork(sendDeleteMessage, socket)
   yield fork(sendUpdateMessage, socket)
