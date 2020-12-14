@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react'
+import React, { useState, MouseEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChannelRead } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
 import channelApi from '@api/channel'
-import { ChannelType } from '@type/channel.type'
 
 import Styled from './Section.style'
 import { SectionProps } from '.'
@@ -281,8 +280,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                    dispatch(setChannelRead({ channelId: channel.id }))}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
