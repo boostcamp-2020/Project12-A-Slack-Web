@@ -48,7 +48,7 @@ const ChannelBrowser = ({ workspaceId }: ChannelBrowserPropsType) => {
 
   useEffect(() => {
     searchChannels('')
-  }, [])
+  }, [channelList])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const inputValue = e.target.value
