@@ -167,7 +167,7 @@ const NewWorkspacePage = () => {
     },
     stageNextButton: {
       text: '새 워크스페이스 생성하기',
-      width: '12rem',
+      width: '16rem',
       onClick: () => handleClickCreateNewWorkspace(),
     },
   }
@@ -381,12 +381,14 @@ const StageBackButtonStyle: ButtonType.StyleAttributes = {
   height: '3.8rem',
   border: '1px solid lightGrey',
   backgroundColor: 'lightGrey',
+  cursor: 'pointer',
 }
 
 const StageNextButtonStyle: ButtonType.StyleAttributes = {
   height: '3.8rem',
   border: '1px solid lightGrey',
   backgroundColor: 'purple',
+  cursor: 'pointer',
 }
 
 const StageNextButtonTextStyle: TextType.StyleAttributes = {
