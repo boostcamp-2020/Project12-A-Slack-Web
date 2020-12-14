@@ -12,6 +12,7 @@ export namespace ImageType {
     cursor?: string
     border?: string
     zIndex?: number
+    position?: string
   }
 
   export interface Props {

@@ -26,13 +26,10 @@ const OtherPagePart = styled.div`
   padding: 10px 0;
 `
 
-// TODO : height
 const SectionChannelPart = styled.div`
   width: 100%;
-  // height: 100%;
   display: flex;
   flex-direction: column;
-  // overflow-y: scroll;
 `
 const DirectMessagePart = styled.div``
 

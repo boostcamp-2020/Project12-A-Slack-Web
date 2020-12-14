@@ -26,6 +26,7 @@ export namespace ButtonType {
     alignItems?: string
     boxShadow?: string
     cursor?: string
+    overflowX?: string
   }
 
   export interface Props {

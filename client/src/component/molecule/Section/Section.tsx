@@ -4,21 +4,18 @@ import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createChannel, setChannelRead } from '@store/reducer/channel.reducer'
+import { RootState } from '@store'
 import Styled from './Section.style'
 import { SectionProps } from '.'
 
-// test
-const userTestData = {
-  id: 1,
-  email: 'test@example.com',
-  name: 'test',
-  profileImageUrl:
-    'https://lh4.googleusercontent.com/-XPLMI-MjyOM/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucnEOcdrYoQRh5rGUF0nl1EVbMDwHA/s96-c/photo.jpg',
-}
-
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
+  const { currentUser } = useSelector((state: RootState) => {
+    return {
+      currentUser: state.userStore.currentUser,
+    }
+  })
   const dispatch = useDispatch()
   const history = useHistory()
   const [toggle, setToggle] = useState<boolean>(false)
@@ -96,8 +93,26 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (plusOptions === true) setPlusOptions(false)
   }
 
-  // TODO: Add teammates 클릭 시 액션
-  const handleAddTeammatesClick = () => {}
+  const makeDmChannelName = (name: string) => {
+    if (!name.includes(',')) {
+      return '제대로 된 DM 이름 아님'
+    }
+    const temp = name.split(',')
+    let parsedName = ``
+    if (temp.length > 3) {
+      parsedName = `${temp[0]}, ${temp[1]}, ${temp[2]}...`
+    } else {
+      for (let i = 0; i < temp.length; i++) {
+        if (i !== temp.length - 1) {
+          parsedName += temp[i]
+          parsedName += ', '
+        } else {
+          parsedName += temp[i]
+        }
+      }
+    }
+    return parsedName
+  }
 
   return (
     <>
@@ -214,18 +229,17 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                    dispatch(setChannelRead({ channelId: channel.id }))}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
                       <O.Avatar
                         size="SMALL"
-                        user={userTestData}
+                        user={currentUser}
                         avatarImageStyle={dmAvatarStyle}
                       />
                       <A.Text customStyle={channelNameStyle}>
-                        {channel.name}
+                        {makeDmChannelName(channel.name)}
                       </A.Text>
                     </Styled.EachChannelContainer>
                   ) : (
@@ -259,7 +273,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               <M.ButtonDiv
                 buttonStyle={ChannelButtonStyle}
                 textStyle={ChannelTextStyle}
-                onClick={handleAddTeammatesClick}
               >
                 <>
                   <A.Icon icon={myIcon.plus} customStyle={plusIconStyle} />
