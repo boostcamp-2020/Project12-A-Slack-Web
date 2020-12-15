@@ -29,24 +29,7 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   return (
     <Styled.SideBarContainer>
       <Styled.WorkSpacePart>
-        <M.ButtonDiv
-          buttonStyle={WorkSpaceButtonStyle}
-          textStyle={WorkSpaceTextStyle}
-        >
-          <Styled.WorkspaceTitleWrapper>
-            <A.Image
-              url={workspaceInfo.imageUrl}
-              customStyle={{
-                height: '4.5rem',
-                width: '4.5rem',
-                radius: '4px',
-              }}
-            />
-            <A.Text customStyle={WorkSpaceTextStyle}>
-              {workspaceInfo.name}
-            </A.Text>
-          </Styled.WorkspaceTitleWrapper>
-        </M.ButtonDiv>
+        <A.Text customStyle={WorkSpaceTextStyle}>{workspaceInfo.name}</A.Text>
       </Styled.WorkSpacePart>
       <Styled.ScrollContainer>
         <Styled.OtherPagePart>
@@ -110,13 +93,6 @@ const SideBar = ({ workspaceInfo, channelList }: SideBarProps) => {
   )
 }
 
-const WorkSpaceButtonStyle = {
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-}
-
 const OtherChannelButtonStyle = {
   width: '100%',
   height: '100%',
@@ -140,12 +116,6 @@ const OtherChannelIconStyle = {
 const WorkSpaceTextStyle = {
   fontSize: '16px',
   fontWeight: 'bold',
-}
-
-const WorkSpaceIconStyle = {
-  color: 'black',
-  fontSize: '16px',
-  margin: '0px 0px 0px 20px',
 }
 
 export default SideBar

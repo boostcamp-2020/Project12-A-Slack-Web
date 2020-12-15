@@ -1,13 +1,40 @@
-const getTimePassedFromNow = (date: string) => {
-  let second = (new Date().getTime() - new Date(date).getTime()) / 1000
+const getTimeAMPMFormat = (dateString: string) => {
+  const date = new Date(dateString)
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  return `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')}${
+    hours < 12 ? ' AM' : ' PM'
+  }`
+}
+
+const getTimePassedFromNow = (dateString: string) => {
+  let second = (new Date().getTime() - new Date(dateString).getTime()) / 1000
   second = second / 60 / 60 / 24
-  if (second < 1) return getDateAndTime(date)
+  if (second < 1) return getTimeAMPMFormat(dateString)
   return `${Math.round(second)} days ago`
 }
 
-const getDateAndTime = (date: string) => {
-  const [, hour, minute] = date.split(/[T:]/, 3)
-  return `${hour}:${minute} ${parseInt(hour, 10) > 11 ? 'PM' : 'AM'}`
+const getMonthDayYear = (dateString: string) => {
+  /** format: Month Day, Year */
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
 }
 
-export { getTimePassedFromNow, getDateAndTime }
+const getWeekdayDayMonth = (dateString: string) => {
+  /** format: Weekday, Day Month */
+  return new Date(dateString).toLocaleDateString('en-GB', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+}
+
+export {
+  getTimeAMPMFormat,
+  getTimePassedFromNow,
+  getMonthDayYear,
+  getWeekdayDayMonth,
+}
