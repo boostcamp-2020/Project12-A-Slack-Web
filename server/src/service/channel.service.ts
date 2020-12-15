@@ -6,6 +6,8 @@ import MessageModel from '@model/message.model'
 import { statusCode, resMessage } from '@util/constant'
 import sequelize from 'sequelize'
 import sequelizeDB from '@model/sequelize'
+import validator from '@util/validator'
+import { constants } from 'buffer'
 
 interface ChannelType {
   name?: string
@@ -390,6 +392,57 @@ const deleteMember = async ({
   }
 }
 
+const checkJoinedChannel = async ({
+  channelId,
+  userId,
+}: {
+  channelId: number
+  userId: number
+}) => {
+  if (!validator.isNumber(channelId) || !validator.isNumber(userId))
+    return {
+      code: statusCode.BAD_REQUEST,
+      json: { success: false, message: resMessage.OUT_OF_VALUE },
+    }
+
+  try {
+    const channel = (await ChannelModel.findOne({
+      include: [
+        {
+          model: UserModel,
+          as: 'user',
+          attributes: ['id'],
+        },
+      ],
+      where: { id: channelId },
+      attributes: ['type'],
+    })) as ChannelInstance
+
+    const isJoined = channel.user.filter((item) => item.id === userId).length
+    if (channel.type !== 'PUBLIC' && !isJoined) {
+      return {
+        code: statusCode.OK,
+        json: {
+          success: true,
+          data: false,
+        },
+      }
+    }
+    return {
+      code: statusCode.OK,
+      json: {
+        success: true,
+        data: true,
+      },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createChannel,
   readChannelsByUser,
@@ -398,4 +451,5 @@ export default {
   joinChannel,
   joinMembersToChannel,
   deleteMember,
+  checkJoinedChannel,
 }

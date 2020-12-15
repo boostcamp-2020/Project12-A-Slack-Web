@@ -10,5 +10,6 @@ router.get('/:channelId', channelController.readChannelInfo)
 router.post('/:channelId/join', channelController.joinChannel)
 router.post('/:channelId/join-members', channelController.joinMembersToChannel)
 router.delete('/:channelId/user/:userId', channelController.deleteMember)
+router.get('/:channelId/joined', channelController.checkJoinedChannel)
 
 export default router
