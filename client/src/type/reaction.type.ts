@@ -1,7 +1,7 @@
 import { UserType } from './user.type'
 import { ResponseType } from './response.type'
 
-interface ReactionType {
+export interface ReactionType {
   id: number
   content: string
   createdAt?: string
