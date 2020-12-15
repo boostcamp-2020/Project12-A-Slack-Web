@@ -13,6 +13,7 @@ import { ChannelCardType } from '@type/channel.type'
 import { UserType } from '@type/user.type'
 import workspaceAPI from '@api/workspace'
 import { useHistory } from 'react-router-dom'
+import channelApi from '@api/channel'
 import Styled from '../../../component/organism/AddMemberModal/AddMemberModal.style'
 
 interface AllDmsPropTypes {
@@ -88,11 +89,10 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
     }
 
     const createAndJoinUserList = async () => {
-      const {
-        data: { data },
-      } = await myAxios.post({
-        path: `/channel`,
-        data: { name, type: 'DM', workspaceId },
+      const { success, data } = await channelApi.createNewChannel({
+        name,
+        type: 'DM',
+        workspaceId,
       })
       dispatch(
         joinMembersToChannel.request({

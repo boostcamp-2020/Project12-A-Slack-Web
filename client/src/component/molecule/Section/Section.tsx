@@ -1,13 +1,12 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChannelRead } from '@store/reducer/channel.reducer'
+import { setChannelRead, createChannel } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
-import channelApi from '@api/channel'
 
 import Styled from './Section.style'
 import { SectionProps } from '.'
@@ -29,7 +28,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
-  const [isChannelNameDup, setIsChannelNameDup] = useState<boolean>(false)
   const [invitePeopleModal, setInvitePeopleModal] = useState<boolean>(false)
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,31 +35,15 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setNewChannelName(value)
   }
 
-  const checkDupName = () => {
-    for (let i = 0; i < channelList.length; i++) {
-      if (newChannelName === channelList[i].name) {
-        return false
-      }
-    }
-    return true
-  }
-
   const handleCreateNewChannelClick = async () => {
-    const checkDup = checkDupName()
-    if (checkDup) {
-      const { success, data } = await channelApi.createNewChannel({
+    dispatch(
+      createChannel.request({
         name: newChannelName,
         type: channelType,
         workspaceId,
-      })
-      if (success) {
-        setIsChannelNameDup(false)
-        history.push(`/workspace/${workspaceId}/channel/${data.id}`)
-        setCreateModal(false)
-      }
-    } else {
-      setIsChannelNameDup(true)
-    }
+      }),
+    )
+    setCreateModal(false)
   }
 
   const handleCreateDmClick = () => {
@@ -334,8 +316,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                 value={newChannelName}
               />
             </Styled.FlexColumn>
-            {isChannelNameDup && <h1>채널 이름 중복</h1>}
-
             <Styled.CreateBottom>
               <Styled.FlexColumn>
                 <A.Text customStyle={createLabelTextStyle}>Make Private</A.Text>

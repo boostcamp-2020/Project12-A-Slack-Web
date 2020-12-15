@@ -163,6 +163,7 @@ function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
     if (success) {
       yield put(createChannel.success(data))
       yield put(sendSocketJoinRoom({ channelIdList: [data.id] }))
+      window.location.href = `/workspace/${action.payload.workspaceId}/channel/${data.id}`
     }
   } catch (error) {
     yield put(createChannel.failure(error))

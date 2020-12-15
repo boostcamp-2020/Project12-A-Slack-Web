@@ -5,6 +5,7 @@ import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
 import myAxios from '@util/myAxios'
 import { getTimeAMPMFormat, getWeekdayDayMonth } from '@util/date'
+import channelApi from '@api/channel'
 import Styled from './DmCard.style'
 import { DmCardProps } from './index'
 
@@ -33,19 +34,15 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     memberMax3: [],
   })
   useEffect(() => {
-    const getChannelInfo = async () => {
-      const {
-        data: { data },
-      } = await myAxios.get({
-        path: `/channel/${dmChannel.id}`,
-      })
+    const initInfo = async () => {
+      const { success, data } = await channelApi.getChannelInfo(dmChannel.id)
       const dmInfo = {
         ...dmChannel,
         ...data,
       }
       setDmChannelInfo(dmInfo)
     }
-    getChannelInfo()
+    initInfo()
   }, [])
 
   const handleDmClick = () => {
