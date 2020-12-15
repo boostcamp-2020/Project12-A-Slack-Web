@@ -1,6 +1,15 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Route, Switch, useParams } from 'react-router-dom'
+import {
+  Route,
+  Switch,
+  useParams,
+  RouteProps,
+  Redirect,
+  RouteComponentProps,
+  match as MatchType,
+} from 'react-router-dom'
 import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
@@ -9,6 +18,35 @@ import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
+
+export interface PrivateRouteProps extends RouteProps {
+  path: string
+  // workspaceId: number
+  // redirectPath: string
+}
+
+export interface ChannelRouteMatch extends MatchType {
+  params: { channelId: number }
+}
+
+export interface ChannelRouteProps extends RouteComponentProps {
+  match: ChannelRouteMatch
+}
+
+const PrivateRoute = ({ path, children, ...rest }: RouteProps) => {
+  const customRender = ({ match }: ChannelRouteProps) => {
+    const { channelId } = match.params
+    const isAuthenticated = false
+    console.log(channelId)
+
+    // channel 이 private 이면 가입되어 있는지 확인
+    // channelId, userId 로
+
+    return isAuthenticated ? <>{children}</> : <Redirect to="/" />
+  }
+
+  return <Route {...rest} path={path} render={customRender} />
+}
 
 interface MatchParamsType {
   workspaceId: string
@@ -50,13 +88,15 @@ const WorkspacePage = () => {
         <ViewContainer>
           <Switch>
             <MainView>
-              <Route path={`/workspace/${workspaceId}/channel/:channelId`}>
+              <PrivateRoute
+                path={`/workspace/${workspaceId}/channel/:channelId`}
+              >
                 <Channel
                   handleSubViewOpen={handleSubViewOpen}
                   handleSubViewHeader={handleSubViewHeader}
                   handleSubViewBody={handleSubViewBody}
                 />
-              </Route>
+              </PrivateRoute>
               <Route path={`/workspace/${workspaceId}/all-dm`}>
                 <AllDms workspaceId={+workspaceId} />
               </Route>
