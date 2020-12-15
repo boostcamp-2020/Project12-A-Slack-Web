@@ -350,26 +350,33 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
           <Styled.CreateModalContainer>
             <Styled.CreateHeader>
               <A.Text customStyle={modalCreateTextStyle}>{privateName}</A.Text>
-              <A.Icon
-                icon={myIcon.close}
-                customStyle={modalCreateIconStyle}
-                onClick={handleCreateModalClick}
-              />
+              <M.CloseButton onClick={handleCreateModalClick} />
             </Styled.CreateHeader>
             <A.Text customStyle={crateDescStyle}>
               Channels are where your team communicates. They're best when
               organized around a topic - #marketing, for example.
             </A.Text>
-            <A.Text customStyle={createInputTextStyle}>Name</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder={placeholder}
-              onChange={handleNewChannelInput}
-              value={newChannelName}
-            />
+            <Styled.FlexColumn>
+              <A.Text customStyle={createLabelTextStyle}>Name</A.Text>
+              <A.Input
+                customStyle={createInputStyle}
+                placeholder={placeholder}
+                onChange={handleNewChannelInput}
+                value={newChannelName}
+              />
+            </Styled.FlexColumn>
             {isChannelNameDup && <h1>채널 이름 중복</h1>}
+
             <Styled.CreateBottom>
-              <A.Text customStyle={makePrivateText}>Make Private</A.Text>
+              <Styled.FlexColumn>
+                <A.Text customStyle={createLabelTextStyle}>Make Private</A.Text>
+                <A.Text customStyle={crateDescStyle}>
+                  When a channel is set to private,
+                </A.Text>
+                <A.Text customStyle={crateDescStyle}>
+                  it can only be viewed or joined by invitation.
+                </A.Text>
+              </Styled.FlexColumn>
               <Styled.CheckBoxWrapper>
                 <Styled.CheckBox
                   id="checkbox"
@@ -380,8 +387,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                 <Styled.CheckBoxLabel htmlFor="checkbox" />
               </Styled.CheckBoxWrapper>
             </Styled.CreateBottom>
+
             <Styled.CreateFooter>
-              <A.Text customStyle={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
+              <A.Text customStyle={createLabelTextStyle}>
                 {currentWorkspace.name}
               </A.Text>
               <M.ButtonDiv
@@ -420,44 +428,31 @@ const createTextStyle = {
   fontWeight: 'bold',
 }
 
-const makePrivateText = {
-  color: 'black',
-  fontSize: '1.5rem',
-  fontWeight: 'bold',
-  cursor: 'auto',
-}
-
 const createInputStyle = {
-  border: '1px solid lightgrey',
-  margin: '-25px 5px 0px 5px',
+  border: '1px solid grey',
+  borderRadius: '5px',
+  padding: '0 10px',
+  margin: '10px 0',
+  fontSize: '1.6rem',
 }
 
-const createInputTextStyle = {
+const createLabelTextStyle = {
   color: 'black',
   fontSize: '1.5rem',
   fontWeight: 'bold',
   cursor: 'auto',
-  padding: '10px',
-  margin: '0px 0px -10px 0px',
 }
 
 const modalCreateTextStyle = {
   color: 'black',
   fontSize: '2.5rem',
-  fontWeight: 'bold',
+  fontWeight: '800',
   cursor: 'auto',
 }
 
-const modalCreateIconStyle = {
-  color: 'darkGrey',
-  margin: '10px 0px 0px 0px',
-}
-
 const crateDescStyle = {
-  color: 'fontGrey',
-  fontSize: '12px',
-  padding: '10px',
-  margin: '-15px 0px 0px 0px',
+  color: 'darkGrey',
+  fontSize: '1.5rem',
 }
 
 const createModalOverlayStyle = {
@@ -475,7 +470,6 @@ const createModalWrapperStyle = {
   left: '40%',
   top: '15%',
   right: '30%',
-  bottom: '15%',
   zIndex: '1000',
 }
 
