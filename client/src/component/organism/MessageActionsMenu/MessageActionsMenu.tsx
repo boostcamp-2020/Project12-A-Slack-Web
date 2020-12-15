@@ -30,9 +30,9 @@ const MessageActionsMenu = ({
 }
 
 const modalWrapperStyle: ModalWrapperType.StyleAttributes = {
-  width: '230px',
-  height: '65px',
-  padding: '0.5rem 0',
+  width: '220px',
+  height: '70px',
+  padding: '0.6rem 0',
   backgroundColor: 'whiteGrey',
   border: '1px solid lightGrey',
   borderRadius: '6px',

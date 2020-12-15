@@ -107,14 +107,14 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   }
 
   const handleMoreOptionsClick = (event: MouseEvent<HTMLSpanElement>) => {
-    moreOverWrapperStyle.left = String(`${event.pageX + 5}px`)
-    moreOverWrapperStyle.top = String(`${event.pageY + 5}px`)
+    modalWrapperStyle.left = String(`${event.pageX + 5}px`)
+    modalWrapperStyle.top = String(`${event.pageY + 5}px`)
     setMoreOptions(!moreOptions)
   }
 
   const handlePlusOptionsClick = (event: MouseEvent<HTMLSpanElement>) => {
-    plusOverWrapperStyle.left = String(`${event.pageX}px`)
-    plusOverWrapperStyle.top = String(`${event.pageY}px`)
+    modalWrapperStyle.left = String(`${event.pageX}px`)
+    modalWrapperStyle.top = String(`${event.pageY}px`)
     setPlusOptions(!plusOptions)
   }
 
@@ -183,91 +183,61 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
       {moreOptions && (
         <M.Modal
           overlayStyle={moreOverlayStyle}
-          modalWrapperStyle={moreOverWrapperStyle}
+          modalWrapperStyle={modalWrapperStyle}
           disableCloseButton
         >
-          <Styled.SectionClickModalContent>
-            {type === 'CHANNEL' ? (
-              <>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleBrowseChannelClick}
-                >
-                  Browse Channels
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleCreateModalClick}
-                >
-                  Create a Channel
-                </M.ButtonDiv>
-              </>
-            ) : (
-              <>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleBrowseDmClick}
-                >
-                  Browse DMs
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleCreateDmClick}
-                >
-                  Create a DM
-                </M.ButtonDiv>
-              </>
-            )}
-          </Styled.SectionClickModalContent>
+          {type === 'CHANNEL' ? (
+            <>
+              <M.ActionMenuButton
+                type="PLAIN"
+                onClick={handleBrowseChannelClick}
+              >
+                Browse Channels
+              </M.ActionMenuButton>
+              <M.ActionMenuButton type="PLAIN" onClick={handleCreateModalClick}>
+                Create a Channel
+              </M.ActionMenuButton>
+            </>
+          ) : (
+            <>
+              <M.ActionMenuButton type="PLAIN" onClick={handleBrowseDmClick}>
+                Browse DMs
+              </M.ActionMenuButton>
+              <M.ActionMenuButton type="PLAIN" onClick={handleCreateDmClick}>
+                Create a DM
+              </M.ActionMenuButton>
+            </>
+          )}
         </M.Modal>
       )}
       {plusOptions && (
         <M.Modal
           overlayStyle={moreOverlayStyle}
-          modalWrapperStyle={plusOverWrapperStyle}
+          modalWrapperStyle={modalWrapperStyle}
           disableCloseButton
         >
-          <Styled.SectionClickModalContent>
-            {type === 'CHANNEL' ? (
-              <>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleBrowseChannelClick}
-                >
-                  Browse Channels
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleCreateModalClick}
-                >
-                  Create a Channel
-                </M.ButtonDiv>
-              </>
-            ) : (
-              <>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleBrowseDmClick}
-                >
-                  Browse DMs
-                </M.ButtonDiv>
-                <M.ButtonDiv
-                  buttonStyle={SectionModalContentStyle}
-                  textStyle={SectionModalCententTextStyle}
-                  onClick={handleCreateDmClick}
-                >
-                  Create a DM
-                </M.ButtonDiv>
-              </>
-            )}
-          </Styled.SectionClickModalContent>
+          {type === 'CHANNEL' ? (
+            <>
+              <M.ActionMenuButton
+                type="PLAIN"
+                onClick={handleBrowseChannelClick}
+              >
+                Browse Channels
+              </M.ActionMenuButton>
+              <M.ActionMenuButton type="PLAIN" onClick={handleCreateModalClick}>
+                Create a Channel
+              </M.ActionMenuButton>
+            </>
+          ) : (
+            <>
+              <M.ActionMenuButton type="PLAIN" onClick={handleBrowseDmClick}>
+                Browse DMs
+              </M.ActionMenuButton>
+              <M.ActionMenuButton type="PLAIN" onClick={handleCreateDmClick}>
+                Create a DM
+              </M.ActionMenuButton>
+            </>
+          )}
         </M.Modal>
       )}
       <Styled.SectionChannelContainer>
@@ -284,8 +254,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                    dispatch(setChannelRead({ channelId: channel.id }))}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -473,48 +442,24 @@ const createModalWrapperStyle = {
   zIndex: '1000',
 }
 
-const SectionModalContentStyle = {
-  width: '140px',
-  height: '30px',
-  color: 'black',
-  cursor: 'pointer',
-  hoverBackgroundColor: 'blue',
-  hoverColor: 'white',
-}
-
-const SectionModalCententTextStyle = {
-  fontSize: '12px',
-}
-
 const moreOverlayStyle = {
   zIndex: '1',
   opacity: '0',
 }
 
-let plusOverWrapperStyle = {
-  backgroundColor: 'whiteGrey',
+let modalWrapperStyle = {
   zIndex: '999',
   position: 'absolute',
   top: '253px',
   bottom: '0px',
   left: '192px',
   right: '0px',
-  height: '60px',
-  width: '140px',
-  borderRadius: '10px',
-}
-
-let moreOverWrapperStyle = {
+  width: '200px',
+  height: '70px',
   backgroundColor: 'whiteGrey',
-  zIndex: '999',
-  position: 'absolute',
-  top: '253px',
-  bottom: '0px',
-  left: '192px',
-  right: '0px',
-  height: '60px',
-  width: '140px',
-  borderRadius: '10px',
+  border: '1px solid lightGrey',
+  borderRadius: '6px',
+  padding: '0.6rem 0',
 }
 
 const HeaderTextStyle = {
