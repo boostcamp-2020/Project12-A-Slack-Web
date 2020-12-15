@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setChannelRead } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
 import channelApi from '@api/channel'
+import myAxios from '@util/myAxios'
 
 import Styled from './Section.style'
 import { SectionProps } from '.'
@@ -37,12 +38,22 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setNewChannelName(value)
   }
 
+  const getAllChannels = async () => {
+    const {
+      data: { data },
+    } = await myAxios.get({
+      path: `/channel/all`,
+      data: { workspaceId },
+    })
+    console.log(data)
+  }
+
   const checkDupName = () => {
-    for (let i = 0; i < channelList.length; i++) {
-      if (newChannelName === channelList[i].name) {
-        return false
-      }
-    }
+    // for (let i = 0; i < channelList.length; i++) {
+    //   if (newChannelName === channelList[i].name) {
+    //     return false
+    //   }
+    // }
     return true
   }
 
