@@ -34,7 +34,7 @@ const WorkspaceSideBar = ({
             <A.Image url={workspace.imageUrl} customStyle={workspaceImgStyle} />
           </Styled.CurrentWorkspaceImageWrapper>
         ) : (
-          <Styled.ImageWrapper>
+          <Styled.ImageWrapper key={workspace.id}>
             <A.Image
               url={workspace.imageUrl}
               customStyle={workspaceImgStyle}
