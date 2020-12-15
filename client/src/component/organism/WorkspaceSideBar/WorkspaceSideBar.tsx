@@ -24,7 +24,7 @@ const WorkspaceSideBar = ({
     <Styled.Wrapper>
       {workspaceList.map((workspace) => {
         return workspace.id === currentWorkspaceId ? (
-          <Styled.CurrentWorkspaceImageWrapper>
+          <Styled.CurrentWorkspaceImageWrapper key={workspace.id}>
             <A.Image url={workspace.imageUrl} customStyle={workspaceImgStyle} />
           </Styled.CurrentWorkspaceImageWrapper>
         ) : (

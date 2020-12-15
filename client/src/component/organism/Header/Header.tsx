@@ -176,7 +176,6 @@ const ProfileModal = {
   width: '250px',
   border: '1px solid lightgrey',
   borderRadius: '10px',
-  boxShadow: '0px 7px 18px 0px #EBEBEB',
   backgroundColor: 'middleWhite',
 }
 
