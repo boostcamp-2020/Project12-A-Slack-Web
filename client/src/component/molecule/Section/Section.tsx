@@ -30,7 +30,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
-  const [isChannelNameDup, setIsChannelNameDup] = useState<boolean>(false)
   const [invitePeopleModal, setInvitePeopleModal] = useState<boolean>(false)
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,40 +37,25 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setNewChannelName(value)
   }
 
-  const getAllChannels = async () => {
-    const {
-      data: { data },
-    } = await myAxios.get({
-      path: `/channel/all`,
-      data: { workspaceId },
-    })
-    console.log(data)
-  }
-
-  const checkDupName = () => {
-    // for (let i = 0; i < channelList.length; i++) {
-    //   if (newChannelName === channelList[i].name) {
-    //     return false
-    //   }
-    // }
-    return true
-  }
+  // const getAllChannels = async () => {
+  //   const {
+  //     data: { data },
+  //   } = await myAxios.get({
+  //     path: `/channel/all`,
+  //     data: { workspaceId },
+  //   })
+  //   console.log(data)
+  // }
 
   const handleCreateNewChannelClick = async () => {
-    const checkDup = checkDupName()
-    if (checkDup) {
-      const { success, data } = await channelApi.createNewChannel({
-        name: newChannelName,
-        type: channelType,
-        workspaceId,
-      })
-      if (success) {
-        setIsChannelNameDup(false)
-        history.push(`/workspace/${workspaceId}/channel/${data.id}`)
-        setCreateModal(false)
-      }
-    } else {
-      setIsChannelNameDup(true)
+    const { success, data } = await channelApi.createNewChannel({
+      name: newChannelName,
+      type: channelType,
+      workspaceId,
+    })
+    if (success) {
+      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
+      setCreateModal(false)
     }
   }
 
@@ -378,7 +362,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               onChange={handleNewChannelInput}
               value={newChannelName}
             />
-            {isChannelNameDup && <h1>채널 이름 중복</h1>}
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>

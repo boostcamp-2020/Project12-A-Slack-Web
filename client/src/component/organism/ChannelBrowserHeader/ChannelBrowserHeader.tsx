@@ -7,7 +7,7 @@ import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
 import myIcon from '@constant/icon'
 import { RootState } from '@store'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import channelApi from '@api/channel'
 import { ChannelBrowserHeaderProps } from '.'
 
@@ -20,26 +20,15 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
   const [createChannelModalVisible, setCreateChannelModalVisible] = useState(
     false,
   )
-  const dispatch = useDispatch()
   const history = useHistory()
   const [newChannelName, setNewChannelName] = useState<string>('')
   const [isPrivate, setIsPrivate] = useState<boolean>(false)
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
-  const [isChannelNameDup, setIsChannelNameDup] = useState<boolean>(false)
   const [channelType, setChannelType] = useState<string>('PUBLIC')
 
   const handleCreateChannelButtonClick = () =>
     setCreateChannelModalVisible(true)
-
-  const checkDupName = () => {
-    // for (let i = 0; i < channelList.length; i++) {
-    //   if (newChannelName === channelList[i].name) {
-    //     return false
-    //   }
-    // }
-    return true
-  }
 
   const handleCreateModalClick = () => {
     setCreateChannelModalVisible(!createChannelModalVisible)
@@ -48,20 +37,14 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
   }
 
   const handleCreateNewChannelClick = async () => {
-    const checkDup = checkDupName()
-    if (checkDup) {
-      const { success, data } = await channelApi.createNewChannel({
-        name: newChannelName,
-        type: channelType,
-        workspaceId,
-      })
-      if (success) {
-        setIsChannelNameDup(false)
-        history.push(`/workspace/${workspaceId}/channel/${data.id}`)
-        setCreateChannelModalVisible(false)
-      }
-    } else {
-      setIsChannelNameDup(true)
+    const { success, data } = await channelApi.createNewChannel({
+      name: newChannelName,
+      type: channelType,
+      workspaceId,
+    })
+    if (success) {
+      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
+      setCreateChannelModalVisible(false)
     }
   }
 
@@ -120,7 +103,6 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
               onChange={handleNewChannelInput}
               value={newChannelName}
             />
-            {isChannelNameDup && <h1>채널 이름 중복</h1>}
             <Styled.CreateBottom>
               <A.Text customStyle={makePrivateText}>Make Private</A.Text>
               <Styled.CheckBoxWrapper>
