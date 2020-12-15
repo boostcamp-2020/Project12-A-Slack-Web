@@ -5,7 +5,10 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
+import {
+  getWorkspace,
+  getCurrentWorkspaceInfo,
+} from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
@@ -15,13 +18,22 @@ interface MatchParamsType {
 }
 
 const WorkspacePage = () => {
-  const { channelList } = useSelector((state: RootState) => state.channelStore)
-  const { currentWorkspace } = useSelector(
-    (state: RootState) => state.workspaceStore,
-  )
-
   const dispatch = useDispatch()
   const { workspaceId } = useParams<MatchParamsType>()
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
+  const { workspaceList, currentWorkspace } = useSelector(
+    (state: RootState) => {
+      return {
+        workspaceList: state.workspaceStore.workspaceList,
+        currentWorkspace: state.workspaceStore.currentWorkspace,
+      }
+    },
+  )
+  useEffect(() => {
+    dispatch(connectSocket.request({ workspaceId: +workspaceId }))
+    dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
+    dispatch(getWorkspace.request())
+  }, [])
 
   const [subViewShow, setSubViewShow] = useState(false)
   const [subViewHeader, setSubViewHeader] = useState<React.ReactNode>(<></>)
@@ -35,16 +47,15 @@ const WorkspacePage = () => {
   const handleSubViewHeader = (node: React.ReactNode) => setSubViewHeader(node)
   const handleSubViewBody = (node: React.ReactNode) => setSubViewBody(node)
 
-  useEffect(() => {
-    dispatch(connectSocket.request({ workspaceId: +workspaceId }))
-    dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
-  }, [])
-
   return (
     <WorkspaceContainer>
       <O.Header />
 
       <WorkspaceLayout>
+        <O.WorkspaceSideBar
+          workspaceList={workspaceList}
+          currentWorkspaceId={currentWorkspace.id}
+        />
         <O.SideBar workspaceInfo={currentWorkspace} channelList={channelList} />
 
         <ViewContainer>
@@ -99,7 +110,7 @@ const WorkspaceContainer = styled.div`
 const WorkspaceLayout = styled.div`
   display: grid;
   grid-template-rows: auto;
-  grid-template-columns: 230px auto;
+  grid-template-columns: 65px 230px auto;
 `
 
 const ViewContainer = styled.div`
