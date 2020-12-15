@@ -5,10 +5,8 @@ import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChannelRead } from '@store/reducer/channel.reducer'
+import { setChannelRead, createChannel } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
-import channelApi from '@api/channel'
-import myAxios from '@util/myAxios'
 
 import Styled from './Section.style'
 import { SectionProps } from '.'
@@ -48,15 +46,14 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   // }
 
   const handleCreateNewChannelClick = async () => {
-    const { success, data } = await channelApi.createNewChannel({
-      name: newChannelName,
-      type: channelType,
-      workspaceId,
-    })
-    if (success) {
-      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
-      setCreateModal(false)
-    }
+    dispatch(
+      createChannel.request({
+        name: newChannelName,
+        type: channelType,
+        workspaceId,
+      }),
+    )
+    setCreateModal(false)
   }
 
   const handleCreateDmClick = () => {
@@ -279,8 +276,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                    dispatch(setChannelRead({ channelId: channel.id }))}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>

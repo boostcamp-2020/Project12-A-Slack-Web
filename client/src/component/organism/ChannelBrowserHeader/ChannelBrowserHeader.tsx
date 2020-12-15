@@ -7,13 +7,14 @@ import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
 import myIcon from '@constant/icon'
 import { RootState } from '@store'
-import { useSelector } from 'react-redux'
-import channelApi from '@api/channel'
+import { useDispatch, useSelector } from 'react-redux'
+import { createChannel } from '@store/reducer/channel.reducer'
 import { ChannelBrowserHeaderProps } from '.'
 
 import Styled from './ChannelBrowserHeader.style'
 
 const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
+  const dispatch = useDispatch()
   const { currentWorkspace } = useSelector(
     (state: RootState) => state.workspaceStore,
   )
@@ -37,15 +38,14 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
   }
 
   const handleCreateNewChannelClick = async () => {
-    const { success, data } = await channelApi.createNewChannel({
-      name: newChannelName,
-      type: channelType,
-      workspaceId,
-    })
-    if (success) {
-      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
-      setCreateChannelModalVisible(false)
-    }
+    dispatch(
+      createChannel.request({
+        name: newChannelName,
+        type: channelType,
+        workspaceId,
+      }),
+    )
+    setCreateChannelModalVisible(false)
   }
 
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
