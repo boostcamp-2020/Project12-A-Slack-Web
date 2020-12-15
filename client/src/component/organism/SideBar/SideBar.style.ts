@@ -17,6 +17,9 @@ const SideBarContainer = styled.div`
 const WorkSpacePart = styled.div`
   border-bottom: 1px solid rgb(230, 230, 230);
   height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
 `
 
 const OtherPagePart = styled.div`
@@ -31,21 +34,11 @@ const SectionChannelPart = styled.div`
   display: flex;
   flex-direction: column;
 `
-const DirectMessagePart = styled.div``
-
-const WorkspaceTitleWrapper = styled.div`
-  width: 20rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-`
 
 export default {
-  WorkspaceTitleWrapper,
   SideBarContainer,
   WorkSpacePart,
   OtherPagePart,
   SectionChannelPart,
   ScrollContainer,
-  DirectMessagePart,
 }

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import myAxios from '@util/myAxios'
 import A from '@atom'
 import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
-import { getThreads, initThreadList } from '@store/reducer/thread.reducer'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '@store'
+import myAxios from '@util/myAxios'
+import { getTimeAMPMFormat, getWeekdayDayMonth } from '@util/date'
 import Styled from './DmCard.style'
 import { DmCardProps } from './index'
 
@@ -54,25 +52,10 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
     history.push(`/workspace/${dmChannel.workspaceId}/channel/${dmChannel.id}`)
   }
 
-  const getDateInfoFirst = (date: any) => {
-    const dateString = date.replace(/\s/g, 'T')
-    const temp = String(new Date(dateString)).split(' ')
-    const parsedDate = `${temp[0]}, ${temp[1]} ${temp[2]}`
-    return parsedDate
-  }
-
-  const getDateInfoSecond = (date: any) => {
-    const dateString = date.replace(/\s/g, 'T')
-    const temp = String(new Date(dateString)).split(' ')
-    let parsedDate = ``
-    if (typeof temp[4] !== 'undefined') parsedDate = temp[4].slice(0, 5)
-    return parsedDate
-  }
-
   return (
     <Styled.Container onClick={handleDmClick}>
       <A.Text customStyle={dmDateTextStyle}>
-        {getDateInfoFirst(dmChannelInfo.createdAt)}
+        {getWeekdayDayMonth(dmChannelInfo.createdAt)}
       </A.Text>
       <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
         <Styled.DmCardMain>
@@ -92,7 +75,7 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
             <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
           </Styled.DmCardContent>
           <A.Text customStyle={dmDateTimeStyle}>
-            {getDateInfoSecond(dmChannelInfo.updatedAt)}
+            {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
           </A.Text>
         </Styled.DmCardMain>
       </M.ButtonDiv>

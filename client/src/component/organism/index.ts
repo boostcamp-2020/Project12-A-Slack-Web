@@ -23,6 +23,7 @@ import PeopleHeader from './PeopleHeader'
 import TeammateCard from './TeammateCard'
 import TeammateList from './TeammateList'
 import UserDetail from './UserDetail'
+import WorkspaceSideBar from './WorkspaceSideBar'
 
 export default {
   Header,
@@ -50,4 +51,5 @@ export default {
   TeammateCard,
   TeammateList,
   UserDetail,
+  WorkspaceSideBar,
 }

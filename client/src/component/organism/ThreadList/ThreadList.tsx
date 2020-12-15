@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useParams, useHistory } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { RootState } from '@store'
 import { getThreads, setCurrentThread } from '@store/reducer/thread.reducer'
 import { GetThreadResponseType } from '@type/thread.type'
@@ -14,6 +14,7 @@ import { TextType } from '@atom/Text'
 import { ButtonType } from '@atom/Button'
 import { joinChannel } from '@store/reducer/channel.reducer'
 import getDMChannelTitle from '@util/getDMChannelTitle'
+import { getMonthDayYear } from '@util/date'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
 
@@ -66,13 +67,9 @@ const ThreadList = ({
       : myIcon.lock
 
   const channelDescription = createdAt
-    ? `This ${type === 'DM' ? 'room' : 'channel'} was created on ${new Date(
-        createdAt,
-      ).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })}.`
+    ? `This ${
+        type === 'DM' ? 'room' : 'channel'
+      } was created on ${getMonthDayYear(createdAt)}.`
     : ''
 
   const messageEditorPlaceHolder =
