@@ -55,6 +55,7 @@ const WorkspaceSideBar = ({
 
 const workspaceImgStyle: ImageType.StyleAttributes = {
   width: '37px',
+  height: '37px',
   radius: '8px',
 }
 const plusButtonStyle: ButtonType.StyleAttributes = {

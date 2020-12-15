@@ -28,11 +28,11 @@ const Modal = ({
     <A.Button
       customStyle={{
         position: 'absolute',
-        padding: '5px',
-        top: '3px',
-        right: '3px',
+        padding: '8px 11px',
+        top: '5px',
+        right: '5px',
         zIndex: '10',
-        hoverBackgroundColor: 'grey',
+        hoverBackgroundColor: 'greyHover',
         border: 'none',
       }}
       onClick={handleModalClose}

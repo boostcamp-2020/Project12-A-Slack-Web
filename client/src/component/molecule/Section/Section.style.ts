@@ -57,25 +57,24 @@ const CreateModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
+  padding: 25px;
 `
 
 const CreateHeader = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  align-items: center;
 `
 
 const CreateBottom = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  align-items: center;
 `
 
 const CreateFooter = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px;
 `
 
 const SectionContainer = styled.div`
@@ -110,6 +109,11 @@ const SectionChannelContainer = styled.div`
   width: 100%;
 `
 
+const FlexColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export default {
   SectionContainer,
   SectionHeader,
@@ -124,4 +128,5 @@ export default {
   CheckBox,
   CheckBoxLabel,
   EachChannelContainer,
+  FlexColumn,
 }
