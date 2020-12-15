@@ -17,7 +17,7 @@
 
 
 ## 🖥 기술 스택
-<img src="https://user-images.githubusercontent.com/46681729/101991416-e0205e00-3cef-11eb-87fa-23fde658a1c8.png">
+<img src="https://user-images.githubusercontent.com/46681729/102215468-1abb0e00-3f1d-11eb-976d-c75f094e77db.png">
 
 
 ## Architecture
