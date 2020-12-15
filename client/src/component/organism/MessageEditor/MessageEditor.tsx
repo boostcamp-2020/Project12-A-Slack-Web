@@ -57,7 +57,7 @@ const MessageEditor = ({
     setContent('')
   }
 
-  const handleEnterKeyPress = (e: any) => {
+  const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && content.length > 0) {
       handleSubmitButtonClick()
     }
