@@ -13,6 +13,7 @@ interface ChannelType {
   userId?: number
   workspaceId?: number
   channelId?: number
+  isDefault?: boolean
 }
 
 interface UserType {
@@ -30,7 +31,7 @@ interface ThreadInstance extends ThreadModel {
   message: MessageModel[]
 }
 
-interface ChannelInstance extends ChannelModel {
+export interface ChannelInstance extends ChannelModel {
   thread: ThreadInstance[]
   // eslint-disable-next-line no-unused-vars
   addUser: (id: number) => Promise<void>
@@ -49,15 +50,12 @@ const isValidNewChannelData = ({ name, type, workspaceId }: ChannelType) => {
   return true
 }
 
-interface ChnnelInstance extends ChannelModel {
-  addUser: (id: number) => Promise<void>
-}
-
 export const createChannel = async ({
   name,
   type,
   workspaceId,
   userId,
+  isDefault,
 }: ChannelType) => {
   if (!isValidNewChannelData({ name, type, workspaceId })) {
     return {
@@ -78,11 +76,14 @@ export const createChannel = async ({
       }
     }
 
+    const isHead = isDefault === true ? '1' : '0'
+
     const newChannel = (await ChannelModel.create({
       name,
       type,
       workspaceId,
-    })) as ChnnelInstance
+      isHead,
+    })) as ChannelInstance
     await newChannel.addUser(userId)
 
     return {
@@ -230,11 +231,14 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
     const { id, type, name, createdAt, updatedAt } = channel
     const memberCount = channel.user.length
     const notFilteredMemberMax3 = [...new Set(channel.user)].slice(0, 3)
-    const memberMax3 = notFilteredMemberMax3.map(
-      ({ id, email, name, profileImageUrl }) => {
-        return { id, email, name, profileImageUrl }
-      },
-    )
+    const memberMax3 = notFilteredMemberMax3.map((user) => {
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        profileImageUrl: user.profileImageUrl,
+      }
+    })
 
     return {
       code: statusCode.OK,
@@ -251,7 +255,7 @@ const readChannelInfo = async ({ channelId }: ChannelType) => {
   }
 }
 
-const joinChannel = async ({ userId, channelId }: ChannelType) => {
+export const joinChannel = async ({ userId, channelId }: ChannelType) => {
   if (
     userId < 0 ||
     typeof userId !== 'number' ||

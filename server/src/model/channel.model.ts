@@ -8,6 +8,8 @@ class Channel extends Model {
 
   public type!: string
 
+  public isHead!: string
+
   public readonly createdAt?: Date
 
   public readonly updatedAt?: Date
@@ -28,6 +30,10 @@ Channel.init(
     },
     type: {
       type: DataTypes.ENUM('PUBLIC', 'PRIVATE', 'DM'),
+      allowNull: false,
+    },
+    isHead: {
+      type: DataTypes.ENUM('0', '1'),
       allowNull: false,
     },
   },
