@@ -1,5 +1,5 @@
 import { UserType } from '@type/user.type'
-import { ResponseType } from '@type/response.type'
+import { OnlySuccessResponseType, ResponseType } from '@type/response.type'
 
 export interface ChannelCardType extends Object {
   id: number
@@ -54,4 +54,9 @@ export interface ChannelRequestType {
 
 export interface GetChannelResponseType extends ResponseType {
   data: ChannelType[]
+}
+
+export interface checkJoinedChannelResponseType
+  extends OnlySuccessResponseType {
+  data: boolean
 }

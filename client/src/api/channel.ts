@@ -6,6 +6,7 @@ import {
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
   DeleteMemberRequestType,
+  checkJoinedChannelResponseType,
 } from '@type/channel.type'
 
 // TODO: workspace 전체의 채널을 어떻게 읽을 것인가
@@ -72,8 +73,10 @@ const createNewChannel = async (data: CreateChannelRequestType) => {
   return response.data
 }
 
-const checkChannelAuth = async (channelId: number) => {
-  const response = await myAxios.post({
+const checkChannelAuth = async (
+  channelId: number,
+): Promise<checkJoinedChannelResponseType> => {
+  const response = await myAxios.get({
     path: `/channel/${channelId}/joined`,
   })
   return response.data
