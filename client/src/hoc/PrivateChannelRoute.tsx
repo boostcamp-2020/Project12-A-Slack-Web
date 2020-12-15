@@ -55,19 +55,20 @@ const PrivateChannelRoute = ({
     console.log(workspaceId)
 
     // eslint-disable-next-line no-nested-ternary
-    // eslint-disable-next-line no-return-assign
-    // return isAuthenticated ? (
-    //   <>{children}</>
-    // ) : loading ? (
-    //   <></>
-    // ) : (
-    //   <>
-    //     {(window.location.href = `/workspace/${workspaceId}/channel-browser`)}
-    //   </>
-    //   // <Redirect to="/" />
-    // )
+    return isAuthenticated ? (
+      <>{children}</>
+    ) : loading ? (
+      <></>
+    ) : (
+      <>
+        {toast.error('채널 권한 없음')}
+        {/* {(window.location.href = `/workspace/${workspaceId}/channel-browser`)} */}
+      </>
+      // <Redirect to="/" />
+    )
   }
 
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Route {...rest} path={path} render={customRender} />
 }
 
