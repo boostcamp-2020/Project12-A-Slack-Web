@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import A from '@atom'
 import { ImageType } from '@atom/Image'
 import { ButtonType } from '@atom/Button'
@@ -10,11 +11,13 @@ const WorkspaceSideBar = ({
   workspaceList,
   currentWorkspaceId,
 }: WorkspaceSideBarProps) => {
+  const history = useHistory()
+
   const handleWorkspaceClick = (workspaceId: number) => () => {
     window.location.href = `/workspace/${workspaceId}/channel-browser`
   }
   const handleAddWorkspaceButtonClick = () => {
-    alert('add workspace')
+    history.push('/workspace/new')
   }
 
   return (
