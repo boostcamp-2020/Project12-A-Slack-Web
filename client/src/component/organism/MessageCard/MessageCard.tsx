@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
-import myIcon from '@constant/icon'
 import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
-import { getTimePassedFromNow } from '@util/date'
+import myIcon from '@constant/icon'
+import { getTimeAMPMFormat } from '@util/date'
 import {
   GetThreadResponseType,
   UpdateThreadRequestType,
@@ -137,7 +137,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{message.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getTimePassedFromNow(message.createdAt)}
+              {getTimeAMPMFormat(message.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
 
@@ -235,7 +235,7 @@ const MessageCard = ({
           <Styled.UserNameAndTimeWrapper>
             <A.Text customStyle={nameTextStyle}>{thread.User.name}</A.Text>
             <A.Text customStyle={timeTextStyle}>
-              {getTimePassedFromNow(thread.createdAt)}
+              {getTimeAMPMFormat(thread.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
         )}
