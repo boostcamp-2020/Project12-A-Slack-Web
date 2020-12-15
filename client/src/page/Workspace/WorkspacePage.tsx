@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Route, Switch, useParams } from 'react-router-dom'
@@ -12,6 +13,7 @@ import {
 } from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
+import PrivateChannelRoute from '@hoc/PrivateChannelRoute'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
 
 interface MatchParamsType {
