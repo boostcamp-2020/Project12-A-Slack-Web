@@ -9,11 +9,13 @@ const createChannel = async (
   const { name, type, workspaceId } = req.body
   const { id: userId } = req.user
   try {
+    // eslint-disable-next-line import/no-named-as-default-member
     const { code, json } = await channelService.createChannel({
       name,
       type,
       workspaceId,
       userId,
+      isDefault: false,
     })
     return res.status(code).json(json)
   } catch (error) {
