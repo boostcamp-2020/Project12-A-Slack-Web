@@ -1,9 +1,9 @@
 import { Op } from 'sequelize'
 import UserModel from '@model/user.model'
 import WorkspaceModel from '@model/workspace.model'
-// import { sequelize } from '@model/sequelize'
+import ChannelModel from '@model/channel.model'
 import { statusCode, resMessage } from '@util/constant'
-import { createChannel } from './channel.service'
+import { createChannel, joinChannel } from '@service/channel.service'
 
 interface WorkspaceType {
   name?: string
@@ -61,21 +61,19 @@ const createWorkspace = async ({
       }
     }
 
-    const workspace = (await WorkspaceModel.create(
-      {
-        name,
-        imageUrl,
-      },
-      // { transaction: t },
-    )) as WorkspaceInstance
+    const workspace = (await WorkspaceModel.create({
+      name,
+      imageUrl,
+    })) as WorkspaceInstance
     await workspace.addUser(userId)
     await createChannel({
       userId,
       name: channelName,
       type: 'PUBLIC',
       workspaceId: workspace.id,
+      isDefault: true,
     })
-    // await t.commit()
+
     return {
       code: statusCode.CREATED,
       json: {
@@ -83,7 +81,6 @@ const createWorkspace = async ({
       },
     }
   } catch (error) {
-    // await t.rollback()
     return {
       code: statusCode.DB_ERROR,
       json: { success: false, message: resMessage.DB_ERROR },
@@ -161,9 +158,13 @@ const joinWorkspace = async ({ userId, workspaceId }: WorkspaceType) => {
     }
 
     const currentUsers = targetWorkspace.user.map((user) => user.id)
+    const targetWorkspaceDefaultChannel = await ChannelModel.findOne({
+      where: { workspaceId, isHead: '1' },
+    })
 
     if (!currentUsers.includes(userId)) {
       await targetWorkspace.addUser(userId)
+      await joinChannel({ userId, channelId: targetWorkspaceDefaultChannel.id })
       return {
         code: statusCode.CREATED,
         json: {

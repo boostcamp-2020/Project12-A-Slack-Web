@@ -5,6 +5,7 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
+import { getChannels } from '@store/reducer/channel.reducer'
 import {
   getWorkspace,
   getCurrentWorkspaceInfo,
