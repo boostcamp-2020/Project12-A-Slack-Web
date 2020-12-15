@@ -72,6 +72,13 @@ const createNewChannel = async (data: CreateChannelRequestType) => {
   return response.data
 }
 
+const checkChannelAuth = async (channelId: number) => {
+  const response = await myAxios.post({
+    path: `/channel/${channelId}/joined`,
+  })
+  return response.data
+}
+
 export default {
   getChannels,
   searchChannels,
@@ -80,4 +87,5 @@ export default {
   getChannelInfo,
   createNewChannel,
   deleteMember,
+  checkChannelAuth,
 }
