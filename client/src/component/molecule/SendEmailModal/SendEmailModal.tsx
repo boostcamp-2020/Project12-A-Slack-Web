@@ -131,7 +131,6 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
 const invitePeopleModalWrapperStyle = {
   backgroundColor: 'white',
-  boxShadow: '0px 6px 20px 0px #EBEBEB',
   width: '400px',
   height: '250px',
   padding: '0',

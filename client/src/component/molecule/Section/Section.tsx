@@ -478,7 +478,6 @@ const createModalOverlayStyle = {
 
 const createModalWrapperStyle = {
   backgroundColor: 'white',
-  boxShadow: '0px 6px 20px 0px #EBEBEB',
   width: '400px',
   height: '400px',
   padding: '0',
@@ -520,7 +519,6 @@ let plusOverWrapperStyle = {
   height: '60px',
   width: '140px',
   borderRadius: '10px',
-  boxShadow: '0px 7px 18px 0px #EBEBEB',
 }
 
 let moreOverWrapperStyle = {
@@ -534,7 +532,6 @@ let moreOverWrapperStyle = {
   height: '60px',
   width: '140px',
   borderRadius: '10px',
-  boxShadow: '0px 7px 18px 0px #EBEBEB',
 }
 
 const HeaderTextStyle = {

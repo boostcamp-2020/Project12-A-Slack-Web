@@ -19,12 +19,18 @@ const WorkspaceSideBar = ({
   const handleAddWorkspaceButtonClick = () => {
     history.push('/workspace/new')
   }
+  const handleHomeButtonClick = () => {
+    window.location.href = `/`
+  }
 
   return (
     <Styled.Wrapper>
+      <A.Button customStyle={homeButtonStyle} onClick={handleHomeButtonClick}>
+        <A.Icon icon={myIcon.home} customStyle={{ fontSize: '1.6rem' }} />
+      </A.Button>
       {workspaceList.map((workspace) => {
         return workspace.id === currentWorkspaceId ? (
-          <Styled.CurrentWorkspaceImageWrapper>
+          <Styled.CurrentWorkspaceImageWrapper key={workspace.id}>
             <A.Image url={workspace.imageUrl} customStyle={workspaceImgStyle} />
           </Styled.CurrentWorkspaceImageWrapper>
         ) : (
@@ -58,6 +64,15 @@ const plusButtonStyle: ButtonType.StyleAttributes = {
   borderRadius: '8px',
   padding: '2px',
   margin: '10px 0',
+}
+const homeButtonStyle: ButtonType.StyleAttributes = {
+  hoverBackgroundColor: 'greyHover',
+  width: '45px',
+  height: '45px',
+  borderRadius: '7px',
+  padding: '2px',
+  margin: '10px 0 5px 0',
+  border: '1px solid lightgrey',
 }
 
 export default WorkspaceSideBar
