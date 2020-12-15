@@ -97,7 +97,7 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   box-shadow: ${({ boxShadow }) => boxShadow};
-  cursor: ${({ cursor }) => cursor};
+  cursor: ${({ cursor }) => cursor || defaultStyle.cursor};
 `
 
 export default Button
