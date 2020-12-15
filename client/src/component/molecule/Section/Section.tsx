@@ -35,16 +35,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setNewChannelName(value)
   }
 
-  // const getAllChannels = async () => {
-  //   const {
-  //     data: { data },
-  //   } = await myAxios.get({
-  //     path: `/channel/all`,
-  //     data: { workspaceId },
-  //   })
-  //   console.log(data)
-  // }
-
   const handleCreateNewChannelClick = async () => {
     dispatch(
       createChannel.request({
