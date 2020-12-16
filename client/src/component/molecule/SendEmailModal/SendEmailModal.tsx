@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import myAxios from '@util/myAxios'
@@ -19,6 +19,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
   const [sendEmailButtonDisabled, setSendEmailButtonDisabled] = useState<
     boolean
   >(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -34,6 +35,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
   const handleSendEmail = async () => {
     if (email) {
+      setLoading(true)
       const {
         data: { success },
       } = await myAxios.post({
@@ -47,10 +49,12 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
       })
       if (success) {
         toast.success(`${email}로 이메일을 성공적으로 보냈습니다.`)
+        setLoading(false)
         setEmail('')
       }
     } else {
       toast.warn('이메일 형식을 맞춰주세요.')
+      setLoading(true)
     }
   }
 
@@ -59,73 +63,83 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
   }
 
   return (
-    <M.Modal
-      overlayStyle={createModalOverlayStyle}
-      modalWrapperStyle={invitePeopleModalWrapperStyle}
-      onClose={handleCloseModal}
-    >
-      <Styled.InvitePeopleContainer>
-        <Styled.InvitePeopleTitle>
-          <A.Text customStyle={{ fontSize: '2rem', fontWeight: 'bold' }}>
-            {currentWorkspace.name}
-          </A.Text>
-          <A.Text customStyle={{ fontSize: '2rem' }}>
-            으로 사람들을 초대하세요!!
-          </A.Text>
-        </Styled.InvitePeopleTitle>
-        <Styled.InvitePeopleInput>
-          <A.Input
-            value={email}
-            onChange={handleEmailValue}
-            placeholder="초대할 이메일을 적어주세요."
-            customStyle={{
-              border: '1px solid lightgrey',
-              borderRadius: '4px',
-              width: '22rem',
-              height: '3rem',
-              margin: '0 1rem',
-              padding: '0 1rem',
-            }}
-          />
-          <M.ButtonDiv
-            onClick={handleSendEmail}
-            buttonStyle={{
-              width: '10rem',
-              height: '3rem',
-              backgroundColor: 'purple',
-              disabled: sendEmailButtonDisabled,
-              border: '1px soild lightgrey',
-            }}
-            textStyle={{ fontSize: '1.3rem', color: 'white' }}
-          >
-            이메일로 초대하기
-          </M.ButtonDiv>
-        </Styled.InvitePeopleInput>
-        {!isVaildEmail && (
-          <A.Text
-            customStyle={{
-              color: 'red',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-            }}
-          >
-            입력하신 이메일은 이메일 형식이 아닙니다.
-          </A.Text>
-        )}
-        <Styled.InvitePeopleTextInput>
-          <A.Text customStyle={{ fontSize: '1.3rem' }}>
-            혹은 하단의 url을 상대방에게 전달해주세요!
-          </A.Text>
-          <A.Text customStyle={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-            {`${
-              process.env.NODE_ENV === 'development'
-                ? process.env.FRONT_DOMAIN_DEVELOP
-                : process.env.FRONT_DOMAIN_PRODUCTION
-            }/workspace/join?workspace_id=${currentWorkspace.id}`}
-          </A.Text>
-        </Styled.InvitePeopleTextInput>
-      </Styled.InvitePeopleContainer>
-    </M.Modal>
+    <>
+      <M.Modal
+        overlayStyle={createModalOverlayStyle}
+        modalWrapperStyle={invitePeopleModalWrapperStyle}
+        onClose={handleCloseModal}
+      >
+        <Styled.InvitePeopleContainer>
+          {loading && (
+            <>
+              <A.Overlay customStyle={{ zIndex: '2', opacity: '0.5' }} />
+              <A.Text customStyle={{ fontSize: '2rem' }}>
+                이메일 발송중...
+              </A.Text>
+            </>
+          )}
+          <Styled.InvitePeopleTitle>
+            <A.Text customStyle={{ fontSize: '2rem', fontWeight: 'bold' }}>
+              {currentWorkspace.name}
+            </A.Text>
+            <A.Text customStyle={{ fontSize: '2rem' }}>
+              으로 사람들을 초대하세요!!
+            </A.Text>
+          </Styled.InvitePeopleTitle>
+          <Styled.InvitePeopleInput>
+            <A.Input
+              value={email}
+              onChange={handleEmailValue}
+              placeholder="초대할 이메일을 적어주세요."
+              customStyle={{
+                border: '1px solid lightgrey',
+                borderRadius: '4px',
+                width: '22rem',
+                height: '3rem',
+                margin: '0 1rem',
+                padding: '0 1rem',
+              }}
+            />
+            <M.ButtonDiv
+              onClick={handleSendEmail}
+              buttonStyle={{
+                width: '10rem',
+                height: '3rem',
+                backgroundColor: 'purple',
+                disabled: sendEmailButtonDisabled,
+                border: '1px soild lightgrey',
+              }}
+              textStyle={{ fontSize: '1.3rem', color: 'white' }}
+            >
+              이메일로 초대하기
+            </M.ButtonDiv>
+          </Styled.InvitePeopleInput>
+          {!isVaildEmail && (
+            <A.Text
+              customStyle={{
+                color: 'red',
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+              }}
+            >
+              입력하신 이메일은 이메일 형식이 아닙니다.
+            </A.Text>
+          )}
+          <Styled.InvitePeopleTextInput>
+            <A.Text customStyle={{ fontSize: '1.3rem' }}>
+              혹은 하단의 url을 상대방에게 전달해주세요!
+            </A.Text>
+            <A.Text customStyle={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+              {`${
+                process.env.NODE_ENV === 'development'
+                  ? process.env.FRONT_DOMAIN_DEVELOP
+                  : process.env.FRONT_DOMAIN_PRODUCTION
+              }/workspace/join?workspace_id=${currentWorkspace.id}`}
+            </A.Text>
+          </Styled.InvitePeopleTextInput>
+        </Styled.InvitePeopleContainer>
+      </M.Modal>
+    </>
   )
 }
 
