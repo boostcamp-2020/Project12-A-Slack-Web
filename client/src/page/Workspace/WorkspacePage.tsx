@@ -58,8 +58,8 @@ const WorkspacePage = () => {
         <O.SideBar workspaceInfo={currentWorkspace} channelList={channelList} />
 
         <ViewContainer>
-          <Switch>
-            <MainView>
+          <MainView>
+            <Switch>
               <PrivateChannelRoute
                 path={`/workspace/${workspaceId}/channel/:channelId`}
               >
@@ -84,8 +84,12 @@ const WorkspacePage = () => {
                 />
               </Route>
               {/* <Route component={NotFoundPage} /> */}
-            </MainView>
-          </Switch>
+              <Route>
+                <NotFoundPage />
+              </Route>
+            </Switch>
+          </MainView>
+
           {subViewShow && (
             <SubView>
               <ViewHeader>
