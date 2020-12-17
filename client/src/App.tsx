@@ -52,6 +52,10 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     width: 100vw;
   }
+  main {
+    height: 100%;
+    width: 100%;
+  }
   * {
     padding: 0px;
     margin: 0px;
