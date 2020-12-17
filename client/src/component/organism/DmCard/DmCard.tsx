@@ -3,7 +3,6 @@ import A from '@atom'
 import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
-import myAxios from '@util/myAxios'
 import { getTimeAMPMFormat, getWeekdayDayMonth } from '@util/date'
 import channelApi from '@api/channel'
 import Styled from './DmCard.style'
@@ -55,7 +54,7 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
         {getWeekdayDayMonth(dmChannelInfo.createdAt)}
       </A.Text>
       <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
-        <Styled.DmCardMain>
+        <>
           <Styled.DmCardContent>
             <Styled.DmCardImageContainer>
               {dmChannelInfo.memberMax3.map((member) => {
@@ -70,11 +69,11 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
               {dmChannelInfo.memberCount > 3 ? <A.Text>...</A.Text> : null}
             </Styled.DmCardImageContainer>
             <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
+            <A.Text customStyle={dmDateTimeStyle}>
+              {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
+            </A.Text>
           </Styled.DmCardContent>
-          <A.Text customStyle={dmDateTimeStyle}>
-            {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
-          </A.Text>
-        </Styled.DmCardMain>
+        </>
       </M.ButtonDiv>
     </Styled.Container>
   )
@@ -94,6 +93,7 @@ const dmCardButtonStyle = {
   display: 'flex',
   borderRadius: '10px',
   border: '1px solid rgb(230, 230, 230)',
+  justifyContent: 'flex-start',
   backgroundColor: 'white',
   hoverBackgroundColor: 'whiteGrey',
 }

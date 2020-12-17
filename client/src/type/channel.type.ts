@@ -40,6 +40,7 @@ export interface CreateChannelRequestType {
   name: string
   type: string
   workspaceId: number
+  onSuccess?: (channleId: number) => void
 }
 
 export interface JoinChannelRequestType {
