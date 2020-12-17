@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import A from '@atom'
 import M from '@molecule'
+import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createChannel } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
@@ -16,6 +17,7 @@ const CreateModal = ({
   const { currentWorkspace } = useSelector(
     (state: RootState) => state.workspaceStore,
   )
+  const history = useHistory()
   const dispatch = useDispatch()
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
@@ -30,12 +32,17 @@ const CreateModal = ({
     setNewChannelName(value)
   }
 
+  const onClose = (channelId: number) => {
+    history.push(`/workspace/${workspaceId}/channel/${channelId}`)
+  }
+
   const handleCreateNewChannelClick = async () => {
     dispatch(
       createChannel.request({
         name: newChannelName,
         type: channelType,
         workspaceId,
+        onSuccess: onClose,
       }),
     )
     setCreateModal(false)
