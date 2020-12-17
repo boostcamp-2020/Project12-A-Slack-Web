@@ -2,13 +2,11 @@ import styled from 'styled-components'
 
 const ResultListWrapper = styled.div`
   flex: 1 1 0;
-  display: flex;
-  flex-wrap: wrap;
   overflow-y: scroll;
-`
-const CardWrapper = styled.div`
-  margin: 0 12px 12px 0;
-  cursor: pointer;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  margin-bottom: 20px;
 `
 
 const NoResultsWrapper = styled.div`
@@ -31,7 +29,6 @@ const SubViewHeaderWrapper = styled.div`
 
 export default {
   ResultListWrapper,
-  CardWrapper,
   NoResultsWrapper,
   SubViewHeaderWrapper,
 }

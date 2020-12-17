@@ -40,12 +40,12 @@ const TeammateList = ({
         </Styled.NoResultsWrapper>
       ) : (
         teammateList.map((teammate) => (
-          <Styled.CardWrapper
+          <O.TeammateCard
+            user={teammate}
+            loginUserId={loginUserId}
             onClick={handleTeammateClick(teammate)}
             key={teammate.id}
-          >
-            <O.TeammateCard user={teammate} loginUserId={loginUserId} />
-          </Styled.CardWrapper>
+          />
         ))
       )}
     </Styled.ResultListWrapper>
