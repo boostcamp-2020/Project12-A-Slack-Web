@@ -1,16 +1,6 @@
-import {
-  fork,
-  call,
-  take,
-  put,
-  select,
-  all,
-  takeLatest,
-} from 'redux-saga/effects'
+import { fork, call, take, put, all, takeLatest } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
-import { RootState } from '@store'
-import { ChannelType } from '@type/channel.type'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   MessageType,
@@ -265,8 +255,6 @@ function* sendJoinMembers(socket: Socket) {
   }
 }
 
-function* socketActiveUser(socket: Socket) {}
-
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
   yield fork(sendDeleteMember, socket)
@@ -283,16 +271,6 @@ function* handleIO(socket: Socket) {
   yield fork(sendDeleteReaction, socket)
 }
 
-function* socketJoinRoom(socket: Socket) {
-  const channelList: ChannelType[] = yield select(
-    (state: RootState) => state.channelStore.channelList,
-  )
-
-  socket.emit(JOIN_ROOM, {
-    channelIdList: channelList.map((channel: any) => +channel.id),
-  })
-}
-
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
   try {
     const socket = yield call(createSocket, action.payload)
@@ -302,7 +280,6 @@ function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
         workspaceId: action.payload.workspaceId,
       }),
     )
-    // yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
   } catch (error) {
     yield put(connectSocket.failure(error))
