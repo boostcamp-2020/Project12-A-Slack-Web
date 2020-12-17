@@ -60,27 +60,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (plusOptions === true) setPlusOptions(false)
   }
 
-  const makeDmChannelName = (name: string) => {
-    if (!name.includes(',')) {
-      return '제대로 된 DM 이름 아님'
-    }
-    const temp = name.split(',')
-    let parsedName = ``
-    if (temp.length > 3) {
-      parsedName = `${temp[0]}, ${temp[1]}, ${temp[2]}...`
-    } else {
-      for (let i = 0; i < temp.length; i++) {
-        if (i !== temp.length - 1) {
-          parsedName += temp[i]
-          parsedName += ', '
-        } else {
-          parsedName += temp[i]
-        }
-      }
-    }
-    return parsedName
-  }
-
   const handleInvitePeopleModalClick = () => {
     setInvitePeopleModal(!invitePeopleModal)
   }
@@ -153,8 +132,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                    dispatch(setChannelRead({ channelId: channel.id }))}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -164,7 +142,9 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         avatarImageStyle={dmAvatarStyle}
                       />
                       <A.Text customStyle={channelNameStyle}>
-                        {makeDmChannelName(channel.name)}
+                        <Styled.EllipsisSpan>
+                          {channel.name}
+                        </Styled.EllipsisSpan>
                       </A.Text>
                     </Styled.EachChannelContainer>
                   ) : (
@@ -177,7 +157,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         }
                         customStyle={ChannelIconStyle}
                       />
-                      {channel.name}
+                      <Styled.EllipsisSpan>{channel.name}</Styled.EllipsisSpan>
                     </>
                   )}
                 </M.ButtonDiv>
