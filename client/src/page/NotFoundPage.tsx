@@ -14,7 +14,7 @@ const NotFoundPage = () => {
 const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
-  background-color: red;
+  // background-color: red;
 `
 
 export default NotFoundPage
