@@ -30,6 +30,7 @@ import {
   faCheck,
   faArrowRight,
   faHome,
+  faFrown,
 } from '@fortawesome/free-solid-svg-icons'
 
 const myIcon = {
@@ -64,6 +65,7 @@ const myIcon = {
   check: faCheck,
   rightArrow: faArrowRight,
   home: faHome,
+  frown: faFrown,
 }
 
 export default myIcon
