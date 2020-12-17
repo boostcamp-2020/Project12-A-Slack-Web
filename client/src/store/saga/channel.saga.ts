@@ -260,13 +260,12 @@ function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
 
-<<<<<<< HEAD
 function* watchCreateDMSaga() {
   yield takeLatest(CREATE_DM_REQUEST, createDMSaga)
-=======
+}
+
 function* watchRecieveAddMemberSaga() {
   yield takeEvery(RECEIVE_ADD_MEMBER, receiveAddMemberSaga)
->>>>>>> 4c721d2612e038da7d4abd875d5c89fdfdb3ac2e
 }
 
 export default function* channelSaga() {
