@@ -236,7 +236,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
                   onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))}
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
@@ -292,64 +293,11 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
         )}
       </Styled.SectionChannelContainer>
       {createModal && (
-        <M.Modal
-          overlayStyle={createModalOverlayStyle}
-          modalWrapperStyle={createModalWrapperStyle}
-          onClose={handleCreateModalClick}
-          disableCloseButton
-        >
-          <Styled.CreateModalContainer>
-            <Styled.CreateHeader>
-              <A.Text customStyle={modalCreateTextStyle}>{privateName}</A.Text>
-              <M.CloseButton onClick={handleCreateModalClick} />
-            </Styled.CreateHeader>
-            <A.Text customStyle={crateDescStyle}>
-              Channels are where your team communicates. They're best when
-              organized around a topic - #marketing, for example.
-            </A.Text>
-            <Styled.FlexColumn>
-              <A.Text customStyle={createLabelTextStyle}>Name</A.Text>
-              <A.Input
-                customStyle={createInputStyle}
-                placeholder={placeholder}
-                onChange={handleNewChannelInput}
-                value={newChannelName}
-              />
-            </Styled.FlexColumn>
-            <Styled.CreateBottom>
-              <Styled.FlexColumn>
-                <A.Text customStyle={createLabelTextStyle}>Make Private</A.Text>
-                <A.Text customStyle={crateDescStyle}>
-                  When a channel is set to private,
-                </A.Text>
-                <A.Text customStyle={crateDescStyle}>
-                  it can only be viewed or joined by invitation.
-                </A.Text>
-              </Styled.FlexColumn>
-              <Styled.CheckBoxWrapper>
-                <Styled.CheckBox
-                  id="checkbox"
-                  type="checkbox"
-                  checked={isPrivate}
-                  onChange={handleToggleCheckbox}
-                />
-                <Styled.CheckBoxLabel htmlFor="checkbox" />
-              </Styled.CheckBoxWrapper>
-            </Styled.CreateBottom>
-
-            <Styled.CreateFooter>
-              <A.Text customStyle={createLabelTextStyle}>
-                {currentWorkspace.name}
-              </A.Text>
-              <M.ButtonDiv
-                onClick={handleCreateNewChannelClick}
-                textStyle={createTextStyle}
-              >
-                Create
-              </M.ButtonDiv>
-            </Styled.CreateFooter>
-          </Styled.CreateModalContainer>
-        </M.Modal>
+        <M.CreateModal
+          workspaceId={workspaceId}
+          createModal={createModal}
+          setCreateModal={setCreateModal}
+        />
       )}
       {invitePeopleModal && (
         <M.SendEmailModal
@@ -370,56 +318,6 @@ const dmAvatarStyle = {
 const channelNameStyle = {
   fontSize: '12px',
   margin: '0px 0px 0px 5px',
-}
-
-const createTextStyle = {
-  fontSize: '14px',
-  fontWeight: 'bold',
-}
-
-const createInputStyle = {
-  border: '1px solid grey',
-  borderRadius: '5px',
-  padding: '0 10px',
-  margin: '10px 0',
-  fontSize: '1.6rem',
-}
-
-const createLabelTextStyle = {
-  color: 'black',
-  fontSize: '1.5rem',
-  fontWeight: 'bold',
-  cursor: 'auto',
-}
-
-const modalCreateTextStyle = {
-  color: 'black',
-  fontSize: '2.5rem',
-  fontWeight: '800',
-  cursor: 'auto',
-}
-
-const crateDescStyle = {
-  color: 'darkGrey',
-  fontSize: '1.5rem',
-}
-
-const createModalOverlayStyle = {
-  zIndex: '1',
-  opacity: '0.4',
-}
-
-const createModalWrapperStyle = {
-  backgroundColor: 'white',
-  width: '400px',
-  height: '400px',
-  padding: '0',
-  borderRadius: '8px',
-  position: 'fixed',
-  left: '40%',
-  top: '15%',
-  right: '30%',
-  zIndex: '1000',
 }
 
 const moreOverlayStyle = {
