@@ -1,12 +1,4 @@
-import {
-  call,
-  put,
-  takeEvery,
-  takeLatest,
-  fork,
-  all,
-  select,
-} from 'redux-saga/effects'
+import { call, put, takeLatest, fork, all, select } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
 import channelAPI from '@api/channel'
 import { ChannelType, GetChannelResponseType } from '@type/channel.type'
@@ -171,11 +163,11 @@ function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
 }
 
 function* watchGetChannelsSaga() {
-  yield takeEvery(GET_CHANNELS_REQUEST, getChannelsSaga)
+  yield takeLatest(GET_CHANNELS_REQUEST, getChannelsSaga)
 }
 
 function* watchGetCurrentChannelSaga() {
-  yield takeEvery(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
+  yield takeLatest(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
 }
 
 function* watchCreateChannelSaga() {
