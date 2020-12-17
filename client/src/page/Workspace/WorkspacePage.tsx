@@ -6,7 +6,6 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getChannels } from '@store/reducer/channel.reducer'
 import {
   getWorkspace,
   getCurrentWorkspaceInfo,
@@ -64,13 +63,15 @@ const WorkspacePage = () => {
         <ViewContainer>
           <Switch>
             <MainView>
-              <Route path={`/workspace/${workspaceId}/channel/:channelId`}>
+              <PrivateChannelRoute
+                path={`/workspace/${workspaceId}/channel/:channelId`}
+              >
                 <Channel
                   handleSubViewOpen={handleSubViewOpen}
                   handleSubViewHeader={handleSubViewHeader}
                   handleSubViewBody={handleSubViewBody}
                 />
-              </Route>
+              </PrivateChannelRoute>
               <Route path={`/workspace/${workspaceId}/all-dm`}>
                 <AllDms workspaceId={+workspaceId} />
               </Route>
