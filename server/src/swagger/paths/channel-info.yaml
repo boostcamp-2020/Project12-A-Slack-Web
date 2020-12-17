@@ -1,0 +1,56 @@
+get:
+  summary: get channel info api (include some members)
+  tags:
+    - channel
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: channelId
+      description: channel id
+      type: integer
+  responses:
+    '200':
+      description: channel, memberCount, memberMax3
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                description: channel들의 data is
+                type: object
+                properties:
+                  id:
+                    type: number
+                  type:
+                    type: string
+                  name:
+                    type: string
+                  createdAt:
+                    type: string
+                  updatedAt:
+                    type: string
+                  memberCount:
+                    type: number
+                  memberMax3:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        email:
+                          type: string
+                        name:
+                          type: string
+                        profileImageUrl:
+                          type: string
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

@@ -1,0 +1,29 @@
+get:
+  summary: Whether the user can access the channel
+  tags:
+    - channel
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: channelId
+      description: channel id
+      type: integer
+  responses:
+    '200':
+      description: 채널이 PRIVATE/DM이면서 join이 안되어있으면 false, 나머지 true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              data:
+                type: boolean
+    '400':
+      $ref: '../openapi.yaml#/components/responses/BadRequest'
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'

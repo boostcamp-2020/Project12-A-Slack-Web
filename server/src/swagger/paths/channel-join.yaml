@@ -1,0 +1,37 @@
+post:
+  summary: channel join api
+  tags:
+    - channel
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: path
+      name: channelId
+      description: channel id
+      type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            userId:
+              type: number
+              description: user id
+
+  responses:
+    '201':
+      description: channel join 성공
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+    '400':
+      description: BadRequest, 해당 유저는 이미 channel 포함되어 있음
+    '500':
+      $ref: '../openapi.yaml#/components/responses/InternalServerError'
+    '600':
+      $ref: '../openapi.yaml#/components/responses/DBError'
