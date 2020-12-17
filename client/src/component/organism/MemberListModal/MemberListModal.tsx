@@ -128,11 +128,16 @@ const MemberListModal = ({
           ) : (
             memberSearchResult.map((member) => {
               const handleRemoveButtonClick = () => {
+                const onSuccess = () => {
+                  setMemberSearchResult(
+                    memberSearchResult.filter((mem) => mem.id !== member.id),
+                  )
+                }
                 dispatch(
                   deleteMember({
                     channelId: id,
                     userId: member.id,
-                    onSuccess: onClose,
+                    onSuccess,
                   }),
                 )
               }
