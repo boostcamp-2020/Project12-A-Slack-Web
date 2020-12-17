@@ -23,15 +23,26 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
     boolean
   >(true)
 
+  const checkEmailRegExp = (value: string) => {
+    const regExpEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
+    return value.match(regExpEmail)
+  }
+
   const handleEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(value)
-    const regExpEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i
-    if (value.match(regExpEmail) !== null) {
+
+    if (checkEmailRegExp(value) !== null) {
       setIsVaildEmail(true)
       setSendEmailButtonDisabled(false)
     } else {
       setIsVaildEmail(false)
+    }
+  }
+
+  const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && email.length > 0 && checkEmailRegExp(email)) {
+      handleSendEmail()
     }
   }
 
@@ -86,6 +97,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
               onChange={handleEmailValue}
               placeholder="초대할 이메일을 적어주세요"
               customStyle={inputStyle}
+              onKeyPress={handleEnterKeyPress}
             />
             <M.ButtonDiv
               onClick={handleSendEmail}
