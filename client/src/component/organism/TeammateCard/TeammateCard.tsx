@@ -5,11 +5,11 @@ import { ImageType } from '@atom/Image'
 import { TeammateCardProps } from '.'
 import Styled from './TeammateCard.style'
 
-const TeammateCard = ({ user, loginUserId }: TeammateCardProps) => {
+const TeammateCard = ({ user, loginUserId, onClick }: TeammateCardProps) => {
   const { id, name, profileImageUrl } = user
 
   return (
-    <Styled.Wrapper>
+    <Styled.Wrapper onClick={onClick}>
       <A.Image customStyle={profileImageStyle} url={profileImageUrl} />
       <Styled.BottomWrapper>
         <A.Text customStyle={nameTextStyle}>
@@ -21,8 +21,7 @@ const TeammateCard = ({ user, loginUserId }: TeammateCardProps) => {
 }
 
 const profileImageStyle: ImageType.StyleAttributes = {
-  width: '220px',
-  height: '220px',
+  width: '100%',
   radius: '0',
 }
 

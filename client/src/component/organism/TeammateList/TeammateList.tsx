@@ -27,7 +27,7 @@ const TeammateList = ({
   }
 
   return (
-    <Styled.ResultListWrapper>
+    <Styled.Wrapper>
       {teammateList.length === 0 ? (
         <Styled.NoResultsWrapper>
           <A.Text customStyle={noResultsTextStyle}>No results</A.Text>
@@ -39,16 +39,18 @@ const TeammateList = ({
           </A.Text>
         </Styled.NoResultsWrapper>
       ) : (
-        teammateList.map((teammate) => (
-          <Styled.CardWrapper
-            onClick={handleTeammateClick(teammate)}
-            key={teammate.id}
-          >
-            <O.TeammateCard user={teammate} loginUserId={loginUserId} />
-          </Styled.CardWrapper>
-        ))
+        <Styled.ResultListWrapper>
+          {teammateList.map((teammate) => (
+            <O.TeammateCard
+              user={teammate}
+              loginUserId={loginUserId}
+              onClick={handleTeammateClick(teammate)}
+              key={teammate.id}
+            />
+          ))}
+        </Styled.ResultListWrapper>
       )}
-    </Styled.ResultListWrapper>
+    </Styled.Wrapper>
   )
 }
 
