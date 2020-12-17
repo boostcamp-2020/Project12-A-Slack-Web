@@ -6,11 +6,11 @@ import { getWorkspace } from '@store/reducer/workspace.reducer'
 
 const PrivateWorkspace = (Component: any) => () => {
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState<boolean>(true)
   const { workspaceList } = useSelector(
     (state: RootState) => state.workspaceStore,
     shallowEqual,
   )
-  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     dispatch(getWorkspace.request())
@@ -33,7 +33,6 @@ const PrivateWorkspace = (Component: any) => () => {
       }
     }
     check()
-    console.log(workspaceList)
   }, [workspaceList])
 
   return loading ? <A.Loading /> : <Component />
