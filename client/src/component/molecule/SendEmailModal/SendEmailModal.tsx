@@ -63,6 +63,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
       overlayStyle={createModalOverlayStyle}
       modalWrapperStyle={invitePeopleModalWrapperStyle}
       onClose={handleCloseModal}
+      fixed
     >
       <Styled.InvitePeopleContainer>
         <Styled.InvitePeopleTitle>
