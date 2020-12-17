@@ -141,14 +141,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         user={currentUser}
                         avatarImageStyle={dmAvatarStyle}
                       />
-                      <A.Text customStyle={channelNameStyle}>
-                        <Styled.EllipsisSpan>
-                          {channel.name}
-                        </Styled.EllipsisSpan>
-                      </A.Text>
+                      <Styled.EllipsisSpan>{channel.name}</Styled.EllipsisSpan>
                     </Styled.EachChannelContainer>
                   ) : (
-                    <>
+                    <Styled.EachChannelContainer>
                       <A.Icon
                         icon={
                           channel.type === 'PUBLIC'
@@ -158,7 +154,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         customStyle={ChannelIconStyle}
                       />
                       <Styled.EllipsisSpan>{channel.name}</Styled.EllipsisSpan>
-                    </>
+                    </Styled.EachChannelContainer>
                   )}
                 </M.ButtonDiv>
               </Link>
@@ -209,12 +205,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
 Section.defaultProps = {}
 
 const dmAvatarStyle = {
-  margin: '0px 0px 0px 15px',
-}
-
-const channelNameStyle = {
-  fontSize: '12px',
-  margin: '0px 0px 0px 5px',
+  margin: '0px 10px 0px 20px',
 }
 
 const moreOverlayStyle = {
