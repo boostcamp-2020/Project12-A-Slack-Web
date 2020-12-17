@@ -6,14 +6,11 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getChannels } from '@store/reducer/channel.reducer'
-import {
-  getWorkspace,
-  getCurrentWorkspaceInfo,
-} from '@store/reducer/workspace.reducer'
+import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import PrivateChannelRoute from '@hoc/PrivateChannelRoute'
+import { NotFoundPage } from '@page'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
 
 interface MatchParamsType {
@@ -35,7 +32,6 @@ const WorkspacePage = () => {
   useEffect(() => {
     dispatch(connectSocket.request({ workspaceId: +workspaceId }))
     dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
-    dispatch(getWorkspace.request())
   }, [])
 
   const [subViewShow, setSubViewShow] = useState(false)
@@ -62,15 +58,17 @@ const WorkspacePage = () => {
         <O.SideBar workspaceInfo={currentWorkspace} channelList={channelList} />
 
         <ViewContainer>
-          <Switch>
-            <MainView>
-              <Route path={`/workspace/${workspaceId}/channel/:channelId`}>
+          <MainView>
+            <Switch>
+              <PrivateChannelRoute
+                path={`/workspace/${workspaceId}/channel/:channelId`}
+              >
                 <Channel
                   handleSubViewOpen={handleSubViewOpen}
                   handleSubViewHeader={handleSubViewHeader}
                   handleSubViewBody={handleSubViewBody}
                 />
-              </Route>
+              </PrivateChannelRoute>
               <Route path={`/workspace/${workspaceId}/all-dm`}>
                 <AllDms workspaceId={+workspaceId} />
               </Route>
@@ -85,8 +83,13 @@ const WorkspacePage = () => {
                   handleSubViewBody={handleSubViewBody}
                 />
               </Route>
-            </MainView>
-          </Switch>
+              {/* <Route component={NotFoundPage} /> */}
+              <Route>
+                <NotFoundPage />
+              </Route>
+            </Switch>
+          </MainView>
+
           {subViewShow && (
             <SubView>
               <ViewHeader>

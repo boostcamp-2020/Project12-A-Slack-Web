@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import myAxios from '@util/myAxios'
 import A from '@atom'
 import M from '@molecule'
+import { ButtonType } from '@atom/Button'
+import { TextType } from '@atom/Text'
+import { InputType } from '@atom/Input'
 import { RootState } from '@store'
 import { SendEmailModalProps } from '.'
 import Styled from './SendEmailModal.style'
@@ -19,6 +22,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
   const [sendEmailButtonDisabled, setSendEmailButtonDisabled] = useState<
     boolean
   >(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -34,6 +38,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
   const handleSendEmail = async () => {
     if (email) {
+      setLoading(true)
       const {
         data: { success },
       } = await myAxios.post({
@@ -47,10 +52,12 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
       })
       if (success) {
         toast.success(`${email}로 이메일을 성공적으로 보냈습니다.`)
+        setLoading(false)
         setEmail('')
       }
     } else {
       toast.warn('이메일 형식을 맞춰주세요.')
+      setLoading(true)
     }
   }
 
@@ -63,6 +70,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
       overlayStyle={createModalOverlayStyle}
       modalWrapperStyle={invitePeopleModalWrapperStyle}
       onClose={handleCloseModal}
+      fixed
     >
       <Styled.InvitePeopleContainer>
         <Styled.InvitePeopleTitle>
@@ -70,60 +78,48 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
             {currentWorkspace.name}
           </A.Text>
           <A.Text customStyle={{ fontSize: '2rem' }}>
-            으로 사람들을 초대하세요!!
+            으로 사람들을 초대하세요!
           </A.Text>
         </Styled.InvitePeopleTitle>
-        <Styled.InvitePeopleInput>
-          <A.Input
-            value={email}
-            onChange={handleEmailValue}
-            placeholder="초대할 이메일을 적어주세요."
-            customStyle={{
-              border: '1px solid lightgrey',
-              borderRadius: '4px',
-              width: '22rem',
-              height: '3rem',
-              margin: '0 1rem',
-              padding: '0 1rem',
-            }}
-          />
-          <M.ButtonDiv
-            onClick={handleSendEmail}
-            buttonStyle={{
-              width: '10rem',
-              height: '3rem',
-              backgroundColor: 'purple',
-              disabled: sendEmailButtonDisabled,
-              border: '1px soild lightgrey',
-            }}
-            textStyle={{ fontSize: '1.3rem', color: 'white' }}
-          >
-            이메일로 초대하기
-          </M.ButtonDiv>
-        </Styled.InvitePeopleInput>
-        {!isVaildEmail && (
-          <A.Text
-            customStyle={{
-              color: 'red',
-              fontSize: '1.2rem',
-              fontWeight: 'bold',
-            }}
-          >
-            입력하신 이메일은 이메일 형식이 아닙니다.
+
+        <Styled.InputFormWrapper>
+          <Styled.InvitePeopleInput>
+            <A.Input
+              value={email}
+              onChange={handleEmailValue}
+              placeholder="초대할 이메일을 적어주세요"
+              customStyle={inputStyle}
+            />
+            <M.ButtonDiv
+              onClick={handleSendEmail}
+              buttonStyle={{
+                ...sendInvitationButtonStyle,
+                disabled: sendEmailButtonDisabled,
+              }}
+              textStyle={sendInvitationButtonTextStyle}
+            >
+              이메일로 초대하기
+            </M.ButtonDiv>
+          </Styled.InvitePeopleInput>
+          {!isVaildEmail && (
+            <A.Text customStyle={warningTextStyle}>
+              입력하신 이메일은 이메일 형식이 아닙니다.
+            </A.Text>
+          )}
+        </Styled.InputFormWrapper>
+
+        <Styled.InvitePeopleLink>
+          <A.Text customStyle={linkDescTextStyle}>
+            혹은 하단의 URL을 초대하고자 하는 팀원에게 전달해주세요!
           </A.Text>
-        )}
-        <Styled.InvitePeopleTextInput>
-          <A.Text customStyle={{ fontSize: '1.3rem' }}>
-            혹은 하단의 url을 상대방에게 전달해주세요!
-          </A.Text>
-          <A.Text customStyle={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+          <A.Text customStyle={linkTextStyle}>
             {`${
               process.env.NODE_ENV === 'development'
                 ? process.env.FRONT_DOMAIN_DEVELOP
                 : process.env.FRONT_DOMAIN_PRODUCTION
             }/workspace/join?workspace_id=${currentWorkspace.id}`}
           </A.Text>
-        </Styled.InvitePeopleTextInput>
+        </Styled.InvitePeopleLink>
       </Styled.InvitePeopleContainer>
     </M.Modal>
   )
@@ -131,21 +127,54 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
 const invitePeopleModalWrapperStyle = {
   backgroundColor: 'white',
-  width: '400px',
-  height: '250px',
+  width: '450px',
+  height: '300px',
   padding: '0',
   borderRadius: '8px',
   position: 'fixed',
-  left: '40%',
+  left: '35%',
   top: '30%',
-  right: '30%',
-  bottom: '15%',
   zIndex: '1000',
 }
-
 const createModalOverlayStyle = {
   zIndex: '1',
   opacity: '0.4',
+}
+
+const inputStyle: InputType.StyleAttributes = {
+  border: '1px solid grey',
+  borderRadius: '4px',
+  width: '22rem',
+  height: '3.5rem',
+  margin: '0 1rem',
+  padding: '0 1rem',
+}
+
+const warningTextStyle: TextType.StyleAttributes = {
+  color: 'red',
+  fontSize: '1.3rem',
+  fontWeight: 'bold',
+}
+const sendInvitationButtonStyle: ButtonType.StyleAttributes = {
+  padding: '5px 15px',
+  height: '3.5rem',
+  backgroundColor: 'purple',
+  border: '1px soild lightgrey',
+}
+const sendInvitationButtonTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.4rem',
+  fontWeight: '600',
+  color: 'white',
+}
+
+const linkDescTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.5rem',
+  color: 'darkGrey',
+}
+const linkTextStyle: TextType.StyleAttributes = {
+  fontSize: '1.7rem',
+  fontWeight: '600',
+  margin: '10px 0',
 }
 
 export default SendEmailModal

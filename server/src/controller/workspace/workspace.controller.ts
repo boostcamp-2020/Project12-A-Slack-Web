@@ -19,6 +19,21 @@ const createWorkspace = async (
   }
 }
 
+const checkWorkspaceName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await workspaceService.checkWorkspaceName({
+      name: req.body.name,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const readWorkspaceByUser = async (
   req: Request,
   res: Response,
@@ -83,6 +98,7 @@ const readWorkspaceUsers = async (
 
 export default {
   createWorkspace,
+  checkWorkspaceName,
   readWorkspaceByUser,
   joinWorkspace,
   readWorkspaceUsers,
