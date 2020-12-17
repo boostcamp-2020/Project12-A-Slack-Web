@@ -114,6 +114,16 @@ const FlexColumn = styled.div`
   flex-direction: column;
 `
 
+const EllipsisSpan = styled.span`
+  text-overflow: ellipsis;
+  display: inline-block;
+  overflow: auto;
+  white-space: nowrap;
+  font-size: 1.4rem;
+  width: 165px;
+  text-align: start;
+`
+
 export default {
   SectionContainer,
   SectionHeader,
@@ -129,4 +139,5 @@ export default {
   CheckBoxLabel,
   EachChannelContainer,
   FlexColumn,
+  EllipsisSpan,
 }
