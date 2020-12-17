@@ -50,6 +50,8 @@ export const JOIN_MEMBERS_TO_CHANNEL_REQUEST = 'channel/JOIN_MEMBERS_TO_CHANNEL_
 const JOIN_MEMBERS_TO_CHANNEL_SUCCESS = 'channel/JOIN_MEMBERS_TO_CHANNEL_SUCCESS' as const
 const JOIN_MEMBERS_TO_CHANNEL_ERROR = 'channel/JOIN_MEMBERS_TO_CHANNEL_ERROR' as const
 
+export const RECEIVE_ADD_MEMBER = 'channel/RECEIVE_ADD_MEMBER' as const
+
 export const DELETE_MEMBER = 'channel/DELETE_MEMBER' as const
 export const RECEIVE_DELETE_MEMBER = 'channel/RECEIVE_DELETE_MEMBER' as const
 
@@ -91,6 +93,11 @@ export const joinMembersToChannel = createAsyncAction(
   JoinMembersToChannelRequestType,
   AxiosError
 >()
+
+export const receiveAddMember = createAction(RECEIVE_ADD_MEMBER)<{
+  channelInfo: CurrentChannelType
+  userIdList: number[]
+}>()
 
 export const deleteMember = createAction(DELETE_MEMBER)<
   DeleteMemberRequestType
@@ -140,6 +147,7 @@ const actions = {
   joinMembersToChannelRequest: joinMembersToChannel.request,
   joinMembersToChannelSuccess: joinMembersToChannel.success,
   joinMembersToChannelError: joinMembersToChannel.failure,
+  receiveAddMember,
   deleteMember,
   receiveDeleteMember,
   createChannelRequest: createChannel.request,
@@ -222,6 +230,10 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     loading: false,
     error: action.payload,
   }),
+
+  // [RECEIVE_ADD_MEMBER]: (state, action) => ({
+
+  // }),
 
   [RECEIVE_DELETE_MEMBER]: (state, action) => {
     const { channelInfo } = action.payload

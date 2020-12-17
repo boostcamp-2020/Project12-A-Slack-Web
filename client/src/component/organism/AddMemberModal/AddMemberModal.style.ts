@@ -33,7 +33,7 @@ const InputWrapper = styled.div`
   border-radius: 5px;
   min-height: 30px;
   max-height: 150px;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
 `
 const RelativeDiv = styled.div`
@@ -55,7 +55,7 @@ const SearchResultWrapper = styled.div`
   width: 106%;
   min-height: 30px;
   max-height: 150px;
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 const NotFoundWrapper = styled.div`

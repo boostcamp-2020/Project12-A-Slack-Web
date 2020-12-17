@@ -30,9 +30,7 @@ const MessageEditor = ({
 }: MessageEditorProps) => {
   const dispatch = useDispatch()
   const [content, setContent] = useState(value || '')
-  const [reactionPickerVisible, setReactionPickerVisible] = useState(false)
   const [sendButtonActive, setSendButtonActive] = useState<boolean>(true)
-  const fileInput = createRef<HTMLInputElement>()
 
   const { channelId } = useParams<MatchParamsType>()
 
@@ -63,18 +61,6 @@ const MessageEditor = ({
     }
   }
 
-  const handleAddReactionButtonClick = () => setReactionPickerVisible(true)
-  const handleReactionPickerClose = () => setReactionPickerVisible(false)
-  const handleReactionClick = (emoji: string) => {
-    // TODO: content의 가장 끝에 추가/ parsing 필요
-    console.log(emoji)
-  }
-
-  const handleAddFileButtonClick = () => fileInput.current?.click()
-  const handleSelectFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files)
-  }
-
   return (
     <Styled.Container>
       <A.Input
@@ -88,34 +74,6 @@ const MessageEditor = ({
         <Styled.LeftButtonWrapper />
         <Styled.RightButtonWrapper>
           <A.Button
-            customStyle={ButtonStyle}
-            onClick={handleAddReactionButtonClick}
-          >
-            <A.Icon
-              icon={myIcon.laughEmoji}
-              customStyle={{ color: 'textGrey' }}
-            />
-          </A.Button>
-          <A.Button
-            customStyle={ButtonStyle}
-            onClick={handleAddFileButtonClick}
-          >
-            <>
-              <input
-                type="file"
-                name="file1"
-                hidden
-                multiple
-                ref={fileInput}
-                onChange={handleSelectFileChange}
-              />
-              <A.Icon
-                icon={myIcon.paperClip}
-                customStyle={{ color: 'textGrey' }}
-              />
-            </>
-          </A.Button>
-          <A.Button
             customStyle={{ ...SubmitButtonStyle, disabled: sendButtonActive }}
             onClick={handleSubmitButtonClick}
           >
@@ -123,17 +81,6 @@ const MessageEditor = ({
           </A.Button>
         </Styled.RightButtonWrapper>
       </Styled.ButtonWrapper>
-      {reactionPickerVisible && (
-        <O.ReactionPicker
-          modalAttributes={{
-            position: 'absolute',
-            bottom: '210px',
-            right: '0',
-          }}
-          onReactionClick={handleReactionClick}
-          onClose={handleReactionPickerClose}
-        />
-      )}
     </Styled.Container>
   )
 }
@@ -150,12 +97,6 @@ const InputStyle: InputType.StyleAttributes = {
   width: '100%',
   margin: '3px 0px 0px 0px',
   padding: '3px 11px',
-}
-
-const ButtonStyle: ButtonType.StyleAttributes = {
-  height: '32px',
-  width: '32px',
-  borderRadius: '4px',
 }
 
 const SubmitButtonStyle: ButtonType.StyleAttributes = {
