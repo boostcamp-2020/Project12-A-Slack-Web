@@ -1,20 +1,24 @@
 import React, { useState, MouseEvent } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { RootState } from '@store'
 import A from '@atom'
 import O from '@organism'
 import { ImageType } from '@atom/Image'
 import { ModalWrapperType } from '@atom/ModalWrapper'
 import calcModalPosition from '@util/calcModalPosition'
+import { createDM } from '@store/reducer/channel.reducer'
 import { AvatarProps } from '.'
 
 import Styled from './Avatar.style'
 
-const Avatar = ({
-  user,
-  size,
-  clickable,
-  avatarImageStyle,
-  onMessageButtonClick,
-}: AvatarProps) => {
+const Avatar = ({ user, size, clickable, avatarImageStyle }: AvatarProps) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { id: workspaceId } = useSelector(
+    (state: RootState) => state.workspaceStore.currentWorkspace,
+  )
   const { profileImageUrl } = user
   const [profileModalVisible, setProfileModalVisible] = useState(false)
 
@@ -39,6 +43,21 @@ const Avatar = ({
   }
   const handleProfileModalClose = () => setProfileModalVisible(false)
 
+  const handleMessageButtonClick = () => {
+    const onSuccess = (channelId: number) => {
+      history.push(`/workspace/${workspaceId}/channel/${channelId}`)
+    }
+    dispatch(
+      createDM.request({
+        name: `${currentUser.name}, ${user.name}`,
+        type: 'DM',
+        workspaceId,
+        userList: [currentUser, user],
+        onSuccess,
+      }),
+    )
+  }
+
   return (
     <Styled.Wrapper>
       <A.Image
@@ -50,7 +69,7 @@ const Avatar = ({
         <O.UserProfileModal
           user={user}
           modalAttributes={modalWrapperStyle}
-          onMessageButtonClick={onMessageButtonClick}
+          onMessageButtonClick={handleMessageButtonClick}
           onClose={handleProfileModalClose}
         />
       )}

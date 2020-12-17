@@ -72,8 +72,12 @@ export const createChannel = async ({
 
     if (currentChannel) {
       return {
-        code: statusCode.BAD_REQUEST,
-        json: { success: false, message: resMessage.DUPLICATE_VALUE_ERROR },
+        code: statusCode.OK,
+        json: {
+          success: false,
+          message: resMessage.DUPLICATE_VALUE_ERROR,
+          data: { id: currentChannel.id },
+        },
       }
     }
 

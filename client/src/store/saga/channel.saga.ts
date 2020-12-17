@@ -73,6 +73,7 @@ function* getCurrentChannelSaga(
 
 function* createDMSaga(action: ReturnType<typeof createDM.request>) {
   try {
+    const { userList, onSuccess } = action.payload
     const { success, data } = yield call(
       channelAPI.createNewChannel,
       action.payload,
@@ -81,7 +82,6 @@ function* createDMSaga(action: ReturnType<typeof createDM.request>) {
       (state: RootState) => state.userStore.currentUser,
     )
     if (success) {
-      const { userList, onSuccess } = action.payload
       const userListExceptCurrent = userList.filter(
         ({ id }) => id !== currentUserId,
       )
@@ -93,8 +93,8 @@ function* createDMSaga(action: ReturnType<typeof createDM.request>) {
           userList: userListExceptCurrent,
         }),
       )
-      if (onSuccess) onSuccess(data.id)
     }
+    if (onSuccess) onSuccess(data.id)
   } catch (error) {
     yield put(createDM.failure(error))
   }

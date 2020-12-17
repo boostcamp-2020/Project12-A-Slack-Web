@@ -1,18 +1,38 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { RootState } from '@store'
 import A from '@atom'
 import M from '@molecule'
-import O from '@organism'
 import { TextType } from '@atom/Text'
 import { ImageType } from '@atom/Image'
 import { ButtonType } from '@atom/Button'
+import { createDM } from '@store/reducer/channel.reducer'
 import { UserDetailProps } from '.'
 import Styled from './UserDetail.style'
 
 const UserDetail = ({ user }: UserDetailProps) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { id: workspaceId } = useSelector(
+    (state: RootState) => state.workspaceStore.currentWorkspace,
+  )
   const { email, name, profileImageUrl } = user
 
   const handleMessageButtonClick = () => {
-    // TODO: DM 생성
+    const onSuccess = (channelId: number) => {
+      history.push(`/workspace/${workspaceId}/channel/${channelId}`)
+    }
+    dispatch(
+      createDM.request({
+        name: `${currentUser.name}, ${user.name}`,
+        type: 'DM',
+        workspaceId,
+        userList: [currentUser, user],
+        onSuccess,
+      }),
+    )
   }
 
   return (
