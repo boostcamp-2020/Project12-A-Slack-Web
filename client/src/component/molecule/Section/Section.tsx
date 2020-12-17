@@ -1,11 +1,11 @@
-import React, { useState, MouseEvent, useEffect } from 'react'
+import React, { useState, MouseEvent } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import A from '@atom'
 import M from '@molecule'
 import O from '@organism'
 import myIcon from '@constant/icon'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChannelRead, createChannel } from '@store/reducer/channel.reducer'
+import { setChannelRead } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
 
 import Styled from './Section.style'
@@ -13,9 +13,6 @@ import { SectionProps } from '.'
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const { currentUser } = useSelector((state: RootState) => state.userStore)
-  const { currentWorkspace } = useSelector(
-    (state: RootState) => state.workspaceStore,
-  )
   const dispatch = useDispatch()
   const history = useHistory()
   const [toggle, setToggle] = useState<boolean>(false)
@@ -23,49 +20,12 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const [moreOptions, setMoreOptions] = useState<boolean>(false)
   const [plusOptions, setPlusOptions] = useState<boolean>(false)
   const [createModal, setCreateModal] = useState<boolean>(false)
-  const [newChannelName, setNewChannelName] = useState<string>('')
-  const [isPrivate, setIsPrivate] = useState<boolean>(false)
-  const [privateName, setPrivateName] = useState<string>('Create a Channel')
-  const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
-  const [channelType, setChannelType] = useState<string>('PUBLIC')
   const [invitePeopleModal, setInvitePeopleModal] = useState<boolean>(false)
-
-  const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setNewChannelName(value)
-  }
-
-  const handleCreateNewChannelClick = async () => {
-    dispatch(
-      createChannel.request({
-        name: newChannelName,
-        type: channelType,
-        workspaceId,
-      }),
-    )
-    setCreateModal(false)
-  }
 
   const handleCreateDmClick = () => {
     history.push(`/workspace/${workspaceId}/all-dm`)
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
-  }
-
-  const handleToggleCheckbox = () => {
-    setIsPrivate(!isPrivate)
-    if (!isPrivate) {
-      setPrivateName('Create a private Channel')
-      setPlaceholder('  🔒 e.g plan-budget')
-    } else {
-      setPrivateName('Create a Channel')
-      setPlaceholder('  # e.g plan-budget')
-    }
-    if (type === 'DM') {
-      setChannelType('DM')
-    } else {
-      setChannelType(isPrivate ? 'PUBLIC' : 'PRIVATE')
-    }
   }
 
   const handleBrowseDmClick = () => {
@@ -94,18 +54,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     setMoreOptions(!moreOptions)
   }
 
-  const handlePlusOptionsClick = (event: MouseEvent<HTMLSpanElement>) => {
-    modalWrapperStyle.left = String(`${event.pageX}px`)
-    modalWrapperStyle.top = String(`${event.pageY}px`)
-    setPlusOptions(!plusOptions)
-  }
-
   const handleCreateModalClick = () => {
     setCreateModal(!createModal)
     if (moreOptions === true) setMoreOptions(false)
     if (plusOptions === true) setPlusOptions(false)
-    setNewChannelName('')
-    setIsPrivate(false)
   }
 
   const makeDmChannelName = (name: string) => {
@@ -154,45 +106,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
               customStyle={sectionHoverIconStyle}
               onClick={handleMoreOptionsClick}
             />
-            <A.Icon
-              icon={myIcon.plus}
-              customStyle={sectionHoverIconStyle}
-              onClick={handlePlusOptionsClick}
-            />
           </Styled.SectionHoverContainer>
         )}
       </Styled.SectionContainer>
       {moreOptions && (
-        <M.Modal
-          overlayStyle={moreOverlayStyle}
-          modalWrapperStyle={modalWrapperStyle}
-          disableCloseButton
-        >
-          {type === 'CHANNEL' ? (
-            <>
-              <M.ActionMenuButton
-                type="PLAIN"
-                onClick={handleBrowseChannelClick}
-              >
-                Browse Channels
-              </M.ActionMenuButton>
-              <M.ActionMenuButton type="PLAIN" onClick={handleCreateModalClick}>
-                Create a Channel
-              </M.ActionMenuButton>
-            </>
-          ) : (
-            <>
-              <M.ActionMenuButton type="PLAIN" onClick={handleBrowseDmClick}>
-                Browse DMs
-              </M.ActionMenuButton>
-              <M.ActionMenuButton type="PLAIN" onClick={handleCreateDmClick}>
-                Create a DM
-              </M.ActionMenuButton>
-            </>
-          )}
-        </M.Modal>
-      )}
-      {plusOptions && (
         <M.Modal
           overlayStyle={moreOverlayStyle}
           modalWrapperStyle={modalWrapperStyle}
