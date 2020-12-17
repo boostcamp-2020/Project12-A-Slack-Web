@@ -11,6 +11,7 @@ import myIcon from '@constant/icon'
 import { createWorkspace } from '@store/reducer/workspace.reducer'
 import myAxios from '@util/myAxios'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const NewWorkspacePage = () => {
   const dispatch = useDispatch()
@@ -85,11 +86,15 @@ const NewWorkspacePage = () => {
       try {
         const fd = new FormData()
         fd.append('filename', e.target.files[0])
-        const {
-          data: { success, data },
-        } = await myAxios.filepost({ path: '/file', data: fd })
-        if (success) console.log('정상적으로 파일이 업로드 되었습니다.')
-        setWorkspaceImageUrl(data.fileInfo.location)
+        if (e.target.files[0].size > 3 * 1024 * 1024) {
+          toast.warn('Image의 사이즈가 3mb를 feat다.')
+        } else {
+          const {
+            data: { success, data },
+          } = await myAxios.filepost({ path: '/file', data: fd })
+          if (success) toast.success('정상적으로 이미지를 업로드 되었습니다.')
+          setWorkspaceImageUrl(data.fileInfo.location)
+        }
       } catch (error) {
         console.log(error)
       }
