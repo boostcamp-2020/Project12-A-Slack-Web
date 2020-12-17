@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 
-const ResultListWrapper = styled.div`
+const Wrapper = styled.div`
   flex: 1 1 0;
   overflow-y: scroll;
+  margin-bottom: 15px;
+`
+
+const ResultListWrapper = styled.div`
   display: grid;
-  gap: 10px;
+  gap: 13px;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  margin-bottom: 20px;
 `
 
 const NoResultsWrapper = styled.div`
@@ -28,6 +31,7 @@ const SubViewHeaderWrapper = styled.div`
 `
 
 export default {
+  Wrapper,
   ResultListWrapper,
   NoResultsWrapper,
   SubViewHeaderWrapper,
