@@ -148,15 +148,20 @@ const ThreadList = ({
           )
           const sameDate = !!(
             prevThread &&
-            prevThread.createdAt.split('T')[0] ===
-              thread.createdAt.split('T')[0]
+            new Date(prevThread.createdAt).toDateString() ===
+              new Date(thread.createdAt).toDateString()
           )
           const hasReply = thread.replyCount !== 0
           const prevHasReply = prevThread && prevThread.replyCount !== 0
           const continuous = sameUser && !hasReply && !prevHasReply && sameDate
           return (
             <>
-              {!sameDate && <M.DayDivider dateString={thread.createdAt} />}
+              {!sameDate && (
+                <M.DayDivider
+                  dateString={thread.createdAt}
+                  key={thread.createdAt}
+                />
+              )}
               <O.MessageCard
                 data={thread}
                 type="THREAD"

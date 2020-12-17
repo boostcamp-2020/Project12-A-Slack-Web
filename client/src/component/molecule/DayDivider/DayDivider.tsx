@@ -2,12 +2,13 @@ import React from 'react'
 import M from '@molecule'
 import { ButtonType } from '@atom/Button'
 import { TextType } from '@atom/Text'
-import { getTimePassedFromNow } from '@util/date'
+import { getDateLabel } from '@util/date'
 import { DayDividerProps } from '.'
 import Styled from './DayDivider.style'
 
 const DayDivider = ({ dateString }: DayDividerProps) => {
-  const dateLabel = dateString
+  const dateLabel = getDateLabel(dateString)
+
   return (
     <Styled.Wrapper>
       <Styled.LabelWrapper>
