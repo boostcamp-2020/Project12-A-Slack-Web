@@ -91,15 +91,16 @@ const createWorkspace = async ({
 const checkWorkspaceName = async ({ name }: WorkspaceType) => {
   try {
     const isWorkspace = await WorkspaceModel.findOne({ where: { name } })
+
     if (isWorkspace) {
       return {
         code: statusCode.OK,
-        json: { success: true, data: true },
+        json: { success: true, data: false },
       }
     }
     return {
       code: statusCode.OK,
-      json: { success: true, data: false },
+      json: { success: true, data: true },
     }
   } catch (error) {
     return {

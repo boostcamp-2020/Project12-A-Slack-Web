@@ -10,6 +10,7 @@ import { ImageType } from '@atom/Image'
 import myIcon from '@constant/icon'
 import { createWorkspace } from '@store/reducer/workspace.reducer'
 import myAxios from '@util/myAxios'
+import WorkspaceAPI from '@api/workspace'
 import { useHistory } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -24,10 +25,14 @@ const NewWorkspacePage = () => {
   )
 
   const [stage1Visible, setStage1Visible] = useState<boolean>(true)
+  const [isWorkspaceNameDuplicate, setIsWorkspaceNameDuplicate] = useState<
+    boolean
+  >(false)
   const [stage1ButtonActive, setStage1ButtonActive] = useState<boolean>(true)
   const [stage2Visible, setStage2Visible] = useState<boolean>(false)
   const [stage2ButtonActive, setStage2ButtonActive] = useState<boolean>(true)
   const [stage3Visible, setStage3Visible] = useState<boolean>(false)
+  const [timer, setTimer] = useState(0)
 
   const history = useHistory()
   const handleClickSlackLogo = () => {
@@ -36,9 +41,32 @@ const NewWorkspacePage = () => {
 
   const handleNewWorkspaceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+
     if (name === 'workspaceName') {
-      if (value) setStage1ButtonActive(false)
-      if (value.length === 0) setStage1ButtonActive(true)
+      if (value.length === 0) {
+        setStage1ButtonActive(true)
+        setIsWorkspaceNameDuplicate(false)
+      } else {
+        if (timer) {
+          clearTimeout(timer)
+        }
+        const newTimer = setTimeout(async () => {
+          const {
+            data,
+            success,
+          } = await WorkspaceAPI.checkWorkspaceNameDuplicate({ name: value })
+          if (data && success) {
+            setStage1ButtonActive(false)
+            setIsWorkspaceNameDuplicate(false)
+          } else {
+            setStage1ButtonActive(true)
+            setIsWorkspaceNameDuplicate(true)
+          }
+        }, 500)
+
+        setTimer(newTimer)
+      }
+
       setWorkspaceName(value)
     }
     if (name === 'workspaceNewChannelName') {
@@ -227,6 +255,19 @@ const NewWorkspacePage = () => {
               onChange={stageInput.onChange}
               customStyle={StageInputStyle}
             />
+            {isWorkspaceNameDuplicate && (
+              <A.Text
+                customStyle={{
+                  width: '100%',
+                  height: '2rem',
+                  color: 'red',
+                  padding: '1rem 0',
+                  fontSize: '1.4rem',
+                }}
+              >
+                해당 이름의 워크스페이스가 존재합니다.
+              </A.Text>
+            )}
           </StageInputWrapper>
         )}
 
@@ -323,7 +364,7 @@ const StageIndicateTextWrapper = styled.div`
 
 const StageTextWrapper = styled.div`
   width: 100%;
-  height: 16rem;
+  height: 12rem;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -332,7 +373,11 @@ const StageTextWrapper = styled.div`
 
 const StageInputWrapper = styled.div`
   width: 100%;
-  height: 5rem;
+  height: 8rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
 `
 
 const StageImageWrapper = styled.div`
@@ -403,7 +448,7 @@ const StageNextButtonTextStyle: TextType.StyleAttributes = {
 
 const StageInputStyle: InputType.StyleAttributes = {
   width: '100%',
-  height: '90%',
+  height: '4.5rem',
   borderRadius: '4px',
   padding: '0 10px',
   border: '1px solid lightGrey',
