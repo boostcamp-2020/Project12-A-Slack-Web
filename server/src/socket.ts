@@ -60,6 +60,21 @@ namespaces.on('connection', (socket: Socket) => {
   })
 
   socket.on(
+    'JOIN_MEMBERS',
+    async (data: { channelId: number; userIdList: number[] }) => {
+      const { channelId, userIdList } = data
+      const { json } = await channelService.readChannelInfo({
+        channelId,
+      })
+      const payload = {
+        channelInfo: json.data,
+        userIdList,
+      }
+      namespace.emit('JOIN_MEMBERS', payload)
+    },
+  )
+
+  socket.on(
     'DELETE_MEMBER',
     async (data: { channelId: number; userId: number }) => {
       const { channelId, userId } = data

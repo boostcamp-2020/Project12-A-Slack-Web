@@ -40,6 +40,7 @@ export interface CreateChannelRequestType {
   name: string
   type: string
   workspaceId: number
+  onSuccess?: (channleId: number) => void
 }
 
 export interface JoinChannelRequestType {
@@ -47,6 +48,14 @@ export interface JoinChannelRequestType {
   userId?: number
   workspaceId: number
   onSuccess?: () => void
+}
+
+export interface CreateDMRequestType {
+  name: string
+  type: string
+  workspaceId: number
+  userList: UserType[]
+  onSuccess?: (channleId: number) => void
 }
 
 export interface JoinMembersToChannelRequestType {
@@ -73,4 +82,9 @@ export interface GetChannelResponseType extends ResponseType {
 export interface checkJoinedChannelResponseType
   extends OnlySuccessResponseType {
   data: boolean
+}
+
+export interface checkChannelNameRequestType {
+  channelName: string
+  workspaceId: number
 }

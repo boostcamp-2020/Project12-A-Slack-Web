@@ -1,3 +1,10 @@
+const getTime = (dateString: string) => {
+  const date = new Date(dateString)
+  const hours = date.getHours().toString().padStart(2, '0')
+  const minutes = date.getMinutes().toString().padStart(2, '0')
+  return `${hours}:${minutes}`
+}
+
 const getTimeAMPMFormat = (dateString: string) => {
   const date = new Date(dateString)
   const hours = date.getHours()
@@ -32,9 +39,28 @@ const getWeekdayDayMonth = (dateString: string) => {
   })
 }
 
+const getDayDifferFromToday = (dateString: string) => {
+  const date = new Date(new Date(dateString).toDateString()).getTime()
+  const today = new Date(new Date().toDateString()).getTime()
+  const timeDiff = Math.abs(today - date)
+  return Math.round(timeDiff / (1000 * 60 * 60 * 24))
+}
+
+const getDateLabel = (dateString: string) => {
+  const dayDiff = getDayDifferFromToday(dateString)
+  // eslint-disable-next-line no-nested-ternary
+  return dayDiff === 0
+    ? 'Today'
+    : dayDiff === 1
+    ? 'Yesterday'
+    : getWeekdayDayMonth(dateString)
+}
+
 export {
+  getTime,
   getTimeAMPMFormat,
   getTimePassedFromNow,
   getMonthDayYear,
   getWeekdayDayMonth,
+  getDateLabel,
 }

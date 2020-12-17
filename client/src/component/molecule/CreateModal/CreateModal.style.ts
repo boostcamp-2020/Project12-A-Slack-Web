@@ -2,9 +2,16 @@ import styled from 'styled-components'
 
 const EachChannelContainer = styled.div`
   width: 200px;
-  hieght: 35px;
+  height: 35px;
   display: flex;
   justify-content: start;
+  align-items: center;
+`
+
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 `
 
@@ -77,60 +84,14 @@ const CreateFooter = styled.div`
   justify-content: space-between;
 `
 
-const SectionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`
-
-const SectionHoverContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-const SectionClickModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-`
-
-const SectionHeader = styled.div`
-  width: 100%;
-  padding: 7px 5px;
-  cursor: pointer;
-`
-
-const SectionChannelContainer = styled.div`
-  width: 100%;
-`
-
 const FlexColumn = styled.div`
   display: flex;
   flex-direction: column;
 `
 
-const EllipsisSpan = styled.span`
-  text-overflow: ellipsis;
-  display: inline-block;
-  overflow: auto;
-  white-space: nowrap;
-  font-size: 1.4rem;
-  width: 165px;
-  text-align: start;
-`
-
 export default {
-  SectionContainer,
-  SectionHeader,
-  SectionChannelContainer,
-  SectionHoverContainer,
-  SectionClickModalContent,
   CreateModalContainer,
+  InputWrapper,
   CreateHeader,
   CreateBottom,
   CreateFooter,
@@ -139,5 +100,4 @@ export default {
   CheckBoxLabel,
   EachChannelContainer,
   FlexColumn,
-  EllipsisSpan,
 }

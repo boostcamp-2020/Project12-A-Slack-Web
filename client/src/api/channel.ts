@@ -7,9 +7,9 @@ import {
   JoinMembersToChannelRequestType,
   DeleteMemberRequestType,
   checkJoinedChannelResponseType,
+  checkChannelNameRequestType,
 } from '@type/channel.type'
 
-// TODO: workspace 전체의 채널을 어떻게 읽을 것인가
 const getChannels = async ({
   workspaceId,
 }: ChannelRequestType): Promise<GetChannelResponseType> => {
@@ -85,6 +85,17 @@ const checkChannelAuth = async (
   return response.data
 }
 
+const checkChannelNameDuplicate = async ({
+  channelName,
+  workspaceId,
+}: checkChannelNameRequestType) => {
+  const response = await myAxios.post({
+    path: '/channel/check-name',
+    data: { name: channelName, workspaceId },
+  })
+  return response.data
+}
+
 export default {
   getChannels,
   searchChannels,
@@ -94,4 +105,5 @@ export default {
   createNewChannel,
   deleteMember,
   checkChannelAuth,
+  checkChannelNameDuplicate,
 }

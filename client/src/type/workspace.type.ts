@@ -22,8 +22,13 @@ export interface CreateWorkspaceRequestType {
   channelName: string
 }
 
+export interface CheckWorkspaceRequestType {
+  name: string
+}
+
 export interface JoinWorkspaceRequestType {
   workspaceId: number
+  onSuccess?: () => void
 }
 
 export interface SendActiveUserIdType {
@@ -32,4 +37,9 @@ export interface SendActiveUserIdType {
 
 export interface ReceiveActiveUserListType {
   activeUserList: number[]
+}
+
+export interface GetTeammatesRequestType {
+  workspaceId: number
+  searchKeyword: string
 }

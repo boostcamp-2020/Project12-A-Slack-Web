@@ -12,7 +12,6 @@ import {
   joinWorkspace,
   connectActiveUserCurrentWorkspace,
   CONNECT_ACTIVE_USER_CURRENT_WORKSPACE,
-  receiveActiveUserCurrentWorkspace,
 } from '@store/reducer/workspace.reducer'
 import { sendSocketActiveUserId } from '@store/reducer/socket.reducer'
 
@@ -71,9 +70,11 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
     const { success } = yield call(workspaceAPI.joinWorkspace, action.payload)
     if (success) {
       toast.success('workspace에 참가했습니다.')
+      if (action.payload.onSuccess) action.payload.onSuccess!()
     }
   } catch (error) {
     toast.warn('이미 workspace에 참여하고 있습니다.')
+    window.location.href = '/'
   }
 }
 

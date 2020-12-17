@@ -4,13 +4,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  max-height: 330px;
-  min-height: 310px;
+  // max-height: 330px;
+  min-height: 300px;
   padding: 0;
   background-color: white;
   border: 1px solid lightgrey;
   border-radius: 8px;
   overflow: hidden;
+  cursor: pointer;
 `
 
 const BottomWrapper = styled.div`
