@@ -5,6 +5,7 @@ const router = Router()
 
 router.get('/', channelController.readChannelsByUser)
 router.post('/', channelController.createChannel)
+router.post('/check-name', channelController.checkChannelName)
 router.get('/all', channelController.readChannelsByWorkspace)
 router.get('/:channelId', channelController.readChannelInfo)
 router.post('/:channelId/join', channelController.joinChannel)

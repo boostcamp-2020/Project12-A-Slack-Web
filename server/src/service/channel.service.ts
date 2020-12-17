@@ -7,7 +7,6 @@ import { statusCode, resMessage } from '@util/constant'
 import sequelize from 'sequelize'
 import sequelizeDB from '@model/sequelize'
 import validator from '@util/validator'
-import { constants } from 'buffer'
 
 interface ChannelType {
   name?: string
@@ -123,32 +122,6 @@ const readChannelsByWorkspace = async ({
     }
   }
   try {
-    // const channels = await ChannelModel.findAll({
-    //   include: [
-    //     {
-    //       model: UserModel,
-    //       as: 'user',
-    //       attributes: [],
-    //     },
-    //   ],
-    //   attributes: {
-    //     include: [
-    //       'id',
-    //       'name',
-    //       'type',
-    //       'createdAt',
-    //       [sequelize.fn('COUNT', sequelize.col('user.id')), 'memberCount'],
-    //     ],
-    //   },
-    //   group: ['Channel.id'],
-    //   where: {
-    //     workspaceId,
-    //     type: {
-    //       [Op.or]: ['PRIVATE', 'PUBLIC'],
-    //     },
-    //   },
-    // })
-
     const query =
       "SELECT `Channel`.`id`, `Channel`.`name`, `Channel`.`type`, `Channel`.`createdAt`, COUNT(`user`.`id`) AS `memberCount` FROM `channel` AS `Channel` LEFT OUTER JOIN ( `userChannelSection` INNER JOIN `user` ON `user`.`id` = `userChannelSection`.`UserId` AND (`userChannelSection`.`deletedAt` IS NULL)) ON `Channel`.`id` = `userChannelSection`.`channelId` AND (`user`.`deletedAt` IS NULL) WHERE (`Channel`.`deletedAt` IS NULL AND (`Channel`.`workspaceId` = :workspaceId AND `Channel`.`name` LIKE :searchKeyword AND (`Channel`.`type` = 'PRIVATE' OR `Channel`.`type` = 'PUBLIC'))) GROUP BY `Channel`.`id`;"
     const channels = await sequelizeDB.query(query, {
@@ -447,8 +420,39 @@ const checkJoinedChannel = async ({
   }
 }
 
+const checkChannelName = async ({ name, workspaceId }: ChannelType) => {
+  try {
+    if (!name && !workspaceId) {
+      return {
+        code: statusCode.BAD_REQUEST,
+        json: { success: false, message: resMessage.OUT_OF_VALUE },
+      }
+    }
+    const isChannel = await ChannelModel.findOne({
+      where: { name, workspaceId },
+    })
+
+    if (isChannel) {
+      return {
+        code: statusCode.OK,
+        json: { success: true, data: false },
+      }
+    }
+    return {
+      code: statusCode.OK,
+      json: { success: true, data: true },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 export default {
   createChannel,
+  checkChannelName,
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,

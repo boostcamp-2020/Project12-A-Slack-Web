@@ -46,7 +46,8 @@ const NewWorkspacePage = () => {
       if (value.length === 0) {
         setStage1ButtonActive(true)
         setIsWorkspaceNameDuplicate(false)
-      } else {
+      }
+      if (value.length <= 30) {
         if (timer) {
           clearTimeout(timer)
         }
@@ -65,14 +66,36 @@ const NewWorkspacePage = () => {
         }, 500)
 
         setTimer(newTimer)
+      } else {
+        setStage1ButtonActive(true)
       }
 
       setWorkspaceName(value)
     }
     if (name === 'workspaceNewChannelName') {
-      if (value) setStage2ButtonActive(false)
+      if (value.length <= 50) {
+        setStage2ButtonActive(false)
+      } else {
+        setStage2ButtonActive(true)
+      }
       if (value.length === 0) setStage2ButtonActive(true)
       setWorkspacNewChannelName(value)
+    }
+  }
+
+  const handleEnterKeyPressStageButton1 = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === 'Enter' && !stage1ButtonActive) {
+      handleChangeView1To2()
+    }
+  }
+
+  const handleEnterKeyPressStageButton2 = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === 'Enter' && !stage2ButtonActive) {
+      handleChangeView2To3()
     }
   }
 
@@ -115,12 +138,12 @@ const NewWorkspacePage = () => {
         const fd = new FormData()
         fd.append('filename', e.target.files[0])
         if (e.target.files[0].size > 3 * 1024 * 1024) {
-          toast.warn('Image의 사이즈가 3mb를 feat다.')
+          toast.warn('Image의 사이즈가 3mb보다 큽니다.')
         } else {
           const {
             data: { success, data },
           } = await myAxios.filepost({ path: '/file', data: fd })
-          if (success) toast.success('정상적으로 이미지를 업로드 되었습니다.')
+          if (success) console.log('정상적으로 이미지를 업로드 되었습니다.')
           setWorkspaceImageUrl(data.fileInfo.location)
         }
       } catch (error) {
@@ -142,6 +165,8 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceName,
       placeholder: '새 워크스페이스',
+      max: 30,
+      onKeyPress: (e) => handleEnterKeyPressStageButton1(e),
     },
     stageBackButton: {
       text: '돌아가기',
@@ -168,6 +193,8 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceNewChannelName,
       placeholder: '예: 30조짜리 슬랙만들기!',
+      max: 50,
+      onKeyPress: (e) => handleEnterKeyPressStageButton2(e),
     },
     stageBackButton: {
       text: '뒤로',
@@ -193,6 +220,8 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceImageUrl,
       placeholder: '예: 30조짜리 슬랙만들기!',
+      max: 100,
+      onKeyPress: (e) => {},
     },
     stageBackButton: {
       text: '뒤로',
@@ -248,13 +277,26 @@ const NewWorkspacePage = () => {
           </StageImageWrapper>
         ) : (
           <StageInputWrapper>
-            <A.Input
-              name={stageInput.name}
-              value={stageInput.value}
-              placeholder={stageInput.placeholder}
-              onChange={stageInput.onChange}
-              customStyle={StageInputStyle}
-            />
+            <StageInputTextWrapper>
+              <A.Input
+                name={stageInput.name}
+                value={stageInput.value}
+                placeholder={stageInput.placeholder}
+                onChange={stageInput.onChange}
+                customStyle={StageInputStyle}
+                onKeyPress={stageInput.onKeyPress}
+              />
+              <A.Text
+                customStyle={{
+                  color:
+                    stageInput.value.length > stageInput.max ? 'red' : 'black',
+                  fontSize: '1.4rem',
+                  padding: '0 1rem',
+                }}
+              >
+                {`${stageInput.value.length} / ${stageInput.max}`}
+              </A.Text>
+            </StageInputTextWrapper>
             {isWorkspaceNameDuplicate && (
               <A.Text
                 customStyle={{
@@ -321,6 +363,8 @@ interface StageType {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     value: string
     placeholder: string
+    max: number
+    onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
   }
   stageBackButton: {
     text: string
@@ -378,6 +422,16 @@ const StageInputWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+`
+
+const StageInputTextWrapper = styled.div`
+  width: 100%;
+  height: 4.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid lightGrey;
+  border-radius: 4px;
 `
 
 const StageImageWrapper = styled.div`
@@ -447,11 +501,11 @@ const StageNextButtonTextStyle: TextType.StyleAttributes = {
 }
 
 const StageInputStyle: InputType.StyleAttributes = {
-  width: '100%',
+  width: '80%',
   height: '4.5rem',
   borderRadius: '4px',
   padding: '0 10px',
-  border: '1px solid lightGrey',
+  // border: '1px solid lightGrey',
 }
 
 const WorkspaceImageStyle: ImageType.StyleAttributes = {

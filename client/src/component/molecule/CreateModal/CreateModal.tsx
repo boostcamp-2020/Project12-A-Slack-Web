@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createChannel } from '@store/reducer/channel.reducer'
 import { RootState } from '@store'
+import ChannelAPI from '@api/channel'
 
 import Styled from './CreateModal.style'
 import { CreateModalProps } from '.'
@@ -27,9 +28,51 @@ const CreateModal = ({
   const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
 
+  const [buttonActive, setButtonActive] = useState<boolean>(true)
+  const [isChannelNameDuplicate, setIsChannelNameDuplicate] = useState<boolean>(
+    false,
+  )
+  const [timer, setTimer] = useState(0)
+
   const handleNewChannelInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
+    if (value.length === 0) {
+      setButtonActive(true)
+      setIsChannelNameDuplicate(false)
+    }
+    if (value.length <= 50) {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      const newTimer = setTimeout(async () => {
+        const { data, success } = await ChannelAPI.checkChannelNameDuplicate({
+          channelName: value,
+          workspaceId,
+        })
+        if (data && success) {
+          setButtonActive(false)
+          setIsChannelNameDuplicate(false)
+        } else {
+          setButtonActive(true)
+          setIsChannelNameDuplicate(true)
+        }
+      }, 500)
+
+      setTimer(newTimer)
+    } else {
+      setButtonActive(true)
+    }
     setNewChannelName(value)
+  }
+
+  const handleEnterKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      e.key === 'Enter' &&
+      newChannelName.length > 0 &&
+      !isChannelNameDuplicate
+    ) {
+      handleCreateNewChannelClick()
+    }
   }
 
   const onClose = (channelId: number) => {
@@ -87,12 +130,39 @@ const CreateModal = ({
           </A.Text>
           <Styled.FlexColumn>
             <A.Text customStyle={createLabelTextStyle}>Name</A.Text>
-            <A.Input
-              customStyle={createInputStyle}
-              placeholder={placeholder}
-              onChange={handleNewChannelInput}
-              value={newChannelName}
-            />
+            <Styled.InputWrapper>
+              <A.Input
+                customStyle={createInputStyle}
+                placeholder={placeholder}
+                onChange={handleNewChannelInput}
+                value={newChannelName}
+                onKeyPress={handleEnterKeyPress}
+              />
+              <A.Text
+                customStyle={{
+                  color: newChannelName.length > 50 ? 'red' : 'black',
+                  fontSize: '1.4rem',
+                  padding: '0 1rem',
+                }}
+              >
+                {`${newChannelName.length} / 50`}
+              </A.Text>
+            </Styled.InputWrapper>
+            {isChannelNameDuplicate ? (
+              <A.Text
+                customStyle={{
+                  width: '100%',
+                  height: '2rem',
+                  color: 'red',
+                  padding: '1rem 0',
+                  fontSize: '1.4rem',
+                }}
+              >
+                해당 이름의 채널이 존재합니다.
+              </A.Text>
+            ) : (
+              <A.Text> </A.Text>
+            )}
           </Styled.FlexColumn>
           <Styled.CreateBottom>
             <Styled.FlexColumn>
@@ -121,6 +191,12 @@ const CreateModal = ({
             </A.Text>
             <M.ButtonDiv
               onClick={handleCreateNewChannelClick}
+              buttonStyle={{
+                disabled: buttonActive,
+                backgroundColor: 'deepGreen',
+                width: '6rem',
+                height: '3rem',
+              }}
               textStyle={createTextStyle}
             >
               Create
@@ -135,12 +211,14 @@ const CreateModal = ({
 const createTextStyle = {
   fontSize: '14px',
   fontWeight: 'bold',
+  color: 'white',
 }
 
 const createInputStyle = {
-  border: '1px solid grey',
+  // border: '1px solid grey',
   borderRadius: '5px',
-  padding: '0 10px',
+  width: '80%',
+  padding: '0 1.5rem',
   margin: '10px 0',
   fontSize: '1.6rem',
 }
