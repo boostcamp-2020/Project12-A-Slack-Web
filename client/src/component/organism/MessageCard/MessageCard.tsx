@@ -7,7 +7,7 @@ import { TextType } from '@atom/Text'
 import { IconType } from '@atom/Icon'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
-import { getTimeAMPMFormat } from '@util/date'
+import { getTimeAMPMFormat, getTime } from '@util/date'
 import {
   GetThreadResponseType,
   UpdateThreadRequestType,
@@ -238,6 +238,13 @@ const MessageCard = ({
               {getTimeAMPMFormat(thread.createdAt)}
             </A.Text>
           </Styled.UserNameAndTimeWrapper>
+        )}
+        {continuous && hover && (
+          <Styled.HoverTime>
+            <A.Text customStyle={timeTextStyle}>
+              {getTime(thread.createdAt)}
+            </A.Text>
+          </Styled.HoverTime>
         )}
 
         <Styled.MessageWrapper>
