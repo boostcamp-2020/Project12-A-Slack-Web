@@ -83,6 +83,22 @@ const NewWorkspacePage = () => {
     }
   }
 
+  const handleEnterKeyPressStageButton1 = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === 'Enter' && !stage1ButtonActive) {
+      handleChangeView1To2()
+    }
+  }
+
+  const handleEnterKeyPressStageButton2 = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key === 'Enter' && !stage2ButtonActive) {
+      handleChangeView2To3()
+    }
+  }
+
   const handleChangeView1To2 = () => {
     setStage1Visible(false)
     setStage2Visible(true)
@@ -122,12 +138,12 @@ const NewWorkspacePage = () => {
         const fd = new FormData()
         fd.append('filename', e.target.files[0])
         if (e.target.files[0].size > 3 * 1024 * 1024) {
-          toast.warn('Image의 사이즈가 3mb를 feat다.')
+          toast.warn('Image의 사이즈가 3mb보다 큽니다.')
         } else {
           const {
             data: { success, data },
           } = await myAxios.filepost({ path: '/file', data: fd })
-          if (success) toast.success('정상적으로 이미지를 업로드 되었습니다.')
+          if (success) console.log('정상적으로 이미지를 업로드 되었습니다.')
           setWorkspaceImageUrl(data.fileInfo.location)
         }
       } catch (error) {
@@ -150,6 +166,7 @@ const NewWorkspacePage = () => {
       value: workspaceName,
       placeholder: '새 워크스페이스',
       max: 30,
+      onKeyPress: (e) => handleEnterKeyPressStageButton1(e),
     },
     stageBackButton: {
       text: '돌아가기',
@@ -177,6 +194,7 @@ const NewWorkspacePage = () => {
       value: workspaceNewChannelName,
       placeholder: '예: 30조짜리 슬랙만들기!',
       max: 50,
+      onKeyPress: (e) => handleEnterKeyPressStageButton2(e),
     },
     stageBackButton: {
       text: '뒤로',
@@ -203,6 +221,7 @@ const NewWorkspacePage = () => {
       value: workspaceImageUrl,
       placeholder: '예: 30조짜리 슬랙만들기!',
       max: 100,
+      onKeyPress: (e) => {},
     },
     stageBackButton: {
       text: '뒤로',
@@ -265,6 +284,7 @@ const NewWorkspacePage = () => {
                 placeholder={stageInput.placeholder}
                 onChange={stageInput.onChange}
                 customStyle={StageInputStyle}
+                onKeyPress={stageInput.onKeyPress}
               />
               <A.Text
                 customStyle={{
@@ -344,6 +364,7 @@ interface StageType {
     value: string
     placeholder: string
     max: number
+    onKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void
   }
   stageBackButton: {
     text: string
