@@ -12,16 +12,9 @@ const Container = styled.div`
   margin-bottom: 20px;
 `
 
-const DmCardMain = styled.div`
-  width: 80vw;
-  display: flex;
-  justify-content: space-between;
-`
-
 const DmCardContent = styled.div`
   display: flex;
-  height: 100%;
-  //   align-items: center;
+  width: 100%;
 `
 
 const dmCardButtonStyle = {
@@ -57,7 +50,6 @@ export default {
   dmDateTimeStyle,
   dmCardButtonStyle,
   DmCardContent,
-  DmCardMain,
   Container,
   DmCardImageContainer,
 }
