@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Wrapper = styled.div`
   flex: 1 1 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-bottom: 15px;
 `
 
