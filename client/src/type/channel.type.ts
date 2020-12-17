@@ -83,3 +83,8 @@ export interface checkJoinedChannelResponseType
   extends OnlySuccessResponseType {
   data: boolean
 }
+
+export interface checkChannelNameRequestType {
+  channelName: string
+  workspaceId: number
+}

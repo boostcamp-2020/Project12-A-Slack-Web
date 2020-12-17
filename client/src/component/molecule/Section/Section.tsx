@@ -13,6 +13,9 @@ import { SectionProps } from '.'
 
 const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
   const { currentUser } = useSelector((state: RootState) => state.userStore)
+  const { id: channelId } = useSelector(
+    (state: RootState) => state.channelStore.currentChannel,
+  )
   const dispatch = useDispatch()
   const history = useHistory()
   const [toggle, setToggle] = useState<boolean>(false)
@@ -148,13 +151,18 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                 key={channel.id}
               >
                 <M.ButtonDiv
-                  buttonStyle={ChannelButtonStyle}
+                  buttonStyle={{
+                    ...ChannelButtonStyle,
+                    hoverColor: 'white',
+                    backgroundColor:
+                      channel.id === channelId ? 'aliceBlue' : 'white',
+                  }}
                   textStyle={
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
-                  onClick={() =>
+                  onClick={() => {
                     dispatch(setChannelRead({ channelId: channel.id }))
-                  }
+                  }}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>

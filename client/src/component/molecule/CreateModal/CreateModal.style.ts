@@ -2,9 +2,16 @@ import styled from 'styled-components'
 
 const EachChannelContainer = styled.div`
   width: 200px;
-  hieght: 35px;
+  height: 35px;
   display: flex;
   justify-content: start;
+  align-items: center;
+`
+
+const InputWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 `
 
@@ -84,6 +91,7 @@ const FlexColumn = styled.div`
 
 export default {
   CreateModalContainer,
+  InputWrapper,
   CreateHeader,
   CreateBottom,
   CreateFooter,

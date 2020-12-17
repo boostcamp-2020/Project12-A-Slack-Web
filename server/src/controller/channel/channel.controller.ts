@@ -23,6 +23,22 @@ const createChannel = async (
   }
 }
 
+const checkChannelName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { code, json } = await channelService.checkChannelName({
+      name: req.body.name,
+      workspaceId: req.body.workspaceId,
+    })
+    return res.status(code).json(json)
+  } catch (error) {
+    return next(error)
+  }
+}
+
 const readChannelsByWorkspace = async (
   req: Request,
   res: Response,
@@ -133,6 +149,7 @@ const checkJoinedChannel = async (
 
 export default {
   createChannel,
+  checkChannelName,
   readChannelsByUser,
   readChannelsByWorkspace,
   readChannelInfo,
