@@ -28,15 +28,16 @@ const WorkspaceJoinPage = () => {
         const { success } = await userAPI.getUserInfo()
         if (success) {
           if (name === '?workspace_id') {
-            dispatch(joinWorkspace({ workspaceId: +workspaceId }))
-            localStorage.removeItem('join_workspace_id')
-            history.push(`/workspace/${workspaceId}/channel-browser`)
+            const onSuccess = () => {
+              history.push(`/workspace/${workspaceId}/channel-browser`)
+            }
+            dispatch(joinWorkspace({ workspaceId: +workspaceId, onSuccess }))
           }
         }
       }
 
       if (!token) {
-        toast.warn('로그인이 필요합니다.')
+        // toast.warn('로그인이 필요합니다.')
         history.push('/login')
       }
     } catch (error) {

@@ -28,6 +28,7 @@ export interface CheckWorkspaceRequestType {
 
 export interface JoinWorkspaceRequestType {
   workspaceId: number
+  onSuccess?: () => void
 }
 
 export interface SendActiveUserIdType {

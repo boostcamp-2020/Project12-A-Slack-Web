@@ -6,7 +6,10 @@ import M from '@molecule'
 import O from '@organism'
 import styled from 'styled-components'
 import { RootState } from '@store'
-import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
+import {
+  getWorkspace,
+  getCurrentWorkspaceInfo,
+} from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import PrivateChannelRoute from '@hoc/PrivateChannelRoute'
@@ -30,6 +33,7 @@ const WorkspacePage = () => {
     },
   )
   useEffect(() => {
+    dispatch(getWorkspace.request())
     dispatch(connectSocket.request({ workspaceId: +workspaceId }))
     dispatch(getCurrentWorkspaceInfo.request({ id: +workspaceId }))
   }, [])
