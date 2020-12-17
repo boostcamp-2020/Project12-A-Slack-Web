@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import myAxios from '@util/myAxios'
@@ -22,6 +22,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
   const [sendEmailButtonDisabled, setSendEmailButtonDisabled] = useState<
     boolean
   >(true)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -37,6 +38,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
   const handleSendEmail = async () => {
     if (email) {
+      setLoading(true)
       const {
         data: { success },
       } = await myAxios.post({
@@ -50,10 +52,12 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
       })
       if (success) {
         toast.success(`${email}로 이메일을 성공적으로 보냈습니다.`)
+        setLoading(false)
         setEmail('')
       }
     } else {
       toast.warn('이메일 형식을 맞춰주세요.')
+      setLoading(true)
     }
   }
 

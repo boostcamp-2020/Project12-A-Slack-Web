@@ -18,24 +18,31 @@ const WorkspaceJoinPage = () => {
   const checkUser = async () => {
     try {
       const token = localStorage.getItem('token')
-      if (!token) {
-        history.push('/login')
+      const [name, workspaceId] = window.location.search.split('=')
+
+      if (name === '?workspace_id') {
+        localStorage.setItem('join_workspace_id', workspaceId)
       }
-      const { success } = await userAPI.getUserInfo()
-      if (success) {
-        const [name, workspaceId] = window.location.search.split('=')
-        if (name === '?workspace_id') {
-          dispatch(joinWorkspace({ workspaceId: +workspaceId }))
+
+      if (token) {
+        const { success } = await userAPI.getUserInfo()
+        if (success) {
+          if (name === '?workspace_id') {
+            dispatch(joinWorkspace({ workspaceId: +workspaceId }))
+            localStorage.removeItem('join_workspace_id')
+            history.push(`/workspace/${workspaceId}/channel-browser`)
+          }
         }
       }
-      history.push('/')
+
+      if (!token) {
+        toast.warn('로그인이 필요합니다.')
+        history.push('/login')
+      }
     } catch (error) {
-      toast.error('잘못된 접근입니다.', {
-        onClose: () => {
-          history.push('/login')
-          localStorage.removeItem('token')
-        },
-      })
+      toast.warn('로그인이 필요합니다.')
+      history.push('/login')
+      localStorage.removeItem('token')
     }
   }
   useEffect(() => {

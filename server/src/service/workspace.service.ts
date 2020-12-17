@@ -88,6 +88,28 @@ const createWorkspace = async ({
   }
 }
 
+const checkWorkspaceName = async ({ name }: WorkspaceType) => {
+  try {
+    const isWorkspace = await WorkspaceModel.findOne({ where: { name } })
+
+    if (isWorkspace) {
+      return {
+        code: statusCode.OK,
+        json: { success: true, data: false },
+      }
+    }
+    return {
+      code: statusCode.OK,
+      json: { success: true, data: true },
+    }
+  } catch (error) {
+    return {
+      code: statusCode.DB_ERROR,
+      json: { success: false, message: resMessage.DB_ERROR },
+    }
+  }
+}
+
 const readWorkspaceByUser = async ({ userId }: WorkspaceType) => {
   try {
     const workspaces = (await WorkspaceModel.findAll({
@@ -254,6 +276,7 @@ const readCurrentWorkspaceInfo = async ({
 
 export default {
   createWorkspace,
+  checkWorkspaceName,
   readWorkspaceByUser,
   joinWorkspace,
   readWorkspaceUsers,
