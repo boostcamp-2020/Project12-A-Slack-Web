@@ -9,6 +9,7 @@ import ReactionButton from './ReactionButton'
 import SelectedTeammate from './SelectedTeammate'
 import SelectableTeammate from './SelectableTeammate'
 import SendEmailModal from './SendEmailModal'
+import DayDivider from './DayDivider'
 
 export default {
   ButtonDiv,
@@ -22,4 +23,5 @@ export default {
   SelectedTeammate,
   SelectableTeammate,
   SendEmailModal,
+  DayDivider,
 }

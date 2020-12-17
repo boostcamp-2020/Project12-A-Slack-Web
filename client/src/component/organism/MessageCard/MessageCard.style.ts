@@ -16,7 +16,7 @@ const Container = styled.div<{ editMode?: boolean }>`
 const AvatarWrapper = styled.div`
   width: 36px;
   flex-shrink: 0;
-  margin-right: 8px;
+  margin-right: 10px;
   display: flex;
 `
 const IconWrapper = styled.div`
@@ -56,6 +56,12 @@ const ActionBarWrapper = styled.div`
   right: 1rem;
 `
 
+const HoverTime = styled.div`
+  position: absolute;
+  left: 16px;
+  top: 9px;
+`
+
 export default {
   Container,
   AvatarWrapper,
@@ -65,4 +71,5 @@ export default {
   MessageWrapper,
   NoContentWrapper,
   ActionBarWrapper,
+  HoverTime,
 }
