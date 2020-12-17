@@ -12,6 +12,7 @@ import { GRANTED } from '@constant/index'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Auth from '@hoc/Auth'
+import PrivateWorkspace from '@hoc/PrivateWorkspace'
 
 const App = () => {
   function isMobile() {
@@ -38,7 +39,7 @@ const App = () => {
           />
           <Route
             path="/workspace/:workspaceId"
-            component={Auth(WorkspacePage, false)}
+            component={PrivateWorkspace(Auth(WorkspacePage, false))}
           />
         </Switch>
       </Router>
