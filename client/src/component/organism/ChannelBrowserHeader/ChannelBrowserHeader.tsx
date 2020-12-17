@@ -17,16 +17,18 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
     setCreateChannelModalVisible(true)
 
   return (
-    <Styled.Wrapper>
-      <A.Text customStyle={headerTextStyle}>Channel browser</A.Text>
+    <>
+      <Styled.Wrapper>
+        <A.Text customStyle={headerTextStyle}>Channel browser</A.Text>
 
-      <M.ButtonDiv
-        buttonStyle={createButtonStyle}
-        textStyle={buttonTextStyle}
-        onClick={handleCreateChannelButtonClick}
-      >
-        Create channel
-      </M.ButtonDiv>
+        <M.ButtonDiv
+          buttonStyle={createButtonStyle}
+          textStyle={buttonTextStyle}
+          onClick={handleCreateChannelButtonClick}
+        >
+          Create channel
+        </M.ButtonDiv>
+      </Styled.Wrapper>
       {createChannelModalVisible && (
         <M.CreateModal
           workspaceId={workspaceId}
@@ -34,7 +36,7 @@ const ChannelBrowserHeader = ({ workspaceId }: ChannelBrowserHeaderProps) => {
           setCreateModal={setCreateChannelModalVisible}
         />
       )}
-    </Styled.Wrapper>
+    </>
   )
 }
 
