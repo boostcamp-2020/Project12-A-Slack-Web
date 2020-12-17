@@ -53,28 +53,32 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
       <A.Text customStyle={dmDateTextStyle}>
         {getWeekdayDayMonth(dmChannelInfo.createdAt)}
       </A.Text>
-      <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
+      <A.Button customStyle={dmCardButtonStyle}>
         <>
           <Styled.DmCardContent>
-            <Styled.DmCardImageContainer>
-              {dmChannelInfo.memberMax3.map((member) => {
-                return (
-                  <A.Image
-                    key={member.id}
-                    url={member.profileImageUrl}
-                    customStyle={dmImageStyle}
-                  />
-                )
-              })}
-              {dmChannelInfo.memberCount > 3 ? <A.Text>...</A.Text> : null}
-            </Styled.DmCardImageContainer>
-            <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
-            <A.Text customStyle={dmDateTimeStyle}>
-              {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
-            </A.Text>
+            <Styled.DmCardFirstSection>
+              <Styled.DmCardImageContainer>
+                {dmChannelInfo.memberMax3.map((member) => {
+                  return (
+                    <A.Image
+                      key={member.id}
+                      url={member.profileImageUrl}
+                      customStyle={dmImageStyle}
+                    />
+                  )
+                })}
+                {dmChannelInfo.memberCount > 3 ? <A.Text>...</A.Text> : null}
+              </Styled.DmCardImageContainer>
+              <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
+            </Styled.DmCardFirstSection>
+            <Styled.DmCardSecondSection>
+              <A.Text customStyle={dmDateTimeStyle}>
+                {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
+              </A.Text>
+            </Styled.DmCardSecondSection>
           </Styled.DmCardContent>
         </>
-      </M.ButtonDiv>
+      </A.Button>
     </Styled.Container>
   )
 }
@@ -89,6 +93,7 @@ const dmImageStyle = {
 }
 
 const dmCardButtonStyle = {
+  width: '100%',
   padding: '10px',
   display: 'flex',
   borderRadius: '10px',

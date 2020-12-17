@@ -8,6 +8,7 @@ import {
   select,
 } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
+import { RootState } from '@store'
 import channelAPI from '@api/channel'
 import { ChannelType, GetChannelResponseType } from '@type/channel.type'
 import {
@@ -26,6 +27,7 @@ import {
   RECEIVE_DELETE_MEMBER,
   RECEIVE_ADD_MEMBER,
   CREATE_CHANNEL_REQUEST,
+  CREATE_DM_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
@@ -35,6 +37,7 @@ import {
   receiveDeleteMember,
   receiveAddMember,
   setChannelList,
+  createDM,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -65,6 +68,35 @@ function* getCurrentChannelSaga(
     if (success) yield put(getCurrentChannel.success(data))
   } catch (error) {
     yield put(getCurrentChannel.failure(error))
+  }
+}
+
+function* createDMSaga(action: ReturnType<typeof createDM.request>) {
+  try {
+    const { success, data } = yield call(
+      channelAPI.createNewChannel,
+      action.payload,
+    )
+    const { id: currentUserId } = yield select(
+      (state: RootState) => state.userStore.currentUser,
+    )
+    if (success) {
+      const { userList, onSuccess } = action.payload
+      const userListExceptCurrent = userList.filter(
+        ({ id }) => id !== currentUserId,
+      )
+      yield put(createDM.success(data))
+      yield put(sendSocketJoinRoom({ channelIdList: [data.id] }))
+      yield put(
+        joinMembersToChannel.request({
+          channelId: data.id,
+          userList: userListExceptCurrent,
+        }),
+      )
+      if (onSuccess) onSuccess(data.id)
+    }
+  } catch (error) {
+    yield put(createDM.failure(error))
   }
 }
 
@@ -228,8 +260,13 @@ function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
 }
 
+<<<<<<< HEAD
+function* watchCreateDMSaga() {
+  yield takeLatest(CREATE_DM_REQUEST, createDMSaga)
+=======
 function* watchRecieveAddMemberSaga() {
   yield takeEvery(RECEIVE_ADD_MEMBER, receiveAddMemberSaga)
+>>>>>>> 4c721d2612e038da7d4abd875d5c89fdfdb3ac2e
 }
 
 export default function* channelSaga() {
@@ -242,5 +279,6 @@ export default function* channelSaga() {
     fork(watchRecieveDeleteMemberSaga),
     fork(watchRecieveAddMemberSaga),
     fork(watchCreateChannelSaga),
+    fork(watchCreateDMSaga),
   ])
 }
