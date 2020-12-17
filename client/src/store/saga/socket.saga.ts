@@ -35,6 +35,7 @@ import {
 import {
   getChannels,
   receiveDeleteMember,
+  receiveAddMember,
 } from '@store/reducer/channel.reducer'
 import {
   NamespaceType,
@@ -42,6 +43,7 @@ import {
   connectSocket,
   sendSocketJoinRoom,
   sendSocketLeaveRoom,
+  sendSocketJoinMembers,
   sendSocketDeleteMember,
   sendSocketCreateThread,
   sendSocketDeleteThread,
@@ -57,6 +59,7 @@ const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const LEAVE_ROOM = 'LEAVE_ROOM'
+const JOIN_MEMBERS = 'JOIN_MEMBERS'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
@@ -96,6 +99,10 @@ function subscribeSocket(socket: Socket) {
 
     const handleDeleteMember = (data: any) => {
       emit(receiveDeleteMember(data))
+    }
+
+    const handleAddMember = (data: any) => {
+      emit(receiveAddMember(data))
     }
 
     const handleCreateThread = (data: GetThreadResponseType) => {
@@ -139,6 +146,7 @@ function subscribeSocket(socket: Socket) {
     }
 
     socket.on(DISCONNECT, handleDisconnect)
+    socket.on(JOIN_MEMBERS, handleAddMember)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
@@ -151,7 +159,7 @@ function subscribeSocket(socket: Socket) {
 
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
-      socket.off(CREATE_THREAD, handleCreateThread)
+      socket.off(JOIN_MEMBERS, handleAddMember)
       socket.off(DELETE_MEMBER, handleDeleteMember)
       socket.off(CREATE_THREAD, handleCreateThread)
       socket.off(DELETE_THREAD, handleDeleteThread)
@@ -250,6 +258,13 @@ function* sendLeaveRoom(socket: Socket) {
   }
 }
 
+function* sendJoinMembers(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketJoinMembers)
+    socket.emit(JOIN_MEMBERS, payload)
+  }
+}
+
 function* socketActiveUser(socket: Socket) {}
 
 function* handleIO(socket: Socket) {
@@ -260,6 +275,7 @@ function* handleIO(socket: Socket) {
   yield fork(sendUpdateThread, socket)
   yield fork(socketJoinRoomNew, socket)
   yield fork(sendLeaveRoom, socket)
+  yield fork(sendJoinMembers, socket)
   yield fork(sendCreateMessage, socket)
   yield fork(sendDeleteMessage, socket)
   yield fork(sendUpdateMessage, socket)
