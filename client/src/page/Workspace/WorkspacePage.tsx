@@ -10,6 +10,7 @@ import { getCurrentWorkspaceInfo } from '@store/reducer/workspace.reducer'
 import { clearCurrentThread } from '@store/reducer/thread.reducer'
 import { connectSocket } from '@store/reducer/socket.reducer'
 import PrivateChannelRoute from '@hoc/PrivateChannelRoute'
+import { NotFoundPage } from '@page'
 import { Channel, ChannelBrowser, AllDms, People } from './template'
 
 interface MatchParamsType {
@@ -82,6 +83,7 @@ const WorkspacePage = () => {
                   handleSubViewBody={handleSubViewBody}
                 />
               </Route>
+              {/* <Route component={NotFoundPage} /> */}
             </MainView>
           </Switch>
           {subViewShow && (

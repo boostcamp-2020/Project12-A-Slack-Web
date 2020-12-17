@@ -7,6 +7,7 @@ import {
   NewWorkspacePage,
   WorkspacePage,
   LoginPage,
+  NotFoundPage,
 } from '@page'
 import { GRANTED } from '@constant/index'
 import { ToastContainer } from 'react-toastify'
@@ -41,6 +42,7 @@ const App = () => {
             path="/workspace/:workspaceId"
             component={PrivateWorkspace(Auth(WorkspacePage, false))}
           />
+          <Route component={NotFoundPage} />
         </Switch>
       </Router>
     </>
