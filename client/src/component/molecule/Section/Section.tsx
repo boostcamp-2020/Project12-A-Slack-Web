@@ -134,7 +134,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     ...ChannelButtonStyle,
                     hoverColor: 'white',
                     backgroundColor:
-                      channel.id === channelId ? 'aliceBlue' : 'white',
+                      channel.id === channelId ? 'currentBlue' : 'white',
                   }}
                   textStyle={
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
