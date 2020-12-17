@@ -155,21 +155,14 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     ...ChannelButtonStyle,
                     hoverColor: 'white',
                     backgroundColor:
-                      channel.id === channelId ? 'slackBlue' : 'white',
+                      channel.id === channelId ? 'aliceBlue' : 'white',
                   }}
                   textStyle={
-                    channel.unRead
-                      ? {
-                          ...ChannelTextBoldStyle,
-                          color: channel.id === channelId ? 'white' : 'black',
-                        }
-                      : {
-                          ...ChannelTextStyle,
-                          color: channel.id === channelId ? 'white' : 'black',
-                        }
+                    channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
                   }
-                  onClick={() =>
-                    dispatch(setChannelRead({ channelId: channel.id }))}
+                  onClick={() => {
+                    dispatch(setChannelRead({ channelId: channel.id }))
+                  }}
                 >
                   {channel.type === 'DM' ? (
                     <Styled.EachChannelContainer>
