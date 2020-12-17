@@ -231,10 +231,6 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     error: action.payload,
   }),
 
-  // [RECEIVE_ADD_MEMBER]: (state, action) => ({
-
-  // }),
-
   [RECEIVE_DELETE_MEMBER]: (state, action) => {
     const { channelInfo } = action.payload
     if (state.currentChannel.id === channelInfo.id) {

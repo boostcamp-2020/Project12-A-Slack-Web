@@ -163,12 +163,14 @@ function* deleteMemberSaga(action: ReturnType<typeof deleteMember>) {
   try {
     const { success } = yield call(channelAPI.deleteMember, action.payload)
     if (success) {
+      const { onSuccess, channelId, userId } = action.payload
       yield put(
         sendSocketDeleteMember({
-          channelId: +action.payload.channelId,
-          userId: +action.payload.userId,
+          channelId: +channelId,
+          userId: +userId,
         }),
       )
+      if (onSuccess) onSuccess()
     }
   } catch (error) {
     toast.error('Failed to delete member from channel')
