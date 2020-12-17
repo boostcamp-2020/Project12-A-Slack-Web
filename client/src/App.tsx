@@ -40,7 +40,7 @@ const App = () => {
           />
           <Route
             path="/workspace/:workspaceId"
-            component={PrivateWorkspace(Auth(WorkspacePage, false))}
+            component={Auth(WorkspacePage, false)}
           />
           <Route component={NotFoundPage} />
         </Switch>
