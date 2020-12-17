@@ -3,12 +3,9 @@ import {
   CreateWorkspaceRequestType,
   JoinWorkspaceRequestType,
   CurrentWorkSpaceInfoRequestType,
+  GetTeammatesRequestType,
+  CheckWorkspaceRequestType,
 } from '@type/workspace.type'
-
-interface GetTeammatesRequestType {
-  workspaceId: number
-  searchKeyword: string
-}
 
 const createWorkspace = async (data: CreateWorkspaceRequestType) => {
   const response = await myAxios.post({
@@ -18,6 +15,16 @@ const createWorkspace = async (data: CreateWorkspaceRequestType) => {
       imageUrl: data.imageUrl,
       channelName: data.channelName,
     },
+  })
+  return response.data
+}
+
+const checkWorkspaceNameDuplicate = async ({
+  name,
+}: CheckWorkspaceRequestType) => {
+  const response = await myAxios.post({
+    path: '/workspace/check-name',
+    data: { name },
   })
   return response.data
 }
@@ -63,5 +70,6 @@ export default {
   joinWorkspace,
   getWorkspaces,
   getTeammates,
+  checkWorkspaceNameDuplicate,
   getCurrentWorkspaceInfo,
 }
