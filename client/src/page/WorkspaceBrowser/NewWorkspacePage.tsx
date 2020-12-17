@@ -46,7 +46,8 @@ const NewWorkspacePage = () => {
       if (value.length === 0) {
         setStage1ButtonActive(true)
         setIsWorkspaceNameDuplicate(false)
-      } else {
+      }
+      if (value.length <= 30) {
         if (timer) {
           clearTimeout(timer)
         }
@@ -65,12 +66,18 @@ const NewWorkspacePage = () => {
         }, 500)
 
         setTimer(newTimer)
+      } else {
+        setStage1ButtonActive(true)
       }
 
       setWorkspaceName(value)
     }
     if (name === 'workspaceNewChannelName') {
-      if (value) setStage2ButtonActive(false)
+      if (value.length <= 50) {
+        setStage2ButtonActive(false)
+      } else {
+        setStage2ButtonActive(true)
+      }
       if (value.length === 0) setStage2ButtonActive(true)
       setWorkspacNewChannelName(value)
     }
@@ -142,6 +149,7 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceName,
       placeholder: '새 워크스페이스',
+      max: 30,
     },
     stageBackButton: {
       text: '돌아가기',
@@ -168,6 +176,7 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceNewChannelName,
       placeholder: '예: 30조짜리 슬랙만들기!',
+      max: 50,
     },
     stageBackButton: {
       text: '뒤로',
@@ -193,6 +202,7 @@ const NewWorkspacePage = () => {
       onChange: (e) => handleNewWorkspaceInput(e),
       value: workspaceImageUrl,
       placeholder: '예: 30조짜리 슬랙만들기!',
+      max: 100,
     },
     stageBackButton: {
       text: '뒤로',
@@ -248,13 +258,25 @@ const NewWorkspacePage = () => {
           </StageImageWrapper>
         ) : (
           <StageInputWrapper>
-            <A.Input
-              name={stageInput.name}
-              value={stageInput.value}
-              placeholder={stageInput.placeholder}
-              onChange={stageInput.onChange}
-              customStyle={StageInputStyle}
-            />
+            <StageInputTextWrapper>
+              <A.Input
+                name={stageInput.name}
+                value={stageInput.value}
+                placeholder={stageInput.placeholder}
+                onChange={stageInput.onChange}
+                customStyle={StageInputStyle}
+              />
+              <A.Text
+                customStyle={{
+                  color:
+                    stageInput.value.length > stageInput.max ? 'red' : 'black',
+                  fontSize: '1.4rem',
+                  padding: '0 1rem',
+                }}
+              >
+                {`${stageInput.value.length} / ${stageInput.max}`}
+              </A.Text>
+            </StageInputTextWrapper>
             {isWorkspaceNameDuplicate && (
               <A.Text
                 customStyle={{
@@ -321,6 +343,7 @@ interface StageType {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     value: string
     placeholder: string
+    max: number
   }
   stageBackButton: {
     text: string
@@ -378,6 +401,16 @@ const StageInputWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+`
+
+const StageInputTextWrapper = styled.div`
+  width: 100%;
+  height: 4.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid lightGrey;
+  border-radius: 4px;
 `
 
 const StageImageWrapper = styled.div`
@@ -447,11 +480,11 @@ const StageNextButtonTextStyle: TextType.StyleAttributes = {
 }
 
 const StageInputStyle: InputType.StyleAttributes = {
-  width: '100%',
+  width: '80%',
   height: '4.5rem',
   borderRadius: '4px',
   padding: '0 10px',
-  border: '1px solid lightGrey',
+  // border: '1px solid lightGrey',
 }
 
 const WorkspaceImageStyle: ImageType.StyleAttributes = {
