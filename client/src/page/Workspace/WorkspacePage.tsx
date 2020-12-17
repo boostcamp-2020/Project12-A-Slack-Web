@@ -87,9 +87,10 @@ const WorkspacePage = () => {
                   handleSubViewBody={handleSubViewBody}
                 />
               </Route>
-              {/* <Route component={NotFoundPage} /> */}
               <Route>
-                <NotFoundPage />
+                <NotFoundPage
+                  url={`/workspace/${workspaceId}/channel-browser`}
+                />
               </Route>
             </Switch>
           </MainView>
