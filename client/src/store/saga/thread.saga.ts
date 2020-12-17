@@ -321,31 +321,31 @@ function* watchGetThreadsSaga() {
 }
 
 function* watchCreateThreadSaga() {
-  yield takeEvery(CREATE_THREAD, createThreadSaga)
+  yield takeLatest(CREATE_THREAD, createThreadSaga)
 }
 
 function* watchDeleteThreadSaga() {
-  yield takeEvery(DELETE_THREAD, deleteThreadSaga)
+  yield takeLatest(DELETE_THREAD, deleteThreadSaga)
 }
 
 function* watchUpdateThreadSaga() {
-  yield takeEvery(UPDATE_THREAD, updateThreadSaga)
+  yield takeLatest(UPDATE_THREAD, updateThreadSaga)
 }
 
 function* watchSetCurrentThreadSaga() {
-  yield takeEvery(SET_CURRENT_THREAD_REQUEST, setCurrentThreadSaga)
+  yield takeLatest(SET_CURRENT_THREAD_REQUEST, setCurrentThreadSaga)
 }
 
 function* watchCreateMessageSaga() {
-  yield takeEvery(CREATE_MESSAGE, createMessageSaga)
+  yield takeLatest(CREATE_MESSAGE, createMessageSaga)
 }
 
 function* watchDeleteMessageSaga() {
-  yield takeEvery(DELETE_MESSAGE, deleteMessageSaga)
+  yield takeLatest(DELETE_MESSAGE, deleteMessageSaga)
 }
 
 function* watchUpdateMessageSaga() {
-  yield takeEvery(UPDATE_MESSAGE, updateMessageSaga)
+  yield takeLatest(UPDATE_MESSAGE, updateMessageSaga)
 }
 
 function* watchReceiveCreateThreadSaga() {
@@ -357,11 +357,11 @@ function* watchReceiveCreateMessageSaga() {
 }
 
 function* watchCreateReactionSaga() {
-  yield takeEvery(CREATE_REACTION, createReactionSaga)
+  yield takeLatest(CREATE_REACTION, createReactionSaga)
 }
 
 function* watchDeleteReactionSaga() {
-  yield takeEvery(DELETE_REACTION, deleteReactionSaga)
+  yield takeLatest(DELETE_REACTION, deleteReactionSaga)
 }
 
 export default function* threadSaga() {

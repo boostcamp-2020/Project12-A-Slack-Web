@@ -13,6 +13,7 @@ import {
   JoinChannelRequestType,
   JoinMembersToChannelRequestType,
   DeleteMemberRequestType,
+  CreateDMRequestType,
 } from '@type/channel.type'
 
 export interface ChannelState {
@@ -49,6 +50,8 @@ export const JOIN_MEMBERS_TO_CHANNEL_REQUEST = 'channel/JOIN_MEMBERS_TO_CHANNEL_
 const JOIN_MEMBERS_TO_CHANNEL_SUCCESS = 'channel/JOIN_MEMBERS_TO_CHANNEL_SUCCESS' as const
 const JOIN_MEMBERS_TO_CHANNEL_ERROR = 'channel/JOIN_MEMBERS_TO_CHANNEL_ERROR' as const
 
+export const RECEIVE_ADD_MEMBER = 'channel/RECEIVE_ADD_MEMBER' as const
+
 export const DELETE_MEMBER = 'channel/DELETE_MEMBER' as const
 export const RECEIVE_DELETE_MEMBER = 'channel/RECEIVE_DELETE_MEMBER' as const
 
@@ -64,6 +67,10 @@ export const SET_CHANNEL_UNREAD = 'channel/SET_CHANNEL_UNREAD' as const
 export const SET_CHANNEL_READ = 'channel/SET_CHANNEL_READ' as const
 
 export const SET_CHANNEL_LIST = 'channel/SET_CHANNEL_LIST' as const
+
+export const CREATE_DM_REQUEST = 'channel/CREATE_DM_REQUEST' as const
+const CREATE_DM_SUCCESS = 'channel/CREATE_DM_SUCCESS' as const
+const CREATE_DM_ERROR = 'channel/CREATE_DM_ERROR' as const
 
 export const getChannels = createAsyncAction(
   GET_CHANNELS_REQUEST,
@@ -86,6 +93,11 @@ export const joinMembersToChannel = createAsyncAction(
   JoinMembersToChannelRequestType,
   AxiosError
 >()
+
+export const receiveAddMember = createAction(RECEIVE_ADD_MEMBER)<{
+  channelInfo: CurrentChannelType
+  userIdList: number[]
+}>()
 
 export const deleteMember = createAction(DELETE_MEMBER)<
   DeleteMemberRequestType
@@ -119,6 +131,12 @@ export const setChannelList = createAction(SET_CHANNEL_LIST)<{
   channelList: ChannelType[]
 }>()
 
+export const createDM = createAsyncAction(
+  CREATE_DM_REQUEST,
+  CREATE_DM_SUCCESS,
+  CREATE_DM_ERROR,
+)<CreateDMRequestType, ChannelType, AxiosError>()
+
 const actions = {
   getChannelsRequest: getChannels.request,
   getChannelsSuccess: getChannels.success,
@@ -129,6 +147,7 @@ const actions = {
   joinMembersToChannelRequest: joinMembersToChannel.request,
   joinMembersToChannelSuccess: joinMembersToChannel.success,
   joinMembersToChannelError: joinMembersToChannel.failure,
+  receiveAddMember,
   deleteMember,
   receiveDeleteMember,
   createChannelRequest: createChannel.request,
@@ -140,6 +159,9 @@ const actions = {
   setChannelUnRead,
   setChannelRead,
   setChannelList,
+  createDMRequest: createDM.request,
+  createDMSuccss: createDM.success,
+  createDMError: createDM.failure,
 }
 
 export type ChannelAction = ActionType<typeof actions>
@@ -209,6 +231,10 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     error: action.payload,
   }),
 
+  // [RECEIVE_ADD_MEMBER]: (state, action) => ({
+
+  // }),
+
   [RECEIVE_DELETE_MEMBER]: (state, action) => {
     const { channelInfo } = action.payload
     if (state.currentChannel.id === channelInfo.id) {
@@ -251,6 +277,22 @@ const reducer = createReducer<ChannelState, ChannelAction>(initialState, {
     channelList: [...state.channelList, action.payload],
   }),
   [CREATE_CHANNEL_ERROR]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: action.payload,
+  }),
+  [CREATE_DM_REQUEST]: (state, _) => ({
+    ...state,
+    loading: true,
+    error: null,
+  }),
+  [CREATE_DM_SUCCESS]: (state, action) => ({
+    ...state,
+    loading: false,
+    error: null,
+    channelList: [...state.channelList, action.payload],
+  }),
+  [CREATE_DM_ERROR]: (state, action) => ({
     ...state,
     loading: false,
     error: action.payload,

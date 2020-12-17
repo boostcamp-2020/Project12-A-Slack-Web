@@ -79,7 +79,7 @@ const StyledButton = styled.button<ButtonType.StyleAttributes>`
     hoverBoxShadow,
   }) =>
     disabled
-      ? ''
+      ? '&:hover { cursor: initial; };'
       : `&:hover {
         color: ${hoverColor && color.get(hoverColor)};
         background: ${hoverBackgroundColor && color.get(hoverBackgroundColor)};

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import A from '@atom'
-import M from '@molecule'
 import { UserType } from '@type/user.type'
 import { useHistory } from 'react-router-dom'
 import { getTimeAMPMFormat, getWeekdayDayMonth } from '@util/date'
@@ -53,9 +52,9 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
       <A.Text customStyle={dmDateTextStyle}>
         {getWeekdayDayMonth(dmChannelInfo.createdAt)}
       </A.Text>
-      <M.ButtonDiv buttonStyle={dmCardButtonStyle}>
-        <>
-          <Styled.DmCardContent>
+      <A.Button customStyle={dmCardButtonStyle}>
+        <Styled.DmCardContent>
+          <Styled.DmCardFirstSection>
             <Styled.DmCardImageContainer>
               {dmChannelInfo.memberMax3.map((member) => {
                 return (
@@ -69,12 +68,14 @@ const DmCard = ({ dmChannel }: DmCardProps) => {
               {dmChannelInfo.memberCount > 3 ? <A.Text>...</A.Text> : null}
             </Styled.DmCardImageContainer>
             <A.Text customStyle={dmPeopleName}>{dmChannelInfo.name}</A.Text>
+          </Styled.DmCardFirstSection>
+          <Styled.DmCardSecondSection>
             <A.Text customStyle={dmDateTimeStyle}>
               {getTimeAMPMFormat(dmChannelInfo.updatedAt)}
             </A.Text>
-          </Styled.DmCardContent>
-        </>
-      </M.ButtonDiv>
+          </Styled.DmCardSecondSection>
+        </Styled.DmCardContent>
+      </A.Button>
     </Styled.Container>
   )
 }
@@ -84,12 +85,14 @@ const dmImageStyle = {
   width: '3rem',
   margin: '0px 0px 0px -5px',
   padding: '0px',
-  radius: '4px',
+  radius: '5px',
   cursor: 'auto',
+  border: '3px solid white',
 }
 
 const dmCardButtonStyle = {
-  padding: '10px',
+  width: '100%',
+  padding: '10px 15px',
   display: 'flex',
   borderRadius: '10px',
   border: '1px solid rgb(230, 230, 230)',

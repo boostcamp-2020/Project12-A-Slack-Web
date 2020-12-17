@@ -8,12 +8,14 @@ import {
   select,
 } from 'redux-saga/effects'
 import { toast } from 'react-toastify'
+import { RootState } from '@store'
 import channelAPI from '@api/channel'
 import { ChannelType, GetChannelResponseType } from '@type/channel.type'
 import {
   sendSocketDeleteMember,
   sendSocketJoinRoom,
   sendSocketLeaveRoom,
+  sendSocketJoinMembers,
   connectSocket,
 } from '@store/reducer/socket.reducer'
 import {
@@ -23,7 +25,9 @@ import {
   JOIN_MEMBERS_TO_CHANNEL_REQUEST,
   DELETE_MEMBER,
   RECEIVE_DELETE_MEMBER,
+  RECEIVE_ADD_MEMBER,
   CREATE_CHANNEL_REQUEST,
+  CREATE_DM_REQUEST,
   getChannels,
   getCurrentChannel,
   createChannel,
@@ -31,7 +35,9 @@ import {
   joinMembersToChannel,
   deleteMember,
   receiveDeleteMember,
+  receiveAddMember,
   setChannelList,
+  createDM,
 } from '../reducer/channel.reducer'
 
 function* getChannelsSaga(action: ReturnType<typeof getChannels.request>) {
@@ -65,6 +71,35 @@ function* getCurrentChannelSaga(
   }
 }
 
+function* createDMSaga(action: ReturnType<typeof createDM.request>) {
+  try {
+    const { success, data } = yield call(
+      channelAPI.createNewChannel,
+      action.payload,
+    )
+    const { id: currentUserId } = yield select(
+      (state: RootState) => state.userStore.currentUser,
+    )
+    if (success) {
+      const { userList, onSuccess } = action.payload
+      const userListExceptCurrent = userList.filter(
+        ({ id }) => id !== currentUserId,
+      )
+      yield put(createDM.success(data))
+      yield put(sendSocketJoinRoom({ channelIdList: [data.id] }))
+      yield put(
+        joinMembersToChannel.request({
+          channelId: data.id,
+          userList: userListExceptCurrent,
+        }),
+      )
+      if (onSuccess) onSuccess(data.id)
+    }
+  } catch (error) {
+    yield put(createDM.failure(error))
+  }
+}
+
 function* joinChannelSaga(action: ReturnType<typeof joinChannel.request>) {
   try {
     const { success } = yield call(channelAPI.joinChannel, action.payload)
@@ -89,12 +124,38 @@ function* joinMembersToChannelSaga(
       action.payload,
     )
     if (success) {
-      if (action.payload.onSuccess) action.payload.onSuccess!()
+      const { channelId, userList, onSuccess } = action.payload
+      const userIdList = userList.map((user) => user.id)
       yield put(joinMembersToChannel.success(action.payload))
+      yield put(sendSocketJoinMembers({ channelId, userIdList }))
+      if (onSuccess) onSuccess()
     }
   } catch (error) {
     toast.error('Failed to add people to channel')
     yield put(joinMembersToChannel.failure(error))
+  }
+}
+
+function* receiveAddMemberSaga(action: ReturnType<typeof receiveAddMember>) {
+  try {
+    const { loginUserId, channelList } = yield select((state) => {
+      return {
+        loginUserId: state.userStore.currentUser.id,
+        channelList: state.channelStore.channelList,
+      }
+    })
+    const { userIdList, channelInfo } = action.payload
+
+    if (userIdList.find((userId) => userId === loginUserId)) {
+      const newChannelList = [...channelList, channelInfo]
+      yield put(setChannelList({ channelList: newChannelList }))
+      yield put(sendSocketJoinRoom({ channelIdList: [channelInfo.id] }))
+      toast.success(
+        `You have been invited to the channel ${action.payload.channelInfo.name}`,
+      )
+    }
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -143,7 +204,7 @@ function* receiveDeleteMemberSaga(
       yield put(setChannelList({ channelList: newChannelList }))
       yield put(sendSocketLeaveRoom({ channelId }))
       toast.success(
-        `You have been removed from the private channel ${action.payload.channelInfo.name}`,
+        `You have been removed from the channel ${action.payload.channelInfo.name}`,
       )
       if (currentChannelId === channelId) {
         window.location.href = `/workspace/${workspaceId}/channel-browser`
@@ -172,11 +233,11 @@ function* createChannelSage(action: ReturnType<typeof createChannel.request>) {
 }
 
 function* watchGetChannelsSaga() {
-  yield takeEvery(GET_CHANNELS_REQUEST, getChannelsSaga)
+  yield takeLatest(GET_CHANNELS_REQUEST, getChannelsSaga)
 }
 
 function* watchGetCurrentChannelSaga() {
-  yield takeEvery(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
+  yield takeLatest(GET_CURRENT_CHANNEL_REQUEST, getCurrentChannelSaga)
 }
 
 function* watchCreateChannelSaga() {
@@ -192,11 +253,19 @@ function* watchDeleteMemberSaga() {
 }
 
 function* watchRecieveDeleteMemberSaga() {
-  yield takeLatest(RECEIVE_DELETE_MEMBER, receiveDeleteMemberSaga)
+  yield takeEvery(RECEIVE_DELETE_MEMBER, receiveDeleteMemberSaga)
 }
 
 function* watchJoinMembersToChannelSaga() {
   yield takeLatest(JOIN_MEMBERS_TO_CHANNEL_REQUEST, joinMembersToChannelSaga)
+}
+
+function* watchCreateDMSaga() {
+  yield takeLatest(CREATE_DM_REQUEST, createDMSaga)
+}
+
+function* watchRecieveAddMemberSaga() {
+  yield takeEvery(RECEIVE_ADD_MEMBER, receiveAddMemberSaga)
 }
 
 export default function* channelSaga() {
@@ -207,6 +276,8 @@ export default function* channelSaga() {
     fork(watchJoinMembersToChannelSaga),
     fork(watchDeleteMemberSaga),
     fork(watchRecieveDeleteMemberSaga),
+    fork(watchRecieveAddMemberSaga),
     fork(watchCreateChannelSaga),
+    fork(watchCreateDMSaga),
   ])
 }

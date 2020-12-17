@@ -63,27 +63,6 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
     if (plusOptions === true) setPlusOptions(false)
   }
 
-  const makeDmChannelName = (name: string) => {
-    if (!name.includes(',')) {
-      return '제대로 된 DM 이름 아님'
-    }
-    const temp = name.split(',')
-    let parsedName = ``
-    if (temp.length > 3) {
-      parsedName = `${temp[0]}, ${temp[1]}, ${temp[2]}...`
-    } else {
-      for (let i = 0; i < temp.length; i++) {
-        if (i !== temp.length - 1) {
-          parsedName += temp[i]
-          parsedName += ', '
-        } else {
-          parsedName += temp[i]
-        }
-      }
-    }
-    return parsedName
-  }
-
   const handleInvitePeopleModalClick = () => {
     setInvitePeopleModal(!invitePeopleModal)
   }
@@ -155,7 +134,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                     ...ChannelButtonStyle,
                     hoverColor: 'white',
                     backgroundColor:
-                      channel.id === channelId ? 'lightGrey' : 'white',
+                      channel.id === channelId ? 'currentBlue' : 'white',
                   }}
                   textStyle={
                     channel.unRead ? ChannelTextBoldStyle : ChannelTextStyle
@@ -171,12 +150,10 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         user={currentUser}
                         avatarImageStyle={dmAvatarStyle}
                       />
-                      <A.Text customStyle={channelNameStyle}>
-                        {makeDmChannelName(channel.name)}
-                      </A.Text>
+                      <Styled.EllipsisSpan>{channel.name}</Styled.EllipsisSpan>
                     </Styled.EachChannelContainer>
                   ) : (
-                    <>
+                    <Styled.EachChannelContainer>
                       <A.Icon
                         icon={
                           channel.type === 'PUBLIC'
@@ -185,8 +162,8 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
                         }
                         customStyle={ChannelIconStyle}
                       />
-                      {channel.name}
-                    </>
+                      <Styled.EllipsisSpan>{channel.name}</Styled.EllipsisSpan>
+                    </Styled.EachChannelContainer>
                   )}
                 </M.ButtonDiv>
               </Link>
@@ -237,12 +214,7 @@ const Section = ({ title, type, channelList, workspaceId }: SectionProps) => {
 Section.defaultProps = {}
 
 const dmAvatarStyle = {
-  margin: '0px 0px 0px 15px',
-}
-
-const channelNameStyle = {
-  fontSize: '12px',
-  margin: '0px 0px 0px 5px',
+  margin: '0px 10px 0px 20px',
 }
 
 const moreOverlayStyle = {

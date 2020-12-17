@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const ScrollContainer = styled.div`
   height: 85vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 const SideBarContainer = styled.div`

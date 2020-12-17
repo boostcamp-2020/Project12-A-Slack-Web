@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import myAxios from '@util/myAxios'
 import { ButtonType } from '@atom/Button'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import O from '@organism'
-import { joinMembersToChannel } from '@store/reducer/channel.reducer'
+import { createDM } from '@store/reducer/channel.reducer'
 import A from '@atom'
 import { RootState } from '@store'
 import M from '@molecule'
@@ -12,8 +13,6 @@ import color from '@constant/color'
 import { ChannelCardType } from '@type/channel.type'
 import { UserType } from '@type/user.type'
 import workspaceAPI from '@api/workspace'
-import { useHistory } from 'react-router-dom'
-import channelApi from '@api/channel'
 import Styled from '../../../component/organism/AddMemberModal/AddMemberModal.style'
 
 interface AllDmsPropTypes {
@@ -88,19 +87,20 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
       }
     }
 
+    const onSuccess = (channelId: number) => {
+      history.push(`/workspace/${workspaceId}/channel/${channelId}`)
+    }
+
     const createAndJoinUserList = async () => {
-      const { success, data } = await channelApi.createNewChannel({
-        name,
-        type: 'DM',
-        workspaceId,
-      })
       dispatch(
-        joinMembersToChannel.request({
-          channelId: data.id,
+        createDM.request({
+          name,
+          type: 'DM',
+          workspaceId,
           userList: selectedUserList,
+          onSuccess,
         }),
       )
-      history.push(`/workspace/${workspaceId}/channel/${data.id}`)
     }
     createAndJoinUserList()
     setSelectedUserList([])
