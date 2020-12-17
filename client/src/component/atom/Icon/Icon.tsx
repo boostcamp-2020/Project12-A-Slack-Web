@@ -27,7 +27,7 @@ const Icon = ({
       display={customStyle.display || 'inline'}
       hover={customStyle.hover || false}
       hoverColor={customStyle.hoverColor || 'trans'}
-      cursor={customStyle.cursor || 'pointer'}
+      cursor={customStyle.cursor || 'inherit'}
       align={customStyle.align || 'center'}
       borderRadius={customStyle.borderRadius}
       onClick={onClick}
@@ -45,7 +45,7 @@ const defaultStyle: IconType.StyleAttributes = {
   padding: '0',
   color: '#000000',
   fontSize: '1.4rem',
-  cursor: 'pointer',
+  cursor: 'inherit',
   align: 'center',
   display: 'inline',
   hover: false,

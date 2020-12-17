@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   align-items: center;
   width: auto;
   border-right: 1px solid rgb(230, 230, 230);
-  overflow-y: scroll;
+  overflow-y: auto;
 `
 
 const ImageWrapper = styled.div`

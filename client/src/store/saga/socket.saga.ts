@@ -1,16 +1,6 @@
-import {
-  fork,
-  call,
-  take,
-  put,
-  select,
-  all,
-  takeLatest,
-} from 'redux-saga/effects'
+import { fork, call, take, put, all, takeLatest } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { io, Socket } from 'socket.io-client'
-import { RootState } from '@store'
-import { ChannelType } from '@type/channel.type'
 import { GetThreadResponseType } from '@type/thread.type'
 import {
   MessageType,
@@ -35,6 +25,7 @@ import {
 import {
   getChannels,
   receiveDeleteMember,
+  receiveAddMember,
 } from '@store/reducer/channel.reducer'
 import {
   NamespaceType,
@@ -42,6 +33,7 @@ import {
   connectSocket,
   sendSocketJoinRoom,
   sendSocketLeaveRoom,
+  sendSocketJoinMembers,
   sendSocketDeleteMember,
   sendSocketCreateThread,
   sendSocketDeleteThread,
@@ -57,6 +49,7 @@ const CONNECT = 'connect'
 const DISCONNECT = 'disconnect'
 const JOIN_ROOM = 'JOIN_ROOM'
 const LEAVE_ROOM = 'LEAVE_ROOM'
+const JOIN_MEMBERS = 'JOIN_MEMBERS'
 const DELETE_MEMBER = 'DELETE_MEMBER'
 const CREATE_THREAD = 'CREATE_THREAD'
 const DELETE_THREAD = 'DELETE_THREAD'
@@ -96,6 +89,10 @@ function subscribeSocket(socket: Socket) {
 
     const handleDeleteMember = (data: any) => {
       emit(receiveDeleteMember(data))
+    }
+
+    const handleAddMember = (data: any) => {
+      emit(receiveAddMember(data))
     }
 
     const handleCreateThread = (data: GetThreadResponseType) => {
@@ -139,6 +136,7 @@ function subscribeSocket(socket: Socket) {
     }
 
     socket.on(DISCONNECT, handleDisconnect)
+    socket.on(JOIN_MEMBERS, handleAddMember)
     socket.on(DELETE_MEMBER, handleDeleteMember)
     socket.on(CREATE_THREAD, handleCreateThread)
     socket.on(DELETE_THREAD, handleDeleteThread)
@@ -151,7 +149,7 @@ function subscribeSocket(socket: Socket) {
 
     return () => {
       socket.off(DISCONNECT, handleDisconnect)
-      socket.off(CREATE_THREAD, handleCreateThread)
+      socket.off(JOIN_MEMBERS, handleAddMember)
       socket.off(DELETE_MEMBER, handleDeleteMember)
       socket.off(CREATE_THREAD, handleCreateThread)
       socket.off(DELETE_THREAD, handleDeleteThread)
@@ -250,7 +248,12 @@ function* sendLeaveRoom(socket: Socket) {
   }
 }
 
-function* socketActiveUser(socket: Socket) {}
+function* sendJoinMembers(socket: Socket) {
+  while (true) {
+    const { payload } = yield take(sendSocketJoinMembers)
+    socket.emit(JOIN_MEMBERS, payload)
+  }
+}
 
 function* handleIO(socket: Socket) {
   yield fork(read, socket)
@@ -260,21 +263,12 @@ function* handleIO(socket: Socket) {
   yield fork(sendUpdateThread, socket)
   yield fork(socketJoinRoomNew, socket)
   yield fork(sendLeaveRoom, socket)
+  yield fork(sendJoinMembers, socket)
   yield fork(sendCreateMessage, socket)
   yield fork(sendDeleteMessage, socket)
   yield fork(sendUpdateMessage, socket)
   yield fork(sendCreateReaction, socket)
   yield fork(sendDeleteReaction, socket)
-}
-
-function* socketJoinRoom(socket: Socket) {
-  const channelList: ChannelType[] = yield select(
-    (state: RootState) => state.channelStore.channelList,
-  )
-
-  socket.emit(JOIN_ROOM, {
-    channelIdList: channelList.map((channel: any) => +channel.id),
-  })
 }
 
 function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
@@ -286,7 +280,6 @@ function* socketFlow(action: ReturnType<typeof connectSocket.request>) {
         workspaceId: action.payload.workspaceId,
       }),
     )
-    // yield call(socketJoinRoom, socket)
     yield fork(handleIO, socket)
   } catch (error) {
     yield put(connectSocket.failure(error))

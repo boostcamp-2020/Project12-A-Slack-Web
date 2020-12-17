@@ -155,21 +155,15 @@ const ThreadList = ({
           const prevHasReply = prevThread && prevThread.replyCount !== 0
           const continuous = sameUser && !hasReply && !prevHasReply && sameDate
           return (
-            <>
-              {!sameDate && (
-                <M.DayDivider
-                  dateString={thread.createdAt}
-                  key={thread.createdAt}
-                />
-              )}
+            <div key={thread.id}>
+              {!sameDate && <M.DayDivider dateString={thread.createdAt} />}
               <O.MessageCard
                 data={thread}
                 type="THREAD"
                 continuous={continuous}
                 onReplyButtonClick={handleReplyButtonClick}
-                key={thread.id}
               />
-            </>
+            </div>
           )
         })}
         <Styled.ThreadListBottom ref={threadEndRef} />

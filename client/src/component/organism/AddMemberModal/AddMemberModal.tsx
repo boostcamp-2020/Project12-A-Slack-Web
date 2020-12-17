@@ -143,10 +143,10 @@ const AddMemberModal = ({ channel, onClose }: AddMemberModalProps) => {
                   </Styled.NotFoundWrapper>
                 ) : (
                   teammateSearchResult.map((user) => {
-                    const alreadyInChannel = members.some(
+                    const alreadyInChannel = !!members.find(
                       (member) => member.id === user.id,
                     )
-                    const selected = selectedUserList.some(
+                    const selected = !!selectedUserList.find(
                       (selUser) => selUser.id === user.id,
                     )
                     const handleTeammateClick =
