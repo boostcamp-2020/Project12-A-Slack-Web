@@ -18,8 +18,7 @@ import { sendSocketActiveUserId } from '@store/reducer/socket.reducer'
 function* getWorkspacesSaga() {
   try {
     const { success, data } = yield call(workspaceAPI.getWorkspaces)
-    if (success) console.log('workspace를 불러왔습니다.')
-    yield put(getWorkspace.success(data))
+    if (success) yield put(getWorkspace.success(data))
   } catch (error) {
     toast.error('Failed to read workspace')
     yield put(getWorkspace.failure(error))
@@ -35,7 +34,6 @@ function* getCurrentWorkspaceInfoSaga(
       action.payload,
     )
     if (success) {
-      console.log('workspace를 불러왔습니다.')
       yield put(getCurrentWorkspaceInfo.success(data))
     }
   } catch (error) {

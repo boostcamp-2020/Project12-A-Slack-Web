@@ -141,9 +141,8 @@ const NewWorkspacePage = () => {
           toast.warn('Image의 사이즈가 3mb보다 큽니다.')
         } else {
           const {
-            data: { success, data },
+            data: { data },
           } = await myAxios.filepost({ path: '/file', data: fd })
-          if (success) console.log('정상적으로 이미지를 업로드 되었습니다.')
           setWorkspaceImageUrl(data.fileInfo.location)
         }
       } catch (error) {

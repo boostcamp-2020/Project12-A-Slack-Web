@@ -266,12 +266,21 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     }
   },
   [RECEIVE_UPDATE_THREAD]: (state, action) => {
+    const { thread: currentThread } = state.currentThread
+    const updatedThread: GetThreadResponseType = action.payload
     return {
       ...state,
       threadList: state.threadList.map((thread) => {
         if (thread.id === action.payload.id) return action.payload
         return thread
       }),
+      currentThread: {
+        thread:
+          currentThread && currentThread.id === updatedThread.id
+            ? updatedThread
+            : currentThread,
+        messageList: state.currentThread.messageList,
+      },
     }
   },
   [RECEIVE_CREATE_MESSAGE]: (state, action) => {
