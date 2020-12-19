@@ -48,6 +48,6 @@ color.set('LightCyan', '#E0FFFF')
 color.set('yellow', '#FFFF00')
 
 // purple
-color.set('purple', '#4a154b')
+color.set('purple', '#8C128E')
 
 export default color

@@ -41,7 +41,7 @@ const WorkspaceJoinPage = () => {
         history.push('/login')
       }
     } catch (error) {
-      toast.warn('로그인이 필요합니다.')
+      // toast.warn('로그인이 필요합니다.')
       history.push('/login')
       localStorage.removeItem('token')
     }
@@ -56,9 +56,7 @@ const WorkspaceJoinPage = () => {
   }, [])
   return (
     <WorkspaceContainer>
-      <A.Text customStyle={{ fontSize: '4rem', fontWeight: 'bold' }}>
-        해당 workspace에 참여하고 있습니다...
-      </A.Text>
+      <A.Loading color="white" />
     </WorkspaceContainer>
   )
 }

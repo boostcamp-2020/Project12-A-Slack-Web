@@ -71,7 +71,7 @@ function* joinWorkspaceSaga(action: ReturnType<typeof joinWorkspace>) {
       if (action.payload.onSuccess) action.payload.onSuccess!()
     }
   } catch (error) {
-    toast.warn('이미 workspace에 참여하고 있습니다.')
+    // toast.warn('이미 workspace에 참여하고 있습니다.')
     window.location.href = '/'
   }
 }
