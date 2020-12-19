@@ -66,7 +66,6 @@ const baseURL =
     : process.env.SOCKET_SERVER_DOMAIN_PRODUCTION
 
 function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
-  console.log('workspace socket 연결중')
   const token = localStorage.getItem('token')
   const socket = io(`${baseURL}/namespace/${workspaceId}`, {
     query: { token },
@@ -75,7 +74,6 @@ function createSocket({ workspaceId }: NamespaceType): Promise<Socket> {
   return new Promise((resolve) => {
     socket.connect()
     socket.on(CONNECT, () => {
-      console.log('socket client connected')
       resolve(socket)
     })
   })
