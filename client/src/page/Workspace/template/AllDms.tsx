@@ -53,7 +53,7 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
       }
       setTeammateSearchResult([])
     }
-    searchTeammates(inputName)
+    searchTeammates(inputValue)
   }
 
   useEffect(() => {
@@ -77,15 +77,11 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
   }, [inputName])
 
   const handleAddButtonClick = () => {
-    let name = `${currentUser.name}, `
-    for (let i = 0; i < selectedUserList.length; i++) {
-      if (i === selectedUserList.length - 1)
-        name += String(selectedUserList[i].name)
-      else {
-        name += String(selectedUserList[i].name)
-        name += ', '
-      }
-    }
+    const dmChannelName = selectedUserList
+      .reduce((prev, cur) => {
+        return `${prev + cur.name}, `
+      }, `${currentUser.name}, `)
+      .slice(0, -2)
 
     const onSuccess = (channelId: number) => {
       history.push(`/workspace/${workspaceId}/channel/${channelId}`)
@@ -94,7 +90,7 @@ const AllDms = ({ workspaceId }: AllDmsPropTypes) => {
     const createAndJoinUserList = async () => {
       dispatch(
         createDM.request({
-          name,
+          name: dmChannelName,
           type: 'DM',
           workspaceId,
           userList: selectedUserList,
