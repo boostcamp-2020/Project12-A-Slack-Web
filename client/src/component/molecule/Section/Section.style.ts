@@ -117,7 +117,7 @@ const FlexColumn = styled.div`
 const EllipsisSpan = styled.span`
   text-overflow: ellipsis;
   display: inline-block;
-  overflow: auto;
+  overflow: hidden;
   white-space: nowrap;
   font-size: 1.4rem;
   width: 165px;
