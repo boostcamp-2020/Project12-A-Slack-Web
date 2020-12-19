@@ -75,9 +75,14 @@ const ThreadList = ({
   }
 
   useEffect(() => {
-    const { scrollTop, clientHeight } = threadListEl.current as HTMLDivElement
+    const threadListElement = threadListEl.current as HTMLDivElement
+    const { scrollTop, clientHeight, scrollHeight } = threadListElement
+
+    if (scrollHeight === clientHeight) {
+      loadMoreThreads()
+      return
+    }
     if (scrollTop === 0) {
-      const threadListElement = threadListEl.current as HTMLDivElement
       threadListElement.scrollTop = clientHeight
     }
   }, [threadList])
