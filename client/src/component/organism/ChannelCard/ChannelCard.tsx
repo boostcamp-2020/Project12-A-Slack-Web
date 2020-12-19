@@ -114,9 +114,9 @@ const leaveButtonStyle: ButtonType.StyleAttributes = {
 }
 
 const joinButtonStyle: ButtonType.StyleAttributes = {
-  border: `1px solid ${color.get('green')}`,
-  backgroundColor: 'green',
-  hoverBackgroundColor: 'greenHover',
+  border: `1px solid ${color.get('deepGreen')}`,
+  backgroundColor: 'deepGreen',
+  hoverBackgroundColor: 'deepGreenHover',
 }
 
 const joinedTextStyle: TextType.StyleAttributes = {
