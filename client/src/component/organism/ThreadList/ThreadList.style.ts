@@ -43,7 +43,7 @@ const ChannelNameWrapper = styled.div`
 const ThreadListTop = styled.div`
   display: flex;
   padding: 16px;
-  min-height: 100px;
+  min-height: 110px;
 `
 const ThreadTypeIconWrapper = styled.div`
   width: 36px;
@@ -58,6 +58,14 @@ const ThreadTypeIconWrapper = styled.div`
 const ColumnFlexContainer = styled.div`
   display: flex;
   flex-direction: column;
+`
+const LoadingWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: 600;
 `
 
 const ThreadListBottom = styled.div`
@@ -75,5 +83,6 @@ export default {
   ThreadListTop,
   ThreadTypeIconWrapper,
   ColumnFlexContainer,
+  LoadingWrapper,
   ThreadListBottom,
 }
