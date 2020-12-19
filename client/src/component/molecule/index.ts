@@ -11,6 +11,7 @@ import SelectableTeammate from './SelectableTeammate'
 import SendEmailModal from './SendEmailModal'
 import CreateModal from './CreateModal'
 import DayDivider from './DayDivider'
+import Tooltip from './Tooltip'
 
 export default {
   ButtonDiv,
@@ -26,4 +27,5 @@ export default {
   SendEmailModal,
   CreateModal,
   DayDivider,
+  Tooltip,
 }

@@ -228,12 +228,10 @@ const sendNotification = (name: string, body: string) => {
 function* receiveCreateThreadSaga(
   action: ReturnType<typeof receiveCreateThread>,
 ) {
-  const { name } = yield select(
-    (state: RootState) => state.userStore.currentUser,
-  )
   const { id: channelId } = yield select(
     (state: RootState) => state.channelStore.currentChannel,
   )
+  const { name } = action.payload.User
   const { content } = action.payload.headMessage
   if (channelId !== action.payload.channelId) {
     try {
@@ -250,7 +248,7 @@ function* receiveCreateThreadSaga(
 function* receiveCreateMessageSaga(
   action: ReturnType<typeof receiveCreateMessage>,
 ) {
-  const { name, id: userId } = yield select(
+  const { id: userId } = yield select(
     (state: RootState) => state.userStore.currentUser,
   )
   const { currentChannel } = yield select(
@@ -270,7 +268,7 @@ function* receiveCreateMessageSaga(
     try {
       yield put(setChannelUnRead({ channelId: thread.channelId }))
       if (Notification.permission === GRANTED) {
-        sendNotification(name, message.content)
+        sendNotification(message.User.name, message.content)
       }
     } catch (e) {
       console.log('Browser does not support notification.')

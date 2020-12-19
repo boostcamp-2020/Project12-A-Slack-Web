@@ -1,3 +1,5 @@
+import { UserType } from '@type/user.type'
+
 export { default } from './ReactionList'
 
 export interface ReactionListProps {
@@ -6,15 +8,8 @@ export interface ReactionListProps {
   onReactionClick: (emoji: string) => void
 }
 
-interface ReactionType {
+export interface ReactionType {
   id: number
   content: string
   User: UserType
-}
-
-interface UserType {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
 }
