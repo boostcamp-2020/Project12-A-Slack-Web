@@ -18,7 +18,7 @@ const NewWorkspacePage = () => {
   const dispatch = useDispatch()
   const [workspaceName, setWorkspaceName] = useState<string>('')
   const [workspaceImageUrl, setWorkspaceImageUrl] = useState<string>(
-    'https://issue-tracker-team14.kr.object.ncloudstorage.com/1607424718809.png',
+    'https://user-images.githubusercontent.com/63051473/102693892-17978900-4261-11eb-8176-5e2353118fe4.png',
   )
   const [workspaceNewChannelName, setWorkspacNewChannelName] = useState<string>(
     '',
