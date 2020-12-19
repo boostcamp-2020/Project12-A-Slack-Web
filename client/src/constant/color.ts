@@ -33,6 +33,7 @@ color.set('reactionGrey', '#F0F0F0')
 color.set('green', '#2ea44f')
 color.set('greenHover', '#22863a')
 color.set('deepGreen', '#007a5a')
+color.set('deepGreenHover', '#00644A')
 
 // red
 color.set('red', '#cb2431')
@@ -48,6 +49,6 @@ color.set('LightCyan', '#E0FFFF')
 color.set('yellow', '#FFFF00')
 
 // purple
-color.set('purple', '#4a154b')
+color.set('purple', '#8C128E')
 
 export default color

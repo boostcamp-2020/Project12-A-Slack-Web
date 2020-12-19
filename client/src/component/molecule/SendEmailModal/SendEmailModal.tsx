@@ -73,6 +73,21 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
     setModal(!modal)
   }
 
+  const copyToClipboard = () => {
+    const url = `${
+      process.env.NODE_ENV === 'development'
+        ? process.env.FRONT_DOMAIN_DEVELOP
+        : process.env.FRONT_DOMAIN_PRODUCTION
+    }/workspace/join?workspace_id=${currentWorkspace.id}`
+    const textField = document.createElement('textarea')
+    textField.innerText = url
+    document.body.appendChild(textField)
+    textField.select()
+    document.execCommand('copy')
+    textField.remove()
+    toast.success('성공적으로 초대 URL이 복사되었습니다.', { autoClose: 2000 })
+  }
+
   return (
     <M.Modal
       overlayStyle={createModalOverlayStyle}
@@ -119,15 +134,17 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
         <Styled.InvitePeopleLink>
           <A.Text customStyle={linkDescTextStyle}>
-            혹은 하단의 URL을 초대하고자 하는 팀원에게 전달해주세요!
+            혹은 하단의 URL을 복사하여 초대하고자 하는 팀원에게 전달해주세요!
           </A.Text>
-          <A.Text customStyle={linkTextStyle}>
-            {`${
-              process.env.NODE_ENV === 'development'
-                ? process.env.FRONT_DOMAIN_DEVELOP
-                : process.env.FRONT_DOMAIN_PRODUCTION
-            }/workspace/join?workspace_id=${currentWorkspace.id}`}
-          </A.Text>
+          <M.ButtonDiv
+            onClick={copyToClipboard}
+            buttonStyle={{
+              ...sendInvitationButtonStyle,
+            }}
+            textStyle={sendInvitationButtonTextStyle}
+          >
+            URL 복사하기
+          </M.ButtonDiv>
         </Styled.InvitePeopleLink>
       </Styled.InvitePeopleContainer>
     </M.Modal>
@@ -136,7 +153,7 @@ const SendEmailModal = ({ modal, setModal }: SendEmailModalProps) => {
 
 const invitePeopleModalWrapperStyle = {
   backgroundColor: 'white',
-  width: '450px',
+  width: '500px',
   height: '300px',
   padding: '0',
   borderRadius: '8px',
@@ -167,8 +184,9 @@ const warningTextStyle: TextType.StyleAttributes = {
 const sendInvitationButtonStyle: ButtonType.StyleAttributes = {
   padding: '5px 15px',
   height: '3.5rem',
-  backgroundColor: 'purple',
-  border: '1px soild lightgrey',
+  backgroundColor: 'deepGreen',
+  // border: '1px soild lightgrey',
+  margin: '1rem 0',
 }
 const sendInvitationButtonTextStyle: TextType.StyleAttributes = {
   fontSize: '1.4rem',
@@ -179,11 +197,6 @@ const sendInvitationButtonTextStyle: TextType.StyleAttributes = {
 const linkDescTextStyle: TextType.StyleAttributes = {
   fontSize: '1.5rem',
   color: 'darkGrey',
-}
-const linkTextStyle: TextType.StyleAttributes = {
-  fontSize: '1.7rem',
-  fontWeight: '600',
-  margin: '10px 0',
 }
 
 export default SendEmailModal

@@ -18,7 +18,7 @@ const NewWorkspacePage = () => {
   const dispatch = useDispatch()
   const [workspaceName, setWorkspaceName] = useState<string>('')
   const [workspaceImageUrl, setWorkspaceImageUrl] = useState<string>(
-    'https://issue-tracker-team14.kr.object.ncloudstorage.com/1607424718809.png',
+    'https://user-images.githubusercontent.com/63051473/102693892-17978900-4261-11eb-8176-5e2353118fe4.png',
   )
   const [workspaceNewChannelName, setWorkspacNewChannelName] = useState<string>(
     '',
@@ -141,9 +141,8 @@ const NewWorkspacePage = () => {
           toast.warn('Image의 사이즈가 3mb보다 큽니다.')
         } else {
           const {
-            data: { success, data },
+            data: { data },
           } = await myAxios.filepost({ path: '/file', data: fd })
-          if (success) console.log('정상적으로 이미지를 업로드 되었습니다.')
           setWorkspaceImageUrl(data.fileInfo.location)
         }
       } catch (error) {

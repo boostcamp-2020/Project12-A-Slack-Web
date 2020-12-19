@@ -41,6 +41,9 @@ const MessageCard = ({
   const { id: channelId } = useSelector(
     (state: RootState) => state.channelStore.currentChannel,
   )
+  const { channelList } = useSelector((state: RootState) => state.channelStore)
+  const joined = channelList.find((channel) => channel.id === +channelId)
+
   const dispatch = useDispatch()
   const thread = data as GetThreadResponseType
   const message = data as MessageType
@@ -74,6 +77,7 @@ const MessageCard = ({
   const handleReplyButtonClick = () => onReplyButtonClick(thread)
 
   const handleReactionClick = (content: string) => {
+    if (!joined) return
     const targetMessage = type === 'THREAD' ? thread.headMessage : message
     const reactionFound = targetMessage.Reactions.find(
       (reaction) =>

@@ -53,12 +53,8 @@ const Auth = (Component: any, option: boolean) => () => {
 
       setLoading(false)
     } catch (err) {
-      toast.warn('잘못된 접근입니다.', {
-        onClose: () => {
-          history.push('/login')
-          localStorage.removeItem('token')
-        },
-      })
+      localStorage.removeItem('token')
+      history.push('/login')
     }
   }
 
