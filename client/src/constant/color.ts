@@ -33,6 +33,7 @@ color.set('reactionGrey', '#F0F0F0')
 color.set('green', '#2ea44f')
 color.set('greenHover', '#22863a')
 color.set('deepGreen', '#007a5a')
+color.set('deepGreenHover', '#00644A')
 
 // red
 color.set('red', '#cb2431')

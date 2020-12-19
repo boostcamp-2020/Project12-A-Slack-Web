@@ -278,8 +278,8 @@ const guideChannelTextStyle: TextType.StyleAttributes = {
 }
 const joinButtonStyle: ButtonType.StyleAttributes = {
   border: `1px solid ${color.get('green')}`,
-  backgroundColor: 'green',
-  hoverBackgroundColor: 'greenHover',
+  backgroundColor: 'deepGreen',
+  hoverBackgroundColor: 'deepGreenHover',
   width: '125px',
   height: '38px',
   padding: '10px',
