@@ -10,9 +10,22 @@ const EachChannelContainer = styled.div`
 
 const InputWrapper = styled.div`
   width: 100%;
+  height: 4.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border: 1px solid grey;
+  border-radius: 5px;
+  margin: 0.5rem 0;
+`
+
+const InputFormWrapper = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5px 0;
 `
 
 const CheckBoxWrapper = styled.div`
@@ -89,8 +102,16 @@ const FlexColumn = styled.div`
   flex-direction: column;
 `
 
+const ErrorTextWrapper = styled.div`
+  width: 100%;
+  height: 2rem;
+  padding: 1rem 0;
+`
+
 export default {
   CreateModalContainer,
+  ErrorTextWrapper,
+  InputFormWrapper,
   InputWrapper,
   CreateHeader,
   CreateBottom,

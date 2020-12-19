@@ -35,7 +35,7 @@ const PrivateWorkspace = (Component: any) => () => {
     check()
   }, [workspaceList])
 
-  return loading ? <A.Loading /> : <Component />
+  return loading ? <A.Loading color="white" /> : <Component />
 }
 
 export default PrivateWorkspace

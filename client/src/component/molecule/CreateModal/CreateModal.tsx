@@ -25,7 +25,7 @@ const CreateModal = ({
   const [newChannelName, setNewChannelName] = useState<string>('')
   const [isPrivate, setIsPrivate] = useState<boolean>(false)
   const [privateName, setPrivateName] = useState<string>('Create a Channel')
-  const [placeholder, setPlaceholder] = useState<string>('  # e.g plan-budget')
+  const [placeholder, setPlaceholder] = useState<string>('# e.g plan-budget')
   const [channelType, setChannelType] = useState<string>('PUBLIC')
 
   const [buttonActive, setButtonActive] = useState<boolean>(true)
@@ -95,10 +95,10 @@ const CreateModal = ({
     setIsPrivate(!isPrivate)
     if (!isPrivate) {
       setPrivateName('Create a private Channel')
-      setPlaceholder('  🔒 e.g plan-budget')
+      setPlaceholder('🔒 e.g plan-budget')
     } else {
       setPrivateName('Create a Channel')
-      setPlaceholder('  # e.g plan-budget')
+      setPlaceholder('# e.g plan-budget')
     }
     setChannelType(isPrivate ? 'PUBLIC' : 'PRIVATE')
   }
@@ -130,39 +130,41 @@ const CreateModal = ({
           </A.Text>
           <Styled.FlexColumn>
             <A.Text customStyle={createLabelTextStyle}>Name</A.Text>
-            <Styled.InputWrapper>
-              <A.Input
-                customStyle={createInputStyle}
-                placeholder={placeholder}
-                onChange={handleNewChannelInput}
-                value={newChannelName}
-                onKeyPress={handleEnterKeyPress}
-              />
-              <A.Text
-                customStyle={{
-                  color: newChannelName.length > 50 ? 'red' : 'black',
-                  fontSize: '1.4rem',
-                  padding: '0 1rem',
-                }}
-              >
-                {`${newChannelName.length} / 50`}
-              </A.Text>
-            </Styled.InputWrapper>
-            {isChannelNameDuplicate ? (
-              <A.Text
-                customStyle={{
-                  width: '100%',
-                  height: '2rem',
-                  color: 'red',
-                  padding: '1rem 0',
-                  fontSize: '1.4rem',
-                }}
-              >
-                해당 이름의 채널이 존재합니다.
-              </A.Text>
-            ) : (
-              <A.Text> </A.Text>
-            )}
+            <Styled.InputFormWrapper>
+              <Styled.InputWrapper>
+                <A.Input
+                  customStyle={createInputStyle}
+                  placeholder={placeholder}
+                  onChange={handleNewChannelInput}
+                  value={newChannelName}
+                  onKeyPress={handleEnterKeyPress}
+                />
+                <A.Text
+                  customStyle={{
+                    color: newChannelName.length > 50 ? 'red' : 'black',
+                    fontSize: '1.4rem',
+                    padding: '0 1rem',
+                  }}
+                >
+                  {`${newChannelName.length} / 50`}
+                </A.Text>
+              </Styled.InputWrapper>
+              <Styled.ErrorTextWrapper>
+                {isChannelNameDuplicate && (
+                  <A.Text
+                    customStyle={{
+                      width: '100%',
+                      height: '2rem',
+                      color: 'red',
+                      padding: '1.5rem 0 1rm 0',
+                      fontSize: '1.4rem',
+                    }}
+                  >
+                    해당 이름의 채널이 존재합니다.
+                  </A.Text>
+                )}
+              </Styled.ErrorTextWrapper>
+            </Styled.InputFormWrapper>
           </Styled.FlexColumn>
           <Styled.CreateBottom>
             <Styled.FlexColumn>

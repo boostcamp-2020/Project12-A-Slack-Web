@@ -29,6 +29,7 @@ import {
 } from '@type/reaction.type'
 
 interface ThreadState {
+  threadListState: 'INITIAL' | 'LOADING' | 'ALL_LOADED' | 'ERROR'
   threadList: GetThreadResponseType[]
   currentChannelId: number
   currentThread: CurrentThreadType
@@ -37,6 +38,7 @@ interface ThreadState {
 }
 
 const initialState: ThreadState = {
+  threadListState: 'INITIAL',
   threadList: [],
   currentChannelId: -1,
   currentThread: {
@@ -166,18 +168,31 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
   [GET_THREADS_REQUEST]: (state, _) => ({
     ...state,
     loading: true,
+    threadListState: 'LOADING',
     error: null,
   }),
-  [GET_THREADS_SUCCESS]: (state, action) => ({
-    ...state,
-    loading: false,
-    error: null,
-    threadList: [...action.payload.threadList, ...state.threadList],
-    currentChannelId: action.payload.channelId,
-  }),
+  [GET_THREADS_SUCCESS]: (state, action) => {
+    if (state.threadListState === 'ALL_LOADED')
+      return { ...state, currentChannelId: action.payload.channelId }
+    if (action.payload.threadList.length === 0)
+      return {
+        ...state,
+        threadListState: 'ALL_LOADED',
+        currentChannelId: action.payload.channelId,
+      }
+    return {
+      ...state,
+      loading: false,
+      error: null,
+      threadList: [...action.payload.threadList, ...state.threadList],
+      currentChannelId: action.payload.channelId,
+      threadListState: 'INITIAL',
+    }
+  },
   [GET_THREADS_ERROR]: (state, action) => ({
     ...state,
     threadList: [...state.threadList],
+    threadListState: 'ERROR',
     loading: false,
     error: action.payload,
   }),
@@ -286,6 +301,7 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     loading: false,
     threadList: [],
     currentChannelId: -1,
+    threadListState: 'INITIAL',
   }),
   [RECEIVE_UPDATE_MESSAGE]: (state, action) => {
     return {

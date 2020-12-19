@@ -37,7 +37,7 @@ const WorkspaceBrowserPage = () => {
         </A.Text>
         <WorkspaceListWrapper>
           {workspaceStore.loading ? (
-            <A.Loading />
+            <A.Loading color="white" />
           ) : (
             <O.WorkspaceList workspaceList={workspaceStore.workspaceList} />
           )}

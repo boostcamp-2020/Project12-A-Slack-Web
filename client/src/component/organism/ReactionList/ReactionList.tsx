@@ -5,22 +5,9 @@ import O from '@organism'
 import { ButtonType } from '@atom/Button'
 import myIcon from '@constant/icon'
 import calcModalPosition from '@util/calcModalPosition'
-import { ReactionListProps } from '.'
+import { ReactionListProps, ReactionType } from '.'
 
 import Styled from './ReactionList.style'
-
-interface ReactionType {
-  id: number
-  content: string
-  User: UserType
-}
-
-interface UserType {
-  id: number
-  email: string
-  name: string
-  profileImageUrl: string
-}
 
 const ReactionList = ({
   reactionArr,

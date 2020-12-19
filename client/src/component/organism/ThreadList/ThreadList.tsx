@@ -14,6 +14,7 @@ import { TextType } from '@atom/Text'
 import { ButtonType } from '@atom/Button'
 import { joinChannel } from '@store/reducer/channel.reducer'
 import getDMChannelTitle from '@util/getDMChannelTitle'
+import throttling from '@util/throttling'
 import { getMonthDayYear } from '@util/date'
 import { ThreadListProps } from '.'
 import Styled from './ThreadList.style'
@@ -31,7 +32,9 @@ const ThreadList = ({
   const threadListEl = useRef<HTMLDivElement>(null)
 
   const dispatch = useDispatch()
-  const { threadList } = useSelector((state: RootState) => state.threadStore)
+  const { threadList, threadListState } = useSelector(
+    (state: RootState) => state.threadStore,
+  )
   const { channelList } = useSelector((state: RootState) => state.channelStore)
   const { workspaceId, channelId } = useParams<{
     workspaceId: string
@@ -46,17 +49,43 @@ const ThreadList = ({
   }
   useEffect(scrollToBottom, [threads[threads.length - 1]])
 
-  const handleScrollTop = () => {
-    const { scrollTop } = threadListEl.current as HTMLDivElement
-    if (scrollTop <= 150) {
+  const throttler = throttling()
+
+  const loadMoreThreads = () => {
+    if (
+      threadList.length === 0 ||
+      threadListState === 'LOADING' ||
+      threadListState === 'ALL_LOADED'
+    )
+      return
+    throttler.throttle(() => {
       dispatch(
         getThreads.request({
           channelId: +id,
           lastThreadId: threadList[0].id,
         }),
       )
-    }
+    }, 400)
   }
+
+  const handleScrollTop = () => {
+    const { scrollTop, clientHeight } = threadListEl.current as HTMLDivElement
+    if (scrollTop >= clientHeight) return
+    loadMoreThreads()
+  }
+
+  useEffect(() => {
+    const threadListElement = threadListEl.current as HTMLDivElement
+    const { scrollTop, clientHeight, scrollHeight } = threadListElement
+
+    if (scrollHeight === clientHeight) {
+      loadMoreThreads()
+      return
+    }
+    if (scrollTop === 0) {
+      threadListElement.scrollTop = clientHeight
+    }
+  }, [threadList])
 
   const channelIcon =
     // eslint-disable-next-line no-nested-ternary
@@ -115,30 +144,42 @@ const ThreadList = ({
     <Styled.ChannelMainContainer>
       <Styled.ThreadListContainer ref={threadListEl} onScroll={handleScrollTop}>
         <Styled.ThreadListTop>
-          <Styled.ThreadTypeIconWrapper>
-            <A.Icon icon={channelIcon} />
-          </Styled.ThreadTypeIconWrapper>
+          {threadListState === 'ALL_LOADED' && (
+            <>
+              <Styled.ThreadTypeIconWrapper>
+                <A.Icon icon={channelIcon} />
+              </Styled.ThreadTypeIconWrapper>
 
-          <Styled.ColumnFlexContainer>
-            <A.Text customStyle={threadListTopTextStyle}>
-              {type === 'DM' ? (
-                'This is the very beginning of your group conversation'
-              ) : (
-                <>
-                  {'This is the very beginning of the '}
-                  <A.Icon
-                    icon={channelIcon}
-                    customStyle={{ ...threadListTopTextStyle, color: 'blue' }}
-                  />
-                  <A.Text customStyle={channelNameTextStyle}>{name}</A.Text>
-                  channel
-                </>
-              )}
-            </A.Text>
-            <A.Text customStyle={channelDescTextStyle}>
-              {channelDescription}
-            </A.Text>
-          </Styled.ColumnFlexContainer>
+              <Styled.ColumnFlexContainer>
+                <A.Text customStyle={threadListTopTextStyle}>
+                  {type === 'DM' ? (
+                    'This is the very beginning of your group conversation'
+                  ) : (
+                    <>
+                      {'This is the very beginning of the '}
+                      <A.Icon
+                        icon={channelIcon}
+                        customStyle={{
+                          ...threadListTopTextStyle,
+                          color: 'blue',
+                        }}
+                      />
+                      <A.Text customStyle={channelNameTextStyle}>{name}</A.Text>
+                      channel
+                    </>
+                  )}
+                </A.Text>
+                <A.Text customStyle={channelDescTextStyle}>
+                  {channelDescription}
+                </A.Text>
+              </Styled.ColumnFlexContainer>
+            </>
+          )}
+          {threadListState === 'LOADING' && (
+            <Styled.LoadingWrapper>
+              <A.Loading color="lightBlue" />
+            </Styled.LoadingWrapper>
+          )}
         </Styled.ThreadListTop>
 
         {threads.map((thread, index, arr) => {
