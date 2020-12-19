@@ -35,9 +35,18 @@ const ReactionButton = ({
     <Styled.TooltipContent>
       <Emoji emoji={emoji} size={25} />
       <A.Text customStyle={tooltipNameTextStyle}>
-        {reactionBundle
-          .reduce((prev, reaction) => `${prev + reaction.User.name}, `, '')
-          .slice(0, -2)}
+        {reactionBundle.length === 1 &&
+        reactionBundle[0].User.id === loginUserId
+          ? 'You (click to remove)'
+          : reactionBundle
+              .reduce((prev, reaction, idx, arr) => {
+                const user = reaction.User
+                if (user.id !== loginUserId) return `${prev}${user.name}, `
+                if (idx === 0) return `You and `
+                if (idx === arr.length - 1) return `${prev} and you  `
+                return `${prev}you, `
+              }, '')
+              .slice(0, -2)}
       </A.Text>
       <A.Text customStyle={tooltipDescTextStyle}>
         {`reacted with ${emoji}`}
