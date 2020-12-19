@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
+import myColor from '@constant/color'
 
 const bounce = keyframes`
   0% {
@@ -13,16 +14,16 @@ const bounce = keyframes`
   }
 `
 
-const Circle = styled.div`
-  width: 5%;
-  height: 5%;
+const Circle = styled.div<{ color: string }>`
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: ${({ color }) => myColor.get(color)};
   animation: ${bounce} 1s infinite;
 `
 
-const Loading = () => {
-  return <Circle />
+const Loading = ({ color }: { color: string }) => {
+  return <Circle color={color} />
 }
 
 export default Loading

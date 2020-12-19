@@ -66,7 +66,7 @@ const Auth = (Component: any, option: boolean) => () => {
     check()
   }, [])
 
-  return loading ? <A.Loading /> : <Component />
+  return loading ? <A.Loading color="white" /> : <Component />
 }
 
 export default Auth
