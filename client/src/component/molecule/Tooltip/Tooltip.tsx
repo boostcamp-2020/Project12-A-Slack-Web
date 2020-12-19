@@ -6,11 +6,11 @@ const Tooltip = ({ position, content, parent }: TooltipProps) => {
   const parentEl = (parent.current as HTMLElement).getBoundingClientRect()
   const { x, y } = parentEl
   const wHeight = window.innerHeight
-  const tooltipBottom = wHeight - y + 5
+  const tooltipBottom = wHeight - y + 10
   const tooltipLeft = x
   return (
     <Styled.Wrapper bottom={tooltipBottom} left={tooltipLeft}>
-      {content}
+      <Styled.Box>{content}</Styled.Box>
     </Styled.Wrapper>
   )
 }
