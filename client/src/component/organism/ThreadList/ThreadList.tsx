@@ -177,7 +177,7 @@ const ThreadList = ({
           )}
           {threadListState === 'LOADING' && (
             <Styled.LoadingWrapper>
-              <A.Loading color="lightBlue" />
+              <A.Loading color="white" />
             </Styled.LoadingWrapper>
           )}
         </Styled.ThreadListTop>
