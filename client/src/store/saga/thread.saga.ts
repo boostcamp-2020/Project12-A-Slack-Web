@@ -68,16 +68,6 @@ function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
       threadAPI.getThreads,
       action.payload,
     )
-    const { channelId } = action.payload
-    const currentChannelId = yield select(
-      (state) => state.channelStore.currentChannel.id,
-    )
-    const currentChannelIdInThreadStore = yield select(
-      (state) => state.threadStore.currentChannelId,
-    )
-
-    console.log(channelId, currentChannelId, currentChannelIdInThreadStore)
-
     yield put(
       getThreads.success({
         threadList: threads,

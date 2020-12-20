@@ -175,13 +175,25 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
   }),
   [GET_THREADS_SUCCESS]: (state, action) => {
     if (action.payload.channelId !== state.currentChannelId) {
-      return state
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        threadListState: 'INITIAL',
+      }
     }
     if (state.threadListState === 'ALL_LOADED')
-      return { ...state, currentChannelId: action.payload.channelId }
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        currentChannelId: action.payload.channelId,
+      }
     if (action.payload.threadList.length === 0)
       return {
         ...state,
+        loading: false,
+        error: null,
         threadListState: 'ALL_LOADED',
         currentChannelId: action.payload.channelId,
       }
