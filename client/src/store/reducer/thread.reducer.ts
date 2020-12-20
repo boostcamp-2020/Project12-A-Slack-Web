@@ -133,7 +133,9 @@ export const receiveDeleteReaction = createAction(RECEIVE_DELETE_REACTION)<
   DeleteReactionSocketResponseType
 >()
 
-export const initThreadList = createAction(INIT_THREAD_LIST)<undefined>()
+export const initThreadList = createAction(INIT_THREAD_LIST)<{
+  channelId: number
+}>()
 
 const actions = {
   getThreadsRequest: getThreads.request,
@@ -172,11 +174,26 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
     error: null,
   }),
   [GET_THREADS_SUCCESS]: (state, action) => {
+    if (action.payload.channelId !== state.currentChannelId) {
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        threadListState: 'ALL_LOADED',
+      }
+    }
     if (state.threadListState === 'ALL_LOADED')
-      return { ...state, currentChannelId: action.payload.channelId }
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        currentChannelId: action.payload.channelId,
+      }
     if (action.payload.threadList.length === 0)
       return {
         ...state,
+        loading: false,
+        error: null,
         threadListState: 'ALL_LOADED',
         currentChannelId: action.payload.channelId,
       }
@@ -305,11 +322,11 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
       },
     }
   },
-  [INIT_THREAD_LIST]: (state, _) => ({
+  [INIT_THREAD_LIST]: (state, action) => ({
     ...state,
     loading: false,
     threadList: [],
-    currentChannelId: -1,
+    currentChannelId: action.payload.channelId,
     threadListState: 'INITIAL',
   }),
   [RECEIVE_UPDATE_MESSAGE]: (state, action) => {

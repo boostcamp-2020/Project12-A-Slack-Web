@@ -30,7 +30,7 @@ const Channel = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(initThreadList())
+    dispatch(initThreadList({ channelId: +channelId }))
     dispatch(getCurrentChannel.request({ channelId: +channelId }))
     dispatch(getThreads.request({ channelId: +channelId }))
   }, [window.location.pathname])
