@@ -14,6 +14,7 @@ import { toast } from 'react-toastify'
 import { GRANTED } from '@constant/index'
 import { RootState } from '@store'
 import { OnlySuccessResponseType } from '@type/response.type'
+import { ChannelType, CurrentChannelType } from '@type/channel.type'
 import {
   GetThreadResponseType,
   CreateThreadResponseType,
@@ -59,10 +60,7 @@ import {
   sendSocketCreateReaction,
   sendSocketDeleteReaction,
 } from '@store/reducer/socket.reducer'
-import {
-  setChannelUnRead,
-  setChannelRead,
-} from '@store/reducer/channel.reducer'
+import { setChannelUnRead } from '@store/reducer/channel.reducer'
 
 function* getThreadsSaga(action: ReturnType<typeof getThreads.request>) {
   try {
@@ -228,16 +226,23 @@ const sendNotification = (name: string, body: string) => {
 function* receiveCreateThreadSaga(
   action: ReturnType<typeof receiveCreateThread>,
 ) {
-  const { id: channelId } = yield select(
-    (state: RootState) => state.channelStore.currentChannel,
+  const { currentChannel, channelList } = yield select(
+    (state: RootState) => state.channelStore,
   )
+  const { id: channelId } = currentChannel
   const { name } = action.payload.User
   const { content } = action.payload.headMessage
   if (channelId !== action.payload.channelId) {
     try {
       yield put(setChannelUnRead({ channelId: action.payload.channelId }))
       if (Notification.permission === GRANTED) {
-        sendNotification(name, content)
+        const messageOwnerChannel = channelList.filter(
+          (channel: ChannelType) => channel.id === action.payload.channelId,
+        )
+        sendNotification(
+          name,
+          `${content} \n in "${messageOwnerChannel[0].name}"`,
+        )
       }
     } catch (e) {
       console.log('Browser does not support notification.')
@@ -251,7 +256,7 @@ function* receiveCreateMessageSaga(
   const { id: userId } = yield select(
     (state: RootState) => state.userStore.currentUser,
   )
-  const { currentChannel } = yield select(
+  const { currentChannel, channelList } = yield select(
     (state: RootState) => state.channelStore,
   )
   const { thread: currentThread } = yield select(
@@ -268,7 +273,14 @@ function* receiveCreateMessageSaga(
     try {
       yield put(setChannelUnRead({ channelId: thread.channelId }))
       if (Notification.permission === GRANTED) {
-        sendNotification(message.User.name, message.content)
+        const messageOwnerChannel = channelList.filter(
+          (channel: ChannelType) => channel.id === thread.channelId,
+        )
+
+        sendNotification(
+          message.User.name,
+          `${message.content} in "${messageOwnerChannel[0].name}"`,
+        )
       }
     } catch (e) {
       console.log('Browser does not support notification.')
