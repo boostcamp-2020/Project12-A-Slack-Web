@@ -10,22 +10,23 @@ import { joinWorkspace } from '@store/reducer/workspace.reducer'
 const Auth = (Component: any, option: boolean) => () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const token = localStorage.getItem('token')
-  const joinWorkspaceId = localStorage.getItem('join_workspace_id')
   const [loading, setLoading] = useState<boolean>(true)
 
   const check = async () => {
     const [name, accessToken] = window.location.search.split('=')
     if (accessToken && name === '?access_token') {
       localStorage.setItem('token', accessToken)
+      const joinWorkspaceId = localStorage.getItem('join_workspace_id')
       if (joinWorkspaceId) {
         localStorage.removeItem('join_workspace_id')
         dispatch(joinWorkspace({ workspaceId: +joinWorkspaceId }))
-        window.location.href = `/workspace/${joinWorkspaceId}/channel-browser`
+        history.push(`/workspace/${joinWorkspaceId}/channel-browser`)
       } else {
-        window.location.href = '/'
+        window.location.href = '/login'
       }
     }
+
+    const token = localStorage.getItem('token')
 
     try {
       if (token) {
@@ -52,9 +53,8 @@ const Auth = (Component: any, option: boolean) => () => {
       }
 
       setLoading(false)
-    } catch (err) {
-      localStorage.removeItem('token')
-      history.push('/login')
+    } catch (error) {
+      window.location.href = '/'
     }
   }
 

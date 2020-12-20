@@ -11,20 +11,24 @@ const handleGoogleLoginCallback = async (req: Request, res: Response) => {
   try {
     const { id, email, name, profileImageUrl } = req.user
     const token = jwt.createToken({ id, email, name, profileImageUrl })
-    return res.status(200).redirect(`${frontURL}?access_token=${token}`)
+    return res.status(200).redirect(`${frontURL}/login?access_token=${token}`)
   } catch (error) {
     return res.status(400).json({ message: 'fail', error: error.message })
   }
 }
 
 const statusController = (req: Request, res: Response) => {
-  const currentUser = {
-    id: req.user.id,
-    email: req.user.email,
-    name: req.user.name,
-    profileImageUrl: req.user.profileImageUrl,
+  try {
+    const currentUser = {
+      id: req.user.id,
+      email: req.user.email,
+      name: req.user.name,
+      profileImageUrl: req.user.profileImageUrl,
+    }
+    return res.status(201).json({ success: true, data: currentUser })
+  } catch (error) {
+    return res.status(403).json({ success: false, data: error.message })
   }
-  return res.status(201).json({ success: true, data: currentUser })
 }
 
 const readUsersByChannel = async (
