@@ -179,7 +179,7 @@ const reducer = createReducer<ThreadState, ThreadAction>(initialState, {
         ...state,
         loading: false,
         error: null,
-        threadListState: 'INITIAL',
+        threadListState: 'ALL_LOADED',
       }
     }
     if (state.threadListState === 'ALL_LOADED')
