@@ -29,6 +29,8 @@
 ### Socket flow
 <img width="815" alt="socket-flow" src="https://user-images.githubusercontent.com/57661699/101992609-f9c5a380-3cf7-11eb-8593-2205a5df694f.png">
 
+### Demo video
+https://youtu.be/civY-8sPw7w
 
 ## 🚦 How to start?
 
