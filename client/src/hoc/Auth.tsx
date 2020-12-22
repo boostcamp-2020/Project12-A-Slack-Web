@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import A from '@atom'
-import userAPI from '@api/user'
+import axios from 'axios'
+import { ResponseType, serverURL } from '@util/myAxios'
 import { insertUserInfo } from '@store/reducer/user.reducer'
 import { joinWorkspace } from '@store/reducer/workspace.reducer'
 
@@ -30,7 +30,13 @@ const Auth = (Component: any, option: boolean) => () => {
 
     try {
       if (token) {
-        const { success, data } = await userAPI.getUserInfo()
+        const {
+          data: { success, data },
+        } = await axios.get<ResponseType>(`${serverURL}/api/user/status`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
 
         if (success && option) {
           dispatch(insertUserInfo(data))
@@ -54,7 +60,17 @@ const Auth = (Component: any, option: boolean) => () => {
 
       setLoading(false)
     } catch (error) {
-      window.location.href = '/'
+      switch (error.response.status) {
+        case 401:
+          localStorage.removeItem('token')
+          window.location.href = '/'
+          break
+        case 403:
+          window.location.href = '/'
+          break
+        default:
+          break
+      }
     }
   }
 

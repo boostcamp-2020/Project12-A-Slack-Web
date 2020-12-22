@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-const serverURL =
+export const serverURL =
   process.env.NODE_ENV === 'development'
     ? process.env.SERVER_DOMAIN_DEVELOP
     : process.env.SERVER_DOMAIN_PRODUCTION
 
-const headerConfig = {
+export const headerConfig = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem('token')}`,
   },

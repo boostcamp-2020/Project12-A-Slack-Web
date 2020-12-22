@@ -27,8 +27,9 @@ const verifyUser = (req: Request, res: Response, next: NextFunction) => {
       req.user = { id, email, name, profileImageUrl }
       return next()
     }
-  } catch (error) {
     return res.status(403).json({ success: false })
+  } catch (error) {
+    return res.status(401).json({ success: false })
   }
 }
 
